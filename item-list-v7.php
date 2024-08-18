@@ -37,7 +37,7 @@ if( houzez_is_fullwidth_2cols_custom_width() ) {
 				<?php get_template_part('template-parts/listing/partials/item-image'); ?>
 				<div class="preview_loader"></div>
 			</div><!-- item-header -->	
-			<div class="item-body flex-grow-1" onclick="location.href='<?php echo esc_url(get_permalink()); ?>';" style="cursor: pointer;">
+			<div class="item-body flex-grow-1" onclick="location.href='<?php echo esc_url(get_permalink()); ?>';" style="cursor: pointer; padding-top: 25px; padding-bottom: 25px;">
 				<ul class="item-amenities item-amenities-with-icons">
 					<?php get_template_part('template-parts/listing/partials/type'); ?>
 				</ul>
