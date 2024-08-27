@@ -104,11 +104,11 @@ if(isset($_GET['tab']) || $paged > 0) {
     <?php
 }
 
-$the_query = Houzez_Query::loop_developer_properties();
+$the_query = loop_developer_properties();
 $developer_total_listings = $the_query->found_posts; 
 
 if( houzez_option('developer_stats', 0) != 0 ) {
- $developer_listing_ids = Houzez_Query::get_developer_properties_ids_by_developer_id(get_the_ID());
+ $developer_listing_ids = get_developer_properties_ids_by_developer_id(get_the_ID());
 }
 
 $active_reviews_tab = '';

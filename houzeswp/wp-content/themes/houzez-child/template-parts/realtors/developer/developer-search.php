@@ -15,7 +15,7 @@ $purl = houzez_get_template_link('template/template-developers.php');
 	<div class="container">
 		<div class="advanced-search-v1">
 			<form method="get" action="<?php echo esc_url($purl); ?>">
-				<input type="hidden" name="agent-search" value="yes">
+				<input type="hidden" name="developer-search" value="yes">
 				<div class="d-flex">
 					<div class="flex-search flex-grow-1">
 						<div class="form-group">

@@ -35,7 +35,7 @@ $records_found = $developers_query->found_posts;
 
 ?>
 
-<section class="listing-wrap developers-template-wrap">
+<section class="listing-wrap agents-template-wrap">
     <div class="container">
         
         <div class="page-title-wrap">
@@ -64,7 +64,7 @@ $records_found = $developers_query->found_posts;
                     } 
                 }?>
 
-                <div class="developers-list-view">
+                <div class="agents-list-view">
                     <?php
                     if ( $developers_query->have_posts() ) :
                     while ( $developers_query->have_posts() ) : $developers_query->the_post();
@@ -82,7 +82,7 @@ $records_found = $developers_query->found_posts;
                 <?php houzez_pagination( $developers_query->max_num_pages ); wp_reset_query(); ?>
 
             </div><!-- bt-content-wrap -->
-            <div class="col-lg-4 col-md-12 bt-sidebar-wrap left-bt-sidebar-wrap <?php if( $sticky_sidebar['developer_sidebar'] != 0 ){ echo 'houzez_sticky'; }?>">
+            <div class="col-lg-4 col-md-12 bt-sidebar-wrap left-bt-sidebar-wrap <?php if( $sticky_sidebar['agent_sidebar'] != 0 ){ echo 'houzez_sticky'; }?>">
                 <?php get_sidebar('houzez_developers'); ?>
             </div><!-- bt-sidebar-wrap -->
         </div><!-- row -->

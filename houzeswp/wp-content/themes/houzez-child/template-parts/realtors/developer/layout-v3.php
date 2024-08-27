@@ -40,7 +40,7 @@ $developers_query = new WP_Query( $args );
 $records_found = $developers_query->found_posts;
 ?>
 
-<section class="listing-wrap developers-template-wrap">
+<section class="listing-wrap agents-template-wrap">
     <div class="container">
         <div class="page-title-wrap">
             <?php get_template_part('template-parts/page/breadcrumb'); ?>  
@@ -65,7 +65,7 @@ $records_found = $developers_query->found_posts;
                     } 
                 }?>
 
-                <div class="developers-grid-view developers-grid-view-4cols">
+                <div class="agents-grid-view agents-grid-view-4cols">
                     <?php
                     if ( $developers_query->have_posts() ) :
                     while ( $developers_query->have_posts() ) : $developers_query->the_post();

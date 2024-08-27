@@ -4,9 +4,9 @@ global $post, $houzez_local, $paged, $developer_listing_ids;
 
 $is_sticky = '';
 $sticky_sidebar = houzez_option('sticky_sidebar');
-if( $sticky_sidebar['developer_sidebar'] != 0 ) { 
-    $is_sticky = 'houzez_sticky'; 
-}
+// if( $sticky_sidebar['developer_sidebar'] != 0 ) { 
+//     $is_sticky = 'houzez_sticky'; 
+// }
 $listing_view = houzez_option('developer_listings_layout');
 $developer_company_logo = get_post_meta( get_the_ID(), 'fave_developer_logo', true );
 
@@ -101,11 +101,11 @@ if(isset($_GET['tab']) || $paged > 0) {
     <?php
 }
 
-$the_query = Houzez_Query::loop_developer_properties();
-$developer_total_listings = Houzez_Query::developer_properties_count();
+$the_query = loop_developer_properties();
+$developer_total_listings = developer_properties_count();
 
 if( houzez_option('developer_stats', 0) != 0 ) {
- $developer_listing_ids = Houzez_Query::get_developer_properties_ids_by_developer_id(get_the_ID());
+ $developer_listing_ids = get_developer_properties_ids_by_developer_id(get_the_ID());
 }
 
 $active_reviews_tab = '';

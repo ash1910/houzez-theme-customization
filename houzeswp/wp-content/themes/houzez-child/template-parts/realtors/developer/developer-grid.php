@@ -2,7 +2,7 @@
 global $post, $houzez_local;
 $developer_position = get_post_meta( get_the_ID(), 'fave_developer_position', true );
 $languages = get_post_meta( get_the_ID(), 'fave_developer_language', true );
-$properties = Houzez_Query::developer_properties_count( $post->ID );
+$properties = developer_properties_count( $post->ID );
 ?>
 <div class="agent-grid-wrap">	
 	<div class="agent-grid-image-wrap">
