@@ -254,4 +254,94 @@ function houzez_main_wrap_class_developer( $classes ) {
 
 }
 
+function houzez_search_needed() {
+
+    $files = apply_filters( 'houzez_search_needed_filter', array(
+        'template/property-listings-map.php',
+        'template/template-agents.php',
+        'template/template-agencies.php',
+        'template/user_dashboard_profile.php',
+        'template/user_dashboard_properties.php',
+        'template/user_dashboard_favorites.php',
+        'template/user_dashboard_invoices.php',
+        'template/user_dashboard_saved_search.php',
+        'template/user_dashboard_floor_plans.php',
+        'template/user_dashboard_multi_units.php',
+        'template/user_dashboard_membership.php',
+        'template/user_dashboard_gdpr.php',
+        'template/user_dashboard_submit.php',
+        'template/template-packages.php',
+        'template/template-payment.php',
+        'template/template-thankyou.php',
+        'template/user_dashboard_messages.php'
+    ) );
+
+    if( !houzez_option('single_prop_search') && is_singular('property') ) {
+        return false;
+    } elseif( is_search() ) {
+        return false;
+    } elseif( is_author() ) {
+        return false;
+    } elseif( is_404() ) {
+        return false;
+    } elseif ( is_page_template( $files ) ) {
+        return false;
+
+    } elseif(houzez_is_half_map()) {
+        return false;
+
+    } elseif( is_singular('houzez_agent') ) {
+        return false;
+
+    } elseif( is_singular('houzez_agency') ) {
+        return false;
+
+    } elseif( !houzez_option('is_tax_page', 1) && is_tax() ) {
+        return false;
+
+    } elseif( !houzez_option('blog_page_search') && is_singular('post') ) {
+        return false;
+
+    } elseif( !houzez_option('blog_page_search') && is_home() ) {
+        return false;
+
+    } elseif( is_post_type_archive('houzez_agent') ) {
+        return false;
+
+    } elseif( is_post_type_archive('houzez_agency') ) {
+        return false;
+
+    } elseif(houzez_is_splash()) {
+        return false;
+    }elseif( is_singular('houzez_developer') ) {
+        return false;
+
+    } elseif( is_post_type_archive('houzez_developer') ) {
+        return false;
+
+    }
+    return true;
+}
+
+/**
+ *	---------------------------------------------------------------------------------------
+ *	Widgets
+ *	---------------------------------------------------------------------------------------
+ */
+require_once(get_theme_file_path('/framework/widgets/developers-search.php'));
+
+add_action('widgets_init', 'houzez_widgets_developer_init');
+function houzez_widgets_developer_init()
+{
+    register_sidebar(array(
+        'name' => esc_html__('Developer Sidebar', 'houzez'),
+        'id' => 'developer-sidebar',
+        'description' => esc_html__('Widgets in this area will be shown in developers template and developer detail page.', 'houzez'),
+        'before_widget' => '<div id="%1$s" class="widget widget-wrap %2$s">',
+        'after_widget' => '</div>',
+        'before_title' => '<div class="widget-header"><h3 class="widget-title">',
+        'after_title' => '</h3></div>',
+    ));
+   
+}
 ?>
