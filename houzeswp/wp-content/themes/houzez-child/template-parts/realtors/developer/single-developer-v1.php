@@ -312,4 +312,6 @@ if( houzez_option( 'developer_sidebar', 0 ) == 0 ) {
     </div><!-- container -->
 </section><!-- listing-wrap -->
 
-<?php get_footer(); ?>
+<?php 
+get_template_part('template-parts/realtors/contact-developer', 'form'); 
+get_footer(); ?>

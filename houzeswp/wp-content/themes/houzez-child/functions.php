@@ -344,4 +344,33 @@ function houzez_widgets_developer_init()
     ));
    
 }
+
+if(!function_exists('houzez_map_needed')) {
+    function houzez_map_needed() {
+        global $post;
+        
+        $post_id = isset($post->ID) ? $post->ID : 0;
+        $header_type = get_post_meta($post_id, 'fave_header_type', true);
+        
+        if(is_page_template('template/user_dashboard_submit.php')) {
+            return true;
+
+        } elseif($header_type == 'property_map') {
+            return true;
+
+        } elseif(is_page_template('template/property-listings-map.php')) {
+            return true;
+
+        } elseif(is_page_template('template/template-search.php') && houzez_option('search_result_page') == 'half_map') {
+            return true;
+
+        } elseif ( is_singular( 'property' ) || is_singular( 'houzez_agent' ) || is_singular( 'houzez_agency' ) ) {
+            return true;
+        } elseif ( is_singular( 'houzez_developer' ) ) {
+            return true;
+        }
+
+        return false;
+    }
+}
 ?>

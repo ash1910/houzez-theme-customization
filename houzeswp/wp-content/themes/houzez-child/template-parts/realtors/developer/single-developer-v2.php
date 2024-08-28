@@ -279,4 +279,6 @@ if( houzez_option( 'developer_listings', 0 ) != 1 && houzez_option( 'developer_r
 </section><!-- content-wrap -->
 
 
-<?php get_footer(); ?>
+<?php 
+get_template_part('template-parts/realtors/contact-developer', 'form'); 
+get_footer(); ?>
