@@ -404,178 +404,321 @@ add_role(
 /*-----------------------------------------------------------------------------------*/
 // Register
 /*-----------------------------------------------------------------------------------*/
-add_action( 'wp_ajax_nopriv_houzez_register', 'houzez_register2' );
+add_action( 'houzez_after_register', 'houzez_after_register' );
 
-if( !function_exists('houzez_register2') ) {
-    function houzez_register2() {
-        echo "def1";exit;
-        check_ajax_referer('houzez_register_nonce', 'houzez_register_security');
+function houzez_after_register($user_id) {
+    $allowed_html = array();
 
-        $allowed_html = array();
+    $usermane          = trim( sanitize_text_field( wp_kses( $_POST['username'], $allowed_html ) ));
+    $email             = trim( sanitize_text_field( wp_kses( $_POST['useremail'], $allowed_html ) ));
+    $phone_number = isset( $_POST['phone_number'] ) ? $_POST['phone_number'] : '';
+    //echo $user_id;echo "<pre>";print_r($_POST);exit;
+    if( isset( $_POST['role'] ) && $_POST['role'] == 'houzez_developer' ) {
+        $user_role = sanitize_text_field( wp_kses( $_POST['role'], $allowed_html ) );
+        wp_update_user( array( 'ID' => $user_id, 'role' => $user_role ) );
 
-        $usermane          = trim( sanitize_text_field( wp_kses( $_POST['username'], $allowed_html ) ));
-        $email             = trim( sanitize_text_field( wp_kses( $_POST['useremail'], $allowed_html ) ));
-        $term_condition    = isset( $_POST['term_condition'] ) ? wp_kses( $_POST['term_condition'], $allowed_html ) : "off";
-        
-        $enable_password   = houzez_option('enable_password');
+        houzez_register_as_developer($usermane, $email, $user_id, $phone_number);
+    }
+}
 
-        $response = isset( $_POST["g-recaptcha-response"] ) ? $_POST["g-recaptcha-response"] : "";
+if( !function_exists('houzez_register_as_developer') ) {
 
-        $user_roles = array ( 'houzez_agency', 'houzez_agent', 'houzez_buyer', 'houzez_seller', 'houzez_owner', 'houzez_manager' );
+    function houzez_register_as_developer( $username, $email, $user_id, $mobile_num = null, $image_url = null ) {
 
-        $user_role = get_option( 'default_role' );
+        // Create post object
+        $args = array(
+            'post_title'    => $username,
+            'post_type' => 'houzez_developer',
+            'post_status'   => 'publish'
+        );
 
-        if( $user_role == 'administrator' ) {
-            $user_role = 'subscriber';
+        // Insert the post into the database
+        $post_id =  wp_insert_post( $args );
+        update_post_meta( $post_id, 'houzez_user_meta_id', $user_id);  // used when developer custom post type updated
+        update_user_meta( $user_id, 'fave_author_agent_id', $post_id);
+        update_post_meta( $post_id, 'fave_developer_email', $email);
+        update_post_meta( $post_id, 'fave_developer_mobile', $mobile_num);
+
+        if( houzez_option('realtor_visible', 0) ) {
+            update_post_meta( $post_id, 'fave_developer_visible', 1);
         }
 
-        
-        if( isset( $_POST['role'] ) && $_POST['role'] != '' && in_array( $_POST['role'], $user_roles ) ) {
-            $user_role = isset( $_POST['role'] ) ? sanitize_text_field( wp_kses( $_POST['role'], $allowed_html ) ) : $user_role;
-        } else {
-            $user_role = $user_role;
+        if( !empty($image_url) ) {
+            houzez_set_image_from_url($post_id, $image_url);
         }
-
-        if( houzez_option('header_register') != 1 ) {
-            echo json_encode( array( 'success' => false, 'msg' => esc_html__('Access denied.', 'houzez-login-register') ) );
-            wp_die();
-        }
-
-        if( get_option('users_can_register') != 1 ) {
-            echo json_encode( array( 'success' => false, 'msg' => esc_html__('Access denied.', 'houzez-login-register') ) );
-            wp_die();
-        }
-
-
-        $firstname = isset( $_POST['first_name'] ) ? $_POST['first_name'] : '';
-        if( empty($firstname) && houzez_option('register_first_name', 0) == 1 ) {
-            echo json_encode( array( 'success' => false, 'msg' => esc_html__('The first name field is empty.', 'houzez-login-register') ) );
-            wp_die();
-        }
-
-        $lastname = isset( $_POST['last_name'] ) ? $_POST['last_name'] : '';
-        if( empty($lastname) && houzez_option('register_last_name', 0) == 1 && $user_role != 'houzez_agency' ) {
-            echo json_encode( array( 'success' => false, 'msg' => esc_html__('The last name field is empty.', 'houzez-login-register') ) );
-            wp_die();
-        }
-
-        if( empty( $usermane ) ) {
-            echo json_encode( array( 'success' => false, 'msg' => esc_html__('The username field is empty.', 'houzez-login-register') ) );
-            wp_die();
-        }
-        if( strlen( $usermane ) < 3 ) {
-            echo json_encode( array( 'success' => false, 'msg' => esc_html__('Minimum 3 characters required', 'houzez-login-register') ) );
-            wp_die();
-        }
-        if (preg_match("/^[0-9A-Za-z_]+$/", $usermane) == 0) {
-            echo json_encode( array( 'success' => false, 'msg' => esc_html__('Invalid username (do not use special characters or spaces)!', 'houzez-login-register') ) );
-            wp_die();
-        }
-
-        if( username_exists( $usermane ) ) {
-            echo json_encode( array( 'success' => false, 'msg' => esc_html__('This username is already registered.', 'houzez-login-register') ) );
-            wp_die();
-        }
-        
-        if( empty( $email ) ) {
-            echo json_encode( array( 'success' => false, 'msg' => esc_html__('The email field is empty.', 'houzez-login-register') ) );
-            wp_die();
-        }
-
-        if( email_exists( $email ) ) {
-            echo json_encode( array( 'success' => false, 'msg' => esc_html__('This email address is already registered.', 'houzez-login-register') ) );
-            wp_die();
-        }
-
-        if( !is_email( $email ) ) {
-            echo json_encode( array( 'success' => false, 'msg' => esc_html__('Invalid email address.', 'houzez-login-register') ) );
-            wp_die();
-        }
-
-        $phone_number = isset( $_POST['phone_number'] ) ? $_POST['phone_number'] : '';
-        if( empty($phone_number) && houzez_option('register_mobile', 0) == 1 ) {
-            echo json_encode( array( 'success' => false, 'msg' => esc_html__('Please enter your number', 'houzez-login-register') ) );
-            wp_die();
-        }
-
-        if( $enable_password == 'yes' ){
-            $user_pass         = trim( sanitize_text_field(wp_kses( $_POST['register_pass'] ,$allowed_html) ) );
-            $user_pass_retype  = trim( sanitize_text_field(wp_kses( $_POST['register_pass_retype'] ,$allowed_html) ) );
-
-            if ($user_pass == '' || $user_pass_retype == '' ) {
-                echo json_encode( array( 'success' => false, 'msg' => esc_html__('One of the password field is empty!', 'houzez-login-register') ) );
-                wp_die();
-            }
-
-            if ($user_pass !== $user_pass_retype ){
-                echo json_encode( array( 'success' => false, 'msg' => esc_html__('Passwords do not match', 'houzez-login-register') ) );
-                wp_die();
-            }
-        }
-
-        $term_condition = ( $term_condition == 'on') ? true : false;
-
-        if( !$term_condition ) {
-            echo json_encode( array( 'success' => false, 'msg' => esc_html__('You need to agree with terms & conditions.', 'houzez-login-register') ) );
-            wp_die();
-        }
-
-        do_action('houzez_before_register');
-
-        houzez_google_recaptcha_callback();
-
-        if($enable_password == 'yes' ) {
-            $user_password = $user_pass;
-        } else {
-            $user_password = wp_generate_password( $length=12, $include_standard_special_chars=false );
-        }
-
-        $user_id = wp_create_user( $usermane, $user_password, $email );
-
-        if ( is_wp_error($user_id) ) {
-            echo json_encode( array( 'success' => false, 'msg' => $user_id ) );
-            wp_die();
-        } else {
-
-            wp_update_user( array( 'ID' => $user_id, 'role' => $user_role ) );
-
-            if( $enable_password =='yes' ) {
-                echo json_encode( array( 'success' => true, 'msg' => esc_html__('Your account was created and you can login now!', 'houzez-login-register') ) );
-            } else {
-                echo json_encode( array( 'success' => true, 'msg' => esc_html__('An email with the generated password was sent!', 'houzez-login-register') ) );
-            }
-
-            update_user_meta( $user_id, 'first_name', $firstname);
-            update_user_meta( $user_id, 'last_name', $lastname);
-
-
-            if( $user_role == 'houzez_agency' ) {
-                update_user_meta( $user_id, 'fave_author_phone', $phone_number);
-            } else {
-                update_user_meta( $user_id, 'fave_author_mobile', $phone_number);
-            }
- 
-            $user_as_agent = houzez_option('user_as_agent');
-
-            if( $user_as_agent == 'yes' ) {
-
-                if( !empty($firstname) && !empty($lastname) ) {
-                    $usermane = $firstname.' '.$lastname;
-                }
-
-                if ($user_role == 'houzez_agent' || $user_role == 'author') {
-                    houzez_register_as_agent($usermane, $email, $user_id, $phone_number);
-
-                } else if ($user_role == 'houzez_agency') {
-                    houzez_register_as_agency($usermane, $email, $user_id, $phone_number);
-                }
-            }
-            houzez_wp_new_user_notification( $user_id, $user_password, $phone_number );
-
-            do_action('houzez_after_register', $user_id);
-        }
-        wp_die();
 
     }
 }
+
+/* ------------------------------------------------------------------------------
+* Ajax Update Profile function
+/------------------------------------------------------------------------------ */
+add_action( 'wp_ajax_nopriv_houzez_ajax_update_profile', 'houzez_ajax_update_profile_developer' );
+add_action( 'wp_ajax_houzez_ajax_update_profile', 'houzez_ajax_update_profile_developer' );
+
+if( !function_exists('houzez_ajax_update_profile_developer') ){
+
+    function houzez_ajax_update_profile_developer() {
+        //echo "<pre>";print_r($_POST);exit;
+        if (isset($_POST['user_id']) && is_numeric($_POST['user_id'])) {
+            $userID = intval($_POST['user_id']); // Sanitize the input
+            $current_user = get_userdata($userID);
+            if ( ! $current_user ) {
+                echo json_encode( array( 'success' => false, 'msg' => esc_html__('User not found or invalid user.', 'houzez') ) );
+                wp_die();
+            } 
+
+        } else {
+            $current_user = wp_get_current_user();
+            $userID  = get_current_user_id();
+        }
+
+        $user_company = $userlangs = $latitude = $longitude = $tax_number = $user_location = $license = $user_address = $fax_number = $firstname = $lastname = $title = $about = $userphone = $usermobile = $userskype = $facebook = $tiktok = $telegram = $twitter = $linkedin = $instagram = $pinterest = $profile_pic = $profile_pic_id = $website = $useremail = $service_areas = $specialties = $whatsapp = $line_id = $zillow = $realtor_com = '';
+
+        $firstname = sanitize_text_field( $_POST['firstname'] );
+        $gdpr_agreement = sanitize_text_field( $_POST['gdpr_agreement'] );
+        $lastname = sanitize_text_field( $_POST['lastname'] );
+        $userlangs = sanitize_text_field( $_POST['userlangs'] );
+        $user_company = sanitize_text_field( $_POST['user_company'] );
+        $title = sanitize_text_field( $_POST['title'] );
+        $about = wp_kses_post( wpautop( wptexturize( $_POST['bio'] ) ) );
+        $userphone = sanitize_text_field( $_POST['userphone'] );
+        $fax_number = sanitize_text_field( $_POST['fax_number'] );
+        $service_areas = sanitize_text_field( $_POST['service_areas'] );
+        $specialties = sanitize_text_field( $_POST['specialties'] );
+        $usermobile = sanitize_text_field( $_POST['usermobile'] );
+        $whatsapp = sanitize_text_field( $_POST['whatsapp'] );
+        $line_id = sanitize_text_field( $_POST['line_id'] );
+        $telegram = sanitize_text_field( $_POST['telegram'] );
+        $userskype = sanitize_text_field( $_POST['userskype'] );
+        $facebook = sanitize_text_field( $_POST['facebook'] );
+        $twitter = sanitize_text_field( $_POST['twitter'] );
+        $linkedin = sanitize_text_field( $_POST['linkedin'] );
+        $instagram = sanitize_text_field( $_POST['instagram'] );
+        $pinterest = sanitize_text_field( $_POST['pinterest'] );
+        $youtube = sanitize_text_field( $_POST['youtube'] );
+        $tiktok = sanitize_text_field( $_POST['tiktok'] );
+        $zillow = sanitize_text_field( $_POST['zillow'] );
+        $realtor_com = sanitize_text_field( $_POST['realtor_com'] );
+        $vimeo = sanitize_text_field( $_POST['vimeo'] );
+        $googleplus = sanitize_text_field( $_POST['googleplus'] );
+        $website = sanitize_text_field( $_POST['website'] );
+        $license = sanitize_text_field( $_POST['license'] );
+        $tax_number = sanitize_text_field( $_POST['tax_number'] );
+        $user_address = sanitize_text_field( $_POST['user_address'] );
+        $user_location = sanitize_text_field( $_POST['user_location'] );
+        $latitude = sanitize_text_field( $_POST['latitude'] );
+        $longitude = sanitize_text_field( $_POST['longitude'] );
+        $useremail = sanitize_email( $_POST['useremail'] );
+
+        $developer_id = get_user_meta( $userID, 'fave_author_agent_id', true );
+
+        if (in_array('houzez_developer', (array)$current_user->roles)) {
+            houzez_update_user_developer ( $developer_id, $firstname, $lastname, $title, $about, $userphone, $usermobile, $whatsapp, $userskype, $facebook, $twitter, $linkedin, $instagram, $pinterest, $youtube, $vimeo, $googleplus, $profile_pic, $profile_pic_id, $website, $useremail, $license, $tax_number, $fax_number, $userlangs, $user_address, $user_company, $service_areas, $specialties, $tiktok, $telegram, $line_id, $zillow, $realtor_com );
+        } 
+    }
+
+}
+
+/* ------------------------------------------------------------------------------
+* Update agent user
+/------------------------------------------------------------------------------ */
+if( !function_exists('houzez_update_user_developer') ) {
+    function houzez_update_user_developer ( $developer_id, $firstname, $lastname, $title, $about, $userphone, $usermobile, $whatsapp, $userskype, $facebook, $twitter, $linkedin, $instagram, $pinterest, $youtube, $vimeo, $googleplus, $profile_pic, $profile_pic_id, $website, $useremail, $license, $tax_number, $fax_number, $userlangs, $user_address, $user_company, $service_areas, $specialties, $tiktok, $telegram, $line_id, $zillow, $realtor_com ) {
+
+
+        if( !empty( $firstname ) || !empty( $lastname ) ) {
+            $agr = array(
+                'ID' => $developer_id,
+                'post_title' => $firstname.' '.$lastname,
+                'post_content' => $about
+            );
+            $post_id = wp_update_post($agr);
+        } else {
+            $agr = array(
+                'ID' => $developer_id,
+                'post_content' => $about
+            );
+            $post_id = wp_update_post($agr);
+        }
+
+        
+        update_post_meta( $developer_id, 'fave_developer_license', $license );
+        update_post_meta( $developer_id, 'fave_developer_tax_no', $tax_number );
+        update_post_meta( $developer_id, 'fave_developer_facebook', $facebook );
+        update_post_meta( $developer_id, 'fave_developer_linkedin', $linkedin );
+        update_post_meta( $developer_id, 'fave_developer_twitter', $twitter );
+        update_post_meta( $developer_id, 'fave_developer_pinterest', $pinterest );
+        update_post_meta( $developer_id, 'fave_developer_instagram', $instagram );
+        update_post_meta( $developer_id, 'fave_developer_youtube', $youtube );
+        update_post_meta( $developer_id, 'fave_developer_tiktok', $tiktok );
+        update_post_meta( $developer_id, 'fave_developer_telegram', $telegram );
+        update_post_meta( $developer_id, 'fave_developer_vimeo', $vimeo );
+        update_post_meta( $developer_id, 'fave_developer_zillow', $zillow );
+        update_post_meta( $developer_id, 'fave_developer_realtor_com', $realtor_com );
+        update_post_meta( $developer_id, 'fave_developer_website', $website );
+        update_post_meta( $developer_id, 'fave_developer_googleplus', $googleplus );
+        update_post_meta( $developer_id, 'fave_developer_office_num', $userphone );
+        update_post_meta( $developer_id, 'fave_developer_fax', $fax_number );
+        update_post_meta( $developer_id, 'fave_developer_mobile', $usermobile );
+        update_post_meta( $developer_id, 'fave_developer_whatsapp', $whatsapp );
+        update_post_meta( $developer_id, 'fave_developer_line_id', $line_id );
+        update_post_meta( $developer_id, 'fave_developer_skype', $userskype );
+        update_post_meta( $developer_id, 'fave_developer_position', $title );
+        update_post_meta( $developer_id, 'fave_developer_des', $about );
+        update_post_meta( $developer_id, 'fave_developer_email', $useremail );
+        update_post_meta( $developer_id, 'fave_developer_language', $userlangs );
+        update_post_meta( $developer_id, 'fave_developer_address', $user_address );
+        update_post_meta( $developer_id, 'fave_developer_company', $user_company );
+        update_post_meta( $developer_id, 'fave_developer_service_area', $service_areas );
+        update_post_meta( $developer_id, 'fave_developer_specialties', $specialties );
+        update_post_meta( $developer_id, '_thumbnail_id', $profile_pic_id );
+
+    }
+}
+
+
+if ( !function_exists( 'houzez_change_user_role' ) ) :
+    function houzez_change_user_role()
+    {
+
+        check_ajax_referer( 'houzez_role_pass_ajax_nonce', 'houzez-role-security-pass' );
+
+        $ajax_response = array();
+        $user_roles = Array ( 'houzez_agency', 'houzez_agent','houzez_developer', 'houzez_buyer', 'houzez_seller', 'houzez_owner', 'houzez_manager' );
+
+        if ( is_user_logged_in() && isset( $_POST['role'] ) && in_array( $_POST['role'], $user_roles ) ) {
+
+            global $current_user;
+            wp_get_current_user();
+            $userID = $current_user->ID;
+            $username = $current_user->user_login;
+            $user_email = $current_user->user_email;
+            $role = $_POST['role'];
+            $current_author_meta = get_user_meta( $userID );
+            $authorAgentID = $current_author_meta['fave_author_agent_id'][0];
+            $authorAgencyID = $current_author_meta['fave_author_agency_id'][0];
+
+            $user_as_agent = houzez_option('user_as_agent');
+
+            $user_id = wp_update_user( Array ( 'ID' => $userID, 'role' => $role ) );
+
+            if ( is_wp_error( $user_id ) ) {
+
+                $ajax_response = array('success' => false, 'reason' => esc_html__('Role not updated!', 'houzez'));
+
+            } else {
+
+                $ajax_response = array('success' => true, 'reason' => esc_html__('Role updated!', 'houzez'));
+
+                if( $user_as_agent == "yes" && ($role == 'houzez_agent' || $role == 'houzez_developer' || $role == 'houzez_agency') ) {
+                    if( $role == 'houzez_agency' ) {
+                        wp_delete_post( $authorAgentID, true );
+                        houzez_register_as_agency($username, $user_email, $userID);
+                        update_user_meta( $userID, 'fave_author_agent_id', '');
+                        
+                    }elseif( $role == 'houzez_agent' ) {
+                        wp_delete_post( $authorAgencyID, true );
+                        houzez_register_as_agent($username, $user_email, $userID);
+                        update_user_meta( $userID, 'fave_author_agency_id', '');
+                    }elseif( $role == 'houzez_developer' ) {
+                        wp_delete_post( $authorAgencyID, true );
+                        houzez_register_as_developer($username, $user_email, $userID);
+                        update_user_meta( $userID, 'fave_author_agency_id', '');
+                    }
+                } else {
+                    wp_delete_post( $authorAgentID, true );
+                    wp_delete_post( $authorAgencyID, true );
+                    update_user_meta( $userID, 'fave_author_agent_id', '');
+                    update_user_meta( $userID, 'fave_author_agency_id', '');
+                }
+            }
+
+        } else {
+
+            $ajax_response = array('success' => false, 'reason' => esc_html__('Role not updated!', 'houzez'));
+
+        }
+
+        echo json_encode($ajax_response);
+
+        wp_die();
+    }
+endif;
+
+/*-----------------------------------------------------------------------------------*/
+// Save Front-end user as agent
+/*-----------------------------------------------------------------------------------*/
+
+if( !function_exists('houzez_register_as_developer') ) {
+
+    function houzez_register_as_developer( $username, $email, $user_id, $mobile_num = null, $image_url = null ) {
+
+        // Create post object
+        $args = array(
+            'post_title'    => $username,
+            'post_type' => 'houzez_developer',
+            'post_status'   => 'publish'
+        );
+
+        // Insert the post into the database
+        $post_id =  wp_insert_post( $args );
+        update_post_meta( $post_id, 'houzez_user_meta_id', $user_id);  // used when agent custom post type updated
+        update_user_meta( $user_id, 'fave_author_agent_id', $post_id);
+        update_post_meta( $post_id, 'fave_developer_email', $email);
+        update_post_meta( $post_id, 'fave_developer_mobile', $mobile_num);
+
+        if( houzez_option('realtor_visible', 0) ) {
+            update_post_meta( $post_id, 'fave_developer_visible', 1);
+        }
+
+        if( !empty($image_url) ) {
+            houzez_set_image_from_url($post_id, $image_url);
+        }
+
+    }
+}
+
+if( !function_exists('houzez_save_user_photo')) {
+    function houzez_save_user_photo($user_id, $pic_id, $thumbnail_url) {
+        
+        update_user_meta( $user_id, 'fave_author_picture_id', $pic_id );
+        update_user_meta( $user_id, 'fave_author_custom_picture', $thumbnail_url[0] );
+
+        $user_agent_id = get_the_author_meta('fave_author_agent_id', $user_id);
+        $user_agency_id = get_the_author_meta('fave_author_agency_id', $user_id);
+        
+        if( !empty($user_agent_id) && houzez_is_agent($user_id) ) {
+            update_post_meta( $user_agent_id, '_thumbnail_id', $pic_id );
+        }
+
+        if( !empty($user_agent_id) && houzez_is_developer($user_id) ) {
+            update_post_meta( $user_agent_id, '_thumbnail_id', $pic_id );
+        }
+        
+        if( !empty($user_agency_id) && houzez_is_agency($user_id) ) {
+            update_post_meta( $user_agency_id, '_thumbnail_id', $pic_id );
+        }
+
+    }
+}
+
+if( !function_exists('houzez_is_developer') ) {
+    function houzez_is_developer( $user_id = null ) {
+        // If a user ID is provided, get the user data for the given user ID; otherwise, get the current user.
+        if (!empty($user_id)) {
+            $user_data = get_userdata($user_id);
+        } else {
+            $user_data = wp_get_current_user();
+        }
+
+        // Check if the user data was successfully retrieved and the user has the 'houzez_agent' role.
+        if ($user_data) {
+            return in_array('houzez_developer', (array)$user_data->roles);
+        }
+
+        return false;
+    }
+}
+
 ?>
