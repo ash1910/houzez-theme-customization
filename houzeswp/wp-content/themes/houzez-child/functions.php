@@ -91,7 +91,7 @@ function developer_properties_count( $developer_id = null ) {
                 'compare' => '='
             ),
             array(
-                'key' => 'fave_developer_display_option',
+                'key' => 'fave_agent_display_option',
                 'value' => 'developer_info',
                 'compare' => '='
             )
@@ -138,7 +138,7 @@ function loop_developer_properties( $developer_id = null ) {
                 'compare' => '='
             ),
             array(
-                'key' => 'fave_developer_display_option',
+                'key' => 'fave_agent_display_option',
                 'value' => 'developer_info',
                 'compare' => '='
             )
@@ -718,6 +718,37 @@ if( !function_exists('houzez_is_developer') ) {
         }
 
         return false;
+    }
+}
+
+/*-----------------------------------------------------------------------------------*/
+// Submit Property filter
+/*-----------------------------------------------------------------------------------*/
+add_filter('houzez_after_property_submit', 'houzez_submit_listing_developer');
+add_filter('houzez_after_property_update', 'houzez_submit_listing_developer');
+
+function houzez_submit_listing_developer($prop_id) {
+
+    if( $prop_id > 0 && isset( $_POST['fave_agent_display_option'] ) ) {
+
+        $prop_agent_display_option = sanitize_text_field( $_POST['fave_agent_display_option'] );
+
+        if( $prop_agent_display_option == 'developer_info' ) {
+
+            $prop_developer = isset( $_POST['fave_developers'] ) ? $_POST['fave_developers'] : '';
+
+            if(is_array($prop_developer)) {
+                delete_post_meta( $prop_id, 'fave_developers' );
+                foreach ($prop_developer as $developer) {
+                    intval($developer);
+                    add_post_meta($prop_id, 'fave_developers', intval($developer) );
+                }
+            }
+        
+            update_post_meta( $prop_id, 'fave_agent_display_option', $prop_agent_display_option );
+
+        }
+
     }
 }
 
