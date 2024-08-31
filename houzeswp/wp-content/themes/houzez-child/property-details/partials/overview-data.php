@@ -1,16 +1,27 @@
 <?php
 $overview_data_composer = houzez_option('overview_data_composer');
 $overview_data = $overview_data_composer['enabled'];
+$return_array = houzez20_property_contact_form(false);
+$agent_id = intval($return_array['agent_id']);
 
 $i = 0;
 if ($overview_data) {
 	unset($overview_data['placebo']);
 
+if ( houzez_is_developer($agent_id ) ) {
 	$property_type = houzez_taxonomy_simple('property_type');
 	if(!empty($property_type)) {
 		echo '<ul class="list-unstyled flex-fill">
 				<li class="property-overview-item"><strong>'.esc_attr( $property_type ).'</strong></li>
 				<li class="hz-meta-label property-overview-type">'.houzez_option('spl_prop_type', 'Property Type').'</li>
+			</ul>';
+	}
+
+	$prop_price = houzez_get_listing_data('property_price');
+	if(!empty($prop_price)) {
+		echo '<ul class="list-unstyled flex-fill">
+				<li class="property-overview-item"><strong>'.houzez_listing_price().'</strong></li>
+				<li class="hz-meta-label property-overview-type">'.houzez_option('spl_st_from', 'Starting From').'</li>
 			</ul>';
 	}
 
@@ -22,13 +33,52 @@ if ($overview_data) {
 			</ul>';
 	}
 
+	$prop_payment_val = "";
+	$prop_payment_plan_down  = houzez_get_listing_data('prop_payment_plan_down');
+	$prop_payment_plan_during_construction  = houzez_get_listing_data('prop_payment_plan_during_construction');
+	$prop_payment_plan_on_handover  = houzez_get_listing_data('prop_payment_plan_on_handover');
+	if(!empty($prop_payment_plan_down)) {
+		$prop_payment_val = $prop_payment_plan_down;
+	}
+	if(!empty($prop_payment_plan_during_construction)) {
+		$prop_payment_val .= "/".$prop_payment_plan_during_construction;
+	}
+	if(!empty($prop_payment_plan_on_handover)) {
+		$prop_payment_val .= "/".$prop_payment_plan_on_handover;
+	}
+	if(!empty($prop_payment_val)) {
+		echo '<ul class="list-unstyled flex-fill">
+				<li class="property-overview-item"><strong>'.esc_attr( $prop_payment_val ).'</strong></li>
+				<li class="hz-meta-label property-overview-type">'.houzez_option('cls_payment_plan', 'Payment Plan').'</li>
+			</ul>';
+	}
+
 	$prop_number_of_buildings  = houzez_get_listing_data('prop_number_of_buildings');
 	if(!empty($prop_number_of_buildings)) {
 		echo '<ul class="list-unstyled flex-fill">
-				<li class="property-overview-item"><strong>'.esc_attr( $prop_number_of_buildings ).'</strong></li>
+				<li class="property-overview-item"><strong style="margin:0 auto;">'.esc_attr( $prop_number_of_buildings ).'</strong></li>
 				<li class="hz-meta-label property-overview-type">'.houzez_option('cl_no_buildings', 'Number of buildings').'</li>
 			</ul>';
 	}
+
+	$prop_handover_val = "";
+	$prop_handover_q  = houzez_get_listing_data('prop_handover_q');
+	$prop_handover_y  = houzez_get_listing_data('prop_handover_y');
+	if(!empty($prop_handover_q)) {
+		$prop_handover_val = $prop_handover_q;
+	}
+	if(!empty($prop_handover_y)) {
+		$prop_handover_val .= " ".$prop_handover_y;
+	}
+	if(!empty($prop_handover_val)) {
+		echo '<ul class="list-unstyled flex-fill">
+				<li class="property-overview-item"><strong>'.esc_attr( $prop_handover_val ).'</strong></li>
+				<li class="hz-meta-label property-overview-type">'.houzez_option('cl_handover', 'Handover').'</li>
+			</ul>';
+	}
+
+}
+else{
 
 	foreach ($overview_data as $key => $value) { $i ++;
 		if(in_array($key, houzez_overview_composer_fields())) {
@@ -46,7 +96,7 @@ if ($overview_data) {
 	            	$custom_field_value = houzez_array_to_comma($custom_field_value);
 	            } else {
 	                $custom_field_value = houzez_wpml_translate_single_string($custom_field_value);
-	            }
+	            } 
 
 				$output = '';
 				$output .= '<ul class="list-unstyled flex-fill">';
@@ -75,4 +125,5 @@ if ($overview_data) {
 
 		}
 	}
+}
 }
