@@ -749,6 +749,41 @@ function houzez_submit_listing_developer($prop_id) {
 
         }
 
+        //Construction Status
+        if(isset($_POST['prop_construction_status'])) {
+            $prop_construction_status = sanitize_text_field($_POST['prop_construction_status']);
+            update_post_meta( $prop_id, 'fave_prop_construction_status', $prop_construction_status );
+        }
+
+        //Number of buildings
+        if(isset($_POST['prop_number_of_buildings'])) {
+            $prop_number_of_buildings = sanitize_text_field($_POST['prop_number_of_buildings']);
+            update_post_meta( $prop_id, 'fave_prop_number_of_buildings', $prop_number_of_buildings );
+        }
+
+        //Handover Date
+        if(isset($_POST['prop_handover_q'])) {
+            $prop_handover_q = sanitize_text_field($_POST['prop_handover_q']);
+            update_post_meta( $prop_id, 'fave_prop_handover_q', $prop_handover_q );
+        }
+        if(isset($_POST['prop_handover_y'])) {
+            $prop_handover_y = sanitize_text_field($_POST['prop_handover_y']);
+            update_post_meta( $prop_id, 'fave_prop_handover_y', $prop_handover_y );
+        }
+        //Payment Plan
+        if(isset($_POST['prop_payment_plan_down'])) {
+            $prop_payment_plan_down = sanitize_text_field($_POST['prop_payment_plan_down']);
+            update_post_meta( $prop_id, 'fave_prop_payment_plan_down', $prop_payment_plan_down );
+        }
+        if(isset($_POST['prop_payment_plan_during_construction'])) {
+            $prop_payment_plan_during_construction = sanitize_text_field($_POST['prop_payment_plan_during_construction']);
+            update_post_meta( $prop_id, 'fave_prop_payment_plan_during_construction', $prop_payment_plan_during_construction );
+        }
+        if(isset($_POST['prop_payment_plan_on_handover'])) {
+            $prop_payment_plan_on_handover = sanitize_text_field($_POST['prop_payment_plan_on_handover']);
+            update_post_meta( $prop_id, 'fave_prop_payment_plan_on_handover', $prop_payment_plan_on_handover );
+        }
+
     }
 }
 
