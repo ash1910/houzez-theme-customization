@@ -48,8 +48,8 @@ if ( houzez_is_developer($agent_id ) ) {
 	}
 	if(!empty($prop_payment_val)) {
 		echo '<ul class="list-unstyled flex-fill">
-				<li class="property-overview-item"><strong>'.esc_attr( $prop_payment_val ).'</strong></li>
-				<li class="hz-meta-label property-overview-type">'.houzez_option('cls_payment_plan', 'Payment Plan').'</li>
+				<li class="property-overview-item"><a href="#property-payment-plan-wrap"><strong>'.esc_attr( $prop_payment_val ).'</strong></a></li>
+				<li class="hz-meta-label property-overview-type"><a href="#property-payment-plan-wrap">'.houzez_option('cls_payment_plan', 'Payment Plan').'</a></li>
 			</ul>';
 	}
 

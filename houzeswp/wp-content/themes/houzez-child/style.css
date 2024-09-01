@@ -17,3 +17,28 @@ Template: houzez
 /* Your CSS code goes here
 -------------------------------------- */
 
+ul.payment-plan-wrap {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    margin: 40px 40px 0 0;
+    padding: 0;
+}
+
+ul.payment-plan-wrap li.payment-plan {
+    background-color: #f9f9f9;
+    padding: 18px 7%;
+    text-align: center;
+    border-radius: 10px;
+    position: relative;
+}
+ul.payment-plan-wrap li.payment-plan:not(:last-child):after {
+    content: "\e912";
+    font-family: 'houzez-iconfont' !important;
+    right: -15%;
+    top: 45px;
+    line-height: 1;
+    width: 20px;
+    height: 20px;
+    position: absolute;
+}
