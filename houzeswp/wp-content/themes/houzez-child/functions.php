@@ -513,9 +513,11 @@ if( !function_exists('houzez_ajax_update_profile_developer') ){
 
         $developer_id = get_user_meta( $userID, 'fave_author_agent_id', true );
 
+        // UPDATE DEVELOPER - PROFILE
         if (in_array('houzez_developer', (array)$current_user->roles)) {
             houzez_update_user_developer ( $developer_id, $firstname, $lastname, $title, $about, $userphone, $usermobile, $whatsapp, $userskype, $facebook, $twitter, $linkedin, $instagram, $pinterest, $youtube, $vimeo, $googleplus, $profile_pic, $profile_pic_id, $website, $useremail, $license, $tax_number, $fax_number, $userlangs, $user_address, $user_company, $service_areas, $specialties, $tiktok, $telegram, $line_id, $zillow, $realtor_com );
-        } 
+        }
+
     }
 
 }
@@ -525,7 +527,6 @@ if( !function_exists('houzez_ajax_update_profile_developer') ){
 /------------------------------------------------------------------------------ */
 if( !function_exists('houzez_update_user_developer') ) {
     function houzez_update_user_developer ( $developer_id, $firstname, $lastname, $title, $about, $userphone, $usermobile, $whatsapp, $userskype, $facebook, $twitter, $linkedin, $instagram, $pinterest, $youtube, $vimeo, $googleplus, $profile_pic, $profile_pic_id, $website, $useremail, $license, $tax_number, $fax_number, $userlangs, $user_address, $user_company, $service_areas, $specialties, $tiktok, $telegram, $line_id, $zillow, $realtor_com ) {
-
 
         if( !empty( $firstname ) || !empty( $lastname ) ) {
             $agr = array(
@@ -784,6 +785,29 @@ function houzez_submit_listing_developer($prop_id) {
             update_post_meta( $prop_id, 'fave_prop_payment_plan_on_handover', $prop_payment_plan_on_handover );
         }
 
+    }
+}
+
+// UPDATE AGENCY AND AGENT - Transfer Listing Credit FROM AGENCY TO AGENT
+add_action( 'wp_ajax_houzez_ajax_transfer_listing_credit_from_agency_to_agent', 'houzez_ajax_transfer_listing_credit_from_agency_to_agent' );
+
+if( !function_exists('houzez_ajax_transfer_listing_credit_from_agency_to_agent') ){
+
+    function houzez_ajax_transfer_listing_credit_from_agency_to_agent() {
+        $agency_id = sanitize_text_field( $_POST['agency_id'] );
+        $package_listings_agency = sanitize_text_field( $_POST['package_listings_agency'] );
+        $package_featured_listings_agency = sanitize_text_field( $_POST['package_featured_listings_agency'] );
+        $package_id = sanitize_text_field( $_POST['package_id'] );
+        $package_activation = sanitize_text_field( $_POST['package_activation'] );
+        $package_listings = sanitize_text_field( $_POST['package_listings'] );
+        $package_featured_listings = sanitize_text_field( $_POST['package_featured_listings'] );
+        
+
+        $ajax_response = array('success' => true, 'msg' => esc_html__('Transfer Listing Credit Updated', 'houzez'));
+
+        echo json_encode($ajax_response);
+
+        wp_die();
     }
 }
 
