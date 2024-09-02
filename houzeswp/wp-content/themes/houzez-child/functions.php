@@ -794,6 +794,7 @@ add_action( 'wp_ajax_houzez_ajax_transfer_listing_credit_from_agency_to_agent', 
 if( !function_exists('houzez_ajax_transfer_listing_credit_from_agency_to_agent') ){
 
     function houzez_ajax_transfer_listing_credit_from_agency_to_agent() {
+        $user_id = sanitize_text_field( $_POST['user_id'] );
         $agency_id = sanitize_text_field( $_POST['agency_id'] );
         $package_listings_agency = sanitize_text_field( $_POST['package_listings_agency'] );
         $package_featured_listings_agency = sanitize_text_field( $_POST['package_featured_listings_agency'] );
@@ -801,13 +802,84 @@ if( !function_exists('houzez_ajax_transfer_listing_credit_from_agency_to_agent')
         $package_activation = sanitize_text_field( $_POST['package_activation'] );
         $package_listings = sanitize_text_field( $_POST['package_listings'] );
         $package_featured_listings = sanitize_text_field( $_POST['package_featured_listings'] );
-        
+        $package_listings_agent = sanitize_text_field( $_POST['package_listings_agent'] );
+        $package_featured_listings_agent = sanitize_text_field( $_POST['package_featured_listings_agent'] );
+
+        $package_listings_agency -= (int)$package_listings - (int)$package_listings_agent;
+        $package_featured_listings_agency -= (int)$package_featured_listings - (int)$package_featured_listings_agent;
+
+        update_user_meta( $agency_id, 'package_listings', $package_listings_agency );
+        update_user_meta( $agency_id, 'package_featured_listings', $package_featured_listings_agency );
+
+        update_user_meta( $user_id, 'package_listings', $package_listings );
+        update_user_meta( $user_id, 'package_featured_listings', $package_featured_listings );
+        update_user_meta( $user_id, 'package_id', $package_id );
+        update_user_meta( $user_id, 'package_activation', $package_activation );
 
         $ajax_response = array('success' => true, 'msg' => esc_html__('Transfer Listing Credit Updated', 'houzez'));
 
         echo json_encode($ajax_response);
 
         wp_die();
+    }
+}
+
+if( !function_exists('houzez_get_user_current_package') ) {
+    function houzez_get_user_current_package( $user_id ) {
+
+        $remaining_listings = houzez_get_remaining_listings( $user_id );
+        $pack_featured_remaining_listings = houzez_get_featured_remaining_listings( $user_id );
+        $package_id = houzez_get_user_package_id( $user_id );
+        $packages_page_link = houzez_get_template_link('template/template-packages.php');
+
+        if( $remaining_listings == -1 ) {
+            $remaining_listings = esc_html__('Unlimited', 'houzez');
+        }
+
+        if( !empty( $package_id ) ) {
+
+            $seconds = 0;
+            $pack_title = get_the_title( $package_id );
+            $pack_listings = get_post_meta( $package_id, 'fave_package_listings', true );
+            $pack_unmilited_listings = get_post_meta( $package_id, 'fave_unlimited_listings', true );
+            $pack_featured_listings = get_post_meta( $package_id, 'fave_package_featured_listings', true );
+            $pack_billing_period = get_post_meta( $package_id, 'fave_billing_time_unit', true );
+            $pack_billing_frequency = get_post_meta( $package_id, 'fave_billing_unit', true );
+            $pack_date =  get_user_meta( $user_id, 'package_activation',true );
+
+            if( $pack_billing_period == 'Day')
+                $pack_billing_period = 'days';
+            elseif( $pack_billing_period == 'Week')
+                $pack_billing_period = 'weeks';
+            elseif( $pack_billing_period == 'Month')
+                $pack_billing_period = 'months';
+            elseif( $pack_billing_period == 'Year')
+                $pack_billing_period = 'years';
+
+            $expired_date = strtotime($pack_date. ' + '.$pack_billing_frequency.' '.$pack_billing_period);
+            $expired_date = date_i18n( get_option('date_format').' '.get_option('time_format'),  $expired_date );
+            
+            if(!houzez_is_agent($user_id)) {
+                echo '<li>'.esc_html__( 'Your Current Package', 'houzez' ).'<strong>'.esc_attr( $pack_title ).'</strong></li>';
+            }
+            if( $pack_unmilited_listings == 1 ) {
+                echo '<li>'.esc_html__('Listings Included: ','houzez').'<strong>'.esc_html__('unlimited listings ','houzez').'</strong></li>';
+                echo '<li>'.esc_html__('Listings Remaining: ','houzez').'<strong>'.esc_html__('unlimited listings ','houzez').'</strong></li>';
+            } else {
+
+                echo '<li>'.esc_html__('Listings Included: ','houzez').'<strong>'.esc_attr( $pack_listings ).'</strong></li>';
+
+                echo '<li>'.esc_html__('Listings Remaining: ','houzez').'<strong>'.esc_attr( $remaining_listings ).'</strong></li>';
+            }
+
+            echo '<li>'.esc_html__('Featured Included: ','houzez').'<strong>'.esc_attr( $pack_featured_listings ).'</strong></li>';
+
+            echo '<li>'.esc_html__('Featured Remaining: ','houzez').'<strong>'.esc_attr( $pack_featured_remaining_listings ).'</strong></li>';
+            echo '<li>'.esc_html__('Ends On','houzez').'<strong>';
+            echo ' '.esc_attr( $expired_date );
+            echo '</strong></li>';
+
+        }
     }
 }
 

@@ -53,6 +53,8 @@ if ($edit_user) {
             <input type="hidden" id="agency_id" name="agency_id" value="<?php echo intval($userID); ?>">
             <input type="hidden" id="package_listings_agency" name="package_listings_agency" value="<?php echo intval($package_listings_agency); ?>">
             <input type="hidden" id="package_featured_listings_agency" name="package_featured_listings_agency" value="<?php echo intval($package_featured_listings_agency); ?>">
+            <input type="hidden" id="package_listings_agent" name="package_listings_agent" value="<?php echo intval($package_listings); ?>">
+            <input type="hidden" id="package_featured_listings_agent" name="package_featured_listings_agent" value="<?php echo intval($package_featured_listings); ?>">
             <input type="hidden" id="package_id" name="package_id" value="<?php echo intval($package_id); ?>">
             <input type="hidden" id="package_activation" name="package_activation" value="<?php echo $package_activation; ?>">
             
