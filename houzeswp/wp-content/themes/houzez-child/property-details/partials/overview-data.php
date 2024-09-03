@@ -19,8 +19,13 @@ if ( houzez_is_developer($agent_id ) ) {
 
 	$prop_price = houzez_get_listing_data('property_price');
 	if(!empty($prop_price)) {
+		$houzez_listing_price = houzez_listing_price();
+		if( strpos($houzez_listing_price, "Start from") ){
+			$houzez_listing_price = explode("Start from", $houzez_listing_price)[1];
+		}
+
 		echo '<ul class="list-unstyled flex-fill">
-				<li class="property-overview-item"><strong>'.houzez_listing_price().'</strong></li>
+				<li class="property-overview-item"><strong>'.$houzez_listing_price.'</strong></li>
 				<li class="hz-meta-label property-overview-type">'.houzez_option('spl_st_from', 'Starting From').'</li>
 			</ul>';
 	}

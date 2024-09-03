@@ -146,13 +146,13 @@ if ( houzez_is_developer($agent_id ) ) {
 			<?php 
 				
 				if(!empty($prop_payment_plan_down)) {
-					echo '<li class="payment-plan"><strong>'.$prop_payment_plan_down."%<br>".houzez_option('spl_down_payment', 'Down payment').'</strong><br><span>'.houzez_option('spl_sales_launch', 'At sales launch').'</span></li>';
+					echo '<li class="payment-plan"><p class="payment-plan-amount">'.$prop_payment_plan_down.'%</p><p class="payment-plan-title">'.houzez_option('spl_down_payment', 'Down payment').'</p><p class="payment-plan-subtitle">'.houzez_option('spl_sales_launch', 'At sales launch').'</p></li>';
 				}
 				if(!empty($prop_payment_plan_during_construction)) {
-					echo '<li class="payment-plan"><strong>'.$prop_payment_plan_during_construction."%<br>".houzez_option('spl_during_construction', 'During construction').'</strong><br></li>';
+					echo '<li class="payment-plan payment-plan-green"><p class="payment-plan-amount">'.$prop_payment_plan_during_construction.'%</p><p class="payment-plan-title">'.houzez_option('spl_during_construction', 'During construction').'</p></li>';
 				}
 				if(!empty($prop_payment_plan_on_handover)) {
-					echo '<li class="payment-plan"><strong>'.$prop_payment_plan_on_handover."%<br>".houzez_option('spl_on_handover', 'On handover').'</strong><br></li>';
+					echo '<li class="payment-plan"><p class="payment-plan-amount">'.$prop_payment_plan_on_handover.'%</p><p class="payment-plan-title">'.houzez_option('spl_on_handover', 'On handover').'</p></li>';
 				}
 			?>
 

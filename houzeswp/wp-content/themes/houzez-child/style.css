@@ -20,25 +20,43 @@ Template: houzez
 ul.payment-plan-wrap {
     list-style: none;
     display: flex;
-    justify-content: space-between;
-    margin: 40px 40px 0 0;
+    margin: 40px 0 0 0;
     padding: 0;
+    flex-flow: row wrap;
+    gap: 50px;
 }
 
 ul.payment-plan-wrap li.payment-plan {
-    background-color: #f9f9f9;
-    padding: 18px 7%;
+    background-color: #EBF6F1;
     text-align: center;
-    border-radius: 10px;
+    border-radius: 4px;
     position: relative;
+    width: 236px;
+    height: 133px;
+    padding-top: 25px;
+}
+ul.payment-plan-wrap li.payment-plan-green {
+    background-color: #36AA71;
+    color: #ffffff;
+}
+ul.payment-plan-wrap li.payment-plan .payment-plan-amount {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+ul.payment-plan-wrap li.payment-plan .payment-plan-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 0;
 }
 ul.payment-plan-wrap li.payment-plan:not(:last-child):after {
     content: "\e912";
     font-family: 'houzez-iconfont' !important;
-    right: -15%;
-    top: 45px;
+    right: -38px;
+    top: 60px;
     line-height: 1;
-    width: 20px;
-    height: 20px;
+    width: 25px;
+    height: 25px;
     position: absolute;
+    color: #000000;
 }
