@@ -883,4 +883,69 @@ if( !function_exists('houzez_get_user_current_package') ) {
     }
 }
 
+if ( !function_exists( 'houzez_get_agent_info_top' ) ) {
+    function houzez_get_agent_info_top($args, $type, $is_single = true)
+    {
+        $view_listing = houzez_option('agent_view_listing');
+        $agent_phone_num = houzez_option('agent_phone_num');
+
+        if( empty($args['agent_name']) ) {
+            return '';
+        }
+
+        if ($type == 'for_grid_list') {
+            return '<a href="' . $args['link'] . '">' . $args['agent_name'] . '</a> ';
+
+        } elseif ($type == 'agent_form') {
+            $output = '';
+
+            $output .= '<div class="agent-details">';
+                $output .= '<div class="d-flex align-items-center">';
+                    
+                    $output .= '<div class="agent-image">';
+                        
+                        if ( $is_single == false ) {
+                            $output .= '<input type="checkbox" class="houzez-hidden" checked="checked" class="multiple-agent-check" name="target_email[]" value="' . $args['agent_email'] . '" >';
+                        }
+
+                        $output .= '<img class="rounded" src="' . $args['picture'] . '" alt="' . $args['agent_name'] . '" width="70" height="70">';
+
+                    $output .= '</div>';
+
+                    $output .= '<ul class="agent-information list-unstyled">';
+
+                        if (!empty($args['agent_company'])) {
+                            $output .= '<li class="agent-name">';
+                                $output .= '<i class="houzez-icon icon-single-neutral mr-1"></i> '.$args['agent_company'];
+                            $output .= '</li>';
+                        }
+                        else if (!empty($args['agent_name'])) {
+                            $output .= '<li class="agent-name">';
+                                $output .= '<i class="houzez-icon icon-single-neutral mr-1"></i> '.$args['agent_name'];
+                            $output .= '</li>';
+                        }
+                        
+                        if ( $is_single == false && !empty($args['agent_mobile'])) {
+                            $output .= '<li class="agent-phone agent-phone-hidden">';
+                                $output .= '<i class="houzez-icon icon-phone mr-1"></i> ' . esc_attr($args['agent_mobile']);
+                            $output .= '</li>';
+                        }
+
+                        
+                        if($view_listing != 0) {
+                            $output .= '<li class="agent-link">';
+                                $output .= '<a href="' . $args['link'] . '">' . houzez_option('spl_con_view_listings', 'View listings') . '</a>';
+                            $output .= '</li>';
+                        }
+
+
+                    $output .= '</ul>';
+                $output .= '</div>';
+            $output .= '</div>';
+
+            return $output;
+        }
+    }
+}
+
 ?>
