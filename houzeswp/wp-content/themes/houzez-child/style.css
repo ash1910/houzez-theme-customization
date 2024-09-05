@@ -60,3 +60,9 @@ ul.payment-plan-wrap li.payment-plan:not(:last-child):after {
     position: absolute;
     color: #000000;
 }
+
+.btn-primary-outlined.active {
+    color: #fff;
+    background-color: #36aa71;
+    border-color: #36aa71; 
+}
