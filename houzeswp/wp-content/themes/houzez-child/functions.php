@@ -949,35 +949,4 @@ if ( !function_exists( 'houzez_get_agent_info_top' ) ) {
 }
 
 
-if ( ! function_exists( 'houzez_option' ) ) {
-	function houzez_option( $id, $fallback = false, $param = false ) {
-		if ( isset( $_GET['fave_'.$id] ) ) {
-			if ( '-1' == $_GET['fave_'.$id] ) {
-				return false;
-			} else {
-				return esc_attr($_GET['fave_'.$id]);
-			}
-		} else {
-			global $houzez_options;
-			if ( $fallback == false ) $fallback = '';
-			$output = ( isset($houzez_options[$id]) && $houzez_options[$id] !== '' ) ? $houzez_options[$id] : $fallback;
-			if ( !empty($houzez_options[$id]) && $param ) {
-				$output = $houzez_options[$id][$param];
-			}
-
-            // Search Result Page layout
-            if( isset($_SESSION["search_result_page"]) && $id == "search_result_page" ){
-                if($_SESSION["search_result_page"] == 'half_map') {
-                    $output = 'half_map';
-                } elseif($_SESSION["search_result_page"] == 'normal_page') {
-                    $output = 'normal_page';
-                }
-            }
-
-		}
-		return $output;
-	}
-}
-
-
 ?>

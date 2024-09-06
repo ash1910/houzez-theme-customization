@@ -131,6 +131,32 @@ $search_qry = apply_filters( 'houzez_sold_status_filter', $search_qry );
 $search_qry = houzez_prop_sort ( $search_qry );
 $search_query = new WP_Query( $search_qry );
 
+$search_query_property_type = $search_qry;
+$search_query_property_type['posts_per_page'] = -1;
+
+
+$terms = get_terms('property_type');
+ if ( !empty( $terms ) && !is_wp_error( $terms ) ){
+     echo "<ul>";
+     foreach ( $terms as $term ) {
+
+        $search_query_property_type['tax_query'] = array(
+            array(
+              'taxonomy' => 'property_type',
+              'field' => 'id',
+              'terms' => $term->term_id,
+            )
+        );
+        $my_posts = get_posts($search_query_property_type);
+
+       echo "<li>" . $term->name . $term->term_id . "-" . count($my_posts) . $term->slug . "</li>";
+
+     }
+     echo "</ul>";
+ }
+//echo "<pre>";print_r(count($my_posts));
+//exit;
+
 $total_records = $search_query->found_posts;
 
 $record_found_text = esc_html__('Result Found', 'houzez');
