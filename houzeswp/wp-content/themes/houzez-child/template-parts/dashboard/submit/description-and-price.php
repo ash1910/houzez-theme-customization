@@ -197,7 +197,7 @@ if(empty($default_multi_currency)) {
 			</div><!-- col-md-6 col-sm-12 -->
 			<?php } ?>
 
-			<?php if( $hide_prop_fields['price_postfix'] != 1 ) { ?>
+			<?php if( $hide_prop_fields['price_postfix'] != 1 && !houzez_is_developer() ) { ?>
 			<div class="col-md-6 col-sm-12">
 				<?php get_template_part('template-parts/dashboard/submit/form-fields/after-price-label'); ?>
 			</div><!-- col-md-6 col-sm-12 -->

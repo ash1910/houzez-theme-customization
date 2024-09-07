@@ -808,6 +808,15 @@ if( !function_exists('houzez_ajax_transfer_listing_credit_from_agency_to_agent')
         $package_listings_agency -= (int)$package_listings - (int)$package_listings_agent;
         $package_featured_listings_agency -= (int)$package_featured_listings - (int)$package_featured_listings_agent;
 
+        if( $package_listings_agency < 0 || $package_featured_listings_agency < 0 ){
+
+            $ajax_response = array('success' => false, 'msg' => esc_html__('Error', 'houzez'));
+
+            echo json_encode($ajax_response);
+
+            wp_die();
+        }
+
         update_user_meta( $agency_id, 'package_listings', $package_listings_agency );
         update_user_meta( $agency_id, 'package_featured_listings', $package_featured_listings_agency );
 
