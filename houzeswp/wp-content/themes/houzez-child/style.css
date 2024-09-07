@@ -66,3 +66,57 @@ ul.payment-plan-wrap li.payment-plan:not(:last-child):after {
     background-color: #36aa71;
     border-color: #36aa71; 
 }
+
+.page-type-wrap {
+    border: 1px solid #ededed;
+    padding: 15px 0;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+}
+.page-type-wrap ul {
+    list-style: none;
+    display: flex;
+    flex-flow: wrap row;
+    padding: 0;
+    margin: 0 0 0 -25px;
+}
+.page-type-wrap ul li {
+    padding: 15px 0;
+}
+.page-type-wrap ul a {
+    border-left: 1px solid #DCE0E0;
+    display: inline-block;
+    padding: 0 55px;
+    line-height: 15px;
+    margin-left: -1px;
+}
+.page-type-wrap ul a span {
+    color: #222222;
+    font-size: 15px;
+}
+.page-type-show-more {
+    width: 120px !important;
+    position: absolute;
+    right: 30px;
+    top: 30px;
+}
+.page-type-show-more .dropdown-toggle {
+    background-color: transparent;
+    border: 0;
+    color: #36aa71;
+    width: 115px;
+}
+.page-type-show-more .dropdown-toggle:after {
+    color: #222222;
+}
+.page-type-show-more.show-less {
+    top: auto;
+    right: 10px;
+    bottom: 10px;
+    display: none;
+}
+.page-type-wrap ul li.moreType {
+    display: none;
+}

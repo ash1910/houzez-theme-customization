@@ -949,4 +949,87 @@ if ( !function_exists( 'houzez_get_agent_info_top' ) ) {
 }
 
 
+if ( !function_exists( 'houzez_after_search__get_property_type_list' ) ) {
+    function houzez_after_search__get_property_type_list($search_qry)
+    {
+        $output = "";
+        $terms = get_terms('property_type');
+
+        $actual_link = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+
+        if ( !empty( $terms ) && !is_wp_error( $terms ) ){
+            $output .= "<ul>";
+            $list_inc = 0;
+            $className = "";
+            foreach ( $terms as $term ) {
+                $search_query_property_type = $search_qry;
+                $search_query_property_type['posts_per_page'] = -1;
+
+                $search_query_property_type['tax_query'][] = array(
+                    'taxonomy' => 'property_type',
+                    'field' => 'id',
+                    'terms' => $term->term_id,
+                );
+                $search_query_property_type_final = new WP_Query( $search_query_property_type );
+
+                if( $search_query_property_type_final->found_posts > 0 ){
+                    $list_inc++;
+                    if($list_inc > 2){
+                        $className = "moreType";
+                    }
+                    $output .= '<li class="'.$className.'"><a href="/'.change_url_parameter($actual_link, "type", array($term->slug)).'">' . $term->name . " <span>(" . $search_query_property_type_final->found_posts . ")</span></a></li>";
+                }
+
+            }
+            $output .= "</ul>";
+        }
+
+        return $output;
+    }
+    add_filter('houzez_after_search__get_property_type_list', 'houzez_after_search__get_property_type_list');
+}
+
+function change_url_parameter($url,$parameterName,$parameterValue) {
+    $url=parse_url($url);
+    parse_str($url["query"],$parameters);
+    unset($parameters[$parameterName]);
+    $parameters[$parameterName]=$parameterValue;
+    return  sprintf("%s://%s%s?%s", 
+        $url["scheme"],
+        $url["host"],
+        $url["path"],
+        http_build_query($parameters));
+}
+
+/*-----------------------------------------------------------------------------------*/
+// get taxonomies with with id value
+/*-----------------------------------------------------------------------------------*/
+if(!function_exists('houzez_get_taxonomies_with_id_value')){
+    function houzez_get_taxonomies_with_id_value($taxonomy, $parent_taxonomy, $taxonomy_id, $prefix = " " ){
+
+        if (!empty($parent_taxonomy)) {
+            foreach ($parent_taxonomy as $term) {
+                if ($taxonomy_id != $term->term_id) {
+                    
+                    if(  houzez_is_developer() && $term->name == "New projects" ){
+                        echo '<option value="' . $term->term_id . '" selected="selected">' . $prefix . $term->name . '</option>';
+                    }
+                    else{
+                        echo '<option value="' . $term->term_id . '">' . $prefix . $term->name . '</option>';
+                    }
+                } else {
+                    echo '<option value="' . $term->term_id . '" selected="selected">' . $prefix . $term->name . '</option>';
+                }
+                $get_child_terms = get_terms($taxonomy, array(
+                    'hide_empty' => false,
+                    'parent' => $term->term_id
+                ));
+
+                if (!empty($get_child_terms)) {
+                    houzez_get_taxonomies_with_id_value( $taxonomy, $get_child_terms, $taxonomy_id, "- ".$prefix );
+                }
+            }
+        }
+    }
+}
 ?>

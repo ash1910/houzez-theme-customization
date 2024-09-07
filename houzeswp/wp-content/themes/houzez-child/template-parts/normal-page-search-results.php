@@ -131,32 +131,6 @@ $search_qry = apply_filters( 'houzez_sold_status_filter', $search_qry );
 $search_qry = houzez_prop_sort ( $search_qry );
 $search_query = new WP_Query( $search_qry );
 
-$search_query_property_type = $search_qry;
-$search_query_property_type['posts_per_page'] = -1;
-
-
-$terms = get_terms('property_type');
- if ( !empty( $terms ) && !is_wp_error( $terms ) ){
-     echo "<ul>";
-     foreach ( $terms as $term ) {
-
-        $search_query_property_type['tax_query'] = array(
-            array(
-              'taxonomy' => 'property_type',
-              'field' => 'id',
-              'terms' => $term->term_id,
-            )
-        );
-        $my_posts = get_posts($search_query_property_type);
-
-       echo "<li>" . $term->name . $term->term_id . "-" . count($my_posts) . $term->slug . "</li>";
-
-     }
-     echo "</ul>";
- }
-//echo "<pre>";print_r(count($my_posts));
-//exit;
-
 $total_records = $search_query->found_posts;
 
 $record_found_text = esc_html__('Result Found', 'houzez');
@@ -212,11 +186,7 @@ if( $total_records > 1 ) {
                     get_template_part('template-parts/listing/listing-switch-view'); 
                 }?> 
             </div><!-- d-flex -->  
-
-            <div class="page-type-wrap">
                 
-            </div>
-
         </div><!-- page-title-wrap -->
 
         <div class="row">
@@ -237,6 +207,36 @@ if( $total_records > 1 ) {
                 }?>
 
                 <div class="listing-tools-wrap">
+
+                    <?php 
+                    if( $total_records > 1 ) {
+                        $type_list = apply_filters("houzez_after_search__get_property_type_list", $search_qry);
+
+                        echo '<div class="page-type-wrap">';
+                        echo $type_list;
+                        echo '<div class="page-type-show-more show-more bootstrap-select"><button class="dropdown-toggle" onclick="functionShowMore()">Show More</button></div>';
+                        echo '<div class="page-type-show-more show-less bootstrap-select"><button class="dropdown-toggle" onclick="functionShowLess()">Show Less</button></div>';
+                        echo '</div>';
+                    }
+                    ?>
+
+                    <script>
+                        function functionShowMore(){
+                            var elList = document.querySelectorAll('.moreType');
+                            elList.forEach(el => el.style.display = "block");
+
+                            document.querySelector('.page-type-show-more.show-more').style.display = 'none';
+                            document.querySelector('.page-type-show-more.show-less').style.display = 'block';
+                        }
+                        function functionShowLess(){
+                            var elList = document.querySelectorAll('.moreType');
+                            elList.forEach(el => el.style.display = "none");
+
+                            document.querySelector('.page-type-show-more.show-more').style.display = 'block';
+                            document.querySelector('.page-type-show-more.show-less').style.display = 'none';
+                        }
+                    </script>
+
                     <div class="d-flex align-items-center mb-3">
                         <div class="flex-grow-1">
                             <strong><?php echo esc_attr($total_records); ?> <?php echo esc_attr($record_found_text); ?></strong>
