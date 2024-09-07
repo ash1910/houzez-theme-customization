@@ -213,6 +213,10 @@ if( $total_records > 1 ) {
                 }?> 
             </div><!-- d-flex -->  
 
+            <div class="page-type-wrap">
+                
+            </div>
+
         </div><!-- page-title-wrap -->
 
         <div class="row">
