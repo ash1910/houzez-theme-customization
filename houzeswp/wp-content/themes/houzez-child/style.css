@@ -61,10 +61,31 @@ ul.payment-plan-wrap li.payment-plan:not(:last-child):after {
     color: #000000;
 }
 
-.btn-primary-outlined.active {
-    color: #fff;
-    background-color: #36aa71;
-    border-color: #36aa71; 
+.listing-map-button-view{
+    margin: 0 0 0 15px;
+}
+.listing-map-button-view .list-inline {
+    border: 1px solid #DCE0E0;
+    border-radius: 4px;
+    padding: 4px;
+}
+.listing-map-button-view .list-inline .list-inline-item{
+    margin: 0;
+}
+.listing-map-button-view .btn-primary-outlined, .listing-map-button-view .btn-primary-outlined:hover  {
+    padding: 7px 24px;
+    color: #A1A7A8;
+    line-height: 18px;
+    border: 0;
+    background-color: transparent;
+}
+.listing-map-button-view .btn-primary-outlined.active, .btn-primary-outlined.active:hover {
+    color: #36AA71;
+    background-color: rgba(54, 170, 113, .15);
+}
+
+.listing-map-button-view .btn-primary-outlined.active .wrapper-icon {
+    fill: #36AA71;
 }
 
 .page-type-wrap {

@@ -150,38 +150,6 @@ if( $total_records > 1 ) {
                 </div><!-- page-title -->
 
                 <?php 
-                $actual_link = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-                $fave_search_result_page = isset($_GET["fave_search_result_page"]) ? $_GET["fave_search_result_page"] : "";
-                $search_result_page_url = str_replace('&fave_search_result_page='.$fave_search_result_page, '', $actual_link); 
-                $search_result_page_url_map=$search_result_page_url.'&fave_search_result_page=half_map';
-                
-                $list_active = "";
-                $map_active = "";
-                $search_result_page = houzez_option('search_result_page');
-                if($search_result_page == 'half_map') {
-                    $list_active = "";
-                    $map_active = "active";
-                } else {
-                    $list_active = "active";
-                    $map_active = "";
-                }
-                ?>
-                <div class="listing-switch-view" style="margin: 0 15px 0 15px;">
-                    <ul class="list-inline">
-                        <li class="list-inline-item">
-                            <a class="btn btn-primary-outlined <?php echo $list_active;?>" href="<?php echo $search_result_page_url;?>">
-                                <i class="houzez-icon icon-task-list-text-1"></i> <span>List</span>
-                            </a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a class="btn btn-primary-outlined <?php echo $map_active;?>" href="<?php echo $search_result_page_url_map;?>">
-                                <i class="houzez-icon icon-location-user"></i> <span>Map</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-
-                <?php 
                 if($have_switcher) {
                     get_template_part('template-parts/listing/listing-switch-view'); 
                 }?> 
@@ -246,6 +214,45 @@ if( $total_records > 1 ) {
                         if( $enable_save_search != 0 ) {
                             get_template_part('template-parts/search/save-search-btn');
                         }?> 
+
+                        <?php 
+                        $actual_link = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+                        $fave_search_result_page = isset($_GET["fave_search_result_page"]) ? $_GET["fave_search_result_page"] : "";
+                        $search_result_page_url = str_replace('&fave_search_result_page='.$fave_search_result_page, '', $actual_link); 
+                        $search_result_page_url_map=$search_result_page_url.'&fave_search_result_page=half_map';
+                        
+                        $list_active = "";
+                        $map_active = "";
+                        $search_result_page = houzez_option('search_result_page');
+                        if($search_result_page == 'half_map') {
+                            $list_active = "";
+                            $map_active = "active";
+                        } else {
+                            $list_active = "active";
+                            $map_active = "";
+                        }
+                        ?>
+                        <div class="listing-switch-view listing-map-button-view">
+                            <ul class="list-inline">
+                                <li class="list-inline-item">
+                                    <a class="btn btn-primary-outlined <?php echo $list_active;?>" href="<?php echo $search_result_page_url;?>">
+                                        <i class="houzez-icon icon-list">
+                                            <?php include get_stylesheet_directory() . '/assets/images/list_icon.svg'; ?>
+                                        </i>
+                                        <span>List</span>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item">
+                                    <a class="btn btn-primary-outlined <?php echo $map_active;?>" href="<?php echo $search_result_page_url_map;?>">
+                                        <i class="houzez-icon icon-map">
+                                             <?php include get_stylesheet_directory() . '/assets/images/map_icon.svg'; ?>
+                                        </i> 
+                                        <span>Map</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
                     </div><!-- d-flex -->
                     
                     

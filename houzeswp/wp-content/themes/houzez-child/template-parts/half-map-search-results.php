@@ -172,16 +172,22 @@ if($enable_search != 0 && $search_style != 'v4') {
                     $map_active = "";
                 }
                 ?>
-                <div class="listing-switch-view" style="margin: 0 15px 0 15px;">
+                <div class="listing-switch-view listing-map-button-view">
                     <ul class="list-inline">
                         <li class="list-inline-item">
                             <a class="btn btn-primary-outlined <?php echo $list_active;?>" href="<?php echo $search_result_page_url;?>">
-                                <i class="houzez-icon icon-task-list-text-1"></i> <span>List</span>
+                                <i class="houzez-icon icon-list">
+                                    <?php include get_stylesheet_directory() . '/assets/images/list_icon.svg'; ?>
+                                </i>
+                                <span>List</span>
                             </a>
                         </li>
                         <li class="list-inline-item">
                             <a class="btn btn-primary-outlined <?php echo $map_active;?>" href="<?php echo $search_result_page_url_map;?>">
-                                <i class="houzez-icon icon-location-user"></i> <span>Map</span>
+                                <i class="houzez-icon icon-map">
+                                        <?php include get_stylesheet_directory() . '/assets/images/map_icon.svg'; ?>
+                                </i> 
+                                <span>Map</span>
                             </a>
                         </li>
                     </ul>
