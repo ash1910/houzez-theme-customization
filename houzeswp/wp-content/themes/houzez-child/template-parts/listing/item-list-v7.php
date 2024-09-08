@@ -44,7 +44,14 @@ if( houzez_is_fullwidth_2cols_custom_width() ) {
 				$agent_info = $listing_agent_info['agent_info'];
 
 				if( !empty( $agent_info[0] )) {
-					echo apply_filters("houzez_get_agency_photo_url_by_agent_user_id", $agent_info[0]['agent_id']);
+					if( $agent_agency_id = get_post_meta($agent_info[0]['agent_id'], 'fave_agent_agencies', true) ) {
+
+						$thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id( $agent_agency_id ), 'full' );
+						if( !empty($thumbnail_src) ) {
+							echo '<img class="img-fluid list-item-agency-profile-pic" src="' . esc_attr( $thumbnail_src[ 0 ] ) . '">';
+						}
+					}
+					//echo apply_filters("houzez_get_agency_photo_url_by_agent_user_id", $agent_info[0]['agent_id']);
 				}
 				?>
 
