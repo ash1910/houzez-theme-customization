@@ -1041,4 +1041,30 @@ if(!function_exists('houzez_get_taxonomies_with_id_value')){
         }
     }
 }
+
+if ( !function_exists( 'houzez_get_agency_photo_url_by_agent_user_id' ) ) {
+    function houzez_get_agency_photo_url_by_agent_user_id($agent_user_id)
+    {
+        $output = "";
+
+        $user_agent = get_users(array(
+            'meta_key' => 'fave_author_agent_id',
+            'meta_value' => $agent_user_id
+        ));
+        if( !empty( $user_agent[0] )) {
+            $agent_agency_id = get_user_meta( $user_agent[0]->ID, 'fave_agent_agency', true );
+
+            $agency_photo_url = get_user_meta( $agent_agency_id, 'fave_author_custom_picture', true );
+        }
+
+        if ( isset($agency_photo_url) && !empty($agency_photo_url) ){
+            $output = '<img class="img-fluid list-item-agency-profile-pic" src="' . $agency_photo_url . '">';
+        }
+
+        return $output;
+    }
+    add_filter('houzez_get_agency_photo_url_by_agent_user_id', 'houzez_get_agency_photo_url_by_agent_user_id');
+}
+
+
 ?>

@@ -38,6 +38,16 @@ if( houzez_is_fullwidth_2cols_custom_width() ) {
 				<div class="preview_loader"></div>
 			</div><!-- item-header -->	
 			<div class="item-body flex-grow-1" onclick="location.href='<?php echo esc_url(get_permalink()); ?>';" style="cursor: pointer; padding-top: 25px; padding-bottom: 25px;">
+					
+				<?php
+				// Agency Picture
+				$agent_info = $listing_agent_info['agent_info'];
+
+				if( !empty( $agent_info[0] )) {
+					echo apply_filters("houzez_get_agency_photo_url_by_agent_user_id", $agent_info[0]['agent_id']);
+				}
+				?>
+
 				<ul class="item-amenities item-amenities-with-icons">
 					<?php get_template_part('template-parts/listing/partials/type'); ?>
 				</ul>
@@ -49,6 +59,7 @@ if( houzez_is_fullwidth_2cols_custom_width() ) {
 		</div><!-- d-flex -->
 		<div class="item-footer">
 			<div class="item-footer-left-wrap">
+				<?php get_template_part('template-parts/listing/partials/item-author-v3'); ?>
 				<?php get_template_part('template-parts/listing/partials/item-date'); ?>
 				<?php get_template_part('template-parts/listing/partials/item-author'); ?>
 			</div><!-- item-footer-left-wrap -->
