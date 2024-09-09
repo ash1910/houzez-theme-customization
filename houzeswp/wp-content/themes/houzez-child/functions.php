@@ -1058,7 +1058,7 @@ if ( !function_exists( 'houzez_get_agency_photo_url_by_agent_user_id' ) ) {
         }
 
         if ( isset($agency_photo_url) && !empty($agency_photo_url) ){
-            $output = '<img class="img-fluid list-item-agency-profile-pic" src="' . $agency_photo_url . '">';
+            $output = '<div class="list-item-agency-profile-pic"><img class="img-fluid" src="' . $agency_photo_url . '"></div>';
         }
 
         return $output;
