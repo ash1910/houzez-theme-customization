@@ -1066,5 +1066,60 @@ if ( !function_exists( 'houzez_get_agency_photo_url_by_agent_user_id' ) ) {
     add_filter('houzez_get_agency_photo_url_by_agent_user_id', 'houzez_get_agency_photo_url_by_agent_user_id');
 }
 
+if( !function_exists('houzez_save_search') ) {
+    function houzez_save_search() {
 
+        $nonce = $_REQUEST['houzez_save_search_ajax'];
+        if( !wp_verify_nonce( $nonce, 'houzez-save-search-nounce' ) ) {
+            echo json_encode(array(
+                'success' => false,
+                'msg' => esc_html__( 'Unverified Nonce!', 'houzez')
+            ));
+            wp_die();
+        }
+
+        global $wpdb, $current_user;
+
+        wp_get_current_user();
+        $userID       =  $current_user->ID;
+        $userEmail    =  $current_user->user_email;
+        $search_args  =  $_REQUEST['search_args'];
+        $table_name   = $wpdb->prefix . 'houzez_search';
+        $request_url  = $_REQUEST['search_URI'];
+
+        // UPDATE SEARCH
+        if( !empty($request_url) ){
+            parse_str($request_url, $search_query);
+            $search_id  = (int)$search_query['search_id'];
+
+            if( isset($search_id) && !empty($search_id) ){
+                $wpdb->update($table_name, array('query'=>$search_args, 'url'=>$request_url, 'time'=>current_time( 'mysql' )), array('id'=>$search_id));
+                echo json_encode( array( 'success' => true, 'msg' => esc_html__('Search is updated. You will receive an email notification when new properties matching your search will be published', 'houzez') ) );
+                wp_die();
+            }
+        }
+        // END UPDATE SEARCH
+
+        $wpdb->insert(
+            $table_name,
+            array(
+                'auther_id' => $userID,
+                'query'     => $search_args,
+                'email'     => $userEmail,
+                'url'       => $request_url,
+                'time'      => current_time( 'mysql' )
+            ),
+            array(
+                '%d',
+                '%s',
+                '%s',
+                '%s',
+                '%s'
+            )
+        );
+
+        echo json_encode( array( 'success' => true, 'msg' => esc_html__('Search is saved. You will receive an email notification when new properties matching your search will be published', 'houzez') ) );
+        wp_die();
+    }
+}
 ?>
