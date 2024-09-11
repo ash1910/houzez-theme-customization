@@ -1,5 +1,5 @@
 <?php 
-global $post, $ele_thumbnail_size, $image_size, $listing_agent_info, $buttonsComposer; 
+global $post, $ele_thumbnail_size, $image_size, $listing_agent_info, $buttonsComposer, $prop_featured, $prop_verified_badge; 
 $listing_agent_info = houzez20_property_contact_form();
 
 $defaultButtons = array(
@@ -32,6 +32,20 @@ if( houzez_is_fullwidth_2cols_custom_width() ) {
 		<div class="d-flex align-items-center h-100">
 			<div class="item-header">
 				<?php get_template_part('template-parts/listing/partials/item-featured-label'); ?>
+
+				<?php
+				$prop_featured = houzez_get_listing_data('featured');
+				$prop_verified_badge = houzez_get_listing_data('verified_badge');
+
+				if( $prop_verified_badge == 1 ) {
+					$prop_verified_badge_left = empty($prop_featured) ? "10" : "95";
+					echo '<span class="label-featured label-verified label" style="left: '.$prop_verified_badge_left.'px;">
+					<i class="label-icon">';
+						include get_stylesheet_directory() . '/assets/images/verified_icon.svg';
+					echo '</i>
+					'.houzez_option('cl_verified_label', esc_html__( 'VERIFIED', 'houzez' )).'</span>';
+				}
+				?>
 				<?php get_template_part('template-parts/listing/partials/item-labels'); ?>
 				<?php get_template_part('template-parts/listing/partials/item-tools'); ?>
 				<?php get_template_part('template-parts/listing/partials/item-image'); ?>

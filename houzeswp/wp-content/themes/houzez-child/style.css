@@ -176,3 +176,24 @@ ul.payment-plan-wrap li.payment-plan:not(:last-child):after {
     width: 16.84px;
     height: 16.84px;
 }
+
+.label-featured.label {
+    padding: 5.5px 12px;
+    border-radius: 2.42px;
+    top: 10px;
+    left: 10px;
+}
+.label-verified.label {
+    padding: 0;
+    font-size: 11px;
+    left: 95px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 22px;
+    width: 85px;
+    background-color: rgba(0, 0, 0, .7);
+}
+.label-icon {
+    padding-right: 4px;
+}

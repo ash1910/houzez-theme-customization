@@ -13,7 +13,7 @@ jQuery(document).ready( function($) {
         var attachment_max_file_size = houzezProperty.attachment_max_file_size;
 
         /* ------------------------------------------------------------------------ */
-        /*  Property attachment1 Sort , delete
+        /*  Property attachment Sort , delete
          /* ------------------------------------------------------------------------ */
         var propertyAttachmentEvents = function() {
 
@@ -66,7 +66,7 @@ jQuery(document).ready( function($) {
         }
         propertyAttachmentEvents();
 
-        //Js for property attachment1s upload
+        //Js for property attachments upload
         var houzez_property_attachments = function() {
 
             var atch_uploader = new plupload.Uploader({

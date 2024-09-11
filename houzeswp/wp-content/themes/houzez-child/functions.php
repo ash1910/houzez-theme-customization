@@ -1067,7 +1067,7 @@ if ( !function_exists( 'houzez_get_agency_photo_url_by_agent_user_id' ) ) {
 }
 
 function load_houzez_property_js_child() {
-    wp_enqueue_script('houzez_property_child',  get_theme_file_uri('/js/houzez_property_child.js'), array('jquery', 'plupload', 'jquery-ui-sortable'), '1.0.0', true);
+    wp_enqueue_script('houzez_property_child',  get_stylesheet_directory_uri().'/js/houzez_property_child.js', array('jquery', 'plupload', 'jquery-ui-sortable'), '1.0.0', true);
 }
 add_action( 'wp_enqueue_scripts', 'load_houzez_property_js_child' );
 
@@ -1096,6 +1096,71 @@ function houzez_submit_listing_attachment($prop_id) {
                 $property_attach_ids[] = intval( $prop_atch_id );
                 add_post_meta($prop_id, 'fave_attachments_title_deed', $prop_atch_id);
             }
+        }
+
+        delete_post_meta( $prop_id, 'fave_attachments_passport' );
+
+        if( isset( $_POST['propperty_attachment_passport_ids'] ) ) {
+            $property_attach_ids = array();
+            foreach ($_POST['propperty_attachment_passport_ids'] as $prop_atch_id ) {
+                $property_attach_ids[] = intval( $prop_atch_id );
+                add_post_meta($prop_id, 'fave_attachments_passport', $prop_atch_id);
+            }
+        }
+
+        update_post_meta($prop_id, 'fave_verified_check1', 0);
+
+        if (isset($_POST['verified_check1'])) {
+            $verified_check1 = $_POST['verified_check1'];
+            if ($verified_check1 == 'on') {
+                $verified_check1 = 1;
+            }
+
+            update_post_meta($prop_id, 'fave_verified_check1', sanitize_text_field($verified_check1));
+        }
+
+        update_post_meta($prop_id, 'fave_verified_check2', 0);
+
+        if (isset($_POST['verified_check2'])) {
+            $verified_check2 = $_POST['verified_check2'];
+            if ($verified_check2 == 'on') {
+                $verified_check2 = 1;
+            }
+
+            update_post_meta($prop_id, 'fave_verified_check2', sanitize_text_field($verified_check2));
+        }
+
+        update_post_meta($prop_id, 'fave_verified_check3', 0);
+
+        if (isset($_POST['verified_check3'])) {
+            $verified_check3 = $_POST['verified_check3'];
+            if ($verified_check3 == 'on') {
+                $verified_check3 = 1;
+            }
+
+            update_post_meta($prop_id, 'fave_verified_check3', sanitize_text_field($verified_check3));
+        }
+
+        update_post_meta($prop_id, 'fave_verified_check4', 0);
+
+        if (isset($_POST['verified_check4'])) {
+            $verified_check4 = $_POST['verified_check4'];
+            if ($verified_check4 == 'on') {
+                $verified_check4 = 1;
+            }
+
+            update_post_meta($prop_id, 'fave_verified_check4', sanitize_text_field($verified_check4));
+        }
+
+        update_post_meta($prop_id, 'fave_verified_check5', 0);
+
+        if (isset($_POST['verified_check5'])) {
+            $verified_check5 = $_POST['verified_check5'];
+            if ($verified_check5 == 'on') {
+                $verified_check5 = 1;
+            }
+
+            update_post_meta($prop_id, 'fave_verified_check5', sanitize_text_field($verified_check5));
         }
 
     }
