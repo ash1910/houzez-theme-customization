@@ -197,3 +197,39 @@ ul.payment-plan-wrap li.payment-plan:not(:last-child):after {
 .label-icon {
     padding-right: 4px;
 }
+.list-view .item-wrap-v8 .item-header {
+    width: 360px;
+}
+.label-listing-map-icon{
+    position: absolute;
+    width: 36px;
+    height: 36px;
+    right: 10px;
+    bottom: 10px;
+    z-index: 10;
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4.65px;
+}
+.label-listing-camera-icon-wrapper{
+    position: absolute;
+    width: 39px;
+    height: 19px;
+    left: 10px;
+    bottom: 10px;
+    z-index: 10;
+    background-color: rgba(0, 0, 0, .7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 2.06px;
+    font-size: 10px;
+    line-height: 10px;
+    color: #ffffff;
+    gap: 3px;
+}
+.label-listing-camera-icon-wrapper i{
+    line-height: 0;
+}

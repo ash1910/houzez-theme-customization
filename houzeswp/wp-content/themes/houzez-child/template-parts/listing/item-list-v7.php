@@ -1,5 +1,5 @@
 <?php 
-global $post, $ele_thumbnail_size, $image_size, $listing_agent_info, $buttonsComposer, $prop_featured, $prop_verified_badge; 
+global $post, $ele_thumbnail_size, $image_size, $listing_agent_info, $buttonsComposer, $prop_featured, $prop_verified_badge, $prop_property_images; 
 $listing_agent_info = houzez20_property_contact_form();
 
 $defaultButtons = array(
@@ -36,6 +36,15 @@ if( houzez_is_fullwidth_2cols_custom_width() ) {
 				<?php
 				$prop_featured = houzez_get_listing_data('featured');
 				$prop_verified_badge = houzez_get_listing_data('verified_badge');
+				$prop_property_images = houzez_get_listing_data('property_images');
+
+				$property_images_count = 1;
+				$property_images = get_post_meta( $post->ID, 'fave_property_images', false );
+
+				if ( ! empty( $property_images ) ) {
+					$property_images_count += count( array_filter( $property_images ) );
+				}
+
 
 				if( $prop_verified_badge == 1 ) {
 					$prop_verified_badge_left = empty($prop_featured) ? "10" : "95";
@@ -46,6 +55,14 @@ if( houzez_is_fullwidth_2cols_custom_width() ) {
 					'.houzez_option('cl_verified_label', esc_html__( 'VERIFIED', 'houzez' )).'</span>';
 				}
 				?>
+				<i class="label-listing-map-icon">
+					<?php include get_stylesheet_directory() . '/assets/images/listing_map_icon.svg';?>
+				</i>
+				<span class="label-listing-camera-icon-wrapper">
+					<i class="label-listing-camera-icon"><?php include get_stylesheet_directory() . '/assets/images/camera_icon.svg';?></i>
+					<span><?php echo $property_images_count;?></span>
+				</span>
+
 				<?php get_template_part('template-parts/listing/partials/item-labels'); ?>
 				<?php get_template_part('template-parts/listing/partials/item-tools'); ?>
 				<?php get_template_part('template-parts/listing/partials/item-image'); ?>
@@ -82,7 +99,7 @@ if( houzez_is_fullwidth_2cols_custom_width() ) {
 			<div class="item-footer-left-wrap">
 				<?php get_template_part('template-parts/listing/partials/item-author-v3'); ?>
 				<?php get_template_part('template-parts/listing/partials/item-date'); ?>
-				<?php get_template_part('template-parts/listing/partials/item-author'); ?>
+				<?php //get_template_part('template-parts/listing/partials/item-author'); ?>
 			</div><!-- item-footer-left-wrap -->
 			<div class="item-footer-right-wrap">
 				<?php get_template_part('template-parts/listing/partials/item-btn-v7'); ?>
