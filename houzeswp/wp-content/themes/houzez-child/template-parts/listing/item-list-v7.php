@@ -60,7 +60,7 @@ if( houzez_is_fullwidth_2cols_custom_width() ) {
 				</i>
 				<span class="label-listing-camera-icon-wrapper">
 					<i class="label-listing-camera-icon"><?php include get_stylesheet_directory() . '/assets/images/camera_icon.svg';?></i>
-					<span><?php echo $property_images_count;?></span>
+					<span><?php echo sprintf('%02d', $property_images_count); ?></span>
 				</span>
 
 				<?php get_template_part('template-parts/listing/partials/item-labels'); ?>
