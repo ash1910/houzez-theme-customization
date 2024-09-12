@@ -183,6 +183,7 @@ ul.payment-plan-wrap li.payment-plan:not(:last-child):after {
     top: 10px;
     left: 10px;
 }
+
 .label-verified.label {
     padding: 0;
     font-size: 11px;
@@ -194,12 +195,15 @@ ul.payment-plan-wrap li.payment-plan:not(:last-child):after {
     width: 85px;
     background-color: rgba(0, 0, 0, .7);
 }
+
 .label-icon {
     padding-right: 4px;
 }
+
 .list-view .item-wrap-v8 .item-header {
     width: 360px;
 }
+
 .label-listing-map-icon{
     position: absolute;
     width: 36px;
@@ -213,6 +217,7 @@ ul.payment-plan-wrap li.payment-plan:not(:last-child):after {
     justify-content: center;
     border-radius: 4.65px;
 }
+
 .label-listing-camera-icon-wrapper{
     position: absolute;
     width: 39px;
@@ -230,6 +235,26 @@ ul.payment-plan-wrap li.payment-plan:not(:last-child):after {
     color: #ffffff;
     gap: 3px;
 }
+
 .label-listing-camera-icon-wrapper i{
     line-height: 0;
+}
+
+.page-title.page-title-search h1 {
+    font-weight: 500;
+    letter-spacing: .02em;
+    line-height: 37.8px;
+}
+
+.sort-by.page-search {
+    border: 1px solid #DCE0E0;
+    border-radius: 5px;
+    padding: 0px 8px 0 10px;
+}
+.page-search .bootstrap-select > .dropdown-toggle.bs-placeholder, .page-search .bootstrap-select > .dropdown-toggle.bs-placeholder:hover, .page-search .bootstrap-select > .dropdown-toggle.bs-placeholder:focus {
+    color: #000000;
+}
+i.page-search-map-icon {
+    line-height: 16px;
+    padding-right: 4px;
 }

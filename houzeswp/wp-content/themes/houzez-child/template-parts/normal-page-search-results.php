@@ -143,10 +143,10 @@ if( $total_records > 1 ) {
 
         <div class="page-title-wrap">
 
-            <?php get_template_part('template-parts/page/breadcrumb'); ?> 
+            <?php //get_template_part('template-parts/page/breadcrumb'); ?> 
             <div class="d-flex align-items-center">
-                <div class="page-title flex-grow-1">
-                    <h1><?php the_title(); ?></h1>
+                <div class="page-title page-title-search flex-grow-1">
+                    <h1><?php //the_title(); ?>Properties for rent in UAE</h1>
                 </div><!-- page-title -->
 
                 <?php 
@@ -207,7 +207,7 @@ if( $total_records > 1 ) {
 
                     <div class="d-flex align-items-center mb-3">
                         <div class="flex-grow-1">
-                            <strong><?php echo esc_attr($total_records); ?> <?php echo esc_attr($record_found_text); ?></strong>
+                            <strong><?php //echo esc_attr($total_records); ?> <?php //echo esc_attr($record_found_text); ?></strong>
                         </div>
                         <?php get_template_part('template-parts/listing/listing-sort-by'); ?>   
                         <?php

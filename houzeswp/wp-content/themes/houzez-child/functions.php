@@ -1023,9 +1023,12 @@ if ( !function_exists( 'houzez_after_search__get_property_type_list' ) ) {
 }
 
 function change_url_parameter($url,$parameterName,$parameterValue) {
+    $parameters = array();
     $url=parse_url($url);
-    parse_str($url["query"],$parameters);
-    unset($parameters[$parameterName]);
+    if( !empty($url["query"]) ){
+        parse_str($url["query"],$parameters);
+        unset($parameters[$parameterName]);
+    }
     $parameters[$parameterName]=$parameterValue;
     return  sprintf("%s://%s%s?%s", 
         $url["scheme"],
