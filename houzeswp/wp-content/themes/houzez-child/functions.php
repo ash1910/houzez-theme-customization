@@ -805,23 +805,47 @@ if( !function_exists('houzez_ajax_transfer_listing_credit_from_agency_to_agent')
         $package_listings_agent = sanitize_text_field( $_POST['package_listings_agent'] );
         $package_featured_listings_agent = sanitize_text_field( $_POST['package_featured_listings_agent'] );
 
-        $package_listings_agency -= (int)$package_listings - (int)$package_listings_agent;
-        $package_featured_listings_agency -= (int)$package_featured_listings - (int)$package_featured_listings_agent;
+        $package_listings_type = sanitize_text_field( $_POST['package_listings_type'] );
+        $package_featured_listings_type = sanitize_text_field( $_POST['package_featured_listings_type'] );
 
-        if( $package_listings_agency < 0 || $package_featured_listings_agency < 0 || $package_listings < 0 || $package_featured_listings < 0 ){
+        $transfer_success = 0;
 
-            $ajax_response = array('success' => false, 'msg' => esc_html__('Error', 'houzez'));
+        if( !empty($package_listings_type) && !empty($package_listings) && (int)$package_listings > 0 ){
+            if( ($package_listings_type == "Add") && ((int)$package_listings <= $package_listings_agency) ){
+                update_user_meta( $agency_id, 'package_listings', (int)$package_listings_agency - (int)$package_listings );
+                update_user_meta( $user_id, 'package_listings', (int)$package_listings_agent + (int)$package_listings );
+                $transfer_success = 1;
+            }
+            if( ($package_listings_type == "Subtract") && ((int)$package_listings <= $package_listings_agent) ){
+                update_user_meta( $agency_id, 'package_listings', (int)$package_listings_agency + (int)$package_listings );
+                update_user_meta( $user_id, 'package_listings', (int)$package_listings_agent - (int)$package_listings );
+                $transfer_success = 1;
+            }
+        }
+
+        if( !empty($package_featured_listings_type) && !empty($package_featured_listings) && (int)$package_featured_listings > 0 ){
+            if( ($package_featured_listings_type == "Add") && ((int)$package_featured_listings <= $package_featured_listings_agency) ){
+                update_user_meta( $agency_id, 'package_featured_listings', (int)$package_featured_listings_agency - (int)$package_featured_listings );
+                update_user_meta( $user_id, 'package_featured_listings', (int)$package_featured_listings_agent + (int)$package_featured_listings );
+                $transfer_success = 1;
+            }
+            if( ($package_featured_listings_type == "Subtract") && ((int)$package_featured_listings <= $package_featured_listings_agent) ){
+                update_user_meta( $agency_id, 'package_featured_listings', (int)$package_featured_listings_agency + (int)$package_featured_listings );
+                update_user_meta( $user_id, 'package_featured_listings', (int)$package_featured_listings_agent - (int)$package_featured_listings );
+                $transfer_success = 1;
+            }
+        }
+
+        if( $transfer_success == 0 ){
+
+            $ajax_response = array('success' => false, 'msg' => esc_html__('You don\'t have sufficient credits.', 'houzez'));
 
             echo json_encode($ajax_response);
 
             wp_die();
         }
 
-        update_user_meta( $agency_id, 'package_listings', $package_listings_agency );
-        update_user_meta( $agency_id, 'package_featured_listings', $package_featured_listings_agency );
 
-        update_user_meta( $user_id, 'package_listings', $package_listings );
-        update_user_meta( $user_id, 'package_featured_listings', $package_featured_listings );
         update_user_meta( $user_id, 'package_id', $package_id );
         update_user_meta( $user_id, 'package_activation', $package_activation );
 

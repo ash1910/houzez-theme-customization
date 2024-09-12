@@ -282,7 +282,45 @@ jQuery(document).ready( function($) {
         }
         houzez_property_attachments();
 
-
     }
+
+        /*-------------------------------------------------------------------
+         *  Transfer Listing Credit [user_profile.php]
+         * ------------------------------------------------------------------*/
+        $(".houzez_transfer_listing").click( function(e) {
+            e.preventDefault();
+
+            var $this = $(this);
+            var $form = $this.parents( 'form' );
+            var $block = $this.parents( '.dashboard-content-block' );
+            var $result = $block.find('.notify');
+
+            $.ajax({
+                url: ajax_url,
+                data: $form.serialize(),
+                method: $form.attr('method'),
+                dataType: "JSON",
+
+                beforeSend: function( ) {
+                    $this.find('.houzez-loader-js').addClass('loader-show');
+                },
+                success: function(data) { 
+                    if( data.success ) {
+                        alert(data.msg);
+                        location.reload();
+                        //$result.empty().append('<div class="alert alert-success alert-dismissible fade show" role="alert">'+data.msg+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                    } else {
+                        $result.empty().append('<div class="alert alert-danger alert-dismissible fade show" role="alert">'+data.msg+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                    }
+                },
+                error: function(errorThrown) {
+
+                },
+                complete: function(){
+                    $this.find('.houzez-loader-js').removeClass('loader-show');
+                }
+            });
+
+        });
 
 });

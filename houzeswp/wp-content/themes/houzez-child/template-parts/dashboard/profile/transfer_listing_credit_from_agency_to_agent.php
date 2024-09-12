@@ -4,21 +4,21 @@
 $userID = get_current_user_id();
 $edit_user = isset( $_GET['edit_user'] ) ? sanitize_text_field($_GET['edit_user']) : false;
 
-$package_listings_agency =   get_the_author_meta( 'package_listings' , $userID );
-$package_featured_listings_agency =   get_the_author_meta( 'package_featured_listings' , $userID );
+$package_listings_agency =   (int)get_the_author_meta( 'package_listings' , $userID );
+$package_featured_listings_agency =   (int)get_the_author_meta( 'package_featured_listings' , $userID );
 $package_id =   get_the_author_meta( 'package_id' , $userID );
 $package_activation =   get_the_author_meta( 'package_activation' , $userID );
 $id_flag = false;
 
 if ($edit_user) {
     $id_flag = true;
-    $package_listings =   get_the_author_meta( 'package_listings' , $edit_user );
-    $package_featured_listings =   get_the_author_meta( 'package_featured_listings' , $edit_user );
-    $package_listings_max = (int)$package_listings_agency + (int)$package_listings;
-    $package_featured_listings_max = (int)$package_featured_listings_agency + (int)$package_featured_listings;
+    $package_listings =   (int)get_the_author_meta( 'package_listings' , $edit_user );
+    $package_featured_listings =   (int)get_the_author_meta( 'package_featured_listings' , $edit_user );
+    //$package_listings_max = (int)$package_listings_agency + (int)$package_listings;
+    //$package_featured_listings_max = (int)$package_featured_listings_agency + (int)$package_featured_listings;
 } 
 ?>
-<?php if( $id_flag ) { ?>
+<?php if( $id_flag && houzez_is_agency($userID) ) { ?>
 <div class="dashboard-content-block">
     <form method="post">
     <div class="row">
@@ -31,17 +31,43 @@ if ($edit_user) {
                 
                 <div class="col-md-6 col-sm-12">
                     <div class="form-group">
-                        <label><?php esc_html_e('Listings available','houzez');?></label>
-                        <input type="number" name="package_listings" class="form-control" value="<?php echo esc_attr( $package_listings );?>" max="<?php echo esc_attr( $package_listings_max );?>" min="0">
-                        <small class="form-text text-muted"><?php echo houzez_option('cl_only_digits', 'Only digits'); ?>, Max : <?php echo esc_attr( $package_listings_max );?></small>
+                        <label><?php esc_html_e('Transfer listings','houzez');?></label>
+                        <div style="display: flex; gap: 20px;">
+                            <input type="number" name="package_listings" class="form-control" value="">
+                            <select name="package_listings_type" class="form-control selectpicker">
+                                <option value="">Select</option>
+                                <option value="Add">Add</option>
+                                <option value="Subtract">Subtract</option>
+                            </select>
+                        </div>
+                        <small class="form-text text-muted">
+                            <?php echo houzez_option('cl_only_positive_digits', 'Only Positive digits'); ?>, <br>
+                            Currently available listing of this agent  : <?php echo esc_attr( $package_listings );?>,<br>
+                            Currently available listing of agency  : <?php echo esc_attr( $package_listings_agency );?>,<br>
+                            So can add max : <?php echo esc_attr( $package_listings_agency );?> and 
+                            also subtract max : <?php echo esc_attr( $package_listings );?> from listing of this agent
+                        </small>
                     </div>
                 </div>
 
                 <div class="col-md-6 col-sm-12">
                     <div class="form-group">
-                        <label><?php esc_html_e('Featured Listings available','houzez');?></label>
-                        <input type="number" name="package_featured_listings" class="form-control" value="<?php echo esc_attr( $package_featured_listings );?>" max="<?php echo esc_attr( $package_featured_listings_max );?>" min="0">
-                        <small class="form-text text-muted"><?php echo houzez_option('cl_only_digits', 'Only digits'); ?>, Max : <?php echo esc_attr( $package_featured_listings_max );?></small>
+                        <label><?php esc_html_e('Transfer featured','houzez');?></label>
+                        <div style="display: flex; gap: 20px;">
+                            <input type="number" name="package_featured_listings" class="form-control" value="">
+                            <select name="package_featured_listings_type" class="form-control selectpicker">
+                                <option value="">Select</option>
+                                <option value="Add">Add</option>
+                                <option value="Subtract">Subtract</option>
+                            </select>
+                        </div>
+                        <small class="form-text text-muted">
+                            <?php echo houzez_option('cl_only_positive_digits', 'Only Positive digits'); ?>, <br>
+                            Currently available featured of this agent  : <?php echo esc_attr( $package_featured_listings );?>,<br>
+                            Currently available featured of agency  : <?php echo esc_attr( $package_featured_listings_agency );?>,<br>
+                            So can add max : <?php echo esc_attr( $package_featured_listings_agency );?> and 
+                            also subtract max : <?php echo esc_attr( $package_featured_listings );?>
+                        </small>
                     </div>
                 </div>
 
@@ -58,7 +84,7 @@ if ($edit_user) {
             <input type="hidden" id="package_id" name="package_id" value="<?php echo intval($package_id); ?>">
             <input type="hidden" id="package_activation" name="package_activation" value="<?php echo $package_activation; ?>">
             
-            <button class="houzez_update_profile btn btn-success">
+            <button class="houzez_transfer_listing btn btn-success">
                 <?php get_template_part('template-parts/loader'); ?>
                 <?php esc_html_e('Update', 'houzez'); ?>
             </button><br/>
