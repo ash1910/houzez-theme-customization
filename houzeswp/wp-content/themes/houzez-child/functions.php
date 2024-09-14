@@ -1007,7 +1007,7 @@ if ( !function_exists( 'houzez_after_search__get_property_type_list' ) ) {
 
                 if( $search_query_property_type_final->found_posts > 0 ){
                     $list_inc++;
-                    if($list_inc > 2){
+                    if($list_inc > 3){
                         $className = "moreType";
                     }
                     $output .= '<li class="'.$className.'"><a href="/'.change_url_parameter($actual_link, "type", array($term->slug)).'">' . $term->name . " <span>(" . $search_query_property_type_final->found_posts . ")</span></a></li>";

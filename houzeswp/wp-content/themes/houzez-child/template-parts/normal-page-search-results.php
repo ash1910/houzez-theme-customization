@@ -141,13 +141,30 @@ if( $total_records > 1 ) {
 <section class="listing-wrap <?php echo esc_attr($wrap_class); ?>">
     <div class="container">
 
-        <div class="page-title-wrap">
+        <div class="search-filter-2-wrap">
 
-            <?php //get_template_part('template-parts/page/breadcrumb'); ?> 
             <div class="d-flex align-items-center">
-                <div class="page-title page-title-search flex-grow-1">
-                    <h1><?php //the_title(); ?>Properties for rent in UAE</h1>
+                <div class="flex-grow-1">
+                    <a class="btn btn-listing verified-listing-btn" href="#">
+                        <span class="btn-txt-1">VERIFIED</span>
+                        <span class="btn-txt-2">Listings first</span>
+                        <i class="btn-icon"><?php include get_stylesheet_directory() . '/assets/images/is_icon.svg'; ?></i>
+                    </a>
+
+                    <a class="btn btn-listing properties-with-floor-plans-btn" href="#">
+                        <span class="btn-txt-2">Properties with floor plans</span>
+                        <i class="btn-icon"><?php include get_stylesheet_directory() . '/assets/images/is_icon.svg'; ?></i>
+                    </a>
                 </div><!-- page-title -->
+
+                <?php
+                if( $enable_save_search != 0 ) {
+                    get_template_part('template-parts/search/save-search-btn');
+                }?> 
+
+                <a class="btn btn-listing clear-filters-btn" href="/search-results">
+                    <?php echo houzez_option('srh_btn_clear_filters', 'Clear Filters'); ?>
+                </a>
 
                 <?php 
                 if($have_switcher) {
@@ -176,44 +193,20 @@ if( $total_records > 1 ) {
 
                 <div class="listing-tools-wrap">
 
-                    <?php 
-                    if( $total_records > 1 ) {
-                        $type_list = apply_filters("houzez_after_search__get_property_type_list", $search_qry);
-
-                        echo '<div class="page-type-wrap">';
-                        echo $type_list;
-                        echo '<div class="page-type-show-more show-more bootstrap-select"><button class="dropdown-toggle" onclick="functionShowMore()">Show More</button></div>';
-                        echo '<div class="page-type-show-more show-less bootstrap-select"><button class="dropdown-toggle" onclick="functionShowLess()">Show Less</button></div>';
-                        echo '</div>';
-                    }
-                    ?>
-
-                    <script>
-                        function functionShowMore(){
-                            var elList = document.querySelectorAll('.moreType');
-                            elList.forEach(el => el.style.display = "block");
-
-                            document.querySelector('.page-type-show-more.show-more').style.display = 'none';
-                            document.querySelector('.page-type-show-more.show-less').style.display = 'block';
-                        }
-                        function functionShowLess(){
-                            var elList = document.querySelectorAll('.moreType');
-                            elList.forEach(el => el.style.display = "none");
-
-                            document.querySelector('.page-type-show-more.show-more').style.display = 'block';
-                            document.querySelector('.page-type-show-more.show-less').style.display = 'none';
-                        }
-                    </script>
-
                     <div class="d-flex align-items-center mb-3">
                         <div class="flex-grow-1">
-                            <strong><?php //echo esc_attr($total_records); ?> <?php //echo esc_attr($record_found_text); ?></strong>
+                            <div class="page-title page-title-search flex-grow-1">
+                                <h1>Properties <?php //the_title(); 
+                                if( isset($_GET["status"]) && in_array("rent", $_GET["status"]) ){
+                                    echo "for rent";
+                                }
+                                else if( isset($_GET["status"]) && in_array("buy", $_GET["status"]) ){
+                                    echo "for buy";
+                                }
+                                ?> in UAE</h1>
+                            </div><!-- page-title -->
                         </div>
                         <?php get_template_part('template-parts/listing/listing-sort-by'); ?>   
-                        <?php
-                        if( $enable_save_search != 0 ) {
-                            get_template_part('template-parts/search/save-search-btn');
-                        }?> 
 
                         <?php 
                         $actual_link = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
@@ -232,19 +225,19 @@ if( $total_records > 1 ) {
                             $map_active = "";
                         }
                         ?>
-                        <div class="listing-switch-view listing-map-button-view">
+                        <div class="listing-map-button-view">
                             <ul class="list-inline">
-                                <li class="list-inline-item">
-                                    <a class="btn btn-primary-outlined <?php echo $list_active;?>" href="<?php echo $search_result_page_url;?>">
-                                        <i class="houzez-icon icon-list">
+                                <li class="list-inline-item <?php echo $list_active;?>">
+                                    <a class="btn btn-primary-outlined btn-listing" href="<?php echo $search_result_page_url;?>">
+                                        <i class="btn-icon">
                                             <?php include get_stylesheet_directory() . '/assets/images/list_icon.svg'; ?>
                                         </i>
                                         <span>List</span>
                                     </a>
                                 </li>
-                                <li class="list-inline-item">
-                                    <a class="btn btn-primary-outlined <?php echo $map_active;?>" href="<?php echo $search_result_page_url_map;?>">
-                                        <i class="houzez-icon icon-map">
+                                <li class="list-inline-item <?php echo $map_active;?>">
+                                    <a class="btn btn-primary-outlined btn-listing" href="<?php echo $search_result_page_url_map;?>">
+                                        <i class="btn-icon icon-map">
                                              <?php include get_stylesheet_directory() . '/assets/images/map_icon.svg'; ?>
                                         </i> 
                                         <span>Map</span>
@@ -254,6 +247,18 @@ if( $total_records > 1 ) {
                         </div>
 
                     </div><!-- d-flex -->
+
+                    <?php 
+                    if( $total_records > 1 ) {
+                        $type_list = apply_filters("houzez_after_search__get_property_type_list", $search_qry);
+
+                        echo '<div class="page-type-wrap">';
+                        echo $type_list;
+                        echo '<div class="page-type-show-more show-more bootstrap-select"><button class="dropdown-toggle" onclick="functionShowMore()">Show More</button></div>';
+                        echo '<div class="page-type-show-more show-less bootstrap-select"><button class="dropdown-toggle" onclick="functionShowLess()">Show Less</button></div>';
+                        echo '</div>';
+                    }
+                    ?>
                     
                     
 

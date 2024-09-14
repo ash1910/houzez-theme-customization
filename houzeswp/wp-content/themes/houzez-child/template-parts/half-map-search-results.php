@@ -147,10 +147,19 @@ if($enable_search != 0 && $search_style != 'v4') {
         }
         ?>
 
-        <div class="page-title-wrap">
+        <div class="page-title-wrap listing-tools-wrap">
             <div class="d-flex align-items-center">
-                <div class="page-title flex-grow-1">
-                    <span><?php echo esc_attr($total_properties); ?></span> <?php esc_html_e('Results Found', 'houzez');?>
+                <div class="flex-grow-1">
+                    <div class="page-title page-title-search flex-grow-1">
+                        <h1>Properties <?php //the_title(); 
+                        if( isset($_GET["status"]) && in_array("rent", $_GET["status"]) ){
+                            echo "for rent";
+                        }
+                        else if( isset($_GET["status"]) && in_array("buy", $_GET["status"]) ){
+                            echo "for buy";
+                        }
+                        ?> in UAE</h1>
+                    </div><!-- page-title -->
                 </div>
 
                 <?php get_template_part('template-parts/listing/listing-sort-by'); ?>  
@@ -172,19 +181,19 @@ if($enable_search != 0 && $search_style != 'v4') {
                     $map_active = "";
                 }
                 ?>
-                <div class="listing-switch-view listing-map-button-view">
+                <div class="listing-map-button-view">
                     <ul class="list-inline">
-                        <li class="list-inline-item">
-                            <a class="btn btn-primary-outlined <?php echo $list_active;?>" href="<?php echo $search_result_page_url;?>">
-                                <i class="houzez-icon icon-list">
+                        <li class="list-inline-item <?php echo $list_active;?>">
+                            <a class="btn btn-primary-outlined btn-listing" href="<?php echo $search_result_page_url;?>">
+                                <i class="btn-icon">
                                     <?php include get_stylesheet_directory() . '/assets/images/list_icon.svg'; ?>
                                 </i>
                                 <span>List</span>
                             </a>
                         </li>
-                        <li class="list-inline-item">
-                            <a class="btn btn-primary-outlined <?php echo $map_active;?>" href="<?php echo $search_result_page_url_map;?>">
-                                <i class="houzez-icon icon-map">
+                        <li class="list-inline-item <?php echo $map_active;?>">
+                            <a class="btn btn-primary-outlined btn-listing" href="<?php echo $search_result_page_url_map;?>">
+                                <i class="btn-icon icon-map">
                                         <?php include get_stylesheet_directory() . '/assets/images/map_icon.svg'; ?>
                                 </i> 
                                 <span>Map</span>

@@ -17,10 +17,7 @@ if(houzez_is_half_map()) {
 ?>
 <div class="sort-by page-search">
 	<div class="d-flex align-items-center">
-		<!--div class="sort-by-title">
-			<?php //esc_html_e( 'Sort by:', 'houzez' ); ?>
-		</div--><!-- sort-by-title -->  
-		<i class="page-search-map-icon"><?php include get_stylesheet_directory() . '/assets/images/menu_icon.svg'; ?></i>
+		<i class="menu-icon"><?php include get_stylesheet_directory() . '/assets/images/menu_icon.svg'; ?></i>
 		<select id="<?php echo esc_attr($sort_id); ?>" class="selectpicker form-control bs-select-hidden" title="<?php esc_html_e( 'Popular', 'houzez' ); ?>" data-live-search="false" data-dropdown-align-right="auto">
 			<option value=""><?php esc_html_e( 'Popular', 'houzez' ); ?></option>
 			<option <?php selected($sortby, 'a_price'); ?> value="a_price"><?php esc_html_e('Price - Low to High', 'houzez'); ?></option>

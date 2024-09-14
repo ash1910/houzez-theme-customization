@@ -324,3 +324,18 @@ jQuery(document).ready( function($) {
         });
 
 });
+
+function functionShowMore(){
+    var elList = document.querySelectorAll('.moreType');
+    elList.forEach(el => el.style.display = "block");
+
+    document.querySelector('.page-type-show-more.show-more').style.display = 'none';
+    document.querySelector('.page-type-show-more.show-less').style.display = 'block';
+}
+function functionShowLess(){
+    var elList = document.querySelectorAll('.moreType');
+    elList.forEach(el => el.style.display = "none");
+
+    document.querySelector('.page-type-show-more.show-more').style.display = 'block';
+    document.querySelector('.page-type-show-more.show-less').style.display = 'none';
+}
