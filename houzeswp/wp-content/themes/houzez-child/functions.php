@@ -1103,7 +1103,12 @@ add_filter('houzez_after_property_update', 'houzez_submit_listing_attachment');
 
 function houzez_submit_listing_attachment($prop_id) {
 
-    if( $prop_id > 0 ) {
+    $add_verification = 0;
+    if(isset($_GET['add_verification']) && $_GET['add_verification'] == 1) {
+        $add_verification = 1;
+    }
+
+    if( $prop_id > 0 && $add_verification == 1) {
 
         delete_post_meta( $prop_id, 'fave_attachments_form_a' );
 

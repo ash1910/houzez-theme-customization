@@ -1,6 +1,14 @@
-<?php global $is_multi_steps; ?>
+<?php global $is_multi_steps; 
+
+$add_verification = 0;
+if(isset($_GET['add_verification']) && $_GET['add_verification'] == 1) {
+    $add_verification = 1;
+}
+?>
 <div id="attachments" class="dashboard-content-block-wrap <?php echo esc_attr($is_multi_steps);?>">
 	<h2><?php echo houzez_option('cls_documents', 'Property Documents'); ?></h2>
+
+<?php if($add_verification == 1){?>
 
 	<!--  Form A  -->
 	<h2><?php echo houzez_option('cls_documents_form_a', 'Form A'); ?></h2>
@@ -168,6 +176,9 @@
 	<!--  Passport  -->
 
 	<h2><?php echo houzez_option('cls_documents_other', 'Other Documents'); ?></h2>
+
+<?php }?>
+
 	<div class="dashboard-content-block">
 		<p><?php echo houzez_option('cl_decuments_text', 'You can attach PDF files, Map images OR other documents.'); ?></p>
 		<p><a href="#" id="select_attachments" class="btn btn-primary"><?php echo houzez_option('cl_attachment_btn', 'Select Attachment'); ?></a></p>
@@ -220,38 +231,39 @@
 
 	</div><!-- dashboard-content-block -->
 
-	
-<?php
-$checked_verified_check1 = '';
-$checked_verified_check2 = '';
-$checked_verified_check3 = '';
-$checked_verified_check4 = '';
-$checked_verified_check5 = '';
+<?php if($add_verification == 1){ ?>
 
-if (houzez_edit_property()) {
-    $verified_check1 = houzez_get_field_meta('verified_check1');
-	$verified_check2 = houzez_get_field_meta('verified_check2');
-	$verified_check3 = houzez_get_field_meta('verified_check3');
-	$verified_check4 = houzez_get_field_meta('verified_check4');
-	$verified_check5 = houzez_get_field_meta('verified_check5');
+	<?php
+	$checked_verified_check1 = '';
+	$checked_verified_check2 = '';
+	$checked_verified_check3 = '';
+	$checked_verified_check4 = '';
+	$checked_verified_check5 = '';
 
-    if( $verified_check1 ) {
-    	$checked_verified_check1 = 'checked';
-    }
-	if( $verified_check2 ) {
-    	$checked_verified_check2 = 'checked';
-    }
-	if( $verified_check3 ) {
-    	$checked_verified_check3 = 'checked';
-    }
-	if( $verified_check4 ) {
-    	$checked_verified_check4 = 'checked';
-    }
-	if( $verified_check5 ) {
-    	$checked_verified_check5 = 'checked';
-    }
-}
-?>
+	if (houzez_edit_property()) {
+		$verified_check1 = houzez_get_field_meta('verified_check1');
+		$verified_check2 = houzez_get_field_meta('verified_check2');
+		$verified_check3 = houzez_get_field_meta('verified_check3');
+		$verified_check4 = houzez_get_field_meta('verified_check4');
+		$verified_check5 = houzez_get_field_meta('verified_check5');
+
+		if( $verified_check1 ) {
+			$checked_verified_check1 = 'checked';
+		}
+		if( $verified_check2 ) {
+			$checked_verified_check2 = 'checked';
+		}
+		if( $verified_check3 ) {
+			$checked_verified_check3 = 'checked';
+		}
+		if( $verified_check4 ) {
+			$checked_verified_check4 = 'checked';
+		}
+		if( $verified_check5 ) {
+			$checked_verified_check5 = 'checked';
+		}
+	}
+	?>
 
 
 	<h2><?php echo houzez_option('cls_guidelines', 'Guidelines'); ?></h2>
@@ -290,7 +302,7 @@ if (houzez_edit_property()) {
 
 	</div>
 
-
+<?php }?>
 
 
 
