@@ -78,10 +78,8 @@ ul.payment-plan-wrap li.payment-plan:not(:last-child):after {
     flex: 1 0 50%;
     border-radius: 5px;
     text-align: center;
-    background-color: rgba(54, 170, 113, .15);
-}
-.listing-map-button-view .list-inline .list-inline-item {
     background-color: transparent;
+    line-height: 0;
 }
 .listing-map-button-view .list-inline .list-inline-item.active{
     background-color: rgba(54, 170, 113, .15);
@@ -92,7 +90,7 @@ ul.payment-plan-wrap li.payment-plan:not(:last-child):after {
     color: #A1A7A8;
     border: 0;
     background-color: transparent;
-    line-height: 33px;
+    line-height: 26.8px;
 }
 .listing-map-button-view .list-inline .list-inline-item.active .btn-primary-outlined, .list-inline .list-inline-item.active .btn-primary-outlined:hover {
     color: #36AA71;
@@ -107,7 +105,7 @@ ul.payment-plan-wrap li.payment-plan:not(:last-child):after {
 
 .page-type-wrap {
     border: 1px solid #ededed;
-    padding: 19px 0;
+    padding: 3px 0;
     border-radius: 4px;
     margin: 30px 0;
     position: relative;
@@ -127,7 +125,7 @@ ul.payment-plan-wrap li.payment-plan:not(:last-child):after {
 .page-type-wrap ul a {
     border-left: 1px solid #DCE0E0;
     display: inline-block;
-    padding: 0 0 0 25%;
+    padding: 0 0 0 15px;
     line-height: 20px;
     margin-left: -1px;
 }
@@ -139,7 +137,7 @@ ul.payment-plan-wrap li.payment-plan:not(:last-child):after {
     width: 120px !important;
     position: absolute;
     right: 30px;
-    top: 22px;
+    top: 5px;
 }
 .page-type-show-more .dropdown-toggle {
     background-color: transparent;
@@ -291,6 +289,7 @@ i.menu-icon {
     margin: 0;
     display: inline-flex;
     gap: 8px;
+    line-height: 30px;
 }
 .btn-listing .btn-txt-1{
     color: #222222;
@@ -299,7 +298,7 @@ i.menu-icon {
     font-weight: 400;
 }
 .btn-listing i.btn-icon {
-    margin-top: -2px;
+    margin-top: -1.5px;
 }
 .btn-listing:hover svg path {
     fill: white;
@@ -341,6 +340,15 @@ i.menu-icon {
     flex-flow: wrap row;
     gap: 10px;
 }
+.listing-tools-wrap .sort-by .btn {
+    line-height: 33.5px;
+}
+.listing-tools-wrap .sort-by .bootstrap-select .filter-option-inner {
+    line-height: 33.5px;
+}
+.half-map-search-js-btn {
+    line-height: 30px;
+}   
 
 
 
@@ -349,6 +357,6 @@ i.menu-icon {
         flex: 0 0 50%;
     }
     .page-type-show-more {
-        top: 57px;
+        top: 42px;
     }
 }

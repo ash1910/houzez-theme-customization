@@ -1247,6 +1247,37 @@ if( !function_exists('houzez_remove_property_documents') ) {
     }
 }
 
+/*-----------------------------------------------------------------------------------*/
+/*  Properties verified_badge sorting
+/*-----------------------------------------------------------------------------------*/
+if( !function_exists( 'houzez_prop_sort_by_verified_badge' ) ){
+
+    function houzez_prop_sort_by_verified_badge( $query_args ) {
+        $sort_by = '';
+        if ( isset( $_GET['fave_verified_badge'] ) && $_GET['fave_verified_badge'] == 1 ) {
+            $sort_by = $_GET['fave_verified_badge'];
+            //echo "<pre>";print_r($query_args);
+
+            //$query_args['meta_key'] = 'fave_verified_badge';
+            //$query_args['meta_value'] = '1';
+            //$query_args['orderby'] = 'meta_value date';
+
+            //$query_args['orderby'] = 'fave_verified_badge';
+            //$query_args['order'] = 'DESC';
+
+            //$query_args['orderby'] = 'meta_value_num';
+            //$query_args['meta_key'] = 'fave_verified_badge';
+
+            //$query_args['orderby'] = array('fave_verified_badge' => 'DESC');
+
+            //echo "<pre>";print_r($query_args);exit;
+        } 
+
+        return $query_args;
+    }
+    add_filter('houzez_sort_properties', 'houzez_prop_sort_by_verified_badge');
+}
+
 
 
 ?>
