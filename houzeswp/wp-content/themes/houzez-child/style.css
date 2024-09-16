@@ -352,7 +352,10 @@ i.menu-icon {
 
 
 
-@media (max-width: 767px) {
+@media (max-width: 767.98px) {
+    .list-view .item-wrap-v8 .item-header {
+        width: 100%;
+    }
     .page-type-wrap ul li {
         flex: 0 0 50%;
     }

@@ -148,12 +148,8 @@ if( $total_records > 1 ) {
 
                     <?php 
                         $actual_link = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-                        $fave_verified_badge = isset($_GET["fave_verified_badge"]) ? $_GET["fave_verified_badge"] : "";
-                        $search_result_page_with_verified_badge_url = str_replace('&fave_verified_badge='.$fave_verified_badge, '', $actual_link); 
-                        $search_result_page_with_verified_badge_url=$search_result_page_with_verified_badge_url.'&fave_verified_badge=1';
-                        
                     ?>
-                    <a class="btn btn-listing verified-listing-btn" href="<?php echo $search_result_page_with_verified_badge_url;?>">
+                    <a class="btn btn-listing verified-listing-btn" href="<?php echo change_url_parameter($actual_link, "sortby", "verified_first");?>">
                         <span class="btn-txt-1">VERIFIED</span>
                         <span class="btn-txt-2">Listings first</span>
                         <i class="btn-icon"><?php include get_stylesheet_directory() . '/assets/images/is_icon.svg'; ?></i>
@@ -170,7 +166,7 @@ if( $total_records > 1 ) {
                     get_template_part('template-parts/search/save-search-btn');
                 }?> 
 
-                <a class="btn btn-listing clear-filters-btn" href="/search-results">
+                <a class="btn btn-listing clear-filters-btn" href='<?php echo clear_all_search_filter_without_one_filter_url($actual_link, "status");?>'>
                     <?php echo houzez_option('srh_btn_clear_filters', 'Clear Filters'); ?>
                 </a>
 

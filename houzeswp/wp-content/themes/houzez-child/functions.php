@@ -1010,7 +1010,7 @@ if ( !function_exists( 'houzez_after_search__get_property_type_list' ) ) {
                     if($list_inc > 3){
                         $className = "moreType";
                     }
-                    $output .= '<li class="'.$className.'"><a href="/'.change_url_parameter($actual_link, "type", array($term->slug)).'">' . $term->name . " <span>(" . $search_query_property_type_final->found_posts . ")</span></a></li>";
+                    $output .= '<li class="'.$className.'"><a href="'.change_url_parameter($actual_link, "type", array($term->slug)).'">' . $term->name . " <span>(" . $search_query_property_type_final->found_posts . ")</span></a></li>";
                 }
 
             }
@@ -1032,9 +1032,25 @@ function change_url_parameter($url,$parameterName,$parameterValue) {
     $parameters[$parameterName]=$parameterValue;
     return  sprintf("%s://%s%s?%s", 
         $url["scheme"],
-        $url["host"],
+        isset($url["port"]) ? $url["host"].':'.$url["port"] : $url["host"],
         $url["path"],
         http_build_query($parameters));
+}
+
+function clear_all_search_filter_without_one_filter_url($url,$parameterName) {
+    $parameters = array();
+    $new_parameters = array();
+    $url=parse_url($url);
+    if( !empty($url["query"]) ){
+        parse_str($url["query"],$parameters);
+        $new_parameters[$parameterName] = $parameters[$parameterName];
+    }
+    
+    return  sprintf("%s://%s%s?%s", 
+        $url["scheme"],
+        isset($url["port"]) ? $url["host"].':'.$url["port"] : $url["host"],
+        $url["path"],
+        http_build_query($new_parameters));
 }
 
 /*-----------------------------------------------------------------------------------*/
@@ -1254,24 +1270,27 @@ if( !function_exists( 'houzez_prop_sort_by_verified_badge' ) ){
 
     function houzez_prop_sort_by_verified_badge( $query_args ) {
         $sort_by = '';
-        if ( isset( $_GET['fave_verified_badge'] ) && $_GET['fave_verified_badge'] == 1 ) {
-            $sort_by = $_GET['fave_verified_badge'];
-            //echo "<pre>";print_r($query_args);
+        if( isset( $_GET['sortby'] ) && $_GET['sortby'] != '' ) {
+            $sort_by = $_GET['sortby'];
+        }
 
-            //$query_args['meta_key'] = 'fave_verified_badge';
-            //$query_args['meta_value'] = '1';
-            //$query_args['orderby'] = 'meta_value date';
+        if ( $sort_by == 'verified_first' ) {
+            $query_args['order'] = 'DESC';
+            $query_args['orderby'] = 'meta_value_num';
+            $query_args['meta_type'] = 'NUMERIC';
 
-            //$query_args['orderby'] = 'fave_verified_badge';
-            //$query_args['order'] = 'DESC';
-
-            //$query_args['orderby'] = 'meta_value_num';
-            //$query_args['meta_key'] = 'fave_verified_badge';
-
-            //$query_args['orderby'] = array('fave_verified_badge' => 'DESC');
-
-            //echo "<pre>";print_r($query_args);exit;
-        } 
+            $query_args['meta_query'] = array(
+            'relation' => 'OR',
+                array(
+                'key'=>'fave_verified_badge',
+                'compare' => 'EXISTS'         
+                ),
+                array(
+                    'key'=>'fave_verified_badge',
+                    'compare' => 'NOT EXISTS'         
+                )
+                );
+        }
 
         return $query_args;
     }
