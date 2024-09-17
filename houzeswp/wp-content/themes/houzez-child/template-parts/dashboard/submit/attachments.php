@@ -1,8 +1,11 @@
 <?php global $is_multi_steps; 
 
-$add_verification = 0;
+$add_verification = $need_verification = 0;
 if(isset($_GET['add_verification']) && $_GET['add_verification'] == 1) {
     $add_verification = 1;
+}
+if(isset($_GET['need_verification']) && $_GET['need_verification'] == 1) {
+    $need_verification = 1;
 }
 ?>
 <div id="attachments" class="dashboard-content-block-wrap <?php echo esc_attr($is_multi_steps);?>">
@@ -239,6 +242,7 @@ if(isset($_GET['add_verification']) && $_GET['add_verification'] == 1) {
 	$checked_verified_check3 = '';
 	$checked_verified_check4 = '';
 	$checked_verified_check5 = '';
+	$checked_verified_badge = '';
 
 	if (houzez_edit_property()) {
 		$verified_check1 = houzez_get_field_meta('verified_check1');
@@ -246,6 +250,7 @@ if(isset($_GET['add_verification']) && $_GET['add_verification'] == 1) {
 		$verified_check3 = houzez_get_field_meta('verified_check3');
 		$verified_check4 = houzez_get_field_meta('verified_check4');
 		$verified_check5 = houzez_get_field_meta('verified_check5');
+		$verified_badge = houzez_get_field_meta('verified_badge');
 
 		if( $verified_check1 ) {
 			$checked_verified_check1 = 'checked';
@@ -262,9 +267,11 @@ if(isset($_GET['add_verification']) && $_GET['add_verification'] == 1) {
 		if( $verified_check5 ) {
 			$checked_verified_check5 = 'checked';
 		}
+		if( $verified_badge ) {
+			$checked_verified_badge = 'checked';
+		}
 	}
 	?>
-
 
 	<h2><?php echo houzez_option('cls_guidelines', 'Guidelines'); ?></h2>
 	<div class="dashboard-content-block">
@@ -304,6 +311,20 @@ if(isset($_GET['add_verification']) && $_GET['add_verification'] == 1) {
 
 <?php }?>
 
+<?php if($need_verification == 1){?>
+
+	<h2><?php echo houzez_option('cls_verified_badge', 'Verified Badge'); ?></h2>
+	<div class="dashboard-content-block">
+		<p><?php echo houzez_option('cl_verified_badge_text', 'Enable Verified Badge'); ?></p>
+
+		<label class="control control--checkbox hz-price-placeholder">
+			<input type="checkbox" id="verified_badge" name="verified_badge" <?php echo $checked_verified_badge; ?>>
+			<span class="control__indicator"></span>
+			<?php echo houzez_option('cl_verified_badge', 'Review these documents and enable the verified badge'); ?>
+		</label>
+
+	</div>
+<?php }?>
 
 
 </div><!-- dashboard-content-block-wrap -->

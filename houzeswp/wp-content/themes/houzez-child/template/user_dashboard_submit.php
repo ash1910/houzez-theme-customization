@@ -21,9 +21,12 @@ if( is_user_logged_in() && !houzez_check_role() ) {
     wp_redirect(  home_url() );
 }
 
-$add_verification = 0;
+$add_verification = $need_verification = 0;
 if(isset($_GET['add_verification']) && $_GET['add_verification'] == 1) {
     $add_verification = 1;
+}
+if(isset($_GET['need_verification']) && $_GET['need_verification'] == 1) {
+    $need_verification = 1;
 }
 
 $user_email = $current_user->user_email;
@@ -302,6 +305,10 @@ if( isset( $_POST['action'] ) ) {
                     }
 
                     // Verification Redirect
+                    if($need_verification == 1){
+                        wp_redirect("/my-properties?prop_status=need_verification&need_verification=1");
+                        exit;
+                    }
                     if($add_verification == 1){
                         wp_redirect("/my-properties?add_verification=1");
                         exit;

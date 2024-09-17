@@ -15,6 +15,7 @@ $payment_page_link = add_query_arg( 'prop-id', $post_id, $payment_page );
 $payment_page_link_featured = add_query_arg( 'upgrade_id', $post_id, $payment_page );
 $insights_page_link = add_query_arg( 'listing_id', $post_id, $insights_page );
 $fave_featured = get_post_meta( $post->ID, 'fave_featured', true );
+$fave_verified_badge = get_post_meta( $post->ID, 'fave_verified_badge', true );
 
 $is_user_can_manage = houzez_is_admin() || houzez_is_editor();
 
@@ -40,6 +41,11 @@ if( $property_status == 'publish' ) {
     $status_badge = '<span class="badge badge-dark">'.esc_html__('Draft', 'houzez').'</span>';
 } else {
     $status_badge = '';
+}
+
+$verified_badge = "";
+if( $fave_verified_badge == 1 ) {
+    $verified_badge = '<span class="badge badge-success">'.esc_html__('Verified', 'houzez').'</span>';
 }
 
 $payment_status_label = '';
@@ -98,7 +104,7 @@ if( $property_status != 'expired' && $property_status != 'disapproved' ) {
 	</td>
 
 	<td>
-		<?php echo $status_badge; ?>
+		<?php echo $status_badge; ?> <?php echo $verified_badge; ?>
 	</td>
 
 	<td class="property-table-type" data-label="<?php echo esc_html__('Type', 'houzez'); ?>">
@@ -182,6 +188,12 @@ if( $property_status != 'expired' && $property_status != 'disapproved' ) {
                         echo '<a href="#" data-propid="'.intval( $post->ID ).'" data-type="disapprove" class="dropdown-item houzez-prop-action-js"><strong>' . esc_html__('Disapproved', 'houzez') . '</strong></a>';
                     }
 
+                    if( houzez_is_admin() || houzez_is_manager() ) {
+                        if ( isset( $_GET['prop_status'] ) && $_GET['prop_status'] == 'need_verification' ) { 
+                            echo '<a class="dropdown-item" href="'.esc_url($edit_link).'&add_verification=1&need_verification=1"><strong>Set Verification</strong></a>';
+                        }
+                    }
+
                     if ( in_array( $post->post_status, array( 'publish' ) ) && ! $fave_featured ) { 
                         echo '<a href="#" data-propid="'.intval( $post->ID ).'" data-type="set_featured" class="dropdown-item houzez-prop-action-js"><strong>' . esc_html__('Mark as Featured', 'houzez') . '</strong></a>';
                     }
@@ -197,6 +209,7 @@ if( $property_status != 'expired' && $property_status != 'disapproved' ) {
                     if ( in_array( $post->post_status, array( 'expired', 'houzez_sold', 'draft' ) ) ) { 
                         echo '<a href="#" data-propid="'.intval( $post->ID ).'" data-type="publish" class="dropdown-item houzez-prop-action-js">' . esc_html__('Publish', 'houzez') . '</a>';
                     }
+                    
 
                 } else {
 

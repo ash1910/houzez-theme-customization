@@ -116,6 +116,11 @@ if (!empty($_GET['property_id'])) {
         $args['meta_query'] = $meta_query;
     }
 }
+
+if( $prop_status == "need_verification" ){
+    $args['meta_key'] = 'fave_verification_status';
+    $args['meta_value'] = 'need';
+}
 ?>
 
 <header class="header-main-wrap dashboard-header-main-wrap">
@@ -138,6 +143,15 @@ if (!empty($_GET['property_id'])) {
         <div class="dashboard-content-block-wrap">
 
             <?php if(isset($_GET['add_verification']) && $_GET['add_verification'] == 1) { ?>
+                <div class="alert alert-success" role="alert">
+                    <?php esc_html_e('Verification Updated successfully.', 'houzez'); ?>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            <?php } ?>
+
+            <?php if(isset($_GET['need_verification']) && $_GET['need_verification'] == 1) { ?>
                 <div class="alert alert-success" role="alert">
                     <?php esc_html_e('Verification Updated successfully.', 'houzez'); ?>
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">

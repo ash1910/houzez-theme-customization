@@ -63,8 +63,10 @@ $expired = add_query_arg( 'prop_status', 'expired', $dashboard_properties );
 $draft = add_query_arg( 'prop_status', 'draft', $dashboard_properties );
 $on_hold = add_query_arg( 'prop_status', 'on_hold', $dashboard_properties );
 $disapproved = add_query_arg( 'prop_status', 'disapproved', $dashboard_properties );
+$need_verification = add_query_arg( 'prop_status', 'need_verification', $dashboard_properties );
+$ac_need_verification =  '';
 
-$ac_approved = $ac_pending = $ac_expired = $ac_disapproved = $ac_all = $ac_mine  = $ac_draft = $ac_on_hold = $ac_agents = $ac_agent_new = '';
+$ac_approved = $ac_pending = $ac_expired = $ac_disapproved = $ac_all = $ac_mine  = $ac_draft = $ac_on_hold = $ac_agents = $ac_agent_new =  '';
 
 if( isset( $_GET['prop_status'] ) && $_GET['prop_status'] == 'approved' ) {
     $ac_approved = $ac_props = 'class=active';
@@ -86,6 +88,8 @@ if( isset( $_GET['prop_status'] ) && $_GET['prop_status'] == 'approved' ) {
     $ac_all = $ac_props = 'class=active';
 } elseif( isset( $_GET['prop_status'] ) && $_GET['prop_status'] == 'mine' ) {
     $ac_mine = $ac_props = 'class=active';
+} elseif( isset( $_GET['prop_status'] ) && $_GET['prop_status'] == 'need_verification' ) {
+    $ac_need_verification = $ac_props = 'class=active';
 }
 
 if( isset( $_GET['agents'] ) && $_GET['agents'] == 'list' ) {
@@ -106,6 +110,7 @@ $draft_post_count = houzez_user_posts_count('draft');
 $on_hold_post_count = houzez_user_posts_count('on_hold');
 $disapproved_post_count = houzez_user_posts_count('disapproved');
 $expired_post_count = houzez_user_posts_count('expired');
+$need_verification_post_count = houzez_user_posts_count('need_verification');
 ?>
 
 <ul class="side-menu list-unstyled">
@@ -131,7 +136,7 @@ $expired_post_count = houzez_user_posts_count('expired');
 			</li>';
 		}
 
-		if( !empty( $dashboard_crm ) && houzez_check_role() && !houzez_is_developer() ) {
+		if( !empty( $dashboard_crm ) && houzez_check_role() ) {
 			$crm_menu = '';
 			$crm_menu .= '<li class="side-menu-item '.esc_attr($parent_crm).'">';
 					$crm_menu .= '<a '.$ac_crm.' href="'.esc_url($dashboard_crm).'">
@@ -221,6 +226,15 @@ $expired_post_count = houzez_user_posts_count('expired');
 								<i class="houzez-icon icon-arrow-right-1"></i> '.houzez_option('dsh_disapproved', 'Disapproved').' ('.$disapproved_post_count.')
 							</a>
 						</li>';
+
+						if( houzez_is_admin() || houzez_is_manager() ) {
+							$properties_menu .= '<li class="side-menu-item">
+									<a '.esc_attr( $ac_need_verification ).' href="'.esc_url($need_verification).'">
+										<i class="houzez-icon icon-arrow-right-1"></i> '.houzez_option('dsh_need_verification', 'Need Verification').' ('.$need_verification_post_count.')
+									</a>
+								</li>';
+						}
+
 					$properties_menu .= '</ul>';
 				$properties_menu .= '</li>';
 

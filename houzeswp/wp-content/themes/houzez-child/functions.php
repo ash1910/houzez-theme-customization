@@ -1119,13 +1119,39 @@ add_filter('houzez_after_property_update', 'houzez_submit_listing_attachment');
 
 function houzez_submit_listing_attachment($prop_id) {
 
-    $add_verification = 0;
+    $add_verification = $need_verification = 0;
     if(isset($_GET['add_verification']) && $_GET['add_verification'] == 1) {
         $add_verification = 1;
+    }
+    if(isset($_GET['need_verification']) && $_GET['need_verification'] == 1) {
+        $need_verification = 1;
     }
 
     if( $prop_id > 0 && $add_verification == 1) {
 
+        if( $need_verification == 1) {
+            update_post_meta($prop_id, 'fave_verified_badge', 0);
+
+            if (isset($_POST['verified_badge'])) {
+                $verified_badge = $_POST['verified_badge'];
+                if ($verified_badge == 'on') {
+                    $verified_badge = 1;
+                }
+                update_post_meta($prop_id, 'fave_verified_badge', sanitize_text_field($verified_badge));
+
+                if($verified_badge == 1){
+                    update_post_meta($prop_id, 'fave_verification_status', 'approved');
+                }
+                else{
+                    update_post_meta($prop_id, 'fave_verification_status', 'disapproved');
+                }
+            }
+
+        }
+        else{
+            update_post_meta($prop_id, 'fave_verification_status', 'need');
+        }
+        
         delete_post_meta( $prop_id, 'fave_attachments_form_a' );
 
         if( isset( $_POST['propperty_attachment_form_a_ids'] ) ) {
@@ -1297,6 +1323,56 @@ if( !function_exists( 'houzez_prop_sort_by_verified_badge' ) ){
     add_filter('houzez_sort_properties', 'houzez_prop_sort_by_verified_badge');
 }
 
+if( ! function_exists('houzez_user_posts_count') ) {
+    function houzez_user_posts_count( $post_status = 'any', $mine = false, $post_type = 'property' ) {
+        $userID = get_current_user_id();
+
+        // Common arguments for both queries
+        $args = [
+            'post_type'      => $post_type,
+            'posts_per_page' => -1, // Set to -1 to fetch all records
+            'post_status'    => $post_status,
+            'fields'         => 'ids', // Fetch only the IDs for performance
+        ];
+
+        if( houzez_is_admin() || houzez_is_editor() ) {
+            
+            if( $mine ) {
+                $args['author'] = $userID; 
+            }
+
+        } else if( houzez_is_agency() ) {
+            
+            if( $mine ) {
+                $args['author'] = $userID; 
+            } else {
+                $agents = houzez_get_agency_agents($userID);
+                if( $agents ) {
+                    if (!in_array($userID, $agents)) {
+                        $agents[] = $userID;
+                    }
+                    $args['author__in'] = $agents;
+                } else {
+                    $args['author'] = $userID;
+                }
+            }
+        } else {
+            $args['author'] = $userID; 
+        }
+
+        if( $post_status == "need_verification" ){
+            $args['meta_key'] = 'fave_verification_status';
+            $args['meta_value'] = 'need';
+        }
+
+        // Query for counting all records
+        $query = new WP_Query($args);
+        $total_records = $query->found_posts; // Total count of all records
+
+        return $total_records;
+
+    }
+}
 
 
 ?>

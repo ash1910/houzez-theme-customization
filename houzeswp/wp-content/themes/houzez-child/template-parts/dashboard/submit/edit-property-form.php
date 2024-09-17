@@ -163,7 +163,7 @@ if( is_page_template( 'template/user_dashboard_submit.php' ) ) {
             }
             endif;
 
-            if( houzez_is_admin() ) {
+            if( houzez_is_admin() && $add_verification != 1) {
                 get_template_part('template-parts/dashboard/submit/settings');
             }
             ?>
