@@ -193,7 +193,7 @@ ul.payment-plan-wrap li.payment-plan:not(:last-child):after {
     height: 16.84px;
 }
 
-.label-featured.label {
+.listing-view .label-featured.label {
     padding: 5.5px 12px;
     border-radius: 2.42px;
     top: 10px;
