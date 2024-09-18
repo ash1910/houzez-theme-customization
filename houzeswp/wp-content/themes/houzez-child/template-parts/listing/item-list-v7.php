@@ -55,9 +55,9 @@ if( houzez_is_fullwidth_2cols_custom_width() ) {
 					'.houzez_option('cl_verified_label', esc_html__( 'VERIFIED', 'houzez' )).'</span>';
 				}
 				?>
-				<i class="label-listing-map-icon">
-					<?php include get_stylesheet_directory() . '/assets/images/listing_map_icon.svg';?>
-				</i>
+				<!-- <i class="label-listing-map-icon">
+					<?php //include get_stylesheet_directory() . '/assets/images/listing_map_icon.svg';?>
+				</i> -->
 				<span class="label-listing-camera-icon-wrapper">
 					<i class="label-listing-camera-icon"><?php include get_stylesheet_directory() . '/assets/images/camera_icon.svg';?></i>
 					<span><?php echo sprintf('%02d', $property_images_count); ?></span>
