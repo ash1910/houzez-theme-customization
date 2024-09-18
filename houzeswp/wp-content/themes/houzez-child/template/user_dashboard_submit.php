@@ -304,16 +304,6 @@ if( isset( $_POST['action'] ) ) {
                         $parameter = 'updated=1';
                     }
 
-                    // Verification Redirect
-                    if($need_verification == 1){
-                        wp_redirect("/my-properties?prop_status=need_verification&need_verification=1");
-                        exit;
-                    }
-                    if($add_verification == 1){
-                        wp_redirect("/my-properties?add_verification=1");
-                        exit;
-                    }
-
                     wp_redirect($submit_property_link . $separator . $parameter);
                 }
 

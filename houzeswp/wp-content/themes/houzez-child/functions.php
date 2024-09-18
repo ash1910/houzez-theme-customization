@@ -1114,11 +1114,11 @@ function load_houzez_property_js_child() {
 }
 add_action( 'wp_enqueue_scripts', 'load_houzez_property_js_child' );
 
-add_filter('houzez_after_property_submit', 'houzez_submit_listing_attachment');
-add_filter('houzez_after_property_update', 'houzez_submit_listing_attachment');
+add_filter('houzez_before_update_property', 'houzez_submit_listing_attachment');
 
-function houzez_submit_listing_attachment($prop_id) {
+function houzez_submit_listing_attachment($new_property) {
 
+    $prop_id = $new_property['ID'];
     $add_verification = $need_verification = 0;
     if(isset($_GET['add_verification']) && $_GET['add_verification'] == 1) {
         $add_verification = 1;
@@ -1145,6 +1145,9 @@ function houzez_submit_listing_attachment($prop_id) {
                 else{
                     update_post_meta($prop_id, 'fave_verification_status', 'disapproved');
                 }
+            }
+            else{
+                update_post_meta($prop_id, 'fave_verification_status', 'disapproved');
             }
 
         }
@@ -1237,7 +1240,19 @@ function houzez_submit_listing_attachment($prop_id) {
             update_post_meta($prop_id, 'fave_verified_check5', sanitize_text_field($verified_check5));
         }
 
+        // Verification Redirect
+        if($need_verification == 1){
+            wp_redirect("/my-properties?prop_status=need_verification&need_verification=1");
+            exit;
+        }
+        if($add_verification == 1){
+            wp_redirect("/my-properties?add_verification=1");
+            exit;
+        }
+
     }
+
+    return $new_property;
 }
 
 /*-----------------------------------------------------------------------------------*/
