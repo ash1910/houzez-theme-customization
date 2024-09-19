@@ -258,8 +258,6 @@ if( $total_records > 1 ) {
 
                         echo '<div class="page-type-wrap">';
                         echo $type_list;
-                        echo '<div class="page-type-show-more show-more bootstrap-select"><button class="dropdown-toggle" onclick="functionShowMore()">Show More</button></div>';
-                        echo '<div class="page-type-show-more show-less bootstrap-select"><button class="dropdown-toggle" onclick="functionShowLess()">Show Less</button></div>';
                         echo '</div>';
                     }
                     ?>

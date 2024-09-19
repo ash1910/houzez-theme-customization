@@ -985,6 +985,7 @@ if ( !function_exists( 'houzez_get_agent_info_top' ) ) {
 if ( !function_exists( 'houzez_after_search__get_property_type_list' ) ) {
     function houzez_after_search__get_property_type_list($search_qry)
     {
+        //echo "<pre>";print_r($search_qry);exit;
         $output = "";
         $terms = get_terms('property_type');
 
@@ -1015,6 +1016,11 @@ if ( !function_exists( 'houzez_after_search__get_property_type_list' ) ) {
 
             }
             $output .= "</ul>";
+            if($list_inc > 3){
+                $output .= '<div class="page-type-show-more show-more bootstrap-select"><button class="dropdown-toggle" onclick="functionShowMore()">Show More</button></div>';
+                $output .= '<div class="page-type-show-more show-less bootstrap-select"><button class="dropdown-toggle" onclick="functionShowLess()">Show Less</button></div>';
+            }
+
         }
 
         return $output;
