@@ -1015,7 +1015,6 @@ if ( !function_exists( 'houzez_after_search__get_property_type_list' ) ) {
         $terms = get_terms("property_$taxonomy");
         //echo "<pre>";print_r($terms);exit;
         if ( !empty( $terms ) && !is_wp_error( $terms ) ){
-            $output .= "<ul>";
             $list_inc = 0;
             $className = "";
             foreach ( $terms as $term ) {
@@ -1038,7 +1037,9 @@ if ( !function_exists( 'houzez_after_search__get_property_type_list' ) ) {
                 }
 
             }
-            $output .= "</ul>";
+
+            if( $output !== "" )$output = "<ul>$output</ul>";
+            
             if($list_inc > 3){
                 $output .= '<div class="page-type-show-more show-more bootstrap-select"><button class="dropdown-toggle" onclick="functionShowMore()">Show More</button></div>';
                 $output .= '<div class="page-type-show-more show-less bootstrap-select"><button class="dropdown-toggle" onclick="functionShowLess()">Show Less</button></div>';

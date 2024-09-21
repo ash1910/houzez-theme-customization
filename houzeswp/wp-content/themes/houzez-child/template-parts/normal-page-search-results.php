@@ -256,9 +256,10 @@ if( $total_records > 1 ) {
                     if( $total_records > 1 ) {
                         $type_list = apply_filters("houzez_after_search__get_property_type_list", $search_qry);
 
-                        echo '<div class="page-type-wrap">';
-                        echo $type_list;
-                        echo '</div>';
+                        if( $type_list !== "" ){
+                            echo "<div class='page-type-wrap'>$type_list</div>";
+                        }
+
                     }
                     ?>
                     
