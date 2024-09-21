@@ -987,21 +987,33 @@ if ( !function_exists( 'houzez_after_search__get_property_type_list' ) ) {
     {
         //echo "<pre>";print_r($search_qry);exit;
         $taxonomy = "type";
+        $search_qry_param = "type";
         $output = "";
 
         $actual_link = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
         $url=parse_url($actual_link);
         if( !empty($url["query"]) ){
             parse_str($url["query"],$parameters);
-            if( !empty($parameters["type"]) ){
-                $taxonomy = "city";
-                //echo "<pre>";print_r($parameters);exit;
+            if( !empty($parameters["type"]) && !empty($parameters["type"][0])  ){
+                if( !empty($parameters["areas"]) && !empty($parameters["areas"][0])  ){
+                    return $output;
+                }
+                elseif( !empty($parameters["location"]) && !empty($parameters["location"][0])  ){
+                    $taxonomy = "area";
+                    $search_qry_param = "areas";
+                    //echo "<pre>";print_r($parameters);exit;
+                }
+                else{
+                    $taxonomy = "city";
+                    $search_qry_param = "location";
+                    //echo "<pre>";print_r($parameters);exit;
+                }
+                
             }
-            
         }
 
         $terms = get_terms("property_$taxonomy");
-
+        //echo "<pre>";print_r($terms);exit;
         if ( !empty( $terms ) && !is_wp_error( $terms ) ){
             $output .= "<ul>";
             $list_inc = 0;
@@ -1022,7 +1034,7 @@ if ( !function_exists( 'houzez_after_search__get_property_type_list' ) ) {
                     if($list_inc > 3){
                         $className = "moreType";
                     }
-                    $output .= '<li class="'.$className.'"><a href="'.change_url_parameter($actual_link, $taxonomy, array($term->slug)).'">' . $term->name . " <span>(" . $search_query_property_type_final->found_posts . ")</span></a></li>";
+                    $output .= '<li class="'.$className.'"><a href="'.change_url_parameter($actual_link, $search_qry_param, array($term->slug)).'">' . $term->name . " <span>(" . $search_query_property_type_final->found_posts . ")</span></a></li>";
                 }
 
             }
