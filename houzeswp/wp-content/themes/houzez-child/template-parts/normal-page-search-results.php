@@ -149,7 +149,7 @@ if( $total_records > 1 ) {
                     <?php 
                         $actual_link = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
                     ?>
-                    <a class="btn btn-listing verified-listing-btn" href="<?php echo change_url_parameter($actual_link, "sortby", "verified_first");?>">
+                    <a class="btn btn-listing verified-listing-btn" href="<?php echo change_url_parameter_with_verified_first($actual_link, "sortby", "verified_first");?>">
                         <span class="btn-txt-1">VERIFIED</span>
                         <span class="btn-txt-2">Listings first</span>
                         <i class="btn-icon"><?php include get_stylesheet_directory() . '/assets/images/is_icon.svg'; ?></i>

@@ -1059,6 +1059,24 @@ function clear_all_search_filter_without_one_filter_url($url,$parameterName) {
         http_build_query($new_parameters));
 }
 
+function change_url_parameter_with_verified_first($url,$parameterName,$parameterValue) {
+    $parameters = array();
+    $url=parse_url($url);
+    if( !empty($url["query"]) ){
+        parse_str($url["query"],$parameters);
+        unset($parameters[$parameterName]);
+    }
+    $parameters[$parameterName]=$parameterValue;
+    if( isset($url["path"]) ){
+        $url["path"] = "/search-results/";
+    }
+    return  sprintf("%s://%s%s?%s", 
+        $url["scheme"],
+        isset($url["port"]) ? $url["host"].':'.$url["port"] : $url["host"],
+        $url["path"],
+        http_build_query($parameters));
+}
+
 /*-----------------------------------------------------------------------------------*/
 // get taxonomies with with id value
 /*-----------------------------------------------------------------------------------*/
