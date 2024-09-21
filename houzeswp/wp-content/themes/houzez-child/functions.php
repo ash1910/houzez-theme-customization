@@ -986,10 +986,21 @@ if ( !function_exists( 'houzez_after_search__get_property_type_list' ) ) {
     function houzez_after_search__get_property_type_list($search_qry)
     {
         //echo "<pre>";print_r($search_qry);exit;
+        $taxonomy = "type";
         $output = "";
-        $terms = get_terms('property_type');
 
         $actual_link = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+        $url=parse_url($actual_link);
+        if( !empty($url["query"]) ){
+            parse_str($url["query"],$parameters);
+            if( !empty($parameters["type"]) ){
+                $taxonomy = "city";
+                //echo "<pre>";print_r($parameters);exit;
+            }
+            
+        }
+
+        $terms = get_terms("property_$taxonomy");
 
         if ( !empty( $terms ) && !is_wp_error( $terms ) ){
             $output .= "<ul>";
@@ -1000,7 +1011,7 @@ if ( !function_exists( 'houzez_after_search__get_property_type_list' ) ) {
                 $search_query_property_type['posts_per_page'] = -1;
 
                 $search_query_property_type['tax_query'][] = array(
-                    'taxonomy' => 'property_type',
+                    'taxonomy' => "property_$taxonomy",
                     'field' => 'id',
                     'terms' => $term->term_id,
                 );
@@ -1011,7 +1022,7 @@ if ( !function_exists( 'houzez_after_search__get_property_type_list' ) ) {
                     if($list_inc > 3){
                         $className = "moreType";
                     }
-                    $output .= '<li class="'.$className.'"><a href="'.change_url_parameter($actual_link, "type", array($term->slug)).'">' . $term->name . " <span>(" . $search_query_property_type_final->found_posts . ")</span></a></li>";
+                    $output .= '<li class="'.$className.'"><a href="'.change_url_parameter($actual_link, $taxonomy, array($term->slug)).'">' . $term->name . " <span>(" . $search_query_property_type_final->found_posts . ")</span></a></li>";
                 }
 
             }
