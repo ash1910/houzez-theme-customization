@@ -70,6 +70,19 @@ $plugins_array = array(
 		'thumbnail' 	=> HOUZEZ_IMAGE . 'houzez-icon.jpg',
 	),
 	array(
+		'name'     		=> 'Houzez MLS Sync by Realtyna', // The plugin name
+		'slug'     		=> 'realtyna-mls-sync', // The plugin slug (typically the folder name)
+		'source'   		=> 'https://default.houzez.co/plugins/realtyna-mls-sync.zip', // The plugin source
+		'path'   		=> 'realtyna-mls-sync/realtyna-mls-sync.php', // Plugin main file path
+		'required' 		=> false,
+		'version' 		=> '1.0.18', 
+		'author' 		=> 'FaveThemes',
+		'author_url' 	=> 'https://themeforest.net/user/favethemes/portfolio',
+		'description' 	=> 'Sync MLS listings with houzez themes', 
+		'thumbnail' 	=> HOUZEZ_IMAGE . 'houzez-icon.jpg',
+	),
+
+	array(
 		'name'     		=> 'Redux Framework', // The plugin name
 		'slug'     		=> 'redux-framework', // The plugin slug (typically the folder name)
 		'path'   		=> 'redux-framework/redux-framework.php', // Plugin main file path
