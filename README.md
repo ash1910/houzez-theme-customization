@@ -24,3 +24,10 @@ For example, the saved searches page should look like this:
 Atlanta, Georgia, United States, Office, $20-$25/sf/year, 700 sf - 1000
 sf, September 6, 2024 Action (Button)
 Action: View Listings, Edit, Manage Notifications, Delete
+
+# TASK 2
+Here are the examples for "Size" and "Rate" (see the two screenshots). The Rate needs to be changed to "Rent or Rate" because some leasing spaces charge a "Fixed Rent" per month so we need to include this option in the filter.
+
+I guess the most important thing to make the advanced search work is to make the "advanced search" corresponding with the data entered in the listing form (screenshot attached). What do you think?
+
+SELECT * FROM TABLE where REPLACE(CAST(amount AS CHAR), ',', '') BETWEEN 50000 AND 60000 AND amount LIKE "%/m%"    
