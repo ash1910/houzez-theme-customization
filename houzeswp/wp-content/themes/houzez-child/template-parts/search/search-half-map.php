@@ -76,31 +76,36 @@ $advanced_fields = array_slice($layout, houzez_search_builder_first_row());
 							get_template_part('template-parts/search/fields/distance-range');
 							
 						}
-					} elseif($key == 'rent-or-rate' ) {
-$rentorrate = isset ( $_GET['rent-or-rate'] ) ? esc_attr($_GET['rent-or-rate']) : '';
-$city = isset($_GET['location']) ? $_GET['location'] : $default_locations;
+					} elseif($key == 'rent' ) {
+						$min_rate = isset ( $_GET['min_rate'] ) ? esc_attr($_GET['min_rate']) : '';
+						$max_rate = isset ( $_GET['max_rate'] ) ? esc_attr($_GET['max_rate']) : '';
 					?>
-
-<div class="flex-search">
-	<div class="form-group">
-		<input name="min_rate" type="text" class="form-control <?php houzez_ajax_search(); ?>" value="<?php echo esc_attr($min_rate); ?>" placeholder="<?php echo houzez_option('srh_min_rent-or-rate', 'Min Price / Sq Ft'); ?>">
-	</div><!-- form-group -->
-</div>
-<div class="flex-search">
-	<div class="form-group">
-		<input name="max_rate" type="text" class="form-control <?php houzez_ajax_search(); ?>" value="<?php echo esc_attr($max_rate); ?>" placeholder="<?php echo houzez_option('srh_max_rent-or-rate', 'Max Price / Sq Ft'); ?>">
-	</div><!-- form-group -->
-</div>
-<div class="flex-search">
-	<div class="form-group">
-		<select name="type_rate" data-size="2" class="selectpicker <?php houzez_ajax_search(); ?> form-control bs-select-hidden" title="<?php echo houzez_option('srh_type-rent-or-rate', 'Rate Type'); ?>" data-live-search="false">
-			<option value="Annual"><?php echo houzez_option('srh_annual', 'Annual'); ?></option>
-			<option value="Monthly"><?php echo houzez_option('srh_monthly', 'Monthly'); ?></option>
-		</select><!-- selectpicker -->
-	</div>
-</div>
+						<div class="flex-search">
+							<div class="form-group">
+								<input name="min_rate" type="text" class="form-control <?php houzez_ajax_search(); ?>" value="<?php echo esc_attr($min_rate); ?>" placeholder="<?php echo houzez_option('srh_min_rent-or-rate', 'Min Price / Sq Ft'); ?>">
+							</div><!-- form-group -->
+						</div>
+						<div class="flex-search">
+							<div class="form-group">
+								<input name="max_rate" type="text" class="form-control <?php houzez_ajax_search(); ?>" value="<?php echo esc_attr($max_rate); ?>" placeholder="<?php echo houzez_option('srh_max_rent-or-rate', 'Max Price / Sq Ft'); ?>">
+							</div><!-- form-group -->
+						</div>
 					<?php
-
+					} elseif($key == 'space-size' ) {
+						$min_size = isset ( $_GET['min_size'] ) ? esc_attr($_GET['min_size']) : '';
+						$max_size = isset ( $_GET['max_size'] ) ? esc_attr($_GET['max_size']) : '';
+					?>
+						<div class="flex-search">
+							<div class="form-group">
+								<input name="min_size" type="text" class="form-control <?php houzez_ajax_search(); ?>" value="<?php echo esc_attr($min_size); ?>" placeholder="<?php echo houzez_option('srh_min_size', 'Min Size'); ?>">
+							</div><!-- form-group -->
+						</div>
+						<div class="flex-search">
+							<div class="form-group">
+								<input name="max_size" type="text" class="form-control <?php houzez_ajax_search(); ?>" value="<?php echo esc_attr($max_size); ?>" placeholder="<?php echo houzez_option('srh_max_size', 'Max Size'); ?>">
+							</div><!-- form-group -->
+						</div>
+					<?php
 					} else {
 
 						echo '<div class="'.$common_class.' '.$class_flex_grow.'">';

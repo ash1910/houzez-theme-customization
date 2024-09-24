@@ -502,3 +502,85 @@ if( !function_exists('houzez20_half_map_listings') ) {
 
 	}
 }
+
+if(!function_exists('houzez_search_min_max_rate')) {
+	function houzez_search_min_max_rate($meta_query) {
+		if (isset($_GET['min_rate']) && !empty($_GET['min_rate']) && isset($_GET['max_rate']) && !empty($_GET['max_rate'])) {
+            $min_rate = doubleval(houzez_clean($_GET['min_rate']));
+            $max_rate = doubleval(houzez_clean($_GET['max_rate']));
+
+            if ($min_rate > 0 && $max_rate >= $min_rate) { 
+                $meta_query[] = array(
+                    'key' => 'fave_rent',
+                    'value' => array($min_rate, $max_rate),
+                    'type' => 'NUMERIC',
+                    'compare' => 'BETWEEN',
+                );
+            }
+        } else if (isset($_GET['min_rate']) && !empty($_GET['min_rate'])) {
+            $min_rate = doubleval(houzez_clean($_GET['min_rate']));
+            if ($min_rate > 0) {
+                $meta_query[] = array(
+                    'key' => 'fave_rent',
+                    'value' => $min_rate,
+                    'type' => 'NUMERIC',
+                    'compare' => '>=',
+                );
+            }
+        } else if (isset($_GET['max_rate']) && !empty($_GET['max_rate'])) {
+            $max_rate = doubleval(houzez_clean($_GET['max_rate']));
+            if ($max_rate > 0) {
+                $meta_query[] = array(
+                    'key' => 'fave_rent',
+                    'value' => $max_rate,
+                    'type' => 'NUMERIC',
+                    'compare' => '<=',
+                );
+            }
+        }
+        return $meta_query;
+	}
+
+	add_filter('houzez_meta_search_filter', 'houzez_search_min_max_rate');
+}
+
+if(!function_exists('houzez_search_min_max_size')) {
+	function houzez_search_min_max_size($meta_query) {
+		if (isset($_GET['min_size']) && !empty($_GET['min_size']) && isset($_GET['max_size']) && !empty($_GET['max_size'])) {
+            $min_size = doubleval(houzez_clean($_GET['min_size']));
+            $max_size = doubleval(houzez_clean($_GET['max_size']));
+
+            if ($min_size > 0 && $max_size >= $min_size) { 
+                $meta_query[] = array(
+                    'key' => 'fave_space-size',
+                    'value' => array($min_size, $max_size),
+                    'type' => 'NUMERIC',
+                    'compare' => 'BETWEEN',
+                );
+            }
+        } else if (isset($_GET['min_size']) && !empty($_GET['min_size'])) {
+            $min_size = doubleval(houzez_clean($_GET['min_size']));
+            if ($min_size > 0) {
+                $meta_query[] = array(
+                    'key' => 'fave_space-size',
+                    'value' => $min_size,
+                    'type' => 'NUMERIC',
+                    'compare' => '>=',
+                );
+            }
+        } else if (isset($_GET['max_size']) && !empty($_GET['max_size'])) {
+            $max_size = doubleval(houzez_clean($_GET['max_size']));
+            if ($max_size > 0) {
+                $meta_query[] = array(
+                    'key' => 'fave_space-size',
+                    'value' => $max_size,
+                    'type' => 'NUMERIC',
+                    'compare' => '<=',
+                );
+            }
+        }
+        return $meta_query;
+	}
+
+	add_filter('houzez_meta_search_filter', 'houzez_search_min_max_size');
+}
