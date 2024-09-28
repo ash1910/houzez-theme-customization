@@ -582,5 +582,39 @@ if(!function_exists('houzez_search_min_max_size')) {
         return $meta_query;
 	}
 
-	add_filter('houzez_meta_search_filter', 'houzez_search_min_max_size');
+	add_filter('houzez_meta_search_filter', 'houzez_search_min_max_size');   
 }
+
+function custom_meta_query_where( $where, $query ) {
+    global $wpdb;
+
+    if ( isset( $query->query_vars['meta_query'] ) ) {
+        $meta_key = 'fave_space-size';
+        $postmeta = $wpdb->postmeta;
+        //$postmeta = "mt1";
+
+        echo "<pre>";print_r($where);
+
+        $where = str_replace(
+            "{$postmeta}.meta_key = '{$meta_key}' AND CAST({$postmeta}.meta_value AS SIGNED)",
+            "{$postmeta}.meta_key = '{$meta_key}' AND CAST(REPLACE(CAST({$postmeta}.meta_value AS CHAR), ',', '') AS SIGNED)",
+            $where
+        );
+
+        $meta_key = 'fave_rent';
+
+        $where = str_replace(
+            "{$postmeta}.meta_key = '{$meta_key}' AND CAST({$postmeta}.meta_value AS SIGNED)",
+            "{$postmeta}.meta_key = '{$meta_key}' AND CAST(REPLACE(REPLACE(CAST({$postmeta}.meta_value AS CHAR), '$', ''), ',', '') AS SIGNED)",
+            $where
+        );
+
+        echo "<pre>";print_r($where);
+    }
+
+    
+
+    return $where;
+}
+
+add_filter( 'posts_where', 'custom_meta_query_where', 10, 2 );
