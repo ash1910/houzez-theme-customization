@@ -79,6 +79,7 @@ $advanced_fields = array_slice($layout, houzez_search_builder_first_row());
 					} elseif($key == 'rent' ) {
 						$min_rate = isset ( $_GET['min_rate'] ) ? esc_attr($_GET['min_rate']) : '';
 						$max_rate = isset ( $_GET['max_rate'] ) ? esc_attr($_GET['max_rate']) : '';
+						$rate_type = isset ( $_GET['rate_type'] ) ? esc_attr($_GET['rate_type']) : '';
 					?>
 						<div class="flex-search">
 							<div class="form-group">
@@ -90,10 +91,19 @@ $advanced_fields = array_slice($layout, houzez_search_builder_first_row());
 								<input name="max_rate" type="text" class="form-control <?php houzez_ajax_search(); ?>" value="<?php echo esc_attr($max_rate); ?>" placeholder="<?php echo houzez_option('srh_max_rent-or-rate', 'Max Price / Sq Ft'); ?>">
 							</div><!-- form-group -->
 						</div>
+						<div class="flex-search">
+							<div class="form-group">
+								<select name="rate_type" class="selectpicker <?php houzez_ajax_search(); ?> form-control bs-select-hidden" title="<?php echo houzez_option('srh_rate_type', 'Rate Type'); ?>" data-live-search="false">
+									<option value="annual" <?php if($rate_type == "annual") echo "selected"; ?>>Annual</option>
+									<option value="monthly" <?php if($rate_type == "monthly") echo "selected"; ?>>Monthly</option>
+								</select><!-- selectpicker -->
+							</div><!-- form-group -->
+						</div>
 					<?php
 					} elseif($key == 'space-size' ) {
 						$min_size = isset ( $_GET['min_size'] ) ? esc_attr($_GET['min_size']) : '';
 						$max_size = isset ( $_GET['max_size'] ) ? esc_attr($_GET['max_size']) : '';
+						$size_type = isset ( $_GET['size_type'] ) ? esc_attr($_GET['size_type']) : '';
 					?>
 						<div class="flex-search">
 							<div class="form-group">
@@ -103,6 +113,14 @@ $advanced_fields = array_slice($layout, houzez_search_builder_first_row());
 						<div class="flex-search">
 							<div class="form-group">
 								<input name="max_size" type="text" class="form-control <?php houzez_ajax_search(); ?>" value="<?php echo esc_attr($max_size); ?>" placeholder="<?php echo houzez_option('srh_max_size', 'Max Size'); ?>">
+							</div><!-- form-group -->
+						</div>
+						<div class="flex-search">
+							<div class="form-group">
+								<select name="size_type" class="selectpicker <?php houzez_ajax_search(); ?> form-control bs-select-hidden" title="<?php echo houzez_option('srh_size_type', 'Size Type'); ?>" data-live-search="false">
+									<option value="sf" <?php if($size_type == "sf") echo "selected"; ?>>SF</option>
+									<option value="acr" <?php if($size_type == "acr") echo "selected"; ?>>Acreage</option>
+								</select><!-- selectpicker -->
 							</div><!-- form-group -->
 						</div>
 					<?php

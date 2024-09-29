@@ -505,6 +505,8 @@ if( !function_exists('houzez20_half_map_listings') ) {
 
 if(!function_exists('houzez_search_min_max_rate')) {
 	function houzez_search_min_max_rate($meta_query) {
+        $filter_size = 0;
+
 		if (isset($_GET['min_rate']) && !empty($_GET['min_rate']) && isset($_GET['max_rate']) && !empty($_GET['max_rate'])) {
             $min_rate = doubleval(houzez_clean($_GET['min_rate']));
             $max_rate = doubleval(houzez_clean($_GET['max_rate']));
@@ -516,6 +518,7 @@ if(!function_exists('houzez_search_min_max_rate')) {
                     'type' => 'NUMERIC',
                     'compare' => 'BETWEEN',
                 );
+                $filter_size = 1;
             }
         } else if (isset($_GET['min_rate']) && !empty($_GET['min_rate'])) {
             $min_rate = doubleval(houzez_clean($_GET['min_rate']));
@@ -526,6 +529,7 @@ if(!function_exists('houzez_search_min_max_rate')) {
                     'type' => 'NUMERIC',
                     'compare' => '>=',
                 );
+                $filter_size = 1;
             }
         } else if (isset($_GET['max_rate']) && !empty($_GET['max_rate'])) {
             $max_rate = doubleval(houzez_clean($_GET['max_rate']));
@@ -536,8 +540,49 @@ if(!function_exists('houzez_search_min_max_rate')) {
                     'type' => 'NUMERIC',
                     'compare' => '<=',
                 );
+                $filter_size = 1;
             }
         }
+
+        // Filter Rate Type
+        if (isset($_GET['rate_type']) && !empty($_GET['rate_type'])) {
+            $rate_type = $_GET['rate_type'];
+
+            if ($filter_size > 0) {
+                if( $rate_type == "annual" ){
+                    $meta_query[] = array(
+                        'relation'  => 'OR',
+                        array(
+                            'key' => 'fave_rent',
+                            'value' => "/year",
+                            'compare' => 'LIKE',
+                        ),
+                        array(
+                            'key' => 'fave_rent',
+                            'value' => "/yr",
+                            'compare' => 'LIKE',
+                        )
+                    );
+                }
+                else if( $rate_type == "monthly" ){
+                    $meta_query[] = array(
+                        'relation'  => 'OR',
+                        array(
+                            'key' => 'fave_rent',
+                            'value' => "/month",
+                            'compare' => 'LIKE',
+                        ),
+                        array(
+                            'key' => 'fave_rent',
+                            'value' => "/m",
+                            'compare' => 'LIKE',
+                        )
+                    );
+                }
+
+            }
+        }
+
         return $meta_query;
 	}
 
@@ -546,6 +591,7 @@ if(!function_exists('houzez_search_min_max_rate')) {
 
 if(!function_exists('houzez_search_min_max_size')) {
 	function houzez_search_min_max_size($meta_query) {
+        $filter_size = 0;
 		if (isset($_GET['min_size']) && !empty($_GET['min_size']) && isset($_GET['max_size']) && !empty($_GET['max_size'])) {
             $min_size = doubleval(houzez_clean($_GET['min_size']));
             $max_size = doubleval(houzez_clean($_GET['max_size']));
@@ -557,6 +603,7 @@ if(!function_exists('houzez_search_min_max_size')) {
                     'type' => 'NUMERIC',
                     'compare' => 'BETWEEN',
                 );
+                $filter_size = 1;
             }
         } else if (isset($_GET['min_size']) && !empty($_GET['min_size'])) {
             $min_size = doubleval(houzez_clean($_GET['min_size']));
@@ -567,6 +614,7 @@ if(!function_exists('houzez_search_min_max_size')) {
                     'type' => 'NUMERIC',
                     'compare' => '>=',
                 );
+                $filter_size = 1;
             }
         } else if (isset($_GET['max_size']) && !empty($_GET['max_size'])) {
             $max_size = doubleval(houzez_clean($_GET['max_size']));
@@ -577,8 +625,27 @@ if(!function_exists('houzez_search_min_max_size')) {
                     'type' => 'NUMERIC',
                     'compare' => '<=',
                 );
+                $filter_size = 1;
             }
         }
+        // Filter Size Type
+        if (isset($_GET['size_type']) && !empty($_GET['size_type'])) {
+            $size_type = $_GET['size_type'];
+            $size_type_v = "";
+            if( $size_type == "acr" ) $size_type_v = "acres";
+            else if( $size_type == "sf" ) $size_type_v = "sf";
+
+            if ($filter_size > 0 && !empty($size_type_v)) {
+                $meta_query[] = array(
+                    'key' => 'fave_space-size',
+                    'value' => $size_type_v,
+                    'compare' => 'LIKE',
+                );
+            }
+        }
+
+        //echo "<pre>";print_r($meta_query);
+        
         return $meta_query;
 	}
 
@@ -589,11 +656,14 @@ function custom_meta_query_where( $where, $query ) {
     global $wpdb;
 
     if ( isset( $query->query_vars['meta_query'] ) ) {
-        $meta_key = 'fave_space-size';
+        
         $postmeta = $wpdb->postmeta;
-        //$postmeta = "mt1";
+        //echo "<pre>";print_r($query);
 
-        echo "<pre>";print_r($where);
+        $meta_key = 'fave_space-size';
+
+        preg_match("/\( (.*?)\.meta_key = \'{$meta_key}\'/", $where, $postmeta_v);
+        if( isset($postmeta_v[1]) && !empty($postmeta_v[1]) ) $postmeta = $postmeta_v[1];
 
         $where = str_replace(
             "{$postmeta}.meta_key = '{$meta_key}' AND CAST({$postmeta}.meta_value AS SIGNED)",
@@ -602,6 +672,8 @@ function custom_meta_query_where( $where, $query ) {
         );
 
         $meta_key = 'fave_rent';
+        preg_match("/\( (.*?)\.meta_key = \'{$meta_key}\'/", $where, $postmeta_v);
+        if( isset($postmeta_v[1]) && !empty($postmeta_v[1]) ) $postmeta = $postmeta_v[1];
 
         $where = str_replace(
             "{$postmeta}.meta_key = '{$meta_key}' AND CAST({$postmeta}.meta_value AS SIGNED)",
@@ -609,10 +681,8 @@ function custom_meta_query_where( $where, $query ) {
             $where
         );
 
-        echo "<pre>";print_r($where);
+        //echo "<pre>";print_r($where);
     }
-
-    
 
     return $where;
 }
