@@ -31,3 +31,8 @@ Here are the examples for "Size" and "Rate" (see the two screenshots). The Rate 
 I guess the most important thing to make the advanced search work is to make the "advanced search" corresponding with the data entered in the listing form (screenshot attached). What do you think?
 
 SELECT * FROM TABLE where REPLACE(CAST(amount AS CHAR), ',', '') BETWEEN 50000 AND 60000 AND amount LIKE "%/m%"    
+
+# TASK 3
+We need to add another filter for "Lease Term". See the screenshots for Lease term select in the "Create a listing" form. The first screenshot shows upper portion and the second shows the lower portion. There are total eight different selections. This filter will be placed next to "Type". How much and how long this will take you to finish?
+
+minor change on the requirement. Now there are 9 different selections instead of 8 before. We added "Venue contract" in there. See the updated Lease term selections in the form (screenshots attached). Let me know if this change will cause additional fee and how much more. Thanks.
