@@ -339,3 +339,51 @@ function functionShowLess(){
     document.querySelector('.page-type-show-more.show-more').style.display = 'block';
     document.querySelector('.page-type-show-more.show-less').style.display = 'none';
 }
+
+/* ------------------------------------------------------------------------ */
+/*  Property phone, whatsapp view track
+/* ------------------------------------------------------------------------ */
+
+var propertyViewTrack = function() {
+
+    //view track
+    $('.tracking_view').on('click', function(e){
+        e.preventDefault();
+        var $this = $(this);
+        var type = $this.data('type');
+        var listing = $this.data('listing');
+        var user = $this.data('user');
+
+        loader.show();
+
+        var ajax_request = $.ajax({
+            type: 'post',
+            url: ajax_url,
+            dataType: 'json',
+            data: {
+                'action': 'houzez_add_tracking_views',
+                'type': type,
+                'listing': listing,
+                'user': user,
+                'removeNonce': verify_nonce
+            }
+        });
+
+        ajax_request.done(function( response ) {
+            if ( response.remove_attachment ) {
+                thumbnail.remove();
+            } else {
+
+            }
+        });
+
+        ajax_request.fail(function( jqXHR, textStatus ) {
+            alert( "Request failed: " + textStatus );
+        });
+
+    });
+}
+
+window.onload = function(){
+    propertyViewTrack();
+}

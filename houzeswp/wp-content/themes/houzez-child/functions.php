@@ -1437,5 +1437,41 @@ if( ! function_exists('houzez_user_posts_count') ) {
     }
 }
 
+//Add visits data
+if( ! function_exists('houzez_add_tracking_views') ) {
+    function houzez_add_tracking_views() { 
+        global $wpdb, $post;
+
+        $post_id = isset($post->ID) ? $post->ID : '';
+
+        if(empty($post_id)) {
+            return;
+        }
+
+        $user_id = get_current_user_id();
+        $already_exist = $this->checklisting($post->ID, $user_id);
+
+
+        if ( ! is_singular( 'property' ) || empty($user_id) || $already_exist ) {
+            return;
+        }
+
+        $table_name        = $wpdb->prefix . 'houzez_crm_viewed_listings'; 
+
+        $data = array(
+            'user_id'        => $user_id,
+            'listing_id'     => $post->ID,
+            
+        );
+
+        $format = array(
+            '%d',
+            '%d'
+        );
+
+        $wpdb->insert($table_name, $data, $format);
+    }
+}
+
 
 ?>
