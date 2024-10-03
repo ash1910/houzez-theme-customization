@@ -1157,8 +1157,9 @@ if ( !function_exists( 'houzez_get_agency_photo_url_by_agent_user_id' ) ) {
     add_filter('houzez_get_agency_photo_url_by_agent_user_id', 'houzez_get_agency_photo_url_by_agent_user_id');
 }
 
+
 function load_houzez_property_js_child() {
-    wp_enqueue_script('houzez_property_child',  get_stylesheet_directory_uri().'/js/houzez_property_child.js', array('jquery', 'plupload', 'jquery-ui-sortable'), '1.0.0', true);
+    wp_enqueue_script('houzez_property_child',  get_stylesheet_directory_uri().'/js/houzez_property_child.js', array('jquery'), '1.0.0', true);
 }
 add_action( 'wp_enqueue_scripts', 'load_houzez_property_js_child' );
 
@@ -1437,39 +1438,45 @@ if( ! function_exists('houzez_user_posts_count') ) {
     }
 }
 
-//Add visits data
+//Tracking visits data
+add_action( 'wp_ajax_houzez_add_tracking_views', 'houzez_add_tracking_views' );
+add_action( 'wp_ajax_nopriv_houzez_add_tracking_views', 'houzez_add_tracking_views' );
 if( ! function_exists('houzez_add_tracking_views') ) {
     function houzez_add_tracking_views() { 
-        global $wpdb, $post;
+        global $wpdb;
 
-        $post_id = isset($post->ID) ? $post->ID : '';
+        if ( isset($_POST['type']) && isset($_POST['prop_id']) && !empty($_POST['prop_id']) ) {
 
-        if(empty($post_id)) {
-            return;
+            $user_id = get_current_user_id();
+            //$already_exist = $this->checklisting($post->ID, $user_id);
+
+            $table_name = $wpdb->prefix . 'houzez_crm_viewed_listings_statistics'; 
+
+            $data = array(
+                'user_id'        => $user_id,
+                'listing_id'     => $_POST['prop_id'],
+                'type'     => $_POST['type'],
+            );
+
+            $format = array(
+                '%d',
+                '%d',
+                '%s'
+            );
+
+            $wpdb->insert($table_name, $data, $format);
+
+            echo json_encode(array(
+                'success' => true,
+            ));
+            wp_die();
         }
 
-        $user_id = get_current_user_id();
-        $already_exist = $this->checklisting($post->ID, $user_id);
-
-
-        if ( ! is_singular( 'property' ) || empty($user_id) || $already_exist ) {
-            return;
-        }
-
-        $table_name        = $wpdb->prefix . 'houzez_crm_viewed_listings'; 
-
-        $data = array(
-            'user_id'        => $user_id,
-            'listing_id'     => $post->ID,
-            
-        );
-
-        $format = array(
-            '%d',
-            '%d'
-        );
-
-        $wpdb->insert($table_name, $data, $format);
+        echo json_encode(array(
+            'success' => false,
+        ));
+        wp_die();
+        
     }
 }
 

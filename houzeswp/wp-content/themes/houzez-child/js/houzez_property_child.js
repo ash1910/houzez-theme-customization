@@ -282,8 +282,6 @@ jQuery(document).ready( function($) {
         }
         houzez_property_attachments();
 
-    }
-
         /*-------------------------------------------------------------------
          *  Transfer Listing Credit [user_profile.php]
          * ------------------------------------------------------------------*/
@@ -323,6 +321,8 @@ jQuery(document).ready( function($) {
 
         });
 
+    }
+
 });
 
 function functionShowMore(){
@@ -344,46 +344,47 @@ function functionShowLess(){
 /*  Property phone, whatsapp view track
 /* ------------------------------------------------------------------------ */
 
-var propertyViewTrack = function() {
+var propertyViewTrack = function($) {
 
     //view track
     $('.tracking_view').on('click', function(e){
-        e.preventDefault();
+        //e.preventDefault();
+        //console.log("tracking_view");
         var $this = $(this);
+        var ajaxurl = houzez_vars.admin_url+ 'admin-ajax.php';
+        //var userID = houzez_vars.user_id;
+        
         var type = $this.data('type');
-        var listing = $this.data('listing');
-        var user = $this.data('user');
-
-        loader.show();
-
+        var prop_id = $this.data('prop_id');
+        
         var ajax_request = $.ajax({
             type: 'post',
-            url: ajax_url,
+            url: ajaxurl,
             dataType: 'json',
             data: {
                 'action': 'houzez_add_tracking_views',
                 'type': type,
-                'listing': listing,
-                'user': user,
-                'removeNonce': verify_nonce
+                'prop_id': prop_id
             }
         });
 
         ajax_request.done(function( response ) {
-            if ( response.remove_attachment ) {
-                thumbnail.remove();
+            if ( response.success ) {
+
             } else {
 
             }
         });
 
         ajax_request.fail(function( jqXHR, textStatus ) {
-            alert( "Request failed: " + textStatus );
+            //alert( "Request failed: " + textStatus );
         });
 
     });
 }
 
-window.onload = function(){
-    propertyViewTrack();
-}
+jQuery(document).ready( function($) {
+    "use strict";
+    
+    propertyViewTrack($);
+});
