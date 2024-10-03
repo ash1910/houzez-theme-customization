@@ -30,61 +30,71 @@ $allowed_html_array = array(
 
             <div class="row">
                 <div class="col-md-12 col-sm-12">
-                    <div class="dashboard-content-block">
+                    <div class="dashboard-content-activities-block">
                         <ul class="activities-view-btn-wrap">
                             <li>
-                                <a class="btn btn-listing activities-view-btn" href="">  
+                                <a class="btn btn-listing activities-view-btn" href="javascript:void(0)">  
                                     <div class="left-icon">
                                         <i class="btn-icon">
-                                            <?php include get_stylesheet_directory() . '/assets/images/list_icon.svg'; ?>
+                                            <?php include get_stylesheet_directory() . '/assets/images/listing_icon.svg'; ?>
                                         </i>
                                     </div>
                                     <div class="right-text">
-                                        <span class="btn-txt-1">Total Listing</span>
+                                        <span>Total Listing</span>
                                         <span class="btn-txt-2">100</span>
                                     </div>
                                 </a>
-                                <a class="btn btn-listing activities-view-btn" href="">  
+                            </li>
+                            <li>
+                                <a class="btn btn-listing activities-view-btn" href="javascript:void(0)">  
                                     <div class="left-icon">
                                         <i class="btn-icon"><?php include get_stylesheet_directory() . '/assets/images/view_icon.svg'; ?></i>
                                     </div>
                                     <div class="right-text">
-                                        <span class="btn-txt-1">Total View</span>
+                                        <span>Total View</span>
                                         <span class="btn-txt-2">2.8K</span>
                                     </div>
                                 </a>
-                                <a class="btn btn-listing activities-view-btn" href="">  
+                            </li>
+                            <li>
+                                <a class="btn btn-listing activities-view-btn" href="javascript:void(0)">  
                                     <div class="left-icon">
                                         <i class="btn-icon"><?php include get_stylesheet_directory() . '/assets/images/conversion_icon.svg'; ?></i>
                                     </div>
                                     <div class="right-text">
-                                        <span class="btn-txt-1">Total Listing</span>
+                                        <span>Total Listing</span>
                                         <span class="btn-txt-2">100</span>
                                     </div>
                                 </a>
-                                <a class="btn btn-listing activities-view-btn" href="">  
+                            </li>
+                            <li>
+                                <a class="btn btn-listing activities-view-btn" href="javascript:void(0)">  
                                     <div class="left-icon">
                                         <i class="btn-icon houzez-icon icon-envelope"></i>
                                     </div>
                                     <div class="right-text">
-                                        <span class="btn-txt-1">Total Listing</span>
+                                        <span>Total Listing</span>
                                         <span class="btn-txt-2">100</span>
                                     </div>
                                 </a>
-                                <a class="btn btn-listing activities-view-btn" href="">  
+                            </li>
+                            <li>
+                                <a class="btn btn-listing activities-view-btn" href="javascript:void(0)">  
                                     <div class="left-icon">
-                                        <i class="houzez-icon icon-phone-actions-ring"></i>
+                                        <i class="btn-icon houzez-icon icon-phone-actions-ring"></i>
                                     </div>
                                     <div class="right-text">
-                                        <span class="btn-txt-1">Total Listing</span>
+                                        <span>Total Listing</span>
                                         <span class="btn-txt-2">100</span>
                                     </div>
                                 </a>
-                                <a class="btn btn-listing activities-view-btn" href="">  
+                            </li>
+                            <li>
+                                <a class="btn btn-listing activities-view-btn" href="javascript:void(0)">  
                                     <div class="left-icon">
-                                        <i class="houzez-icon icon-messaging-whatsapp"></i>                                    </div>
+                                        <i class="btn-icon houzez-icon icon-messaging-whatsapp"></i>                                    </div>
                                     <div class="right-text">
-                                        <span class="btn-txt-1">Total Listing</span>
+                                        <span>Total Listing</span>
                                         <span class="btn-txt-2">100</span>
                                     </div>
                                 </a>

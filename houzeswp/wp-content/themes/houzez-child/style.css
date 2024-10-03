@@ -353,25 +353,63 @@ i.menu-icon {
     background-color: #F7F7F7;
 }
 
-ul.activities-view-btn-wrap {
+.activities-view-btn-wrap {
     list-style: none;
     display: flex;
     flex-flow: wrap row;
     padding: 0;
-    margin: 0;
+    margin: 0 0 30px 0;
+    gap: 30px;
 }
-ul.activities-view-btn-wrap li {
-    padding: 4px 0;
-    flex: 0 0 25%;
+.activities-view-btn-wrap li {
+    padding: 0;
+    flex: 0 0 calc(33.33% - 20px);
 }
-ul.activities-view-btn-wrap a {
-    display: inline-block;
-    padding: 0 0 0 15px;
-    line-height: 20px;
+.activities-view-btn-wrap a, .activities-view-btn-wrap a:hover, .activities-view-btn-wrap a:focus {
+    display: block;
+    padding: 0;
+    border-radius: 6px;
+    border: 1px solid #DEDEDE;
+    background-color: #F7F7F7;
+    padding: 30px;
+    display: flex;
+    gap: 20px;
+    color: #73777B;
+    font-size: 16px;
+    letter-spacing: -0.02em;
+    line-height: 21px;
+    align-items: center;
 }
-ul.activities-view-btn-wrap a .btn-txt-1 {
+
+.activities-view-btn-wrap .left-icon {
+    border-radius: 6px;
+    background-color: #36AA71;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.activities-view-btn-wrap .left-icon .btn-icon {
+    font-size: 38px;
+    color: #ffffff;
+}
+.activities-view-btn-wrap .right-text {
+    display: flex;
+    flex-flow: wrap column;
+    gap: 5px;
+    text-align: left;
+}
+.activities-view-btn-wrap .btn-txt-2 {
+    font-size: 32px;
     color: #222222;
-    font-size: 15px;
+    font-weight: 700;
+    line-height: 41px;
+    letter-spacing: -0.02em;
+}
+.dashboard-content-block {
+    border: 1px solid #DEDEDE;
+    background-color: #F7F7F7;
 }
 
 
@@ -385,5 +423,9 @@ ul.activities-view-btn-wrap a .btn-txt-1 {
     }
     .page-type-show-more {
         top: 42px;
+    }
+    .activities-view-btn-wrap li {
+        padding: 0;
+        flex: 0 0 calc(50% - 20px);
     }
 }
