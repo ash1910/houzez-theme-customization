@@ -19,11 +19,26 @@ $last2month = $last2month - $lastweek;
 	<div class="row">
 		<div class="col-md-4 col-sm-4 col-4">
 			<div class="views-data-wrap">
-				<div class="views-data">
+
+				<?php
+				$percentage_icon_name = "ic-trending-up.svg";
+				$percentage_icon_class = "";
+
+				if( $lasttwo > $lastday ) { 
+					$percentage_icon_name = "ic-trending-down.svg";
+					$percentage_icon_class = "text-danger";
+				}
+				?>
+				<div class="views-data <?php echo $percentage_icon_class;?>">
 					<?php echo number_format_i18n($lastday); ?>
 				</div><!-- views-data -->
-				
-				<?php houzez_views_percentage($lasttwo, $lastday); ?>
+
+				<div class="views-percentage <?php echo $percentage_icon_class;?>">
+					<i class="btn-icon">
+						<?php include get_stylesheet_directory() . '/assets/images/'.$percentage_icon_name; ?>
+					</i>
+					<?php echo houzez_views_percentage_ns($lasttwo, $lastday);?>
+				</div>
 
 				<div class="views-text">
 					From Last <strong>24</strong> Hours
@@ -32,11 +47,26 @@ $last2month = $last2month - $lastweek;
 		</div><!-- col-md-4 col-sm-12 -->
 		<div class="col-md-4 col-sm-4 col-4">
 			<div class="views-data-wrap">
-				<div class="views-data views-data-red">
+
+				<?php
+				$percentage_icon_name = "ic-trending-up.svg";
+				$percentage_icon_class = "";
+
+				if( $last2week > $lastweek ) { 
+					$percentage_icon_name = "ic-trending-down.svg";
+					$percentage_icon_class = "text-danger";
+				}
+				?>
+				<div class="views-data <?php echo $percentage_icon_class;?>">
 					<?php echo number_format_i18n($leads_count['leads_count']['lastweek']); ?>
 				</div><!-- views-data -->
-				
-				<?php houzez_views_percentage($last2week, $lastweek); ?>
+
+				<div class="views-percentage <?php echo $percentage_icon_class;?>">
+					<i class="btn-icon">
+						<?php include get_stylesheet_directory() . '/assets/images/'.$percentage_icon_name; ?>
+					</i>
+					<?php echo houzez_views_percentage_ns($last2week, $lastweek);?>
+				</div>
 
 				<div class="views-text">
 					From Last <strong>07</strong> Days
@@ -45,11 +75,26 @@ $last2month = $last2month - $lastweek;
 		</div><!-- col-md-4 col-sm-12 -->
 		<div class="col-md-4 col-sm-4 col-4">
 			<div class="views-data-wrap">
-				<div class="views-data">
+
+				<?php
+				$percentage_icon_name = "ic-trending-up.svg";
+				$percentage_icon_class = "";
+
+				if( $last2month > $lastmonth ) { 
+					$percentage_icon_name = "ic-trending-down.svg";
+					$percentage_icon_class = "text-danger";
+				}
+				?>
+				<div class="views-data <?php echo $percentage_icon_class;?>">
 					<?php echo number_format_i18n($leads_count['leads_count']['lastmonth']); ?>
 				</div><!-- views-data -->
-				
-				<?php houzez_views_percentage($last2month, $lastmonth); ?>
+
+				<div class="views-percentage <?php echo $percentage_icon_class;?>">
+					<i class="btn-icon">
+						<?php include get_stylesheet_directory() . '/assets/images/'.$percentage_icon_name; ?>
+					</i>
+					<?php echo houzez_views_percentage_ns($last2month, $lastmonth);?>
+				</div>
 
 				<div class="views-text">
 					From Last <strong>30</strong> Days

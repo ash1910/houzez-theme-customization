@@ -11,6 +11,7 @@ $allowed_html_array = array(
         'target' => array()
     )
 );
+$all_post_count = houzez_user_posts_count('any');
 ?>
 <header class="header-main-wrap dashboard-header-main-wrap">
     <div class="dashboard-header-wrap">
@@ -41,7 +42,7 @@ $allowed_html_array = array(
                                     </div>
                                     <div class="right-text">
                                         <span>Total Listing</span>
-                                        <span class="btn-txt-2">100</span>
+                                        <span class="btn-txt-2"><?php echo $all_post_count;?></span>
                                     </div>
                                 </a>
                             </li>
@@ -62,7 +63,7 @@ $allowed_html_array = array(
                                         <i class="btn-icon"><?php include get_stylesheet_directory() . '/assets/images/conversion_icon.svg'; ?></i>
                                     </div>
                                     <div class="right-text">
-                                        <span>Total Listing</span>
+                                        <span>Conversation Rate</span>
                                         <span class="btn-txt-2">100</span>
                                     </div>
                                 </a>
@@ -73,7 +74,7 @@ $allowed_html_array = array(
                                         <i class="btn-icon houzez-icon icon-envelope"></i>
                                     </div>
                                     <div class="right-text">
-                                        <span>Total Listing</span>
+                                        <span>Message</span>
                                         <span class="btn-txt-2">100</span>
                                     </div>
                                 </a>
@@ -84,7 +85,7 @@ $allowed_html_array = array(
                                         <i class="btn-icon houzez-icon icon-phone-actions-ring"></i>
                                     </div>
                                     <div class="right-text">
-                                        <span>Total Listing</span>
+                                        <span>Phone</span>
                                         <span class="btn-txt-2">100</span>
                                     </div>
                                 </a>
@@ -94,7 +95,7 @@ $allowed_html_array = array(
                                     <div class="left-icon">
                                         <i class="btn-icon houzez-icon icon-messaging-whatsapp"></i>                                    </div>
                                     <div class="right-text">
-                                        <span>Total Listing</span>
+                                        <span>WhatsApp</span>
                                         <span class="btn-txt-2">100</span>
                                     </div>
                                 </a>
@@ -107,7 +108,7 @@ $allowed_html_array = array(
         
             <?php if(!empty($activities['data']['results'])) { ?>
             <div class="row">
-                <div class="col-md-7 col-sm-12">
+                <div class="col-md-6 col-sm-12">
                     <div class="dashboard-content-block dashboard-content-block-ns activities-list-wrap">
                         <h3 class="dashboard-content-block-ns-title"><i class="houzez-icon icon-sign-badge-circle mr-2 primary-text"></i> Messages</h3>
                         <ul class="list-unstyled activities-list">
@@ -285,7 +286,7 @@ $allowed_html_array = array(
                         
                     </div>
                 </div><!-- col-md-6 col-sm-12 -->
-                <div class="col-md-5 col-sm-12">
+                <div class="col-md-6 col-sm-12">
                     
                     <?php get_template_part('template-parts/dashboard/statistics/statistic-leads'); ?>
                     <?php //get_template_part('template-parts/dashboard/statistics/statistic-deals'); ?>

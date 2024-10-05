@@ -432,7 +432,7 @@ i.menu-icon {
     letter-spacing: -0.02em;
 }
 .dashboard-content-block-ns .list-unstyled li {
-    padding-bottom: 12px;
+    padding-bottom: 10px;
 }
 .dashboard-content-block-ns.dashboard-statistic-block .views-data {
     max-width: 138px;
@@ -447,7 +447,7 @@ i.menu-icon {
     margin: 50px auto 50px auto;
     justify-content: center;
 }
-.dashboard-content-block-ns.dashboard-statistic-block .views-data-red {
+.dashboard-content-block-ns.dashboard-statistic-block .text-danger {
     border-color: rgba(249, 60, 101, .2)
 }
 .dashboard-content-block-ns .row .col-4 + .col-4 {
@@ -464,6 +464,21 @@ i.menu-icon {
     color: #222222;
     font-size: 16px;
     font-weight: 400;
+}
+.dashboard-content-block-ns.dashboard-statistic-block .views-percentage {
+    background-color: rgba(54, 170, 113, 0.1);
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 30px;
+    font-size: 13px;
+    line-height: 16.5px;
+    margin-bottom: 15px;
+}
+.dashboard-content-block-ns.dashboard-statistic-block .views-percentage.text-danger {
+    background-color: rgba(249, 60, 101, 0.1);
+}
+.dashboard-content-block-ns.dashboard-statistic-block .views-percentage .btn-icon {
+    margin-right: 5px;
 }
 
 

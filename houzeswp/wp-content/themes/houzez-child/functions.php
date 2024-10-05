@@ -1480,5 +1480,20 @@ if( ! function_exists('houzez_add_tracking_views') ) {
     }
 }
 
+if(!function_exists('houzez_views_percentage_ns')) {
+    function houzez_views_percentage_ns($old_number, $new_number) {
+
+        if( $old_number != 0 ) {
+            $percent = (($new_number - $old_number) / $old_number * 100);
+        } else {
+            $percent = $new_number * 100;
+        }
+        
+        $output = round($percent, 1).'%';
+
+        return $output;
+    }
+}
+
 
 ?>
