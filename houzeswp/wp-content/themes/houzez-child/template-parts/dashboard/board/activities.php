@@ -108,9 +108,9 @@ $allowed_html_array = array(
             <?php if(!empty($activities['data']['results'])) { ?>
             <div class="row">
                 <div class="col-md-7 col-sm-12">
-                    <div class="dashboard-content-block activities-list-wrap">
+                    <div class="dashboard-content-block dashboard-content-block-ns activities-list-wrap">
+                        <h3 class="dashboard-content-block-ns-title"><i class="houzez-icon icon-sign-badge-circle mr-2 primary-text"></i> Messages</h3>
                         <ul class="list-unstyled activities-list">
-
                             <?php
                             foreach( $activities['data']['results'] as $activity ) {
 
@@ -288,7 +288,7 @@ $allowed_html_array = array(
                 <div class="col-md-5 col-sm-12">
                     
                     <?php get_template_part('template-parts/dashboard/statistics/statistic-leads'); ?>
-                    <?php get_template_part('template-parts/dashboard/statistics/statistic-deals'); ?>
+                    <?php //get_template_part('template-parts/dashboard/statistics/statistic-deals'); ?>
                     
                 </div><!-- col-md-6 col-sm-12 -->
             </div><!-- row -->

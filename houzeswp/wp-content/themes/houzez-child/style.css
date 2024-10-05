@@ -407,9 +407,63 @@ i.menu-icon {
     line-height: 41px;
     letter-spacing: -0.02em;
 }
-.dashboard-content-block {
+.dashboard-content-block-ns {
     border: 1px solid #DEDEDE;
     background-color: #F7F7F7;
+    font-size: 18px;
+    line-height: 28px;
+    color: #424242;
+}
+.dashboard-content-block-ns .dashboard-content-block-ns-title {
+    border-bottom: 1px solid #DEDEDE;
+    margin: -5px -30px 30px -30px;
+    padding: 0 0px 25px 30px;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 25px;
+    letter-spacing: -0.02em;
+}
+.dashboard-content-block-ns .dashboard-content-block-ns-title .houzez-icon{
+    font-size: 16px;
+}
+.dashboard-content-block-ns .activity-time {
+    color: #73777B;
+    font-size: 16px;
+    letter-spacing: -0.02em;
+}
+.dashboard-content-block-ns .list-unstyled li {
+    padding-bottom: 12px;
+}
+.dashboard-content-block-ns.dashboard-statistic-block .views-data {
+    max-width: 138px;
+    aspect-ratio: 1;
+    border: 3px solid rgba(54, 170, 113, .2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    font-size: 2.6vw;
+    font-weight: 700;
+    color: #000;
+    margin: 50px auto 50px auto;
+    justify-content: center;
+}
+.dashboard-content-block-ns.dashboard-statistic-block .views-data-red {
+    border-color: rgba(249, 60, 101, .2)
+}
+.dashboard-content-block-ns .row .col-4 + .col-4 {
+    border-left: 1px solid #DEDEDE;
+    padding-bottom: 30px;
+}
+.dashboard-content-block-ns.dashboard-statistic-block{
+    padding-bottom: 0 !important;
+}
+.dashboard-content-block-ns.dashboard-statistic-block .dashboard-content-block-ns-title {
+    margin-bottom: 0 !important;
+}
+.dashboard-content-block-ns.dashboard-statistic-block .views-text {
+    color: #222222;
+    font-size: 16px;
+    font-weight: 400;
 }
 
 
@@ -427,5 +481,12 @@ i.menu-icon {
     .activities-view-btn-wrap li {
         padding: 0;
         flex: 0 0 calc(50% - 20px);
+    }
+    .dashboard-content-block-ns .dashboard-content-block-ns-title {
+        margin: -5px -15px 30px -15px;
+        padding: 0 0px 15px 15px;
+    }
+    .dashboard-content-block-ns.dashboard-statistic-block .views-data {
+        font-size: 48px;
     }
 }
