@@ -1496,14 +1496,185 @@ if(!function_exists('houzez_views_percentage_ns')) {
 }
 
 if(!function_exists('houzez_views_user_stats')) {
-    function houzez_views_user_stats($user_id) {
+    function houzez_views_user_stats($user_id, $activities_start_date, $activities_end_date) {
 
-        $insights = new Fave_Insights();
-        $insights_stats = $insights->fave_user_stats($user_id);
+        //echo "{$user_id}, {$activities_start_date}, {$activities_end_date}";exit;
 
-        return $insights_stats;
+        if( houzez_is_admin() || houzez_is_editor() ) {
+            $user_id = '';
+        } else if( houzez_is_agency() ) {
+            $agents = houzez_get_agency_agents($user_id);
+
+            if( $agents ) {
+                if (!in_array($user_id, $agents)) {
+                    $agents[] = $user_id;
+                }
+                $user_id = $agents;
+            } else {
+                $user_id = $user_id;
+            }
+
+        } else {
+            $user_id = $user_id;
+        }
+
+        $stats = array();
+        $args = array('user_id' => $user_id, 'activities_start_date' => $activities_start_date, 'activities_end_date' => $activities_end_date);
+
+        $stats['views'] = houzez_count_views($args);
+        $stats['whatsapp'] = houzez_count_views_tracking($args, 'w');
+        $stats['phone'] = houzez_count_views_tracking($args, 'c');
+        $stats['message'] = houzez_count_messages($args);
+
+        if( !empty($stats['views']) ){
+            $stats['conversation'] = ($stats['whatsapp'] + $stats['phone'] + $stats['message']) / $stats['views'] * 100;
+        }
+        $stats['conversation'] = empty($stats['conversation']) ? 0 : number_format((float)$stats['conversation'], 2, '.', '');
+
+        return $stats;
     }
 }
 
+if(!function_exists('houzez_count_messages')) {
+    function houzez_count_messages( $args = array() ) {
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'houzez_crm_activities';
+        $query = array();
+
+        $args = wp_parse_args( $args, [
+            'user_id' => false,
+            'activities_start_date' => false,
+            'activities_end_date' => false,
+        ] );
+
+        $query[] = "SELECT COUNT( {$table_name}.activity_id ) AS count";
+        $query[] = "FROM {$table_name} WHERE {$table_name}.user_id IS NOT NULL";
+
+        if (!empty($args['user_id'])) {
+            if ( is_array( $args['user_id'] ) ) {
+                $user_ids = implode( ',', array_map( 'intval', $args['user_id'] ) );
+                $query[] = " AND {$table_name}.user_id IN ({$user_ids}) ";
+            } else {
+                $query[] = sprintf( " AND {$table_name}.user_id = %d ", intval( $args['user_id'] ) );
+            }
+        }
+        if (!empty($args['activities_start_date'])) {
+            $query[] = sprintf(
+                " AND {$table_name}.time >= '%s' ",
+                $args['activities_start_date']
+            );
+        }
+        if (!empty($args['activities_end_date'])) {
+            $query[] = sprintf(
+                " AND {$table_name}.time <= '%s' ",
+                $args['activities_end_date']
+            );
+        }
+
+        $query = join( "\n", $query );
+
+        $results = $wpdb->get_row( $query, OBJECT );
+
+        return is_object( $results ) && ! empty( $results->count ) ? (int) $results->count : 0;
+    }
+}
+
+if(!function_exists('houzez_count_views_tracking')) {
+    function houzez_count_views_tracking( $args = array(), $type = false ) {
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'houzez_crm_viewed_listings_statistics';
+        $query = array();
+
+        $args = wp_parse_args( $args, [
+            'user_id' => false,
+            'activities_start_date' => false,
+            'activities_end_date' => false,
+        ] );
+
+        $query[] = "SELECT COUNT( {$table_name}.id ) AS count";
+        $query[] = "FROM {$table_name}";
+        $query[] = "INNER JOIN {$wpdb->posts} ON ( {$wpdb->posts}.ID = {$table_name}.listing_id )";
+        $query[] = "WHERE {$wpdb->posts}.post_status = 'publish'";
+
+        if (!empty($args['user_id'])) {
+            if ( is_array( $args['user_id'] ) ) {
+                $user_ids = implode( ',', array_map( 'intval', $args['user_id'] ) );
+                $query[] = " AND {$wpdb->posts}.post_author IN ({$user_ids}) ";
+            } else {
+                $query[] = sprintf( " AND {$wpdb->posts}.post_author = %d ", intval( $args['user_id'] ) );
+            }
+        }
+        if (!empty($args['activities_start_date'])) {
+            $query[] = sprintf(
+                " AND {$table_name}.time >= '%s' ",
+                $args['activities_start_date']
+            );
+        }
+        if (!empty($args['activities_end_date'])) {
+            $query[] = sprintf(
+                " AND {$table_name}.time <= '%s' ",
+                $args['activities_end_date']
+            );
+        }
+        if (!empty($type)) {
+            $query[] = sprintf(
+                " AND {$table_name}.type = '%s' ",
+                $type
+            );
+        }
+
+        $query = join( "\n", $query );
+
+        $results = $wpdb->get_row( $query, OBJECT );
+
+        return is_object( $results ) && ! empty( $results->count ) ? (int) $results->count : 0;
+    }
+}
+
+if(!function_exists('houzez_count_views')) {
+    function houzez_count_views( $args = array() ) {
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'favethemes_insights';
+        $query = array();
+
+        $args = wp_parse_args( $args, [
+            'user_id' => false,
+            'activities_start_date' => false,
+            'activities_end_date' => false,
+        ] );
+
+        $query[] = "SELECT COUNT( {$table_name}.id ) AS count";
+        $query[] = "FROM {$table_name}";
+        $query[] = "INNER JOIN {$wpdb->posts} ON ( {$wpdb->posts}.ID = {$table_name}.listing_id )";
+        $query[] = "WHERE {$wpdb->posts}.post_status = 'publish'";
+
+        if (!empty($args['user_id'])) {
+            if ( is_array( $args['user_id'] ) ) {
+                $user_ids = implode( ',', array_map( 'intval', $args['user_id'] ) );
+                $query[] = " AND {$wpdb->posts}.post_author IN ({$user_ids}) ";
+            } else {
+                $query[] = sprintf( " AND {$wpdb->posts}.post_author = %d ", intval( $args['user_id'] ) );
+            }
+        }
+        if (!empty($args['activities_start_date'])) {
+            $query[] = sprintf(
+                " AND {$table_name}.time >= '%s' ",
+                $args['activities_start_date']
+            );
+        }
+        if (!empty($args['activities_end_date'])) {
+            $query[] = sprintf(
+                " AND {$table_name}.time <= '%s' ",
+                $args['activities_end_date']
+            );
+        }
+
+        $query = join( "\n", $query );
+
+        $results = $wpdb->get_row( $query, OBJECT );
+
+        return is_object( $results ) && ! empty( $results->count ) ? (int) $results->count : 0;
+    }
+}
 
 ?>

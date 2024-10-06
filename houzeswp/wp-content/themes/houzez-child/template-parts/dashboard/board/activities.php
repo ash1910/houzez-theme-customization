@@ -24,14 +24,15 @@ $activities_by_month = isset($_GET['activities_by_month']) ? sanitize_text_field
 $activities_by_day = isset($_GET['activities_by_day']) ? sanitize_text_field($_GET['activities_by_day']) : '';
 
 if( $activities_by_day !='' ) {
-    $activities_start_date = $activities_end_date = $activities_by_day;
+    $activities_start_date = date( 'Y-m-d 00:00:00', strtotime($activities_by_day) );
+    $activities_end_date = date( 'Y-m-d 11:59:59', strtotime($activities_by_day) );
 }
 if( $activities_by_month == "" &&  $activities_by_day == ''){
     $activities_by_month = date("m-Y");
 }
 if( $activities_by_month !='' ) {
-    $activities_start_date = date( 'Y-m-01', strtotime($activities_by_month) );
-    $activities_end_date = date( 'Y-m-31', strtotime($activities_by_month) );
+    $activities_start_date = date( 'Y-m-01 00:00:00', strtotime("01-".$activities_by_month) );
+    $activities_end_date = date( 'Y-m-t 11:59:59', strtotime("01-".$activities_by_month) );
 }
 
 $month_options = $selected = "";
@@ -43,8 +44,8 @@ for ($i = 0; $i <= 18; $i++) {
     $month_options .= '<option value="'.date("m-Y", $mV).'" '.$selected.'>'.date("F Y", $mV).'</option>';
 }
 
-$activities_stats = houzez_views_user_stats($user_id);
-echo "<pre>";print_r($activities_stats);exit;
+$activities_stats = houzez_views_user_stats($user_id, $activities_start_date, $activities_end_date);
+//echo "<pre>";print_r($activities_stats);exit;
 ?>
 <header class="header-main-wrap dashboard-header-main-wrap">
     <div class="dashboard-header-wrap">
@@ -104,7 +105,7 @@ echo "<pre>";print_r($activities_stats);exit;
                                     </div>
                                     <div class="right-text">
                                         <span>Total View</span>
-                                        <span class="btn-txt-2">2.8K</span>
+                                        <span class="btn-txt-2"><?php echo !empty($activities_stats['views']) ? $activities_stats['views'] : "0"; ?></span>
                                     </div>
                                 </a>
                             </li>
@@ -115,7 +116,7 @@ echo "<pre>";print_r($activities_stats);exit;
                                     </div>
                                     <div class="right-text">
                                         <span>Conversation Rate</span>
-                                        <span class="btn-txt-2">100</span>
+                                        <span class="btn-txt-2"><?php echo !empty($activities_stats['conversation']) ? $activities_stats['conversation'] : "0"; ?>%</span>
                                     </div>
                                 </a>
                             </li>
@@ -126,7 +127,7 @@ echo "<pre>";print_r($activities_stats);exit;
                                     </div>
                                     <div class="right-text">
                                         <span>Message</span>
-                                        <span class="btn-txt-2">100</span>
+                                        <span class="btn-txt-2"><?php echo !empty($activities_stats['message']) ? $activities_stats['message'] : "0"; ?></span>
                                     </div>
                                 </a>
                             </li>
@@ -137,7 +138,7 @@ echo "<pre>";print_r($activities_stats);exit;
                                     </div>
                                     <div class="right-text">
                                         <span>Phone</span>
-                                        <span class="btn-txt-2">100</span>
+                                        <span class="btn-txt-2"><?php echo !empty($activities_stats['phone']) ? $activities_stats['phone'] : "0"; ?></span>
                                     </div>
                                 </a>
                             </li>
@@ -147,7 +148,7 @@ echo "<pre>";print_r($activities_stats);exit;
                                         <i class="btn-icon houzez-icon icon-messaging-whatsapp"></i>                                    </div>
                                     <div class="right-text">
                                         <span>WhatsApp</span>
-                                        <span class="btn-txt-2">100</span>
+                                        <span class="btn-txt-2"><?php echo !empty($activities_stats['whatsapp']) ? $activities_stats['whatsapp'] : "0"; ?></span>
                                     </div>
                                 </a>
                             </li>
