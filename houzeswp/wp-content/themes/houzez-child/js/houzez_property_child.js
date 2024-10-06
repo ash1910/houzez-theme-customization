@@ -383,8 +383,54 @@ var propertyViewTrack = function($) {
     });
 }
 
+var houzez_activities_update_url = function($) {
+
+    $('#activities_by_month').on( 'change', function() {
+        var activities_by_month  = $('#activities_by_month').val();
+
+        var queryStringParts = [];
+        if(activities_by_month) {
+            queryStringParts.push('activities_by_month=' + encodeURIComponent(activities_by_month));
+        }
+        
+        houzez_activities_update_url_n(queryStringParts);
+    });
+
+    $('#activities_by_day').on( 'change', function() {
+        var activities_by_day    = $('#activities_by_day').val();
+
+        var queryStringParts = [];
+        if(activities_by_day) {
+            queryStringParts.push('activities_by_day=' + encodeURIComponent(activities_by_day));
+        }
+        houzez_activities_update_url_n(queryStringParts);
+
+    });
+}
+
+var houzez_activities_update_url_n = function(queryStringParts) {
+
+    var queryString = queryStringParts.join('&');
+
+    var newUrl = "/board/";
+    if (queryString) {
+        newUrl += '?' + queryString;
+    }
+    window.location.href = newUrl;
+}
+
 jQuery(document).ready( function($) {
     "use strict";
+
+    /*--------------------------------------------------------------------------
+    *  Property View Tracking
+    * -------------------------------------------------------------------------*/
     
     propertyViewTrack($);
+
+    /*--------------------------------------------------------------------------
+    *  Activities Filter
+    * -------------------------------------------------------------------------*/
+    houzez_activities_update_url($);
+
 });

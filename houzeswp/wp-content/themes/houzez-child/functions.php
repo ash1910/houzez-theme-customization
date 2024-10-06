@@ -1495,5 +1495,15 @@ if(!function_exists('houzez_views_percentage_ns')) {
     }
 }
 
+if(!function_exists('houzez_views_user_stats')) {
+    function houzez_views_user_stats($user_id) {
+
+        $insights = new Fave_Insights();
+        $insights_stats = $insights->fave_user_stats($user_id);
+
+        return $insights_stats;
+    }
+}
+
 
 ?>
