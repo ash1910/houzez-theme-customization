@@ -364,6 +364,7 @@ i.menu-icon {
 .activities-view-btn-wrap li {
     padding: 0;
     flex: 0 0 calc(33.33% - 20px);
+    min-width: 298px;
 }
 .activities-view-btn-wrap a, .activities-view-btn-wrap a:hover, .activities-view-btn-wrap a:focus {
     display: block;
@@ -500,7 +501,7 @@ i.menu-icon {
     }
     .activities-view-btn-wrap li {
         padding: 0;
-        flex: 0 0 calc(50% - 20px);
+        flex: 0 0 calc(50% - 15px);
     }
     .dashboard-content-block-ns .dashboard-content-block-ns-title {
         margin: -5px -15px 30px -15px;

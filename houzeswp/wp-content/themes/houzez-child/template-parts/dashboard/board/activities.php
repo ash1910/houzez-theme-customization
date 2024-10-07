@@ -68,12 +68,12 @@ $activities_stats = houzez_views_user_stats($user_id, $activities_start_date, $a
                     <div class="dashboard-content-activities-block">
 
                         <div class="row">
-                            <div class="col-md-2 col-sm-6 activities_select">
+                            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 activities_select">
                                 <select id="activities_by_month" class="selectpicker form-control " title="<?php esc_html_e( 'Month Year', 'houzez' ); ?>" >
                                     <?php echo $month_options;?>
                                 </select><!-- selectpicker -->
                             </div>
-                            <div class="col-md-2 col-sm-6 activities_select">
+                            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 activities_select">
                                 <div class="input-group date">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text"><i class="houzez-icon icon-calendar-3"></i></div>
