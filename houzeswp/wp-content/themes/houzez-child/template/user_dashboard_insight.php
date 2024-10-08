@@ -105,12 +105,6 @@ if (!empty($_GET['keyword'])) {
             <div class="dashboard-header-left flex-grow-1">
                 <h1><?php echo houzez_option('dsh_insight', 'Insight'); ?></h1>           
             </div><!-- dashboard-header-left -->
-
-            <?php if(!empty($dashboard_add_listing)) { ?>
-            <div class="dashboard-header-right">
-                <a class="btn btn-primary" href="<?php echo esc_url($dashboard_add_listing); ?>"><?php echo houzez_option('dsh_create_listing', 'Create a Listing'); ?></a>
-            </div><!-- dashboard-header-right -->
-            <?php } ?>
         </div><!-- d-flex -->
     </div><!-- dashboard-header-wrap -->
 </header><!-- .header-main-wrap -->
@@ -134,7 +128,7 @@ if (!empty($_GET['keyword'])) {
                 </div>
                 <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12 offset-xl-3 activities_select">
                     <div class="dashboard-property-search" style="padding-right: 0;">
-                        <?php get_template_part('template-parts/dashboard/property/search'); ?>
+                        <?php get_template_part('template-parts/dashboard/property/search-insight'); ?>
                     </div>
                 </div>
             </div>

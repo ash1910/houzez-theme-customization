@@ -484,7 +484,7 @@ i.menu-icon {
 .activities_select{
     margin-bottom: 25px;
 }
-.activities_select button.btn.dropdown-toggle.btn-light.bs-placeholder, .activities_select button.btn.dropdown-toggle.btn-light, .activities_select .input-group-text  {
+.activities_select button.btn.dropdown-toggle.btn-light.bs-placeholder, .activities_select button.btn.dropdown-toggle.btn-light, .activities_select .input-group-text, .activities_select .dashboard-property-search .search-icon .form-control  {
     background-color: #F7F7F7;
 }
 
