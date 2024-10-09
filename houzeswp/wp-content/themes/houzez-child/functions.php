@@ -1496,7 +1496,7 @@ if(!function_exists('houzez_views_percentage_ns')) {
 }
 
 if(!function_exists('houzez_views_user_stats')) {
-    function houzez_views_user_stats($user_id, $activities_start_date, $activities_end_date) {
+    function houzez_views_user_stats($user_id, $activities_start_date, $activities_end_date, $listing_id = false) {
 
         //echo "{$user_id}, {$activities_start_date}, {$activities_end_date}";exit;
 
@@ -1519,7 +1519,7 @@ if(!function_exists('houzez_views_user_stats')) {
         }
 
         $stats = array();
-        $args = array('user_id' => $user_id, 'activities_start_date' => $activities_start_date, 'activities_end_date' => $activities_end_date);
+        $args = array('user_id' => $user_id, 'listing_id' => $listing_id, 'activities_start_date' => $activities_start_date, 'activities_end_date' => $activities_end_date);
 
         $stats['views'] = houzez_count_views($args);
         $stats['whatsapp'] = houzez_count_views_tracking($args, 'w');
@@ -1545,12 +1545,16 @@ if(!function_exists('houzez_count_messages')) {
             'user_id' => false,
             'activities_start_date' => false,
             'activities_end_date' => false,
+            'listing_id' => false,
         ] );
 
         $query[] = "SELECT COUNT( {$table_name}.activity_id ) AS count";
         $query[] = "FROM {$table_name} WHERE {$table_name}.user_id IS NOT NULL";
 
-        if (!empty($args['user_id'])) {
+        if (!empty($args['listing_id'])) {
+            $query[] = sprintf( " AND {$table_name}.meta REGEXP '.*\"listing_id\";i:%d.*' ", intval( $args['listing_id'] ) );
+        }
+        else if (!empty($args['user_id'])) {
             if ( is_array( $args['user_id'] ) ) {
                 $user_ids = implode( ',', array_map( 'intval', $args['user_id'] ) );
                 $query[] = " AND {$table_name}.user_id IN ({$user_ids}) ";
@@ -1589,6 +1593,7 @@ if(!function_exists('houzez_count_views_tracking')) {
             'user_id' => false,
             'activities_start_date' => false,
             'activities_end_date' => false,
+            'listing_id' => false,
         ] );
 
         $query[] = "SELECT COUNT( {$table_name}.id ) AS count";
@@ -1596,7 +1601,10 @@ if(!function_exists('houzez_count_views_tracking')) {
         $query[] = "INNER JOIN {$wpdb->posts} ON ( {$wpdb->posts}.ID = {$table_name}.listing_id )";
         $query[] = "WHERE {$wpdb->posts}.post_status = 'publish'";
 
-        if (!empty($args['user_id'])) {
+        if (!empty($args['listing_id'])) {
+            $query[] = sprintf( " AND {$table_name}.listing_id = %d ", intval( $args['listing_id'] ) );
+        }
+        else if (!empty($args['user_id'])) {
             if ( is_array( $args['user_id'] ) ) {
                 $user_ids = implode( ',', array_map( 'intval', $args['user_id'] ) );
                 $query[] = " AND {$wpdb->posts}.post_author IN ({$user_ids}) ";
@@ -1641,6 +1649,7 @@ if(!function_exists('houzez_count_views')) {
             'user_id' => false,
             'activities_start_date' => false,
             'activities_end_date' => false,
+            'listing_id' => false,
         ] );
 
         $query[] = "SELECT COUNT( {$table_name}.id ) AS count";
@@ -1648,7 +1657,10 @@ if(!function_exists('houzez_count_views')) {
         $query[] = "INNER JOIN {$wpdb->posts} ON ( {$wpdb->posts}.ID = {$table_name}.listing_id )";
         $query[] = "WHERE {$wpdb->posts}.post_status = 'publish'";
 
-        if (!empty($args['user_id'])) {
+        if (!empty($args['listing_id'])) {
+            $query[] = sprintf( " AND {$table_name}.listing_id = %d ", intval( $args['listing_id'] ) );
+        }
+        else if (!empty($args['user_id'])) {
             if ( is_array( $args['user_id'] ) ) {
                 $user_ids = implode( ',', array_map( 'intval', $args['user_id'] ) );
                 $query[] = " AND {$wpdb->posts}.post_author IN ({$user_ids}) ";

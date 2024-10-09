@@ -388,22 +388,28 @@ var houzez_activities_update_url = function($) {
     $('#activities_by_month').on( 'change', function() {
         var activities_by_month  = $('#activities_by_month').val();
 
-        var queryStringParts = [];
+        //var queryStringParts = [];
         if(activities_by_month) {
-            queryStringParts.push('activities_by_month=' + encodeURIComponent(activities_by_month));
+            //queryStringParts.push('activities_by_month=' + encodeURIComponent(activities_by_month));
+            newUrl = replaceUrlParam("activities_by_month", encodeURIComponent(activities_by_month));
+            newUrl = replaceUrlParam("activities_by_day", '', newUrl);
+            window.location.href = newUrl;
         }
-        
-        houzez_activities_update_url_n(queryStringParts);
+
+        //houzez_activities_update_url_n(queryStringParts);
     });
 
     $('#activities_by_day').on( 'change', function() {
         var activities_by_day    = $('#activities_by_day').val();
 
-        var queryStringParts = [];
+        //var queryStringParts = [];
         if(activities_by_day) {
-            queryStringParts.push('activities_by_day=' + encodeURIComponent(activities_by_day));
+            //queryStringParts.push('activities_by_day=' + encodeURIComponent(activities_by_day));
+            newUrl = replaceUrlParam("activities_by_day", encodeURIComponent(activities_by_day));
+            newUrl = replaceUrlParam("activities_by_month", '', newUrl);
+            window.location.href = newUrl;
         }
-        houzez_activities_update_url_n(queryStringParts);
+        //houzez_activities_update_url_n(queryStringParts);
 
     });
 }
@@ -417,6 +423,24 @@ var houzez_activities_update_url_n = function(queryStringParts) {
         newUrl += '?' + queryString;
     }
     window.location.href = newUrl;
+}
+
+function replaceUrlParam(paramName, paramValue, url){
+    if (url == null) {
+        url = window.location.href;
+    }
+
+    if (paramValue == null) {
+        paramValue = '';
+    }
+
+    var pattern = new RegExp('\\b('+paramName+'=).*?(&|#|$)');
+    if (url.search(pattern)>=0) {
+        return url.replace(pattern,'$1' + paramValue + '$2');
+    }
+
+    url = url.replace(/[?#]$/,'');
+    return url + (url.indexOf('?')>0 ? '&' : '?') + paramName + '=' + paramValue;
 }
 
 jQuery(document).ready( function($) {

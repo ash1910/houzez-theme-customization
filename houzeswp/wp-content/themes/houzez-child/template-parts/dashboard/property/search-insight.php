@@ -5,7 +5,8 @@
 	    		<input class="form-control" name="keyword" value="<?php echo isset($_GET['keyword']) ? esc_attr($_GET['keyword']) : '';?>" placeholder="<?php echo esc_html__('Search', 'houzez'); ?>" type="text">
 	    	</div>
 	    </div>
-	    <input type="hidden" name="prop_status" value="<?php echo isset($_GET['prop_status']) ? esc_attr($_GET['prop_status']) : '';?>">
+	    <input type="hidden" name="activities_by_day" value="<?php echo isset($_GET['activities_by_day']) ? esc_attr($_GET['activities_by_day']) : '';?>">
+		<input type="hidden" name="activities_by_month" value="<?php echo isset($_GET['activities_by_month']) ? esc_attr($_GET['activities_by_month']) : '';?>">
 	    <button class="btn btn-search btn-secondary" type="submit"><?php esc_html_e('Search', 'houzez'); ?></button>
 	</div>
 </form>

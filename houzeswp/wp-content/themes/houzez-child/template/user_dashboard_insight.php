@@ -140,25 +140,46 @@ if (!empty($_GET['keyword'])) {
                 <table class="dashboard-table dashboard-table-properties table-lined table-hover responsive-table">
                 <thead>
                     <tr>
-                        <th><?php echo esc_html__('Thumbnail', 'houzez'); ?></th>
-                        <th><?php echo esc_html__('Title', 'houzez'); ?></th>
-                        <th></th>
-                        <th><?php echo esc_html__('Type', 'houzez'); ?></th>
-                        <th><?php echo esc_html__('Status', 'houzez'); ?></th>
-                        <th><?php echo esc_html__('Price', 'houzez'); ?></th>
-                        <th><?php echo esc_html__('Featured', 'houzez'); ?></th>
-                        <th><?php echo esc_html__('Posted', 'houzez'); ?></th>
-                        <th class="action-col"><?php echo esc_html__('Actions', 'houzez'); ?></th>
+                        <th><?php echo esc_html__('Properties Photo & Name', 'houzez'); ?></th>
+                        <th><?php echo esc_html__('Impression', 'houzez'); ?></th>
+                        <th><?php echo esc_html__('Message', 'houzez'); ?></th>
+                        <th><?php echo esc_html__('Phone', 'houzez'); ?></th>
+                        <th><?php echo esc_html__('WhatsApp', 'houzez'); ?></th>
+                        <th class="action-col"><?php echo esc_html__('States', 'houzez'); ?></th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php 
-                    while ($prop_qry->have_posts()): $prop_qry->the_post();
-
-                        get_template_part('template-parts/dashboard/property/property-item');
-
-                    endwhile;  
+                    while ($prop_qry->have_posts()): $prop_qry->the_post(); 
+                        $activities_stats = houzez_views_user_stats($userID, $activities_start_date, $activities_end_date, get_the_ID());
                     ?>
+
+                    <tr>
+                        
+                        <td class="property-table-thumbnail" data-label="<?php echo esc_html__('Thumbnail', 'houzez'); ?>">
+                            <div class="table-property-thumb">
+                                <a href="<?php echo esc_url(get_permalink()); ?>">
+                                <?php
+                                if( has_post_thumbnail() && get_the_post_thumbnail(get_the_ID()) != '') {
+                                    the_post_thumbnail(array('100', '75'));
+                                } else {
+                                    echo '<img src="http://via.placeholder.com/100x75">';
+                                }
+                                ?>
+                                    <span><?php the_title(); ?></span>
+                                </a>	
+                            </div>
+                        </td>
+                        <td><?php echo !empty($activities_stats['views']) ? $activities_stats['views'] : "0"; ?></td>
+                        <td>100</td>
+                        <td>10</td>
+                        <td>0</td>
+                        <td>
+                            <a class="btn btn-primary" href="">Advance States</a>
+                        </td>
+                    </tr>
+
+                    <?php endwhile; ?>
 
                 </tbody>
                 </table><!-- dashboard-table -->
