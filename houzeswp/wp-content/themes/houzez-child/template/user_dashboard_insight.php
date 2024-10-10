@@ -109,7 +109,7 @@ if (!empty($_GET['keyword'])) {
     </div><!-- dashboard-header-wrap -->
 </header><!-- .header-main-wrap -->
 <section class="dashboard-content-wrap">
-    <div class="dashboard-content-inner-wrap">
+    <div class="dashboard-content-inner-wrap" style="padding-top : 0;">
         <div class="dashboard-content-block-wrap">
 
             <div class="row">
@@ -137,7 +137,9 @@ if (!empty($_GET['keyword'])) {
             $prop_qry = new WP_Query($args); 
             if( $prop_qry->have_posts() ): ?>
                 <div id="dash-prop-msg"></div>
-                <table class="dashboard-table dashboard-table-properties table-lined table-hover responsive-table">
+
+            <div class="dashboard-table-insight-wrap">
+                <table class="dashboard-table dashboard-table-insight table-lined table-hover responsive-table">
                 <thead>
                     <tr>
                         <th><?php echo esc_html__('Properties Photo & Name', 'houzez'); ?></th>
@@ -161,9 +163,9 @@ if (!empty($_GET['keyword'])) {
                                 <a href="<?php echo esc_url(get_permalink()); ?>">
                                 <?php
                                 if( has_post_thumbnail() && get_the_post_thumbnail(get_the_ID()) != '') {
-                                    the_post_thumbnail(array('100', '75'));
+                                    the_post_thumbnail(array('64', '64'));
                                 } else {
-                                    echo '<img src="http://via.placeholder.com/100x75">';
+                                    echo '<img src="http://via.placeholder.com/64x64">';
                                 }
                                 ?>
                                     <span><?php the_title(); ?></span>
@@ -171,11 +173,11 @@ if (!empty($_GET['keyword'])) {
                             </div>
                         </td>
                         <td><?php echo !empty($activities_stats['views']) ? $activities_stats['views'] : "0"; ?></td>
-                        <td>100</td>
-                        <td>10</td>
-                        <td>0</td>
+                        <td><?php echo !empty($activities_stats['message']) ? $activities_stats['message'] : "0"; ?></td>
+                        <td><?php echo !empty($activities_stats['phone']) ? $activities_stats['phone'] : "0"; ?></td>
+                        <td><?php echo !empty($activities_stats['whatsapp']) ? $activities_stats['whatsapp'] : "0"; ?></td>
                         <td>
-                            <a class="btn btn-primary" href="">Advance States</a>
+                            <a class="btn btn-primary btn-advance-state" href="">Advance States</a>
                         </td>
                     </tr>
 
@@ -183,8 +185,10 @@ if (!empty($_GET['keyword'])) {
 
                 </tbody>
                 </table><!-- dashboard-table -->
-
+            </div>
+            <div class="dashboard-insight-pagination-wrap">
                 <?php houzez_pagination( $prop_qry->max_num_pages ); ?>
+            </div>
 
             <?php    
             else: 

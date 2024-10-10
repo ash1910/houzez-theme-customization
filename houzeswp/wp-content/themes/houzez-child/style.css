@@ -487,6 +487,60 @@ i.menu-icon {
 .activities_select button.btn.dropdown-toggle.btn-light.bs-placeholder, .activities_select button.btn.dropdown-toggle.btn-light, .activities_select .input-group-text, .activities_select .dashboard-property-search .search-icon .form-control  {
     background-color: #F7F7F7;
 }
+.dashboard-table-insight-wrap{
+    border-radius: 6px;
+    border: 1px solid #DEDEDE;
+    overflow: hidden;
+}
+.dashboard-table-insight-wrap .table-hover thead tr {
+    border-bottom: 1px solid #DEDEDE;
+    background-color: #F7F7F7;
+}
+.dashboard-table-insight-wrap .dashboard-table th {
+    padding: 18px 10px 18px 10px;
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: normal;
+    letter-spacing: -.02em;
+    color: #222222;
+}
+.dashboard-table-insight-wrap .dashboard-table thead tr > th:nth-child(1) {
+    padding-left: 30px;
+}
+.dashboard-table-insight-wrap .table-lined tbody td {
+    border-bottom: 1px solid #DEDEDE;
+    color: rgba(34, 34, 34, .72);
+    font-size: 16px;
+}
+.dashboard-table-insight-wrap .table-property-thumb {
+    width: auto;
+    padding: 5px 5px 5px 20px;
+}
+.dashboard-table-insight-wrap .table-property-thumb a {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    color: #000000;
+    letter-spacing: -.02em;
+}
+.dashboard-insight-pagination-wrap ul.pagination.justify-content-center {
+    justify-content: right !important;
+}
+.dashboard-table-insight-wrap a.btn.btn-advance-state {
+    background-color: rgba(54, 170, 113, 0.15);
+    color: #36AA71;
+    border-color: rgba(54, 170, 113, 0.15);
+    font-size: 14px;
+    padding: 0px 20px;
+}
+.dashboard-table-insight-wrap .table-hover tbody tr:hover {
+    background-color: #F7F7F7;
+}
+.dashboard-table-insight-wrap .table-hover tbody tr:hover a.btn.btn-advance-state{
+    background-color: #36AA71;
+    color: #ffffff;
+    border-color: #36AA71;
+}
 
 
 @media (max-width: 767.98px) {
