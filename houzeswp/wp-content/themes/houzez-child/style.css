@@ -541,6 +541,15 @@ i.menu-icon {
     color: #ffffff;
     border-color: #36AA71;
 }
+.dashboard-content-block-ns .chart-nav .nav-pills .nav-link {
+    border: 1.1px solid rgba(222, 222, 222, 1);
+    font-size: 13px;
+    color: #222222;
+    margin-right: 12px;
+}
+.dashboard-content-block-ns .nav-pills .nav-link.active{
+    background-color: transparent;
+}
 
 
 @media (max-width: 767.98px) {

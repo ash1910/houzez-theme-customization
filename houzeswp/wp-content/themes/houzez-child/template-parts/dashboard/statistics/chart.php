@@ -1,6 +1,6 @@
 <div class="dashboard-content-block dashboard-statistic-block dashboard-content-block-ns">
 	<h3 class="dashboard-content-block-ns-title"><i class="houzez-icon icon-sign-badge-circle mr-2 primary-text"></i> <?php esc_html_e('Visits', 'houzez'); ?></h3>
-	<div class="chart-nav" style="right: 30px; top: 23px;">
+	<div class="chart-nav" style="right: 18px; top: 23px;">
 		<ul class="nav nav-pills" id="myTab" role="tablist">
 			<li class="nav-item">
 				<a class="nav-link active" data-toggle="tab" href="#chart-24h" role="tab">
