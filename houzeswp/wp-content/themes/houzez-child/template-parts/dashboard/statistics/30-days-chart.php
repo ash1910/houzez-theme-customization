@@ -11,4 +11,4 @@ foreach ($lastmonth as $value) {
 	$labels[] = $value['label'] ?? '';
 }
 ?>
-<canvas id="visits-chart-30d-n" data-labels='<?php echo json_encode($labels); ?>' data-views='<?php echo json_encode($views); ?>' data-unique='<?php echo json_encode($unique_views); ?>' data-visit-label="<?php echo esc_attr($houzez_local['visits_label']); ?>" data-unique-label="<?php echo esc_attr($houzez_local['unique_label']); ?>" width="500" height="249"></canvas>
+<canvas id="visits-chart-30d-n" data-labels='<?php echo json_encode($labels); ?>' data-views='<?php echo json_encode($views); ?>' data-unique='<?php echo json_encode($unique_views); ?>' data-visit-label="<?php echo esc_attr($houzez_local['visits_label']); ?>" data-unique-label="<?php echo esc_attr($houzez_local['unique_label']); ?>" width="500" height="290"></canvas>

@@ -56,7 +56,7 @@ $activities_stats = houzez_views_user_stats($user_id, $activities_start_date, $a
             <div class="dashboard-header-left flex-grow-1">
                 <h1><?php echo houzez_option('dsh_advance_states', 'Advance States'); ?>
                     <?php if(!empty($listing_id)) {
-                        echo "of ". get_the_title($listing_id); 
+                        echo "of '". get_the_title($listing_id) . "'"; 
                     }?>
                  </h1>         
             </div><!-- dashboard-header-left -->
@@ -164,8 +164,7 @@ $activities_stats = houzez_views_user_stats($user_id, $activities_start_date, $a
                     </div><!-- dashboard-content-block -->
                 </div>
             </div>
-        
-            <?php if(!empty($activities['data']['results'])) { ?>
+
             <div class="row">
                 <div class="col-md-6 col-sm-12">
 
@@ -178,18 +177,6 @@ $activities_stats = houzez_views_user_stats($user_id, $activities_start_date, $a
                     
                 </div><!-- col-md-6 col-sm-12 -->
             </div><!-- row -->
-            <?php } else { ?>
-
-                <div class="row">
-                    <div class="col-md-12 col-sm-12">
-                        <div class="dashboard-content-block">
-                            <?php esc_html_e("Don't have any activity at this moment.", 'houzez'); ?>
-                        </div><!-- dashboard-content-block -->
-                    </div>
-                </div>
-
-
-            <?php } ?>
 
         </div><!-- dashboard-content-block-wrap -->
     </div><!-- dashboard-content-inner-wrap -->
