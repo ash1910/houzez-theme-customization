@@ -118,6 +118,23 @@ if ( is_front_page()  ) {
     $paged = (get_query_var('page')) ? get_query_var('page') : 1;
 }
 
+// Advertise
+$advertise_qry = array(
+    'post_type' => 'property',
+    'posts_per_page' => 3,
+    'post_status' => 'publish',
+    'orderby' => 'rand',
+    'meta_query' => array(
+        'relation' => 'AND',
+        array(
+            'key'   => 'fave_advertise',
+            'value' => 1,
+        ),
+    ),
+);
+$advertise_query = new WP_Query( $advertise_qry );
+// Advertise
+
 $search_qry = array(
     'post_type' => 'property',
     'posts_per_page' => $number_of_prop,
@@ -269,6 +286,14 @@ if( $total_records > 1 ) {
 
                 <div class="listing-view <?php echo esc_attr($view_class).' '.esc_attr($cols_in_row).' '.esc_attr($card_deck); ?>">
                     <?php
+                    if( $advertise_query->have_posts() ) {
+                        while ( $advertise_query->have_posts() ) : $advertise_query->the_post();
+
+                            get_template_part('template-parts/listing/item', $item_layout);
+
+                        endwhile;
+                    }
+                    
                     if ( $search_query->have_posts() ) :
                         while ( $search_query->have_posts() ) : $search_query->the_post();
 

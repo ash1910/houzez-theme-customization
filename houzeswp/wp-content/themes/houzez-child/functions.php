@@ -1689,4 +1689,34 @@ if(!function_exists('houzez_count_views')) {
     }
 }
 
+add_action( 'wp_ajax_houzez_property_actions', 'houzez_property_actions_reload_advertise' );
+
+if( !function_exists('houzez_property_actions_reload_advertise') ){
+    function  houzez_property_actions_reload_advertise(){
+
+        $prop_id = intval( $_POST['propid'] );
+        $type = $_POST['type'];
+        
+        if( $type == 'set_advertise' ) {
+            update_post_meta( $prop_id, 'fave_advertise', 1 );
+        } else if ( $type == 'remove_advertise' ) {
+            update_post_meta( $prop_id, 'fave_advertise', 0 );
+
+        } else if ( $type == 'reload' ) {
+
+            $time = current_time('mysql');
+            $listing_data = array(
+                'ID' => $prop_id,
+                'post_date'     => $time,
+                'post_date_gmt' => get_gmt_from_date( $time )
+            );
+            wp_update_post($listing_data);
+        }
+
+        echo json_encode(array('success' => true, 'msg' => ''));
+        wp_die();
+
+    }
+}
+
 ?>
