@@ -1,5 +1,7 @@
 <?php 
 global $houzez_local; 
+//echo "<pre>";print_r($houzez_local);exit;
+
 $currency_symbol = houzez_option( 'currency_symbol' );
 $where_currency = houzez_option( 'currency_position' );
 if(class_exists('Houzez_Currencies')) {
@@ -18,6 +20,11 @@ $payment_page_link = houzez_get_template_link('template/template-payment.php');
 
 $time_period = isset($_GET['time_period']) ? sanitize_text_field($_GET['time_period']) : '6';
 
+$package_role_val = "agency";
+if( houzez_is_developer() ){
+    $package_role_val = "developer";
+}
+
 $args = array(
     'post_type'       => 'houzez_packages',
     'posts_per_page'  => -1,
@@ -31,6 +38,11 @@ $args = array(
         array(
             'key' => 'fave_billing_unit',
             'value' => $time_period,
+            'compare' => '=',
+        ),
+        array(
+            'key' => 'fave_package_role',
+            'value' => $package_role_val,
             'compare' => '=',
         )
     )

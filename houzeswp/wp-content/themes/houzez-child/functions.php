@@ -862,6 +862,7 @@ if( !function_exists('houzez_get_user_current_package') ) {
 
         $remaining_listings = houzez_get_remaining_listings( $user_id );
         $pack_featured_remaining_listings = houzez_get_featured_remaining_listings( $user_id );
+        $pack_reloads_remaining = get_the_author_meta( 'package_reloads' , $user_id );
         $package_id = houzez_get_user_package_id( $user_id );
         $packages_page_link = houzez_get_template_link('template/template-packages.php');
 
@@ -879,6 +880,7 @@ if( !function_exists('houzez_get_user_current_package') ) {
             $pack_billing_period = get_post_meta( $package_id, 'fave_billing_time_unit', true );
             $pack_billing_frequency = get_post_meta( $package_id, 'fave_billing_unit', true );
             $pack_date =  get_user_meta( $user_id, 'package_activation',true );
+            $pack_reloads = get_post_meta( $package_id, 'fave_package_reloads', true );
 
             if( $pack_billing_period == 'Day')
                 $pack_billing_period = 'days';
@@ -908,6 +910,10 @@ if( !function_exists('houzez_get_user_current_package') ) {
             echo '<li>'.esc_html__('Featured Included: ','houzez').'<strong>'.esc_attr( $pack_featured_listings ).'</strong></li>';
 
             echo '<li>'.esc_html__('Featured Remaining: ','houzez').'<strong>'.esc_attr( $pack_featured_remaining_listings ).'</strong></li>';
+            
+            echo '<li>'.esc_html__('Reload Included: ','houzez').'<strong>'.esc_attr( $pack_reloads ).'</strong></li>';
+            echo '<li>'.esc_html__('Reload Remaining: ','houzez').'<strong>'.esc_attr( $pack_reloads_remaining ).'</strong></li>';
+            
             echo '<li>'.esc_html__('Ends On','houzez').'<strong>';
             echo ' '.esc_attr( $expired_date );
             echo '</strong></li>';
@@ -1703,19 +1709,46 @@ if( !function_exists('houzez_property_actions_reload_advertise') ){
             update_post_meta( $prop_id, 'fave_advertise', 0 );
 
         } else if ( $type == 'reload' ) {
+            $userID = get_current_user_id();
 
-            $time = current_time('mysql');
-            $listing_data = array(
-                'ID' => $prop_id,
-                'post_date'     => $time,
-                'post_date_gmt' => get_gmt_from_date( $time )
-            );
-            wp_update_post($listing_data);
+            $packageUserId = $userID;
+            $agent_agency_id = houzez_get_agent_agency_id( $userID );
+            if( $agent_agency_id ) {
+                $packageUserId = $agent_agency_id;
+            }
+
+            $package_reloads = get_the_author_meta( 'package_reloads' , $packageUserId );
+
+            if ($package_reloads > 0) {
+                houzez_update_package_reloads($packageUserId);
+
+                $time = current_time('mysql');
+                $listing_data = array(
+                    'ID' => $prop_id,
+                    'post_date'     => $time,
+                    'post_date_gmt' => get_gmt_from_date( $time )
+                );
+                wp_update_post($listing_data);
+            }
+
+
         }
 
         echo json_encode(array('success' => true, 'msg' => ''));
         wp_die();
 
+    }
+}
+
+if( !function_exists('houzez_update_package_reloads') ) {
+    function houzez_update_package_reloads($user_id) {
+        $package_reloads = get_the_author_meta( 'package_reloads' , $user_id );
+
+        if ( $package_reloads-1 >= 0 ) {
+            update_user_meta( $user_id, 'package_reloads', $package_reloads - 1 );
+        } else if( $package_reloads == 0 ) {
+            update_user_meta( $user_id, 'package_reloads', 0 ) ;
+        }
     }
 }
 
@@ -1743,6 +1776,14 @@ if( !function_exists('houzez_packages_metaboxes') ) {
                     'placeholder' => esc_html__( 'Enter the frequency number', 'houzez' ),
                     'type' => 'text',
                     'std' => "0",
+                    'columns' => 6,
+                ),
+                array(
+                    'id' => "{$houzez_prefix}package_role",
+                    'name' => esc_html__( 'For Agency/Developer?', 'houzez' ),
+                    'type' => 'select',
+                    'std' => "no",
+                    'options' => array( 'agency' => esc_html__( 'Agency', 'houzez' ), 'developer' => esc_html__( 'Developer', 'houzez' ) ),
                     'columns' => 6,
                 ),
                 array(
@@ -1896,4 +1937,310 @@ if( !function_exists('houzez_packages_metaboxes') ) {
     add_filter( 'rwmb_meta_boxes', 'houzez_packages_metaboxes' );
 }
 
+/**
+ * Show custom user profile fields
+ * @param  obj $user The user object.
+ * @return void
+ */
+if( !function_exists('houzez_custom_user_profile_fields')) {
+    function houzez_custom_user_profile_fields($user) {
+
+        if ( in_array('houzez_agent', (array)$user->roles ) ) {
+            $information_title = esc_html__('Agent Profile Info', 'houzez');
+            $title = esc_html__('Title/Position', 'houzez');
+
+        } elseif ( in_array('houzez_agency', (array)$user->roles ) ) {
+            $information_title = esc_html__('Agency Profile Info', 'houzez');
+            $title = esc_html__('Agency Name', 'houzez');
+
+        } elseif ( in_array('author', (array)$user->roles ) ) {
+            $information_title = esc_html__('Author Profile Info', 'houzez');
+            $title = esc_html__('Title/Position', 'houzez');
+        } else {
+            $information_title = esc_html__('Profile Info', 'houzez');
+            $title = esc_html__('Title/Position', 'houzez');
+        }
+    ?>
+        <h2><?php echo $information_title; ?></h2>
+        <table class="form-table">
+            <input type="hidden" name="houzez_role" value="<?php echo esc_attr($user->roles[0]); ?>">
+            <tbody>
+                <tr class="user-fave_author_title-wrap">
+                    <th><label for="fave_author_title"><?php echo $title; ?></label></th>
+                    <td><input type="text" name="fave_author_title" id="fave_author_title" value="<?php echo esc_attr( get_the_author_meta( 'fave_author_title', $user->ID ) ); ?>" class="regular-text"></td>
+                </tr>
+
+                <?php if ( !in_array('houzez_agency', (array)$user->roles ) ) { ?>
+                <tr class="user-fave_author_company-wrap">
+                    <th><label for="fave_author_company"><?php echo esc_html__('Company Name', 'houzez'); ?></label></th>
+                    <td><input type="text" name="fave_author_company" id="fave_author_company" value="<?php echo esc_attr( get_the_author_meta( 'fave_author_company', $user->ID ) ); ?>" class="regular-text"></td>
+                </tr>
+                <?php } ?>
+
+                <tr class="user-fave_author_language-wrap">
+                    <th><label for="fave_author_language"><?php echo esc_html__('Language', 'houzez'); ?></label></th>
+                    <td><input type="text" name="fave_author_language" id="fave_author_language" value="<?php echo esc_attr( get_the_author_meta( 'fave_author_language', $user->ID ) ); ?>" class="regular-text"></td>
+                </tr>
+                <tr class="user-fave_author_license-wrap">
+                    <th><label for="fave_author_license"><?php echo esc_html__('License', 'houzez'); ?></label></th>
+                    <td><input type="text" name="fave_author_license" id="fave_author_license" value="<?php echo esc_attr( get_the_author_meta( 'fave_author_license', $user->ID ) ); ?>" class="regular-text"></td>
+                </tr>
+                <tr class="user-fave_author_tax_no-wrap">
+                    <th><label for="fave_author_tax_no"><?php echo esc_html__('Tax Number', 'houzez'); ?></label></th>
+                    <td><input type="text" name="fave_author_tax_no" id="fave_author_tax_no" value="<?php echo esc_attr( get_the_author_meta( 'fave_author_tax_no', $user->ID ) ); ?>" class="regular-text"></td>
+                </tr>
+                <tr class="user-fave_author_phone-wrap">
+                    <th><label for="fave_author_phone"><?php echo esc_html__('Phone', 'houzez'); ?></label></th>
+                    <td><input type="text" name="fave_author_phone" id="fave_author_phone" value="<?php echo esc_attr( get_the_author_meta( 'fave_author_phone', $user->ID ) ); ?>" class="regular-text"></td>
+                </tr>
+                <tr class="user-fave_author_fax-wrap">
+                    <th><label for="fave_author_fax"><?php echo esc_html__('Fax Number', 'houzez'); ?></label></th>
+                    <td><input type="text" name="fave_author_fax" id="fave_author_fax" value="<?php echo esc_attr( get_the_author_meta( 'fave_author_fax', $user->ID ) ); ?>" class="regular-text"></td>
+                </tr>
+                <tr class="user-fave_author_mobile-wrap">
+                    <th><label for="fave_author_mobile"><?php echo esc_html__('Mobile', 'houzez'); ?></label></th>
+                    <td><input type="text" name="fave_author_mobile" id="fave_author_mobile" value="<?php echo esc_attr( get_the_author_meta( 'fave_author_mobile', $user->ID ) ); ?>" class="regular-text"></td>
+                </tr>
+                <tr class="user-fave_author_whatsapp-wrap">
+                    <th><label for="fave_author_whatsapp"><?php echo esc_html__('WhatsApp', 'houzez'); ?></label></th>
+                    <td><input type="text" name="fave_author_whatsapp" id="fave_author_whatsapp" value="<?php echo esc_attr( get_the_author_meta( 'fave_author_whatsapp', $user->ID ) ); ?>" class="regular-text"></td>
+                </tr>
+                <tr class="user-fave_author_line_id-wrap">
+                    <th><label for="fave_author_line_id"><?php echo esc_html__('Line ID', 'houzez'); ?></label></th>
+                    <td><input type="text" name="fave_author_line_id" id="fave_author_line_id" value="<?php echo esc_attr( get_the_author_meta( 'fave_author_line_id', $user->ID ) ); ?>" class="regular-text"></td>
+                </tr>
+                <tr class="user-fave_author_telegram-wrap">
+                    <th><label for="fave_author_telegram"><?php echo esc_html__('Telegram Username', 'houzez'); ?></label></th>
+                    <td><input type="text" name="fave_author_telegram" id="fave_author_telegram" value="<?php echo esc_attr( get_the_author_meta( 'fave_author_telegram', $user->ID ) ); ?>" class="regular-text"></td>
+                </tr>
+                <tr class="user-fave_author_skype-wrap">
+                    <th><label for="fave_author_skype"><?php echo esc_html__('Skype', 'houzez'); ?></label></th>
+                    <td><input type="text" name="fave_author_skype" id="fave_author_skype" value="<?php echo esc_attr( get_the_author_meta( 'fave_author_skype', $user->ID ) ); ?>" class="regular-text"></td>
+                </tr>
+                <tr class="user-fave_author_custom_picture-wrap">
+                    <th><label for="fave_author_custom_picture"><?php echo esc_html__('Picture Url', 'houzez'); ?></label></th>
+                    <td><input type="text" name="fave_author_custom_picture" id="fave_author_custom_picture" value="<?php echo esc_attr( get_the_author_meta( 'fave_author_custom_picture', $user->ID ) ); ?>" class="regular-text"></td>
+                </tr>
+                <tr class="user-fave_author_agency_id-wrap">
+                    <th><label for="fave_author_agency_id"><?php echo esc_html__('Agency ID', 'houzez'); ?></label></th>
+                    <td><input type="text" name="fave_author_agency_id" id="fave_author_agency_id" value="<?php echo esc_attr( get_the_author_meta( 'fave_author_agency_id', $user->ID ) ); ?>" class="regular-text"></td>
+                </tr>
+                <tr class="user-fave_author_agent_id-wrap">
+                    <th><label for="fave_author_agent_id"><?php echo esc_html__('User Agent ID', 'houzez'); ?></label></th>
+                    <td><input type="text" name="fave_author_agent_id" id="fave_author_agent_id" value="<?php echo esc_attr( get_the_author_meta( 'fave_author_agent_id', $user->ID ) ); ?>" class="regular-text"></td>
+                </tr>
+                <tr class="user-fave_author_agent_id-wrap">
+                    <th><label for="fave_author_agent_id"><?php echo esc_html__('Currency', 'houzez'); ?></label></th>
+                    <td><input placeholder="<?php echo esc_html__('Enter currency shortcode', 'houzez'); ?>" type="text" name="fave_author_currency" id="fave_author_currency" value="<?php echo esc_attr( get_the_author_meta( 'fave_author_currency', $user->ID ) ); ?>" class="regular-text"></td>
+                </tr>
+
+                <tr class="user-fave_author_agent_id-wrap">
+                    <th><label for="fave_author_agent_id"><?php echo esc_html__('Service Areas', 'houzez'); ?></label></th>
+                    <td><input placeholder="<?php echo esc_html__('Enter your service areas', 'houzez'); ?>" type="text" name="fave_author_service_areas" id="fave_author_service_areas" value="<?php echo esc_attr( get_the_author_meta( 'fave_author_service_areas', $user->ID ) ); ?>" class="regular-text"></td>
+                </tr>
+
+                <tr class="user-fave_author_agent_id-wrap">
+                    <th><label for="fave_author_agent_id"><?php echo esc_html__('Specialties', 'houzez'); ?></label></th>
+                    <td><input placeholder="<?php echo esc_html__('Enter your specialties', 'houzez'); ?>" type="text" name="fave_author_specialties" id="fave_author_specialties" value="<?php echo esc_attr( get_the_author_meta( 'fave_author_specialties', $user->ID ) ); ?>" class="regular-text"></td>
+                </tr>
+                <tr class="user-fave_author_agent_id-wrap">
+                    <th><label for="fave_author_agent_id"><?php echo esc_html__('Address', 'houzez'); ?></label></th>
+                    <td><input placeholder="<?php echo esc_html__('Enter your address', 'houzez'); ?>" type="text" name="fave_author_address" id="fave_author_address" value="<?php echo esc_attr( get_the_author_meta( 'fave_author_address', $user->ID ) ); ?>" class="regular-text"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2><?php echo esc_html__('Package Info', 'houzez'); ?></h2>
+        <table class="form-table">
+            <tbody>
+                <tr class="user-package_id-wrap">
+                    <th><label for="package_id"><?php echo esc_html__('Package Id', 'houzez'); ?></label></th>
+                    <td><input type="text" name="package_id" id="package_id" value="<?php echo esc_attr( get_the_author_meta( 'package_id', $user->ID ) ); ?>" class="regular-text"></td>
+                </tr>
+                <tr class="user-package_activation-wrap">
+                    <th><label for="package_activation"><?php echo esc_html__('Package Activation', 'houzez'); ?></label></th>
+                    <td><input type="text" name="package_activation" id="package_activation" value="<?php echo esc_attr( get_the_author_meta( 'package_activation', $user->ID ) ); ?>" class="regular-text"></td>
+                </tr>
+                <tr class="user-package_listings-wrap">
+                    <th><label for="package_listings"><?php echo esc_html__('Listings available', 'houzez'); ?></label></th>
+                    <td><input type="text" name="package_listings" id="package_listings" value="<?php echo esc_attr( get_the_author_meta( 'package_listings', $user->ID ) ); ?>" class="regular-text"></td>
+                </tr>
+                <tr class="user-package_featured_listings-wrap">
+                    <th><label for="package_featured_listings"><?php echo esc_html__('Featured Listings available', 'houzez'); ?></label></th>
+                    <td><input type="text" name="package_featured_listings" id="package_featured_listings" value="<?php echo esc_attr( get_the_author_meta( 'package_featured_listings', $user->ID ) ); ?>" class="regular-text"></td>
+                </tr>
+                <tr class="user-package_reloads-wrap">
+                    <th><label for="package_reloads"><?php echo esc_html__('Reload available', 'houzez'); ?></label></th>
+                    <td><input type="text" name="package_reloads" id="package_reloads" value="<?php echo esc_attr( get_the_author_meta( 'package_reloads', $user->ID ) ); ?>" class="regular-text"></td>
+                </tr>
+                <tr class="user-fave_paypal_profile-wrap">
+                    <th><label for="fave_paypal_profile"><?php echo esc_html__('Paypal Recuring Profile', 'houzez'); ?></label></th>
+                    <td><input type="text" name="fave_paypal_profile" id="fave_paypal_profile" value="<?php echo esc_attr( get_the_author_meta( 'fave_paypal_profile', $user->ID ) ); ?>" class="regular-text"></td>
+                </tr>
+                <tr class="user-fave_stripe_user_profile-wrap">
+                    <th><label for="fave_stripe_user_profile"><?php echo esc_html__('Stripe Consumer Profile', 'houzez'); ?></label></th>
+                    <td><input type="text" name="fave_stripe_user_profile" id="fave_stripe_user_profile" value="<?php echo esc_attr( get_the_author_meta( 'fave_stripe_user_profile', $user->ID ) ); ?>" class="regular-text"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- <h2><?php echo esc_html__('Watermark Settings', 'houzez'); ?></h2>
+        <table class="form-table">
+            <tbody>
+                <tr>
+                    <th><label for="watermark_image"><?php esc_html_e("Watermark Image", "houzez"); ?></label></th>
+                    <td>
+                        <input type="text" name="fave_watermark_image" id="fave_watermark_image" value="<?php echo esc_attr(get_the_author_meta('fave_watermark_image', $user->ID)); ?>" class="regular-text" /><br />
+                        <span class="description"><?php esc_html_e("Please enter your watermark image URL.", "houzez"); ?></span>
+                    </td>
+                </tr>
+            </tbody>
+        </table> -->
+
+        <h2><?php echo esc_html__('Social Info', 'houzez'); ?></h2>
+        <table class="form-table">
+            <tbody>
+                <tr class="user-fave_author_facebook-wrap">
+                    <th><label for="fave_author_facebook"><?php echo esc_html__('Facebook', 'houzez'); ?></label></th>
+                    <td><input type="text" name="fave_author_facebook" id="fave_author_facebook" value="<?php echo esc_url( get_the_author_meta( 'fave_author_facebook', $user->ID ) ); ?>" class="regular-text"></td>
+                </tr>
+                <tr class="user-fave_author_linkedin-wrap">
+                    <th><label for="fave_author_linkedin"><?php echo esc_html__('LinkedIn', 'houzez'); ?></label></th>
+                    <td><input type="text" name="fave_author_linkedin" id="fave_author_linkedin" value="<?php echo esc_url( get_the_author_meta( 'fave_author_linkedin', $user->ID ) ); ?>" class="regular-text"></td>
+                </tr>
+                <tr class="user-fave_author_twitter-wrap">
+                    <th><label for="fave_author_twitter"><?php echo esc_html__('Twitter', 'houzez'); ?></label></th>
+                    <td><input type="text" name="fave_author_twitter" id="fave_author_twitter" value="<?php echo esc_url( get_the_author_meta( 'fave_author_twitter', $user->ID ) ); ?>" class="regular-text"></td>
+                </tr>
+                <tr class="user-fave_author_pinterest-wrap">
+                    <th><label for="fave_author_pinterest"><?php echo esc_html__('Pinterest', 'houzez'); ?></label></th>
+                    <td><input type="text" name="fave_author_pinterest" id="fave_author_pinterest" value="<?php echo esc_url( get_the_author_meta( 'fave_author_pinterest', $user->ID ) ); ?>" class="regular-text"></td>
+                </tr>
+                <tr class="user-fave_author_instagram-wrap">
+                    <th><label for="fave_author_instagram"><?php echo esc_html__('Instagram', 'houzez'); ?></label></th>
+                    <td><input type="text" name="fave_author_instagram" id="fave_author_instagram" value="<?php echo esc_url( get_the_author_meta( 'fave_author_instagram', $user->ID ) ); ?>" class="regular-text"></td>
+                </tr>
+                <tr class="user-fave_author_youtube-wrap">
+                    <th><label for="fave_author_youtube"><?php echo esc_html__('Youtube', 'houzez'); ?></label></th>
+                    <td><input type="text" name="fave_author_youtube" id="fave_author_youtube" value="<?php echo esc_url( get_the_author_meta( 'fave_author_youtube', $user->ID ) ); ?>" class="regular-text"></td>
+                </tr>
+                
+                <tr class="user-fave_author_tiktok-wrap">
+                    <th><label for="fave_author_tiktok"><?php echo esc_html__('TikTok', 'houzez'); ?></label></th>
+                    <td><input type="text" name="fave_author_tiktok" id="fave_author_tiktok" value="<?php echo esc_url( get_the_author_meta( 'fave_author_tiktok', $user->ID ) ); ?>" class="regular-text"></td>
+                </tr>
+                <tr class="user-fave_author_vimeo-wrap">
+                    <th><label for="fave_author_vimeo"><?php echo esc_html__('Vimeo', 'houzez'); ?></label></th>
+                    <td><input type="text" name="fave_author_vimeo" id="fave_author_vimeo" value="<?php echo esc_url( get_the_author_meta( 'fave_author_vimeo', $user->ID ) ); ?>" class="regular-text"></td>
+                </tr>
+                <tr class="user-fave_author_zillow-wrap">
+                    <th><label for="fave_author_zillow"><?php echo esc_html__('Zillow', 'houzez'); ?></label></th>
+                    <td><input type="text" name="fave_author_zillow" id="fave_author_zillow" value="<?php echo esc_url( get_the_author_meta( 'fave_author_zillow', $user->ID ) ); ?>" class="regular-text"></td>
+                </tr>
+                <tr class="user-fave_author_realtor_com-wrap">
+                    <th><label for="fave_author_realtor_com"><?php echo esc_html__('Realtor.com', 'houzez'); ?></label></th>
+                    <td><input type="text" name="fave_author_realtor_com" id="fave_author_realtor_com" value="<?php echo esc_url( get_the_author_meta( 'fave_author_realtor_com', $user->ID ) ); ?>" class="regular-text"></td>
+                </tr>
+                <tr class="user-fave_author_googleplus-wrap">
+                    <th><label for="fave_author_googleplus"><?php echo esc_html__('Google', 'houzez'); ?></label></th>
+                    <td><input type="text" name="fave_author_googleplus" id="fave_author_googleplus" value="<?php echo esc_url( get_the_author_meta( 'fave_author_googleplus', $user->ID ) ); ?>" class="regular-text"></td>
+                </tr>
+            </tbody>
+        </table>
+
+    <?php
+    }
+    add_action('show_user_profile', 'houzez_custom_user_profile_fields');
+    add_action('edit_user_profile', 'houzez_custom_user_profile_fields');
+}
+
+
+
+if( !function_exists('houzez_update_extra_profile_fields_package') ) {
+    function houzez_update_extra_profile_fields_package($user_id)
+    {
+        
+        // Check for the current user's permissions
+        if (!current_user_can('edit_user', $user_id)) {
+            return false;
+        }
+        /*
+         * Package Info
+        --------------------------------------------------------------------------------*/
+        update_user_meta($user_id, 'package_reloads', $_POST['package_reloads']);
+    }
+    add_action('edit_user_profile_update', 'houzez_update_extra_profile_fields_package');
+    add_action('personal_options_update', 'houzez_update_extra_profile_fields_package');
+}
+
+if( ! function_exists( 'houzez_update_membership_package' ) ) {
+    function houzez_update_membership_package( $user_id, $package_id ) {
+
+        // Get selected package listings
+        $pack_listings            =   get_post_meta( $package_id, 'fave_package_listings', true );
+        $pack_featured_listings   =   get_post_meta( $package_id, 'fave_package_featured_listings', true );
+        $pack_unlimited_listings  =   get_post_meta( $package_id, 'fave_unlimited_listings', true );
+        $pack_reload   =   get_post_meta( $package_id, 'fave_package_reloads', true );
+        if( $pack_featured_listings == '' ) {
+            $pack_featured_listings = 0;
+        }
+        if( $pack_reload == '' ) {
+            $pack_reload = 0;
+        }
+
+        $user_current_posted_listings           =   houzez_get_user_num_posted_listings ( $user_id ); // get user current number of posted listings ( no expired )
+        $user_current_posted_featured_listings  =   houzez_get_user_num_posted_featured_listings( $user_id ); // get user number of posted featured listings ( no expired )
+
+
+        if( houzez_check_user_existing_package_status_for_update_package( $user_id, $package_id ) ) {
+            $new_pack_listings           =  $pack_listings - $user_current_posted_listings;
+            $new_pack_featured_listings  =  $pack_featured_listings -  $user_current_posted_featured_listings;
+            $new_pack_reload  =  $pack_reload;
+        } else {
+            $new_pack_listings           =  $pack_listings;
+            $new_pack_featured_listings  =  $pack_featured_listings;
+            $new_pack_reload  =  $pack_reload;
+        }
+
+        if( $new_pack_listings < 0 ) {
+            $new_pack_listings = 0;
+        }
+
+        if( $new_pack_featured_listings < 0 ) {
+            $new_pack_featured_listings = 0;
+        }
+
+        if( $new_pack_reload < 0 ) {
+            $new_pack_reload = 0;
+        }
+
+        if ( $pack_unlimited_listings == 1 ) {
+            $new_pack_listings = -1 ;
+        }
+
+
+
+        update_user_meta( $user_id, 'package_listings', $new_pack_listings);
+        update_user_meta( $user_id, 'package_featured_listings', $new_pack_featured_listings);
+        update_user_meta( $user_id, 'package_reloads', $new_pack_reload);
+
+
+        // Use for user who submit property without having account and membership
+        $user_submit_has_no_membership = get_the_author_meta( 'user_submit_has_no_membership', $user_id );
+        if( !empty( $user_submit_has_no_membership ) ) {
+            houzez_update_package_listings( $user_id );
+            houzez_update_property_from_draft( $user_submit_has_no_membership ); // change property status from draft to pending or publish
+            delete_user_meta( $user_id, 'user_submit_has_no_membership' );
+        }
+
+
+        /*$time = time();
+        $date = date('Y-m-d H:i:s',$time);*/
+        $date = date_i18n( get_option('date_format').' '.get_option('time_format') );
+        update_user_meta( $user_id, 'package_activation', $date );
+        update_user_meta( $user_id, 'package_id', $package_id );
+        update_user_meta( $user_id, 'houzez_membership_id', $package_id);
+
+    }
+}
 ?>

@@ -17,8 +17,9 @@ if ($edit_user) {
     //$package_listings_max = (int)$package_listings_agency + (int)$package_listings;
     //$package_featured_listings_max = (int)$package_featured_listings_agency + (int)$package_featured_listings;
 } 
+$transfer_credit = get_post_meta( $package_id, 'fave_transfer_credit', true );
 ?>
-<?php if( $id_flag && houzez_is_agency($userID) ) { ?>
+<?php if( $id_flag && houzez_is_agency($userID) && $transfer_credit ) { ?>
 <div class="dashboard-content-block">
     <form method="post">
     <div class="row">
