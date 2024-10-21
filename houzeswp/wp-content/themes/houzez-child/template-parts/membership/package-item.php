@@ -16,13 +16,21 @@ if(class_exists('Houzez_Currencies')) {
 }
 $payment_page_link = houzez_get_template_link('template/template-payment.php');
 
+$time_period = isset($_GET['time_period']) ? sanitize_text_field($_GET['time_period']) : '6';
+
 $args = array(
     'post_type'       => 'houzez_packages',
     'posts_per_page'  => -1,
     'meta_query'      =>  array(
+        'relation' => 'AND',
         array(
             'key' => 'fave_package_visible',
             'value' => 'yes',
+            'compare' => '=',
+        ),
+        array(
+            'key' => 'fave_billing_unit',
+            'value' => $time_period,
             'compare' => '=',
         )
     )
@@ -31,7 +39,33 @@ $fave_qry = new WP_Query($args);
 
 $total_packages = $first_pkg_column = '';
 $total_packages = $fave_qry->found_posts;
+?>
 
+    <div class="col-md-12">
+        <div class="listing-map-button-view" style="width: 250px; float: right; margin-bottom: 30px;">
+            <ul class="list-inline">
+                <li class="list-inline-item <?php if($time_period == 6)echo 'active';?>">
+                    <a class="btn btn-primary-outlined btn-listing" href="/packages/?time_period=6">
+                        <i class="btn-icon">
+                            <?php include get_stylesheet_directory() . '/assets/images/list_icon.svg'; ?>
+                        </i>
+                        <span>06 Months</span>
+                    </a>
+                </li>
+                <li class="list-inline-item <?php if($time_period == 12)echo 'active';?>">
+                    <a class="btn btn-primary-outlined btn-listing" href="/packages/?time_period=12">
+                        <i class="btn-icon icon-map">
+                            <?php include get_stylesheet_directory() . '/assets/images/list_icon.svg'; ?>
+                        </i> 
+                        <span>12 Months</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+<?php
 if( $total_packages == 3 ) {
     $pkg_classes = 'col-md-4 col-sm-4 col-xs-12';
 } else if( $total_packages == 4 ) {
@@ -127,7 +161,7 @@ while( $fave_qry->have_posts() ): $fave_qry->the_post(); $i++;
                     <li>
                         <i class="houzez-icon icon-check-circle-1 primary-text mr-1"></i> 
                         <?php echo !empty($houzez_local['reloads']) ? $houzez_local['reloads'] : "Reloads"; ?>: 
-                        <strong><?php echo esc_attr( $package_reloads ); ?></strong>
+                        <strong><?php echo !empty($package_reloads) ? esc_attr( $package_reloads ) : "0"; ?></strong>
                     </li>
                     <li>
                         <i class="houzez-icon icon-check-circle-1 primary-text mr-1"></i> 
