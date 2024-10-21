@@ -338,6 +338,8 @@ $activities_stats = houzez_views_user_stats($user_id, $activities_start_date, $a
                         
                     </div>
                 </div><!-- col-md-6 col-sm-12 -->
+
+                
                 <div class="col-md-6 col-sm-12">
                     
                     <?php get_template_part('template-parts/dashboard/statistics/statistic-leads'); ?>
