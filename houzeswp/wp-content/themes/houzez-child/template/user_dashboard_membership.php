@@ -23,7 +23,7 @@ get_header(); ?>
     <div class="dashboard-header-wrap">
         <div class="d-flex align-items-center">
             <div class="dashboard-header-left flex-grow-1">
-                <h1><?php echo houzez_option('dsh_membership', 'Membership'); ?></h1>         
+                <h1><?php echo !empty($_GET["packages"]) ? houzez_option('dsh_pricing_plan', 'Pricing Plan') : houzez_option('dsh_membership', 'Membership'); ?></h1>         
             </div><!-- dashboard-header-left -->
             <div class="dashboard-header-right">
                 
@@ -36,7 +36,10 @@ get_header(); ?>
         <div class="dashboard-content-block-wrap">
             
             <?php
-            if( !empty($package_id) ) {
+            if( !empty($_GET["packages"]) ) {
+                get_template_part('template-parts/membership/package-item-dashboard');
+            }
+            else if( !empty($package_id) ) {
                 ?>
 
                 <div class="dashboard-content-block">
@@ -47,7 +50,7 @@ get_header(); ?>
 
                 <?php
                 if( ! $agent_agency_id && !houzez_is_agent($userID) ) {
-                    echo '<a href="' . esc_url($packages_page_link) . '" class="btn btn-primary mb-2"> ' . esc_html__('Change Membership Plan', 'houzez') . ' </a>';
+                    echo '<a href="' . esc_url($dashboard_membership) . '?packages=1" class="btn btn-primary mb-2"> ' . esc_html__('Change Membership Plan', 'houzez') . ' </a>';
                     $stripe_profile_user    =   get_user_meta($userID,'fave_stripe_user_profile',true);
                     $subscription_id        =   get_user_meta( $userID, 'houzez_stripe_subscription_id', true );
                     $paypal_subscription_id =   get_user_meta( $userID, 'houzez_paypal_recurring_profile_id', true );
@@ -73,7 +76,7 @@ get_header(); ?>
                 </div>
 
                 <?php
-                echo '<a href="' . esc_url($packages_page_link) . '" class="btn btn-primary mb-2"> ' . esc_html__('Get Membership Plan', 'houzez') . ' </a>';
+                echo '<a href="' . esc_url($dashboard_membership) . '?packages=1" class="btn btn-primary mb-2"> ' . esc_html__('Get Membership Plan', 'houzez') . ' </a>';
             }
             ?>                
         </div><!-- dashboard-content-block-wrap -->
