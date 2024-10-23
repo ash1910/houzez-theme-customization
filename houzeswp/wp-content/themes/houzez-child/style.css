@@ -558,11 +558,87 @@ i.menu-icon {
     padding: 0;
     margin: 0 0 15px 0;
     gap: 15px;
+    font-size: 16px;
+    letter-spacing: -.02em;
+    line-height: 20.16px;
+    color: #222222;
 }
 .dashboard-content-pricing-block > ul > li {
-    padding: 0;
+    padding: 15px 15px 0;
     flex: 0 0 calc(12.5% - 13.125px);
-    /* min-width: 183px; */
+    min-width: 183px;
+    background-color: #F7F7F7;
+    border-radius: 6px;
+}
+.dashboard-content-pricing-block > ul > li.featured {
+    background: linear-gradient(180deg, rgba(54, 170, 113, 0.1) 0%, rgba(54, 170, 113, 0) 100%);
+    border: 1.5px solid #36AA71;
+}
+.dashboard-content-pricing-block > ul > li > h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 11px 0 17px 0;
+}
+.dashboard-content-pricing-block > ul > li > h4 {
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 37.8px;
+    margin: 18px 0;
+}
+.dashboard-content-pricing-block > ul > li.featured > h4{
+    font-size: 28px;
+    line-height: 36px;
+}
+.dashboard-content-pricing-block > ul > li > .listing-map-button-view {
+    background-color: rgba(54, 170, 113, 0.15);
+    border-radius: 5.44px;
+    border: 0;
+}
+.dashboard-content-pricing-block > ul > li > .listing-map-button-view a.btn.btn-listing {
+    font-size: 12px;
+    font-weight: 600;
+    color: #000000;
+    line-height: 32px;
+}
+.dashboard-content-pricing-block > ul > li > .listing-map-button-view .list-inline .list-inline-item.active {
+    background-color: #36AA71;
+}
+.dashboard-content-pricing-block > ul > li > .listing-map-button-view .list-inline .list-inline-item.active a.btn.btn-listing{
+    color: #ffffff;
+}
+
+.dashboard-content-pricing-block > ul > li > ul {
+    list-style: none;
+    padding: 0;
+}
+.dashboard-content-pricing-block > ul > li > ul > li {
+    border-bottom: 1px solid #DEDEDE;
+    padding: 0;
+    height: 82px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.dashboard-content-pricing-block > ul > li > ul > li:last-child {
+    border: 0;
+}
+.dashboard-content-pricing-block > ul > li > ul.dashboard-content-pricing-items-title > li{
+    justify-content: left;
+}
+.dashboard-content-pricing-block > ul > li > a {
+    background-color: rgba(54, 170, 113, 0.15);
+    padding: 10px 0 12px;
+    border-radius: 4px;
+    font-weight: 600;
+    display: inline-block;
+    color: #36AA71;
+    width: 100%;
+    line-height: 18px;
+    text-align: center;
+}
+.dashboard-content-pricing-block > ul > li > a:hover, .dashboard-content-pricing-block > ul > li.featured > a {
+    background-color: #36AA71;
+    color: #ffffff;
 }
 
 

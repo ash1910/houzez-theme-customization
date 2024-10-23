@@ -1752,6 +1752,137 @@ if( !function_exists('houzez_update_package_reloads') ) {
     }
 }
 
+add_filter( 'manage_houzez_packages_posts_columns', 'manage_houzez_packages_columns' );
+add_action( 'manage_houzez_packages_posts_custom_column', 'manage_houzez_packages_posts_custom_column' );
+
+if( !function_exists('manage_houzez_packages_columns') ) {
+
+    function manage_houzez_packages_columns() {
+        $fields = array(
+            'cb' 				=> '<input type="checkbox" />',
+            'title' 			=> esc_html__( 'Package Name', 'houzez' ),
+            'fave_package_role' => esc_html__( 'Agency/Developer?', 'houzez' ),
+            'fave_billing_time_unit' 			=> esc_html__( 'Billing Period', 'houzez' ),
+            'fave_package_price' 			=> esc_html__( 'Package Price', 'houzez' ),
+            
+            'fave_package_listings' => esc_html__( 'Listings', 'houzez' ),
+            'fave_package_featured_listings' => esc_html__( 'Featured', 'houzez' ),
+            'fave_package_reloads' => esc_html__( 'Reloads', 'houzez' ),
+            'fave_transfer_credit' => esc_html__( 'transfer_credit', 'houzez' ),
+            'fave_account_manager' => esc_html__( 'account_manager', 'houzez' ),
+            'fave_add_floor_plans' => esc_html__( 'add_floor_plans', 'houzez' ),
+            'fave_add_3d_view' => esc_html__( 'add_3d_view', 'houzez' ),
+            'date' 			=> esc_html__( 'Date', 'houzez' ),
+        );
+
+        return $fields;
+    }
+}
+if( !function_exists('manage_houzez_packages_posts_custom_column') ) {
+function manage_houzez_packages_posts_custom_column( $column ) {
+    global $post;
+    switch ( $column ) {
+        case 'fave_package_listings':
+            $fave_package_listings = get_post_meta( get_the_ID(),  'fave_package_listings', true );
+
+            if ( ! empty( $fave_package_listings ) ) {
+                echo esc_attr( $fave_package_listings );
+            } else {
+                echo '-';
+            }
+            break;
+        case 'fave_package_featured_listings':
+            $fave_package_featured_listings = get_post_meta( get_the_ID(),  'fave_package_featured_listings', true );
+
+            if ( ! empty( $fave_package_featured_listings ) ) {
+                echo esc_attr( $fave_package_featured_listings );
+            } else {
+                echo '-';
+            }
+            break;
+        case 'fave_package_reloads':
+            $fave_package_reloads = get_post_meta( get_the_ID(),  'fave_package_reloads', true );
+
+            if ( ! empty( $fave_package_reloads ) ) {
+                echo esc_attr( $fave_package_reloads );
+            } else {
+                echo '-';
+            }
+            break;
+
+        case 'fave_transfer_credit':
+            $fave_transfer_credit = get_post_meta( get_the_ID(),  'fave_transfer_credit', true );
+
+            if ( ! empty( $fave_transfer_credit ) ) {
+                echo "Yes";
+            } else {
+                echo 'No';
+            }
+            break;
+
+        case 'fave_account_manager':
+            $fave_account_manager = get_post_meta( get_the_ID(),  'fave_account_manager', true );
+
+            if ( ! empty( $fave_account_manager ) ) {
+                echo "Yes";
+            } else {
+                echo 'No';
+            }
+            break;
+        case 'fave_add_floor_plans':
+            $fave_add_floor_plans = get_post_meta( get_the_ID(),  'fave_add_floor_plans', true );
+
+            if ( ! empty( $fave_add_floor_plans ) ) {
+                echo "Yes";
+            } else {
+                echo 'No';
+            }
+            break;
+        case 'fave_add_3d_view':
+            $fave_add_3d_view = get_post_meta( get_the_ID(),  'fave_add_3d_view', true );
+
+            if ( ! empty( $fave_add_3d_view ) ) {
+                echo "Yes";
+            } else {
+                echo 'No';
+            }
+            break;
+
+        case 'fave_package_role':
+            $fave_package_role = get_post_meta( get_the_ID(),  'fave_package_role', true );
+
+            if ( ! empty( $fave_package_role ) ) {
+                echo esc_attr( $fave_package_role );
+            } else {
+                echo '-';
+            }
+            break;
+        
+        case 'fave_package_price':
+            $fave_package_price = get_post_meta( get_the_ID(),  'fave_package_price', true );
+
+            if ( ! empty( $fave_package_price ) ) {
+                echo esc_attr( $fave_package_price );
+            } else {
+                echo '-';
+            }
+            break;
+
+        case 'fave_billing_time_unit':
+            $fave_billing_time_unit = get_post_meta( get_the_ID(),  'fave_billing_time_unit', true );
+            $fave_billing_unit = get_post_meta( get_the_ID(),  'fave_billing_unit', true );
+
+            if ( ! empty( $fave_billing_time_unit ) ) {
+                echo esc_attr( $fave_billing_unit ) . " " . esc_attr( $fave_billing_time_unit );
+            } else {
+                echo '-';
+            }
+            break;
+
+    }
+}
+}
+
 
 if( !function_exists('houzez_packages_metaboxes') ) {
 
@@ -2243,4 +2374,8 @@ if( ! function_exists( 'houzez_update_membership_package' ) ) {
 
     }
 }
+
+
+//$user_package_id = houzez_get_user_package_id($userID);
+//$package_images = get_post_meta( $user_package_id, 'fave_package_images', true );
 ?>

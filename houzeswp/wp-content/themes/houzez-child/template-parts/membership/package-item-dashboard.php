@@ -60,7 +60,7 @@ $total_packages = $fave_qry->found_posts;
             <li>
                 <h3>Package Duration</h3>
 
-                <div class="listing-map-button-view" style="width: 153px; margin-bottom: 30px;">
+                <div class="listing-map-button-view" style="width: 100%; margin-bottom: 57px;">
                     <ul class="list-inline">
                         <li class="list-inline-item <?php if($time_period == 6)echo 'active';?>">
                             <a class="btn btn-primary-outlined btn-listing" href="/membership-info/?packages=1&time_period=6">
@@ -75,7 +75,7 @@ $total_packages = $fave_qry->found_posts;
                     </ul>
                 </div>
 
-                <ul class="dashboard-content-pricing-items">
+                <ul class="dashboard-content-pricing-items dashboard-content-pricing-items-title">
                     <li><?php echo !empty($houzez_local['total_listings']) ? $houzez_local['total_listings'] : "Total Listings"; ?></li>
                     <li><?php echo $houzez_local['featured_listings']; ?></li>
                     <li><?php echo !empty($houzez_local['reloads']) ? $houzez_local['reloads'] : "Reloads"; ?></li>
@@ -122,9 +122,9 @@ while( $fave_qry->have_posts() ): $fave_qry->the_post(); $i++;
         $pack_billing_period .='s';
     }
     if ( $where_currency == 'before' ) {
-        $package_price = '<span class="price-table-currency">'.$currency_symbol.'</span><span class="price-table-price">'.$pack_price.'</span>';
+        $package_price = $currency_symbol.' '.$pack_price;
     } else {
-        $package_price = '<span class="price-table-price">'.$pack_price.'</span><span class="price-table-currency">'.$currency_symbol.'</span>';
+        $package_price = $pack_price.' '.$currency_symbol;
     }
 
     if( $fave_package_popular == "yes" ) {
