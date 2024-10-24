@@ -265,16 +265,16 @@ if( $property_status != 'expired' && $property_status != 'disapproved' ) {
 
                     // Add Advertise
                     if ( in_array( $post->post_status, array( 'publish' ) ) && ! $fave_advertise ) { 
-                        echo '<a href="#" data-propid="'.intval( $post->ID ).'" data-type="set_advertise" class="dropdown-item houzez-prop-action-js"><strong>' . esc_html__('Mark as Advertise', 'houzez') . '</strong></a>';
+                        echo '<a href="#" data-propid="'.intval( $post->ID ).'" data-type="set_advertise" class="dropdown-item houzez-prop-action-js-child"><strong>' . esc_html__('Mark as Advertise', 'houzez') . '</strong></a>';
                     }
 
                     if ( in_array( $post->post_status, array( 'publish' ) ) && $fave_advertise ) { 
-                        echo '<a href="#" data-propid="'.intval( $post->ID ).'" data-type="remove_advertise" class="dropdown-item houzez-prop-action-js"><strong>' . esc_html__('Remove from Advertise', 'houzez') . '</strong></a>';
+                        echo '<a href="#" data-propid="'.intval( $post->ID ).'" data-type="remove_advertise" class="dropdown-item houzez-prop-action-js-child"><strong>' . esc_html__('Remove from Advertise', 'houzez') . '</strong></a>';
                     }
 
                     // Reload
                     if( $property_status != 'expired' ) {
-                        echo '<a href="#" data-propid="'.intval( $post->ID ).'" data-type="reload" class="dropdown-item houzez-prop-action-js"><strong>' . esc_html__('Reload', 'houzez') . '</strong></a>';
+                        echo '<a href="#" data-propid="'.intval( $post->ID ).'" data-type="reload" class="dropdown-item houzez-prop-action-js-child"><strong>' . esc_html__('Reload', 'houzez') . '</strong></a>';
                     }
 
 

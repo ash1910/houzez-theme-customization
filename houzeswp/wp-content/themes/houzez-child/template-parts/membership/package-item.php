@@ -53,29 +53,38 @@ $total_packages = $first_pkg_column = '';
 $total_packages = $fave_qry->found_posts;
 ?>
 
-    <div class="col-md-12">
-        <div class="listing-map-button-view" style="width: 250px; float: right; margin-bottom: 30px;">
-            <ul class="list-inline">
-                <li class="list-inline-item <?php if($time_period == 6)echo 'active';?>">
-                    <a class="btn btn-primary-outlined btn-listing" href="/packages/?time_period=6">
-                        <i class="btn-icon">
-                            <?php include get_stylesheet_directory() . '/assets/images/list_icon.svg'; ?>
-                        </i>
-                        <span>06 Months</span>
-                    </a>
-                </li>
-                <li class="list-inline-item <?php if($time_period == 12)echo 'active';?>">
-                    <a class="btn btn-primary-outlined btn-listing" href="/packages/?time_period=12">
-                        <i class="btn-icon icon-map">
-                            <?php include get_stylesheet_directory() . '/assets/images/list_icon.svg'; ?>
-                        </i> 
-                        <span>12 Months</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </div>
 
+
+    <div class="dashboard-content-pricing-block">
+        <ul>
+            <li>
+                <h3>Package Duration</h3>
+
+                <div class="listing-map-button-view" style="width: 100%; margin-bottom: 57px;">
+                    <ul class="list-inline">
+                        <li class="list-inline-item <?php if($time_period == 6)echo 'active';?>">
+                            <a class="btn btn-primary-outlined btn-listing" href="?packages=1&time_period=6">
+                                <span>6 Months</span>
+                            </a>
+                        </li>
+                        <li class="list-inline-item <?php if($time_period == 12)echo 'active';?>">
+                            <a class="btn btn-primary-outlined btn-listing" href="?packages=1&time_period=12">
+                                <span>12 Months</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <ul class="dashboard-content-pricing-items dashboard-content-pricing-items-title">
+                    <li><?php echo !empty($houzez_local['total_listings']) ? $houzez_local['total_listings'] : "Total Listings"; ?></li>
+                    <li><?php echo $houzez_local['featured_listings']; ?></li>
+                    <li><?php echo !empty($houzez_local['reloads']) ? $houzez_local['reloads'] : "Reloads"; ?></li>
+                    <li><?php echo !empty($houzez_local['transfer_credit']) ? $houzez_local['transfer_credit'] : "Transfer Credit"; ?></li>
+                    <li><?php echo !empty($houzez_local['account_manager']) ? $houzez_local['account_manager'] : "Account Manager"; ?></li>
+                    <li><?php echo !empty($houzez_local['add_floor_plans']) ? $houzez_local['add_floor_plans'] : "Add Floor Plans"; ?></li>
+                    <li><?php echo !empty($houzez_local['add_3d_view']) ? $houzez_local['add_3d_view'] : "Add 3D View"; ?></li>
+                </ul>
+            </li>
 
 <?php
 if( $total_packages == 3 ) {
@@ -113,9 +122,9 @@ while( $fave_qry->have_posts() ): $fave_qry->the_post(); $i++;
         $pack_billing_period .='s';
     }
     if ( $where_currency == 'before' ) {
-        $package_price = '<span class="price-table-currency">'.$currency_symbol.'</span><span class="price-table-price">'.$pack_price.'</span>';
+        $package_price = $currency_symbol.' '.$pack_price;
     } else {
-        $package_price = '<span class="price-table-price">'.$pack_price.'</span><span class="price-table-currency">'.$currency_symbol.'</span>';
+        $package_price = $pack_price.' '.$currency_symbol;
     }
 
     if( $fave_package_popular == "yes" ) {
@@ -139,100 +148,47 @@ while( $fave_qry->have_posts() ): $fave_qry->the_post(); $i++;
     }
 
     ?>
-    <div class="<?php echo esc_attr( $pkg_classes ); ?>">
-        <div class="price-table-module <?php echo esc_attr( $is_popular ); ?>">
-            <div class="price-table-title">
-                <?php the_title(); ?>
-            </div><!-- price-table-title -->
-            <div class="price-table-price-wrap">
-                <div class="d-flex align-items-start justify-content-center">
-                    <?php echo $package_price; ?>
-                </div><!-- d-flex -->
-            </div><!-- price-table-price-wrap -->
-            <div class="price-table-description">
-                <ul class="list-unstyled">
-                    <li>
-                        <i class="houzez-icon icon-check-circle-1 primary-text mr-1"></i> 
-                        <?php echo $houzez_local['time_period']; ?>: 
-                        <strong><?php echo esc_attr( $pack_billing_frquency ).' '.HOUZEZ_billing_period( $pack_billing_period ); ?></strong>
-                    </li>
-                    <li>
-                        <i class="houzez-icon icon-check-circle-1 primary-text mr-1"></i> 
-                        <?php echo houzez_option('cl_properties', 'Properties'); ?>: 
-                        <?php if( $pack_unlimited_listings == 1 ) { ?>
-                            <strong><?php echo $houzez_local['unlimited_listings']; ?></strong>
-                        <?php } else { ?>
-                            <strong><?php echo esc_attr( $pack_listings ); ?></strong>
-                        <?php } ?>
-                    </li>
-                    <li>
-                        <i class="houzez-icon icon-check-circle-1 primary-text mr-1"></i> 
-                        <?php echo $houzez_local['featured_listings']; ?>: 
-                        <strong><?php echo esc_attr( $pack_featured_listings ); ?></strong>
-                    </li>
-                    <li>
-                        <i class="houzez-icon icon-check-circle-1 primary-text mr-1"></i> 
-                        <?php echo !empty($houzez_local['reloads']) ? $houzez_local['reloads'] : "Reloads"; ?>: 
-                        <strong><?php echo !empty($package_reloads) ? esc_attr( $package_reloads ) : "0"; ?></strong>
-                    </li>
-                    <li>
-                        <i class="houzez-icon icon-check-circle-1 primary-text mr-1"></i> 
-                        <?php echo !empty($houzez_local['transfer_credit']) ? $houzez_local['transfer_credit'] : "Transfer Credit"; ?>: 
-                        <strong>
-                            <?php echo !empty($transfer_credit) ? "Yes" : "No"; ?>
-                        </strong>
-                    </li>
-                    <li>
-                        <i class="houzez-icon icon-check-circle-1 primary-text mr-1"></i> 
-                        <?php echo !empty($houzez_local['account_manager']) ? $houzez_local['account_manager'] : "Account Manager"; ?>: 
-                        <strong>
-                            <?php echo !empty($account_manager) ? "Yes" : "No"; ?>
-                        </strong>
-                    </li>
-                    <li>
-                        <i class="houzez-icon icon-check-circle-1 primary-text mr-1"></i> 
-                        <?php echo !empty($houzez_local['add_floor_plans']) ? $houzez_local['add_floor_plans'] : "Add Floor Plans"; ?>: 
-                        <strong>
-                            <?php echo !empty($add_floor_plans) ? "Yes" : "No"; ?>
-                        </strong>
-                    </li>
-                    <li>
-                        <i class="houzez-icon icon-check-circle-1 primary-text mr-1"></i> 
-                        <?php echo !empty($houzez_local['add_3d_view']) ? $houzez_local['add_3d_view'] : "Add 3D View"; ?>: 
-                        <strong>
-                            <?php echo !empty($add_3d_view) ? "Yes" : "No"; ?>
-                        </strong>
-                    </li>
 
-                    <?php if($fave_package_images != "") { ?>
+            <li class="<?php echo esc_attr( $is_popular ); ?>">
+                <h3><?php the_title(); ?></h3>
+                <h4><?php echo $package_price; ?></h4>
+                <a href="<?php echo esc_url($payment_process_link); ?>">Get Package</a>
+                <ul class="dashboard-content-pricing-items">
                     <li>
-                        <i class="houzez-icon icon-check-circle-1 primary-text mr-1"></i> 
-                        <?php echo esc_html_e('Images', 'houzez'); ?>: 
-                        <strong><?php echo esc_attr( $fave_package_images ); ?></strong>
+                        <?php if( $pack_unlimited_listings == 1 ) { 
+                            echo $houzez_local['unlimited_listings']; 
+                        } else { 
+                            echo esc_attr( $pack_listings );
+                        } ?>
                     </li>
-                    <?php } ?>
-
-                    <?php if($pack_package_tax != "") { ?>
+                    <li><?php echo !empty($pack_featured_listings) ? esc_attr( $pack_featured_listings ) : "0"; ?></li>
+                    <li><?php echo !empty($package_reloads) ? esc_attr( $package_reloads ) : "0"; ?></li>
                     <li>
-                        <i class="houzez-icon icon-check-circle-1 primary-text mr-1"></i> 
-                        <?php esc_html_e('Taxes', 'houzez'); ?>: 
-                        <strong><?php echo esc_attr( $pack_package_tax ).'%'; ?></strong>
+                        <?php if( !empty($transfer_credit) ){ ?>
+                            <i class="btn-icon"><?php include get_stylesheet_directory() . '/assets/images/check.svg'; ?></i>
+                        <?php }?>
                     </li>
-                    <?php } ?>
+                    <li>
+                        <?php if( !empty($account_manager) ){ ?>
+                            <i class="btn-icon"><?php include get_stylesheet_directory() . '/assets/images/check.svg'; ?></i>
+                        <?php }?>
+                    </li>
+                    <li>
+                        <?php if( !empty($add_floor_plans) ){ ?>
+                            <i class="btn-icon"><?php include get_stylesheet_directory() . '/assets/images/check.svg'; ?></i>
+                        <?php }?>
+                    </li>
+                    <li>
+                        <?php if( !empty($add_3d_view) ){ ?>
+                            <i class="btn-icon"><?php include get_stylesheet_directory() . '/assets/images/check.svg'; ?></i>
+                        <?php }?>
+                    </li>
                 </ul>
-            </div><!-- price-table-description -->
-            <div class="price-table-button">
-                <?php if( houzez_is_woocommerce() && $pack_price > 0) { ?>
-                    <a class="houzez-woocommerce-package btn btn-primary" data-packid="<?php echo get_the_ID(); ?>" href="#">
-                        <i class="houzez-icon icon-check-circle-1 mr-1"></i> <?php echo $houzez_local['get_started']; ?>
-                    </a>
-                <?php } else { ?>
-                    <a class="btn btn-primary" href="<?php echo esc_url($payment_process_link); ?>">
-                        <i class="houzez-icon icon-check-circle-1 mr-1"></i> <?php echo $houzez_local['get_started']; ?>
-                    </a>
-                <?php } ?>
-            </div><!-- price-table-button -->
-        </div><!-- taxonomy-grids-module -->
-    </div>
+            </li>
+
 <?php endwhile; ?>
+        </ul>
+    </div><!-- dashboard-content-block -->
+
+
 <?php wp_reset_postdata(); ?>

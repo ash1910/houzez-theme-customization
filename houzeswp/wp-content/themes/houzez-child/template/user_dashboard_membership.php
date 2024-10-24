@@ -37,7 +37,7 @@ get_header(); ?>
             
             <?php
             if( !empty($_GET["packages"]) ) {
-                get_template_part('template-parts/membership/package-item-dashboard');
+                get_template_part('template-parts/membership/package-item');
             }
             else if( !empty($package_id) ) {
                 ?>

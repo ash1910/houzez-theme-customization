@@ -1695,7 +1695,7 @@ if(!function_exists('houzez_count_views')) {
     }
 }
 
-add_action( 'wp_ajax_houzez_property_actions', 'houzez_property_actions_reload_advertise' );
+add_action( 'wp_ajax_houzez_property_actions_child', 'houzez_property_actions_reload_advertise' );
 
 if( !function_exists('houzez_property_actions_reload_advertise') ){
     function  houzez_property_actions_reload_advertise(){
@@ -1729,6 +1729,10 @@ if( !function_exists('houzez_property_actions_reload_advertise') ){
                     'post_date_gmt' => get_gmt_from_date( $time )
                 );
                 wp_update_post($listing_data);
+            }
+            else{
+                echo json_encode(array('success' => false, 'msg' => 'Expired'));
+                wp_die();
             }
 
 
@@ -1768,10 +1772,10 @@ if( !function_exists('manage_houzez_packages_columns') ) {
             'fave_package_listings' => esc_html__( 'Listings', 'houzez' ),
             'fave_package_featured_listings' => esc_html__( 'Featured', 'houzez' ),
             'fave_package_reloads' => esc_html__( 'Reloads', 'houzez' ),
-            'fave_transfer_credit' => esc_html__( 'transfer_credit', 'houzez' ),
-            'fave_account_manager' => esc_html__( 'account_manager', 'houzez' ),
-            'fave_add_floor_plans' => esc_html__( 'add_floor_plans', 'houzez' ),
-            'fave_add_3d_view' => esc_html__( 'add_3d_view', 'houzez' ),
+            'fave_transfer_credit' => esc_html__( 'Transfer Credit', 'houzez' ),
+            'fave_account_manager' => esc_html__( 'Account Manager', 'houzez' ),
+            'fave_add_floor_plans' => esc_html__( 'Add floor plans', 'houzez' ),
+            'fave_add_3d_view' => esc_html__( 'Add 3d view', 'houzez' ),
             'date' 			=> esc_html__( 'Date', 'houzez' ),
         );
 

@@ -321,6 +321,76 @@ jQuery(document).ready( function($) {
 
         });
 
+        /*--------------------------------------------------------------------------
+         *  Property actions
+         * -------------------------------------------------------------------------*/
+        $('.houzez-prop-action-js-child').on('click', function (e) {
+            e.preventDefault();
+            var $this = $(this);
+            var prop_id = $this.attr('data-propid');
+            var type = $this.attr('data-type');
+
+            bootbox.confirm({
+                message: "<strong>"+houzezProperty.are_you_sure_text+"</strong>",
+                buttons: {
+                    confirm: {
+                        label: houzezProperty.confirm_btn_text,
+                        className: 'btn btn-primary'
+                    },
+                    cancel: {
+                        label: houzezProperty.cancel_btn_text,
+                        className: 'btn btn-grey-outlined'
+                    }
+                },
+                callback: function (result) {
+                    if(result==true) {
+                        fave_processing_modal( houzezProperty.processing_text );
+                        houzez_property_actions(prop_id, $this, type);
+                        $this.unbind("click");
+                    }
+                }
+            });
+            
+        });
+
+        var houzez_property_actions = function( prop_id, currentDiv, type ) {
+
+            var $messages = $('#dash-prop-msg');
+
+            $.ajax({
+                type: 'POST',
+                url: ajax_url,
+                dataType: 'JSON',
+                data: {
+                    'action' : 'houzez_property_actions_child',
+                    'propid' : prop_id,
+                    'type': type
+                },
+                success: function ( res ) {
+
+                    if( res.success ) {
+                        window.location.reload();
+                    } else {
+                        houzez_processing_modal_close();
+                        $('html, body').animate({
+                            scrollTop: $(".dashboard-content-inner-wrap").offset().top
+                        }, 'slow');
+                        $messages.empty().append('<div class="alert alert-danger alert-dismissible fade show" role="alert">Your Reload credit has expired. <a class="btn btn-primary" href="/membership-info/?packages=1">Add more Reload credits</a><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                    }
+
+                },
+                error: function(xhr, status, error) {
+                    var err = eval("(" + xhr.responseText + ")");
+                    console.log(err.Message);
+                }
+
+            });//end ajax
+        }
+
+        var houzez_processing_modal_close = function ( ) {
+            jQuery('#fave_modal').modal('hide');
+        };
+
     }
 
 });
@@ -721,6 +791,41 @@ jQuery(document).ready( function($) {
                 }
             }
         });
+    }
+
+
+    houzez_property_actions = function( prop_id, currentDiv, type ) {
+
+        var $messages = $('#dash-prop-msg');
+
+        $.ajax({
+            type: 'POST',
+            url: ajax_url,
+            dataType: 'JSON',
+            data: {
+                'action' : 'houzez_property_actions',
+                'propid' : prop_id,
+                'type': type
+            },
+            success: function ( res ) {
+
+                if( res.success ) {
+                    window.location.reload();
+                } else {
+                    houzez_processing_modal_close();
+                    $('html, body').animate({
+                        scrollTop: $(".dashboard-content-inner-wrap").offset().top
+                    }, 'slow');
+                    $messages.empty().append('<div class="alert alert-danger alert-dismissible fade show" role="alert">3nd '+houzezProperty.featured_listings_none+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                }
+
+            },
+            error: function(xhr, status, error) {
+                var err = eval("(" + xhr.responseText + ")");
+                console.log(err.Message);
+            }
+
+        });//end ajax
     }
 
 });

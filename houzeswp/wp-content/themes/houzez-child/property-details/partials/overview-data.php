@@ -1,14 +1,16 @@
 <?php
 $overview_data_composer = houzez_option('overview_data_composer');
 $overview_data = $overview_data_composer['enabled'];
-$return_array = houzez20_property_contact_form(false);
-$agent_id = intval($return_array['agent_id']);
+//$return_array = houzez20_property_contact_form(false);
+//$agent_id = intval($return_array['agent_id']);
+$property_id = houzez_get_listing_data('property_id');
+$author_id  = get_post_field ('post_author', $property_id);
 
 $i = 0;
 if ($overview_data) {
 	unset($overview_data['placebo']);
 
-if ( houzez_is_developer($agent_id ) ) {
+if ( houzez_is_developer($author_id ) ) {
 	$property_type = houzez_taxonomy_simple('property_type');
 	if(!empty($property_type)) {
 		echo '<ul class="list-unstyled flex-fill">

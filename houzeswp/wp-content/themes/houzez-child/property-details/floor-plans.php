@@ -117,10 +117,12 @@ if( isset($floor_plans[0]['fave_plan_title']) && !empty( $floor_plans[0]['fave_p
 
 <!-- property-payment-plan-wrap -->
 <?php 
-$return_array = houzez20_property_contact_form(false);
-$agent_id = intval($return_array['agent_id']);
+//$return_array = houzez20_property_contact_form(false);
+//$agent_id = intval($return_array['agent_id']);
+$property_id = houzez_get_listing_data('property_id');
+$author_id  = get_post_field ('post_author', $property_id);
 
-if ( houzez_is_developer($agent_id ) ) {
+if ( houzez_is_developer($author_id ) ) {
 	$prop_payment_val = "";
 	$prop_payment_plan_down  = houzez_get_listing_data('prop_payment_plan_down');
 	$prop_payment_plan_during_construction  = houzez_get_listing_data('prop_payment_plan_during_construction');

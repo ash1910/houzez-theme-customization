@@ -45,10 +45,10 @@ if( is_page_template( 'template/user_dashboard_submit.php' ) ) {
                 <div class="dashboard-content-block">';
         if (!houzez_user_has_membership($userID)) {
             print '<p>' . esc_html__("You don't have any package! You need to buy your package.", 'houzez') . '</p>
-                    <a class="btn btn-primary" href="' . $select_packages_link . '">' . esc_html__('Get Package', 'houzez') . '</a>';
+                    <a class="btn btn-primary" href="/membership-info/?packages=1">' . esc_html__('Get Package', 'houzez') . '</a>';
         } else {
             print '<p>' . esc_html__("Your current package doesn\'t let you publish more properties! You need to upgrade your membership.", 'houzez') . '</p>
-            <a class="btn btn-primary" href="' . $select_packages_link . '">' . esc_html__('Upgrade Package', 'houzez') . '</a>';
+            <a class="btn btn-primary" href="/membership-info/?packages=1">' . esc_html__('Upgrade Package', 'houzez') . '</a>';
         }
         echo '</div>
         </div>';
