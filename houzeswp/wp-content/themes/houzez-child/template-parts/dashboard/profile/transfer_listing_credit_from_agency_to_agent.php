@@ -6,6 +6,7 @@ $edit_user = isset( $_GET['edit_user'] ) ? sanitize_text_field($_GET['edit_user'
 
 $package_listings_agency =   (int)get_the_author_meta( 'package_listings' , $userID );
 $package_featured_listings_agency =   (int)get_the_author_meta( 'package_featured_listings' , $userID );
+$package_reload_agency =   (int)get_the_author_meta( 'package_reloads' , $userID );
 $package_id =   get_the_author_meta( 'package_id' , $userID );
 $package_activation =   get_the_author_meta( 'package_activation' , $userID );
 $id_flag = false;
@@ -14,6 +15,7 @@ if ($edit_user) {
     $id_flag = true;
     $package_listings =   (int)get_the_author_meta( 'package_listings' , $edit_user );
     $package_featured_listings =   (int)get_the_author_meta( 'package_featured_listings' , $edit_user );
+    $package_reload =   (int)get_the_author_meta( 'package_reloads' , $edit_user );
     //$package_listings_max = (int)$package_listings_agency + (int)$package_listings;
     //$package_featured_listings_max = (int)$package_featured_listings_agency + (int)$package_featured_listings;
 } 
@@ -30,7 +32,7 @@ $transfer_credit = get_post_meta( $package_id, 'fave_transfer_credit', true );
         <div class="col-md-9 col-sm-12">
             <div class="row">
                 
-                <div class="col-md-6 col-sm-12">
+                <div class="col-md-4 col-sm-12">
                     <div class="form-group">
                         <label><?php esc_html_e('Transfer listings','houzez');?></label>
                         <div style="display: flex; gap: 20px;">
@@ -51,7 +53,7 @@ $transfer_credit = get_post_meta( $package_id, 'fave_transfer_credit', true );
                     </div>
                 </div>
 
-                <div class="col-md-6 col-sm-12">
+                <div class="col-md-4 col-sm-12">
                     <div class="form-group">
                         <label><?php esc_html_e('Transfer featured','houzez');?></label>
                         <div style="display: flex; gap: 20px;">
@@ -72,6 +74,27 @@ $transfer_credit = get_post_meta( $package_id, 'fave_transfer_credit', true );
                     </div>
                 </div>
 
+                <div class="col-md-4 col-sm-12">
+                    <div class="form-group">
+                        <label><?php esc_html_e('Transfer Reload','houzez');?></label>
+                        <div style="display: flex; gap: 20px;">
+                            <input type="number" name="package_reload" class="form-control" value="">
+                            <select name="package_reload_type" class="form-control selectpicker">
+                                <option value="">Select</option>
+                                <option value="Add">Add</option>
+                                <option value="Subtract">Subtract</option>
+                            </select>
+                        </div>
+                        <small class="form-text text-muted">
+                            <?php echo houzez_option('cl_only_positive_digits', 'Only Positive digits'); ?>, <br>
+                            Currently available reload of this agent  : <?php echo esc_attr( $package_reload );?>,<br>
+                            Currently available reload of agency  : <?php echo esc_attr( $package_reload_agency );?>,<br>
+                            So can add max : <?php echo esc_attr( $package_reload_agency );?> and 
+                            also subtract max : <?php echo esc_attr( $package_reload );?>
+                        </small>
+                    </div>
+                </div>
+
             </div><!-- row -->
 
             <?php wp_nonce_field( 'houzez_profile_ajax_nonce', 'houzez-security-profile' ); ?>
@@ -80,8 +103,10 @@ $transfer_credit = get_post_meta( $package_id, 'fave_transfer_credit', true );
             <input type="hidden" id="agency_id" name="agency_id" value="<?php echo intval($userID); ?>">
             <input type="hidden" id="package_listings_agency" name="package_listings_agency" value="<?php echo intval($package_listings_agency); ?>">
             <input type="hidden" id="package_featured_listings_agency" name="package_featured_listings_agency" value="<?php echo intval($package_featured_listings_agency); ?>">
+            <input type="hidden" id="package_reload_agency" name="package_reload_agency" value="<?php echo intval($package_reload_agency); ?>">
             <input type="hidden" id="package_listings_agent" name="package_listings_agent" value="<?php echo intval($package_listings); ?>">
             <input type="hidden" id="package_featured_listings_agent" name="package_featured_listings_agent" value="<?php echo intval($package_featured_listings); ?>">
+            <input type="hidden" id="package_reload_agent" name="package_reload_agent" value="<?php echo intval($package_reload); ?>">
             <input type="hidden" id="package_id" name="package_id" value="<?php echo intval($package_id); ?>">
             <input type="hidden" id="package_activation" name="package_activation" value="<?php echo $package_activation; ?>">
             

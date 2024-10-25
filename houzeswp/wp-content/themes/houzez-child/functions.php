@@ -798,15 +798,19 @@ if( !function_exists('houzez_ajax_transfer_listing_credit_from_agency_to_agent')
         $agency_id = sanitize_text_field( $_POST['agency_id'] );
         $package_listings_agency = sanitize_text_field( $_POST['package_listings_agency'] );
         $package_featured_listings_agency = sanitize_text_field( $_POST['package_featured_listings_agency'] );
+        $package_reload_agency = sanitize_text_field( $_POST['package_reload_agency'] );
         $package_id = sanitize_text_field( $_POST['package_id'] );
         $package_activation = sanitize_text_field( $_POST['package_activation'] );
         $package_listings = sanitize_text_field( $_POST['package_listings'] );
         $package_featured_listings = sanitize_text_field( $_POST['package_featured_listings'] );
+        $package_reload = sanitize_text_field( $_POST['package_reload'] );
         $package_listings_agent = sanitize_text_field( $_POST['package_listings_agent'] );
         $package_featured_listings_agent = sanitize_text_field( $_POST['package_featured_listings_agent'] );
+        $package_reload_agent = sanitize_text_field( $_POST['package_reload_agent'] );
 
         $package_listings_type = sanitize_text_field( $_POST['package_listings_type'] );
         $package_featured_listings_type = sanitize_text_field( $_POST['package_featured_listings_type'] );
+        $package_reload_type = sanitize_text_field( $_POST['package_reload_type'] );
 
         $transfer_success = 0;
 
@@ -832,6 +836,19 @@ if( !function_exists('houzez_ajax_transfer_listing_credit_from_agency_to_agent')
             if( ($package_featured_listings_type == "Subtract") && ((int)$package_featured_listings <= $package_featured_listings_agent) ){
                 update_user_meta( $agency_id, 'package_featured_listings', (int)$package_featured_listings_agency + (int)$package_featured_listings );
                 update_user_meta( $user_id, 'package_featured_listings', (int)$package_featured_listings_agent - (int)$package_featured_listings );
+                $transfer_success = 1;
+            }
+        }
+
+        if( !empty($package_reload_type) && !empty($package_reload) && (int)$package_reload > 0 ){
+            if( ($package_reload_type == "Add") && ((int)$package_reload <= $package_reload_agency) ){
+                update_user_meta( $agency_id, 'package_reloads', (int)$package_reload_agency - (int)$package_reload );
+                update_user_meta( $user_id, 'package_reloads', (int)$package_reload_agent + (int)$package_reload );
+                $transfer_success = 1;
+            }
+            if( ($package_reload_type == "Subtract") && ((int)$package_reload <= $package_reload_agent) ){
+                update_user_meta( $agency_id, 'package_reloads', (int)$package_reload_agency + (int)$package_reload );
+                update_user_meta( $user_id, 'package_reloads', (int)$package_reload_agent - (int)$package_reload );
                 $transfer_success = 1;
             }
         }
