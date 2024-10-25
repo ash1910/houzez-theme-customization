@@ -730,7 +730,7 @@ add_filter('houzez_after_property_update', 'houzez_submit_listing_developer');
 
 function houzez_submit_listing_developer($prop_id) {
 
-    if( $prop_id > 0 && isset( $_POST['fave_agent_display_option'] ) ) {
+    if( $prop_id > 0 ) {
 
         $prop_agent_display_option = sanitize_text_field( $_POST['fave_agent_display_option'] );
 
@@ -881,6 +881,10 @@ if( !function_exists('houzez_get_user_current_package') ) {
             $pack_billing_frequency = get_post_meta( $package_id, 'fave_billing_unit', true );
             $pack_date =  get_user_meta( $user_id, 'package_activation',true );
             $pack_reloads = get_post_meta( $package_id, 'fave_package_reloads', true );
+            $transfer_credit = get_post_meta( $package_id, 'fave_transfer_credit', true );
+            $account_manager = get_post_meta( $package_id, 'fave_account_manager', true );
+            $add_floor_plans = get_post_meta( $package_id, 'fave_add_floor_plans', true );
+            $add_3d_view = get_post_meta( $package_id, 'fave_add_3d_view', true );
 
             if( $pack_billing_period == 'Day')
                 $pack_billing_period = 'days';
@@ -914,6 +918,12 @@ if( !function_exists('houzez_get_user_current_package') ) {
             echo '<li>'.esc_html__('Reload Included: ','houzez').'<strong>'.esc_attr( $pack_reloads ).'</strong></li>';
             echo '<li>'.esc_html__('Reload Remaining: ','houzez').'<strong>'.esc_attr( $pack_reloads_remaining ).'</strong></li>';
             
+            echo '<li>'.esc_html__('Transfer Credit: ','houzez').'<strong>'.esc_attr( !empty($transfer_credit) ? "Yes" : "No" ).'</strong></li>';
+            echo '<li>'.esc_html__('Account Manager: ','houzez').'<strong>'.esc_attr( !empty($account_manager) ? "Yes" : "No" ).'</strong></li>';
+            echo '<li>'.esc_html__('Add Floor Plans: ','houzez').'<strong>'.esc_attr( !empty($add_floor_plans) ? "Yes" : "No" ).'</strong></li>';
+            echo '<li>'.esc_html__('Add 3D View: ','houzez').'<strong>'.esc_attr( !empty($add_3d_view) ? "Yes" : "No" ).'</strong></li>';
+
+
             echo '<li>'.esc_html__('Ends On','houzez').'<strong>';
             echo ' '.esc_attr( $expired_date );
             echo '</strong></li>';

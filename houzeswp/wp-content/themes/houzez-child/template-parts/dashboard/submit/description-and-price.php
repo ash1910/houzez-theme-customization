@@ -40,7 +40,7 @@ if(empty($default_multi_currency)) {
 						<?php echo houzez_option('cl_con_st', 'Construction Status' ).houzez_required_field('cl_con_req'); ?>
 					</label>
 
-					<select name="prop_construction_status" id="prop_construction_status" <?php houzez_required_field_2('construction_status'); ?> class="selectpicker form-control bs-select-hidden" title="<?php echo houzez_option('cl_energy_cls_plac', 'Select'); ?>" data-live-search="false" data-selected-text-format="count" data-actions-box="true">
+					<select name="prop_construction_status" id="prop_construction_status" <?php houzez_required_field_2('construction_status'); ?> class="selectpicker form-control bs-select-hidden" title="<?php echo houzez_option('cl_con_st_plac', 'Select'); ?>" data-live-search="false" data-selected-text-format="count" data-actions-box="true">
 						<option value=""><?php echo houzez_option('cl_con_st_plac', 'Select Construction Status'); ?></option>
 						<?php
 						$construction_status_array = houzez_option('construction_status_data', 'Under Construction, Ready for Delivey'); 
