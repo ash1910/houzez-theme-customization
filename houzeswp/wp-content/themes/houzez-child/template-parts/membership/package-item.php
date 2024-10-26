@@ -53,10 +53,27 @@ $total_packages = $first_pkg_column = '';
 $total_packages = $fave_qry->found_posts;
 ?>
 
+<script type="text/javascript">
+    window.onload = function(){
+        jQuery('.btn-price-scroll-right').click(function() {
+            jQuery('.price-items > li').first().remove().insertAfter(jQuery('.price-items > li').last());
+        })
+        jQuery('.btn-price-scroll-left').click(function() {
+            jQuery('.price-items > li').last().remove().insertBefore(jQuery('.price-items > li').first());
+        })
+    }
 
+</script>
 
     <div class="dashboard-content-pricing-block">
-        <ul>
+        <a href="javascript:void(0)" class="btn btn-primary btn-price-scroll-left">
+            <i class="houzez-icon icon-arrow-left-1"></i>
+        </a>
+        <a href="javascript:void(0)" class="btn btn-primary btn-price-scroll-right">
+            <i class="houzez-icon icon-arrow-right-1"></i>
+        </a>
+
+        <ul style="flex: 0 0 183px;">
             <li>
                 <h3>Package Duration</h3>
 
@@ -85,6 +102,8 @@ $total_packages = $fave_qry->found_posts;
                     <li><?php echo !empty($houzez_local['add_3d_view']) ? $houzez_local['add_3d_view'] : "Add 3D View"; ?></li>
                 </ul>
             </li>
+        </ul>
+        <ul class="price-items" style="flex: 0 0 calc(100% - 15px - 183px);">
 
 <?php
 if( $total_packages == 3 ) {

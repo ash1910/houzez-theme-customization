@@ -551,10 +551,39 @@ i.menu-icon {
     background-color: transparent;
 }
 
+::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 1px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(0,0,0,.5);
+    -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
+}
+.dashboard-content-pricing-block {
+    display: flex;
+    gap: 15px;
+    overflow-x: hidden;
+}
+.dashboard-content-pricing-block .btn-price-scroll-left {
+    position: absolute;
+    top: calc(50% - 22.5px);
+    left: 175.5px;
+    background-color: #36aa7126;
+    color: #36aa71;
+}
+.dashboard-content-pricing-block .btn-price-scroll-right {
+    position: absolute;
+    top: calc(50% - 22.5px);
+    right: -22.5px;
+    background-color: #e2f2ea;
+    color: #36aa71;
+}
 .dashboard-content-pricing-block > ul {
     list-style: none;
     display: flex;
-    flex-flow: wrap row;
+    flex-flow: nowrap;
     padding: 0;
     margin: 0 0 15px 0;
     gap: 15px;
@@ -562,11 +591,13 @@ i.menu-icon {
     letter-spacing: -.02em;
     line-height: 20.16px;
     color: #222222;
+    /* overflow-x: auto; */
 }
 .dashboard-content-pricing-block > ul > li {
     padding: 15px 15px 0;
-    flex: 0 0 calc(12.5% - 13.125px);
-    min-width: 183px;
+    flex: 0 0 183px;
+    /* flex: 0 0 calc(25% - 11.25px);
+    min-width: 183px; */
     background-color: #F7F7F7;
     border-radius: 6px;
 }
