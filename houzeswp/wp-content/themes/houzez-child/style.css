@@ -563,22 +563,31 @@ i.menu-icon {
 }
 .dashboard-content-pricing-block {
     display: flex;
-    gap: 15px;
+    gap: 30px;
     overflow-x: hidden;
 }
-.dashboard-content-pricing-block .btn-price-scroll-left {
+.dashboard-content-pricing-block .btn-price-scroll {
     position: absolute;
-    top: calc(50% - 22.5px);
-    left: 175.5px;
-    background-color: #36aa7126;
+    border: 2px solid #ffffff;
+    background-color: #ffffff;
+    border-radius: 24px;
+    width: 48px;
+    height: 48px;
+    font-size: 16px;
+    padding: 0;
     color: #36aa71;
+    display: flex;
+    box-shadow: 0px 3.84px 19.2px 0px #0000001A;
+    justify-content: center;
+    align-items: center;
+}
+.dashboard-content-pricing-block .btn-price-scroll-left {
+    top: calc(50% - 24px);
+    left: 189px;
 }
 .dashboard-content-pricing-block .btn-price-scroll-right {
-    position: absolute;
-    top: calc(50% - 22.5px);
-    right: -22.5px;
-    background-color: #e2f2ea;
-    color: #36aa71;
+    top: calc(50% - 24px);
+    right: -24px;
 }
 .dashboard-content-pricing-block > ul {
     list-style: none;
@@ -586,19 +595,29 @@ i.menu-icon {
     flex-flow: nowrap;
     padding: 0;
     margin: 0 0 15px 0;
-    gap: 15px;
+    gap: 25px;
     font-size: 16px;
     letter-spacing: -.02em;
     line-height: 20.16px;
     color: #222222;
     /* overflow-x: auto; */
 }
-.dashboard-content-pricing-block > ul > li {
-    padding: 15px 15px 0;
+.dashboard-content-pricing-block > ul.price-items-heading {
     flex: 0 0 183px;
-    /* flex: 0 0 calc(25% - 11.25px);
-    min-width: 183px; */
+}
+.dashboard-content-pricing-block > ul.price-items {
+    flex: 0 0 calc(100% - 30px - 183px);
+}
+.dashboard-content-pricing-block > ul.price-items > li {
+    padding: 15px 15px 0;
+    flex: 0 0 calc(25% - 18.75px);
     background-color: #F7F7F7;
+    border-radius: 6px;
+}
+.dashboard-content-pricing-block > ul.price-items-heading > li {
+    padding: 0 15px 0;
+    flex: 0 0 183px;
+    background-color: transparent;
     border-radius: 6px;
 }
 .dashboard-content-pricing-block > ul > li.featured {
@@ -609,12 +628,17 @@ i.menu-icon {
     font-size: 16px;
     font-weight: 600;
     margin: 11px 0 17px 0;
+    text-align: center;
+}
+.dashboard-content-pricing-block > ul.price-items-heading > li > h3{
+    margin: 0 0 17px 0;
 }
 .dashboard-content-pricing-block > ul > li > h4 {
     font-size: 30px;
     font-weight: 700;
     line-height: 37.8px;
     margin: 18px 0;
+    text-align: center;
 }
 .dashboard-content-pricing-block > ul > li.featured > h4{
     font-size: 28px;
@@ -624,6 +648,8 @@ i.menu-icon {
     background-color: rgba(54, 170, 113, 0.15);
     border-radius: 5.44px;
     border: 0;
+    width: 100%;
+    margin-bottom: 83px;
 }
 .dashboard-content-pricing-block > ul > li > .listing-map-button-view a.btn.btn-listing {
     font-size: 12px;

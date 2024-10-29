@@ -55,10 +55,16 @@ $total_packages = $fave_qry->found_posts;
 
 <script type="text/javascript">
     window.onload = function(){
+        var total = jQuery('.price-items').data('total');
+        var width = jQuery( window ).width();
         jQuery('.btn-price-scroll-right').click(function() {
+            var index = jQuery('.price-items > li').first().data('index');
+            if( index <= total - 4 || width < 992 )
             jQuery('.price-items > li').first().remove().insertAfter(jQuery('.price-items > li').last());
         })
         jQuery('.btn-price-scroll-left').click(function() {
+            var index = jQuery('.price-items > li').last().data('index');
+            if( index <= total - 4 || width < 992 )
             jQuery('.price-items > li').last().remove().insertBefore(jQuery('.price-items > li').first());
         })
     }
@@ -66,18 +72,21 @@ $total_packages = $fave_qry->found_posts;
 </script>
 
     <div class="dashboard-content-pricing-block">
-        <a href="javascript:void(0)" class="btn btn-primary btn-price-scroll-left">
+
+        <?php if( $total_packages > 0 ) {?>
+        <a href="javascript:void(0)" class="btn btn-primary btn-price-scroll btn-price-scroll-left">
             <i class="houzez-icon icon-arrow-left-1"></i>
         </a>
-        <a href="javascript:void(0)" class="btn btn-primary btn-price-scroll-right">
+        <a href="javascript:void(0)" class="btn btn-primary btn-price-scroll btn-price-scroll-right">
             <i class="houzez-icon icon-arrow-right-1"></i>
         </a>
+        <?php }?>
 
-        <ul style="flex: 0 0 183px;">
+        <ul class="price-items-heading">
             <li>
                 <h3>Package Duration</h3>
 
-                <div class="listing-map-button-view" style="width: 100%; margin-bottom: 57px;">
+                <div class="listing-map-button-view">
                     <ul class="list-inline">
                         <li class="list-inline-item <?php if($time_period == 6)echo 'active';?>">
                             <a class="btn btn-primary-outlined btn-listing" href="?packages=1&time_period=6">
@@ -103,7 +112,7 @@ $total_packages = $fave_qry->found_posts;
                 </ul>
             </li>
         </ul>
-        <ul class="price-items" style="flex: 0 0 calc(100% - 15px - 183px);">
+        <ul class="price-items" data-total="<?php echo esc_attr( $total_packages ); ?>">
 
 <?php
 if( $total_packages == 3 ) {
@@ -168,7 +177,7 @@ while( $fave_qry->have_posts() ): $fave_qry->the_post(); $i++;
 
     ?>
 
-            <li class="<?php echo esc_attr( $is_popular ); ?>">
+            <li class="<?php echo esc_attr( $is_popular ); ?>" data-index="<?php echo esc_attr( $i ); ?>">
                 <h3><?php the_title(); ?></h3>
                 <h4><?php echo $package_price; ?></h4>
                 <a href="<?php echo esc_url($payment_process_link); ?>">Get Package</a>
