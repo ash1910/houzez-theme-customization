@@ -2406,6 +2406,146 @@ if( ! function_exists( 'houzez_update_membership_package' ) ) {
     }
 }
 
+  function create_addvertise_packages() {
+    register_post_type( 'houzez_add_packages',
+      array(
+        'labels' => array(
+          'name' => __( 'Addvertise Packages' ),
+          'singular_name' => __( 'package' ),
+          'add_new' => _x('New package', 'package'),
+          'add_new_item' => __('New package'),
+          'edit_item' => __('Edit package'),
+          'new_item' => __('New package'),
+          'view_item' => __('View package'),
+          'search_items' => __('Search package'),
+          'not_found_in_trash' => __('not found in trash'),
+        ),
+        'public' => true,
+        'menu_icon' => 'dashicons-admin-users',
+        'can_export' => true,
+        'rewrite' => array( 'slug' => 'addvertise_packages', 'with_front' => true ),
+        'menu_position' => 12,
+        'show_in_menu'        => false,
+        'hierarchical' => true,
+        'supports' => array('title','page-attributes','revisions'),
+      )
+    );
+  }
+  add_action( 'init', 'create_addvertise_packages' );
+
+  function add_add_packages_menu( $submenus ) {
+    $slug = 'houzez-real-estate';
+    $capability = 'edit_posts';
+
+    $submenus['addvertise_packages'] = array(
+        $slug,
+        esc_html__( 'Addvertise Packages', 'houzez-theme-addvertise_packages' ),
+        esc_html__( 'Addvertise Packages', 'houzez-theme-addvertise_packages' ),
+        $capability,
+        'edit.php?post_type=houzez_add_packages',
+    );
+
+    return $submenus;
+  }
+  add_filter( 'houzez_admin_realestate_menu', 'add_add_packages_menu' );
+
+  function houzez_advertise_packages_metaboxes( $meta_boxes ) {
+    $houzez_prefix = 'fave_';
+    
+    $meta_boxes[] = array(
+        'title'  => esc_html__( 'Addvertise Package Details', 'houzez' ),
+        'post_types'  => array('houzez_add_packages'),
+        'fields' => array(
+            array(
+                'id' => "{$houzez_prefix}billing_time_unit",
+                'name' => esc_html__( 'Billing Period', 'houzez' ),
+                'type' => 'select',
+                'std' => "",
+                'options' => array( 'Day' => esc_html__('Day', 'houzez' ), 'Week' => esc_html__('Week', 'houzez' ), 'Month' => esc_html__('Month', 'houzez' ), 'Year' => esc_html__('Year', 'houzez' ) ),
+                'columns' => 6,
+            ),
+            array(
+                'id' => "{$houzez_prefix}billing_unit",
+                'name' => esc_html__( 'Billing Frequency', 'houzez' ),
+                'placeholder' => esc_html__( 'Enter the frequency number', 'houzez' ),
+                'type' => 'text',
+                'std' => "0",
+                'columns' => 6,
+            ),
+            array(
+                'id' => "{$houzez_prefix}package_role",
+                'name' => esc_html__( 'For Agency/Developer?', 'houzez' ),
+                'type' => 'select',
+                'std' => "no",
+                'options' => array( 'agency' => esc_html__( 'Agency', 'houzez' ), 'developer' => esc_html__( 'Developer', 'houzez' ) ),
+                'columns' => 6,
+            ),
+            array(
+                'id' => "{$houzez_prefix}package_impressions",
+                'name' => esc_html__( 'How many impressions are included?', 'houzez' ),
+                'placeholder' => esc_html__( 'Enter the number of impressions', 'houzez' ),
+                'type' => 'text',
+                'std' => "",
+                'columns' => 6,
+
+            ),
+            array(
+                'id' => "{$houzez_prefix}package_price_per_unit",
+                'name' => esc_html__( 'Package Price Per Unit ', 'houzez' ),
+                'placeholder' => esc_html__( 'Enter the price', 'houzez' ),
+                'type' => 'text',
+                'std' => "",
+                'columns' => 6,
+            ),
+            array(
+                'id' => "{$houzez_prefix}package_price",
+                'name' => esc_html__( 'Package Price ', 'houzez' ),
+                'placeholder' => esc_html__( 'Enter the price', 'houzez' ),
+                'type' => 'text',
+                'std' => "",
+                'columns' => 6,
+            ),
+            array(
+                'id' => "{$houzez_prefix}package_discount",
+                'name' => esc_html__( 'Package Discount (%)', 'houzez' ),
+                'placeholder' => esc_html__( 'Enter the discount', 'houzez' ),
+                'type' => 'text',
+                'std' => "",
+                'columns' => 6,
+            ),
+            array(
+                'id' => "{$houzez_prefix}package_stripe_id",
+                'name' => esc_html__( 'Package Stripe id (Example: gold_pack)', 'houzez' ),
+                'type' => 'text',
+                'std' => "",
+                'columns' => 6,
+            ),
+            array(
+                'id' => "{$houzez_prefix}package_visible",
+                'name' => esc_html__( 'Is It Visible?', 'houzez' ),
+                'type' => 'select',
+                'std' => "",
+                'options' => array( 'yes' => esc_html__( 'Yes', 'houzez' ), 'no' => esc_html__( 'No', 'houzez' ) ),
+                'columns' => 6,
+            ),
+            array(
+                'id' => "{$houzez_prefix}stripe_taxId",
+                'name' => esc_html__( 'Stripe Tax ID', 'houzez' ),
+                'type' => 'text',
+                'std' => "",
+                'placeholder' => esc_html__( 'Enter your stripe account tax id.', 'houzez' ),
+                'columns' => 6,
+            ),
+        ),
+    );
+    
+
+    return apply_filters('houzez_add_packages_meta', $meta_boxes);
+
+  }
+
+  add_filter( 'rwmb_meta_boxes', 'houzez_advertise_packages_metaboxes' );
+
 
 //$user_package_id = houzez_get_user_package_id($userID);
 //$package_images = get_post_meta( $user_package_id, 'fave_package_images', true );
