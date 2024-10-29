@@ -2406,11 +2406,11 @@ if( ! function_exists( 'houzez_update_membership_package' ) ) {
     }
 }
 
-  function create_addvertise_packages() {
-    register_post_type( 'houzez_add_packages',
+  function create_advertise_packages() {
+    register_post_type( 'houzez_ads_packages',
       array(
         'labels' => array(
-          'name' => __( 'Addvertise Packages' ),
+          'name' => __( 'Advertise Packages' ),
           'singular_name' => __( 'package' ),
           'add_new' => _x('New package', 'package'),
           'add_new_item' => __('New package'),
@@ -2423,7 +2423,7 @@ if( ! function_exists( 'houzez_update_membership_package' ) ) {
         'public' => true,
         'menu_icon' => 'dashicons-admin-users',
         'can_export' => true,
-        'rewrite' => array( 'slug' => 'addvertise_packages', 'with_front' => true ),
+        'rewrite' => array( 'slug' => 'advertise_packages', 'with_front' => true ),
         'menu_position' => 12,
         'show_in_menu'        => false,
         'hierarchical' => true,
@@ -2431,30 +2431,30 @@ if( ! function_exists( 'houzez_update_membership_package' ) ) {
       )
     );
   }
-  add_action( 'init', 'create_addvertise_packages' );
+  add_action( 'init', 'create_advertise_packages' );
 
-  function add_add_packages_menu( $submenus ) {
+  function add_ads_packages_menu( $submenus ) {
     $slug = 'houzez-real-estate';
     $capability = 'edit_posts';
 
-    $submenus['addvertise_packages'] = array(
+    $submenus['advertise_packages'] = array(
         $slug,
-        esc_html__( 'Addvertise Packages', 'houzez-theme-addvertise_packages' ),
-        esc_html__( 'Addvertise Packages', 'houzez-theme-addvertise_packages' ),
+        esc_html__( 'Advertise Packages', 'houzez-theme-advertise_packages' ),
+        esc_html__( 'Advertise Packages', 'houzez-theme-advertise_packages' ),
         $capability,
-        'edit.php?post_type=houzez_add_packages',
+        'edit.php?post_type=houzez_ads_packages',
     );
 
     return $submenus;
   }
-  add_filter( 'houzez_admin_realestate_menu', 'add_add_packages_menu' );
+  add_filter( 'houzez_admin_realestate_menu', 'add_ads_packages_menu' );
 
   function houzez_advertise_packages_metaboxes( $meta_boxes ) {
     $houzez_prefix = 'fave_';
     
     $meta_boxes[] = array(
-        'title'  => esc_html__( 'Addvertise Package Details', 'houzez' ),
-        'post_types'  => array('houzez_add_packages'),
+        'title'  => esc_html__( 'Advertise Package Details', 'houzez' ),
+        'post_types'  => array('houzez_ads_packages'),
         'fields' => array(
             array(
                 'id' => "{$houzez_prefix}billing_time_unit",
@@ -2540,11 +2540,101 @@ if( ! function_exists( 'houzez_update_membership_package' ) ) {
     );
     
 
-    return apply_filters('houzez_add_packages_meta', $meta_boxes);
+    return apply_filters('houzez_ads_packages_meta', $meta_boxes);
 
   }
 
   add_filter( 'rwmb_meta_boxes', 'houzez_advertise_packages_metaboxes' );
+
+add_filter( 'manage_houzez_ads_packages_posts_columns', 'manage_houzez_ads_packages_posts_columns' );
+add_action( 'manage_houzez_ads_packages_posts_custom_column', 'manage_houzez_ads_packages_posts_custom_column' );
+
+if( !function_exists('manage_houzez_ads_packages_posts_columns') ) {
+
+    function manage_houzez_ads_packages_posts_columns() {
+        $fields = array(
+            'cb' 				=> '<input type="checkbox" />',
+            'title' 			=> esc_html__( 'Package Name', 'houzez' ),
+            'fave_package_role' => esc_html__( 'Agency/Developer?', 'houzez' ),
+            'fave_billing_time_unit' => esc_html__( 'Billing Period', 'houzez' ),
+            'fave_package_price'	=> esc_html__( 'Package Price', 'houzez' ),
+            'fave_package_price_per_unit'	=> esc_html__( 'Price/Unit', 'houzez' ),
+            'fave_package_discount' => esc_html__( 'Discount', 'houzez' ),
+            'fave_package_impressions' => esc_html__( 'Impressions', 'houzez' ),
+            'date' 			=> esc_html__( 'Date', 'houzez' ),
+        );
+
+        return $fields;
+    }
+}
+if( !function_exists('manage_houzez_ads_packages_posts_custom_column') ) {
+function manage_houzez_ads_packages_posts_custom_column( $column ) {
+    global $post;
+    switch ( $column ) {
+        case 'fave_package_impressions':
+            $fave_package_impressions = get_post_meta( get_the_ID(),  'fave_package_impressions', true );
+
+            if ( ! empty( $fave_package_impressions ) ) {
+                echo esc_attr( $fave_package_impressions );
+            } else {
+                echo '-';
+            }
+            break;
+
+        case 'fave_package_role':
+            $fave_package_role = get_post_meta( get_the_ID(),  'fave_package_role', true );
+
+            if ( ! empty( $fave_package_role ) ) {
+                echo esc_attr( $fave_package_role );
+            } else {
+                echo '-';
+            }
+            break;
+        
+        case 'fave_package_price_per_unit':
+            $fave_package_price_per_unit = get_post_meta( get_the_ID(),  'fave_package_price_per_unit', true );
+
+            if ( ! empty( $fave_package_price_per_unit ) ) {
+                echo esc_attr( $fave_package_price_per_unit );
+            } else {
+                echo '-';
+            }
+            break;
+
+        case 'fave_package_discount':
+            $fave_package_discount = get_post_meta( get_the_ID(),  'fave_package_discount', true );
+
+            if ( ! empty( $fave_package_discount ) ) {
+                echo esc_attr( $fave_package_discount );
+            } else {
+                echo '-';
+            }
+            break;
+
+        case 'fave_package_price':
+            $fave_package_price = get_post_meta( get_the_ID(),  'fave_package_price', true );
+
+            if ( ! empty( $fave_package_price ) ) {
+                echo esc_attr( $fave_package_price );
+            } else {
+                echo '-';
+            }
+            break;
+
+        case 'fave_billing_time_unit':
+            $fave_billing_time_unit = get_post_meta( get_the_ID(),  'fave_billing_time_unit', true );
+            $fave_billing_unit = get_post_meta( get_the_ID(),  'fave_billing_unit', true );
+
+            if ( ! empty( $fave_billing_time_unit ) ) {
+                echo esc_attr( $fave_billing_unit ) . " " . esc_attr( $fave_billing_time_unit );
+            } else {
+                echo '-';
+            }
+            break;
+
+    }
+}
+}
 
 
 //$user_package_id = houzez_get_user_package_id($userID);
