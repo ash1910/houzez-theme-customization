@@ -2380,8 +2380,6 @@ if( ! function_exists( 'houzez_update_membership_package' ) ) {
             $new_pack_listings = -1 ;
         }
 
-
-
         update_user_meta( $user_id, 'package_listings', $new_pack_listings);
         update_user_meta( $user_id, 'package_featured_listings', $new_pack_featured_listings);
         update_user_meta( $user_id, 'package_reloads', $new_pack_reload);
@@ -2405,7 +2403,7 @@ if( ! function_exists( 'houzez_update_membership_package' ) ) {
 
     }
 }
-
+if( !function_exists('create_advertise_packages') ) {
   function create_advertise_packages() {
     register_post_type( 'houzez_ads_packages',
       array(
@@ -2432,7 +2430,8 @@ if( ! function_exists( 'houzez_update_membership_package' ) ) {
     );
   }
   add_action( 'init', 'create_advertise_packages' );
-
+}
+if( !function_exists('add_ads_packages_menu') ) {
   function add_ads_packages_menu( $submenus ) {
     $slug = 'houzez-real-estate';
     $capability = 'edit_posts';
@@ -2448,7 +2447,9 @@ if( ! function_exists( 'houzez_update_membership_package' ) ) {
     return $submenus;
   }
   add_filter( 'houzez_admin_realestate_menu', 'add_ads_packages_menu' );
+}
 
+if( !function_exists('houzez_advertise_packages_metaboxes') ) {
   function houzez_advertise_packages_metaboxes( $meta_boxes ) {
     $houzez_prefix = 'fave_';
     
@@ -2543,14 +2544,10 @@ if( ! function_exists( 'houzez_update_membership_package' ) ) {
     return apply_filters('houzez_ads_packages_meta', $meta_boxes);
 
   }
-
   add_filter( 'rwmb_meta_boxes', 'houzez_advertise_packages_metaboxes' );
-
-add_filter( 'manage_houzez_ads_packages_posts_columns', 'manage_houzez_ads_packages_posts_columns' );
-add_action( 'manage_houzez_ads_packages_posts_custom_column', 'manage_houzez_ads_packages_posts_custom_column' );
+}
 
 if( !function_exists('manage_houzez_ads_packages_posts_columns') ) {
-
     function manage_houzez_ads_packages_posts_columns() {
         $fields = array(
             'cb' 				=> '<input type="checkbox" />',
@@ -2566,74 +2563,77 @@ if( !function_exists('manage_houzez_ads_packages_posts_columns') ) {
 
         return $fields;
     }
+    add_filter( 'manage_houzez_ads_packages_posts_columns', 'manage_houzez_ads_packages_posts_columns' );
 }
+
 if( !function_exists('manage_houzez_ads_packages_posts_custom_column') ) {
-function manage_houzez_ads_packages_posts_custom_column( $column ) {
-    global $post;
-    switch ( $column ) {
-        case 'fave_package_impressions':
-            $fave_package_impressions = get_post_meta( get_the_ID(),  'fave_package_impressions', true );
+    function manage_houzez_ads_packages_posts_custom_column( $column ) {
+        global $post;
+        switch ( $column ) {
+            case 'fave_package_impressions':
+                $fave_package_impressions = get_post_meta( get_the_ID(),  'fave_package_impressions', true );
 
-            if ( ! empty( $fave_package_impressions ) ) {
-                echo esc_attr( $fave_package_impressions );
-            } else {
-                echo '-';
-            }
-            break;
+                if ( ! empty( $fave_package_impressions ) ) {
+                    echo esc_attr( $fave_package_impressions );
+                } else {
+                    echo '-';
+                }
+                break;
 
-        case 'fave_package_role':
-            $fave_package_role = get_post_meta( get_the_ID(),  'fave_package_role', true );
+            case 'fave_package_role':
+                $fave_package_role = get_post_meta( get_the_ID(),  'fave_package_role', true );
 
-            if ( ! empty( $fave_package_role ) ) {
-                echo esc_attr( $fave_package_role );
-            } else {
-                echo '-';
-            }
-            break;
-        
-        case 'fave_package_price_per_unit':
-            $fave_package_price_per_unit = get_post_meta( get_the_ID(),  'fave_package_price_per_unit', true );
+                if ( ! empty( $fave_package_role ) ) {
+                    echo esc_attr( $fave_package_role );
+                } else {
+                    echo '-';
+                }
+                break;
+            
+            case 'fave_package_price_per_unit':
+                $fave_package_price_per_unit = get_post_meta( get_the_ID(),  'fave_package_price_per_unit', true );
 
-            if ( ! empty( $fave_package_price_per_unit ) ) {
-                echo esc_attr( $fave_package_price_per_unit );
-            } else {
-                echo '-';
-            }
-            break;
+                if ( ! empty( $fave_package_price_per_unit ) ) {
+                    echo esc_attr( $fave_package_price_per_unit );
+                } else {
+                    echo '-';
+                }
+                break;
 
-        case 'fave_package_discount':
-            $fave_package_discount = get_post_meta( get_the_ID(),  'fave_package_discount', true );
+            case 'fave_package_discount':
+                $fave_package_discount = get_post_meta( get_the_ID(),  'fave_package_discount', true );
 
-            if ( ! empty( $fave_package_discount ) ) {
-                echo esc_attr( $fave_package_discount );
-            } else {
-                echo '-';
-            }
-            break;
+                if ( ! empty( $fave_package_discount ) ) {
+                    echo esc_attr( $fave_package_discount );
+                } else {
+                    echo '-';
+                }
+                break;
 
-        case 'fave_package_price':
-            $fave_package_price = get_post_meta( get_the_ID(),  'fave_package_price', true );
+            case 'fave_package_price':
+                $fave_package_price = get_post_meta( get_the_ID(),  'fave_package_price', true );
 
-            if ( ! empty( $fave_package_price ) ) {
-                echo esc_attr( $fave_package_price );
-            } else {
-                echo '-';
-            }
-            break;
+                if ( ! empty( $fave_package_price ) ) {
+                    echo esc_attr( $fave_package_price );
+                } else {
+                    echo '-';
+                }
+                break;
 
-        case 'fave_billing_time_unit':
-            $fave_billing_time_unit = get_post_meta( get_the_ID(),  'fave_billing_time_unit', true );
-            $fave_billing_unit = get_post_meta( get_the_ID(),  'fave_billing_unit', true );
+            case 'fave_billing_time_unit':
+                $fave_billing_time_unit = get_post_meta( get_the_ID(),  'fave_billing_time_unit', true );
+                $fave_billing_unit = get_post_meta( get_the_ID(),  'fave_billing_unit', true );
 
-            if ( ! empty( $fave_billing_time_unit ) ) {
-                echo esc_attr( $fave_billing_unit ) . " " . esc_attr( $fave_billing_time_unit );
-            } else {
-                echo '-';
-            }
-            break;
+                if ( ! empty( $fave_billing_time_unit ) ) {
+                    echo esc_attr( $fave_billing_unit ) . " " . esc_attr( $fave_billing_time_unit );
+                } else {
+                    echo '-';
+                }
+                break;
 
+        }
     }
-}
+    add_action( 'manage_houzez_ads_packages_posts_custom_column', 'manage_houzez_ads_packages_posts_custom_column' );
 }
 
 

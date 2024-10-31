@@ -564,7 +564,7 @@ i.menu-icon {
 .dashboard-content-pricing-block {
     display: flex;
     gap: 30px;
-    overflow-x: hidden;
+    position: relative;
 }
 .dashboard-content-pricing-block .btn-price-scroll {
     position: absolute;
@@ -607,6 +607,7 @@ i.menu-icon {
 }
 .dashboard-content-pricing-block > ul.price-items {
     flex: 0 0 calc(100% - 30px - 183px);
+    overflow-x: hidden;
 }
 .dashboard-content-pricing-block > ul.price-items > li {
     padding: 15px 15px 0;

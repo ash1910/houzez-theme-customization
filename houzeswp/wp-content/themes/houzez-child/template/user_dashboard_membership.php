@@ -38,6 +38,7 @@ get_header(); ?>
             <?php
             if( !empty($_GET["packages"]) ) {
                 get_template_part('template-parts/membership/package-item');
+                get_template_part('template-parts/membership/ads-package-item');
             }
             else if( !empty($package_id) ) {
                 ?>

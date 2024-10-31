@@ -115,17 +115,6 @@ $total_packages = $fave_qry->found_posts;
         <ul class="price-items" data-total="<?php echo esc_attr( $total_packages ); ?>">
 
 <?php
-if( $total_packages == 3 ) {
-    $pkg_classes = 'col-md-4 col-sm-4 col-xs-12';
-} else if( $total_packages == 4 ) {
-    $pkg_classes = 'col-md-3 col-sm-6';
-} else if( $total_packages == 2 ) {
-    $pkg_classes = 'col-md-6 col-sm-6';
-} else if( $total_packages == 1 ) {
-    $pkg_classes = 'col-md-4 col-sm-12';
-} else {
-    $pkg_classes = 'col-md-3 col-sm-6';
-}
 $i = 0;
 while( $fave_qry->have_posts() ): $fave_qry->the_post(); $i++;
 

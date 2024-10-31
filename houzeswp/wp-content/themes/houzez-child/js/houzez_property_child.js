@@ -794,38 +794,38 @@ jQuery(document).ready( function($) {
     }
 
 
-    houzez_property_actions = function( prop_id, currentDiv, type ) {
+    // houzez_property_actions = function( prop_id, currentDiv, type ) {
 
-        var $messages = $('#dash-prop-msg');
+    //     var $messages = $('#dash-prop-msg');
 
-        $.ajax({
-            type: 'POST',
-            url: ajax_url,
-            dataType: 'JSON',
-            data: {
-                'action' : 'houzez_property_actions',
-                'propid' : prop_id,
-                'type': type
-            },
-            success: function ( res ) {
+    //     $.ajax({
+    //         type: 'POST',
+    //         url: ajax_url,
+    //         dataType: 'JSON',
+    //         data: {
+    //             'action' : 'houzez_property_actions',
+    //             'propid' : prop_id,
+    //             'type': type
+    //         },
+    //         success: function ( res ) {
 
-                if( res.success ) {
-                    window.location.reload();
-                } else {
-                    houzez_processing_modal_close();
-                    $('html, body').animate({
-                        scrollTop: $(".dashboard-content-inner-wrap").offset().top
-                    }, 'slow');
-                    $messages.empty().append('<div class="alert alert-danger alert-dismissible fade show" role="alert">3nd '+houzezProperty.featured_listings_none+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
-                }
+    //             if( res.success ) {
+    //                 window.location.reload();
+    //             } else {
+    //                 houzez_processing_modal_close();
+    //                 $('html, body').animate({
+    //                     scrollTop: $(".dashboard-content-inner-wrap").offset().top
+    //                 }, 'slow');
+    //                 $messages.empty().append('<div class="alert alert-danger alert-dismissible fade show" role="alert">3nd '+houzezProperty.featured_listings_none+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+    //             }
 
-            },
-            error: function(xhr, status, error) {
-                var err = eval("(" + xhr.responseText + ")");
-                console.log(err.Message);
-            }
+    //         },
+    //         error: function(xhr, status, error) {
+    //             var err = eval("(" + xhr.responseText + ")");
+    //             console.log(err.Message);
+    //         }
 
-        });//end ajax
-    }
+    //     });//end ajax
+    // }
 
 });
