@@ -44,6 +44,22 @@ $args = array(
 );
 $fave_qry = new WP_Query($args);
 
+$i = 0; $ads_packages_options = "";
+while( $fave_qry->have_posts() ): $fave_qry->the_post(); $i++;
+
+    $pack_price              = get_post_meta( get_the_ID(), 'fave_package_price', true );
+    $pack_listings           = get_post_meta( get_the_ID(), 'fave_package_listings', true );
+
+    if ( $where_currency == 'before' ) {
+        $package_price = $currency_symbol.' '.$pack_price;
+    } else {
+        $package_price = $pack_price.' '.$currency_symbol;
+    }
+
+    $ads_packages_options .= '<option value="'.get_the_ID().'">'.get_the_title() .' - '. $package_price.'</option>';
+
+endwhile;
+
 $total_packages = $first_pkg_column = '';
 $total_packages = $fave_qry->found_posts;
 ?>
@@ -52,7 +68,7 @@ $total_packages = $fave_qry->found_posts;
 
 </script>
 
-    <div class="dashboard-content-ads-packages-block">
+    <div class="dashboard-content-ads-packages-block"> 
 
         <div class="listing-map-button-view">
             <ul class="list-inline">
@@ -74,67 +90,15 @@ $total_packages = $fave_qry->found_posts;
         </div>
         <div class="dashboard-content-ads-packages-item">
 
-            <select>
-<?php $i = 0;
-while( $fave_qry->have_posts() ): $fave_qry->the_post(); $i++;
-
-    $pack_price              = get_post_meta( get_the_ID(), 'fave_package_price', true );
-    $pack_listings           = get_post_meta( get_the_ID(), 'fave_package_listings', true );
-    $pack_featured_listings  = get_post_meta( get_the_ID(), 'fave_package_featured_listings', true );
-    $pack_unlimited_listings = get_post_meta( get_the_ID(), 'fave_unlimited_listings', true );
-    $pack_billing_period     = get_post_meta( get_the_ID(), 'fave_billing_time_unit', true );
-    $pack_billing_frquency   = get_post_meta( get_the_ID(), 'fave_billing_unit', true );
-    $fave_package_images        = get_post_meta( get_the_ID(), 'fave_package_images', true );
-    $pack_package_tax        = get_post_meta( get_the_ID(), 'fave_package_tax', true );
-    $fave_package_popular    = get_post_meta( get_the_ID(), 'fave_package_popular', true );
-    $package_custom_link     = get_post_meta( get_the_ID(), 'fave_package_custom_link', true );
-
-    $package_reloads  = get_post_meta( get_the_ID(), 'fave_package_reloads', true );
-    $transfer_credit  = get_post_meta( get_the_ID(), 'fave_transfer_credit', true );
-    $account_manager  = get_post_meta( get_the_ID(), 'fave_account_manager', true );
-    $add_floor_plans  = get_post_meta( get_the_ID(), 'fave_add_floor_plans', true );
-    $add_3d_view  = get_post_meta( get_the_ID(), 'fave_add_3d_view', true );
-
-    if( $pack_billing_frquency > 1 ) {
-        $pack_billing_period .='s';
-    }
-    if ( $where_currency == 'before' ) {
-        $package_price = $currency_symbol.' '.$pack_price;
-    } else {
-        $package_price = $pack_price.' '.$currency_symbol;
-    }
-
-    if( $fave_package_popular == "yes" ) {
-        $is_popular = 'featured';
-    } else {
-        $is_popular = '';
-    }
-
-    $payment_process_link = add_query_arg( 'selected_package', get_the_ID(), $payment_page_link );
-
-    if( $i == 1 && $total_packages == 2 ) {
-        $first_pkg_column = 'col-md-offset-2 col-sm-offset-0';
-    } else if (  $i == 1 && $total_packages == 1  ) {
-        $first_pkg_column = 'col-md-offset-4 col-sm-offset-0';
-    } else {
-        $first_pkg_column = '';
-    }
-
-    if(!empty($package_custom_link)) {
-        $payment_process_link = $package_custom_link;
-    }
-?>
-
-
-
-                <option val="<?php echo get_the_ID(); ?>"><?php the_title(); ?> - <?php echo $package_price; ?></option>
-                <?php endwhile; ?>
-            </select>
+            <div class="row">
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 activities_select">
+                    <select id="ads_packages" class="selectpicker form-control " title="<?php esc_html_e( 'Select ADS Packages', 'houzez' ); ?>" >
+                        <?php echo $ads_packages_options;?>
+                    </select><!-- selectpicker -->
+                </div>
+            </div
 
         </div>
-
-
-
     </div><!-- dashboard-content-block -->
 
 

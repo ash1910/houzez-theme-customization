@@ -698,6 +698,28 @@ i.menu-icon {
     background-color: #36AA71;
     color: #ffffff;
 }
+.dashboard-content-ads-packages-block {
+    margin: 50px 50px 200px;
+    text-align: center;
+}
+.dashboard-content-ads-packages-block .listing-map-button-view {
+    margin: 40px auto;
+    background-color: rgba(54, 170, 113, 0.15);
+    border-radius: 5.44px;
+    border: 0;
+}
+.dashboard-content-ads-packages-block .listing-map-button-view a.btn.btn-listing {
+    font-size: 12px;
+    font-weight: 600;
+    color: #000000;
+    line-height: 32px;
+}
+.dashboard-content-ads-packages-block .listing-map-button-view .list-inline .list-inline-item.active {
+    background-color: #36AA71;
+}
+.dashboard-content-ads-packages-block .listing-map-button-view .list-inline .list-inline-item.active a.btn.btn-listing{
+    color: #ffffff;
+}
 
 
 @media (max-width: 767.98px) {
