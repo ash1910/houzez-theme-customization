@@ -720,6 +720,12 @@ i.menu-icon {
 .dashboard-content-ads-packages-block .listing-map-button-view .list-inline .list-inline-item.active a.btn.btn-listing{
     color: #ffffff;
 }
+.dashboard-content-reaload-packages-item, .dashboard-content-ads-packages-item {
+    display: none;
+}
+.dashboard-content-reaload-packages-item.active, .dashboard-content-ads-packages-item.active {
+    display: block;
+}
 
 
 @media (max-width: 767.98px) {

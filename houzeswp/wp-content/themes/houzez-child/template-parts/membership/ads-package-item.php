@@ -86,9 +86,11 @@ $total_packages = $fave_qry->found_posts;
         </div>
 
 
-        <div class="dashboard-content-reaload-packages-item">
+        <div class="dashboard-content-reaload-packages-item <?php if($package_type == 'reload')echo 'active';?>">
+
+        reload packages
         </div>
-        <div class="dashboard-content-ads-packages-item">
+        <div class="dashboard-content-ads-packages-item <?php if($package_type == 'ads')echo 'active';?>">
 
             <div class="row">
                 <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 activities_select">
@@ -96,7 +98,8 @@ $total_packages = $fave_qry->found_posts;
                         <?php echo $ads_packages_options;?>
                     </select><!-- selectpicker -->
                 </div>
-            </div
+            </div>
+            <button type="submit" class="btn btn-primary-outlined">Submit</button>
 
         </div>
     </div><!-- dashboard-content-block -->
