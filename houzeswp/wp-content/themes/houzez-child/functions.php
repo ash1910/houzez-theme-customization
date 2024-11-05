@@ -880,6 +880,9 @@ if( !function_exists('houzez_get_user_current_package') ) {
         $remaining_listings = houzez_get_remaining_listings( $user_id );
         $pack_featured_remaining_listings = houzez_get_featured_remaining_listings( $user_id );
         $pack_reloads_remaining = get_the_author_meta( 'package_reloads' , $user_id );
+        $pack_impressions_remaining = get_the_author_meta( 'package_impressions' , $user_id );
+        $ads_package_id = get_the_author_meta( 'ads_package_id' , $user_id );
+
         $package_id = houzez_get_user_package_id( $user_id );
         $packages_page_link = houzez_get_template_link('template/template-packages.php');
 
@@ -902,6 +905,11 @@ if( !function_exists('houzez_get_user_current_package') ) {
             $account_manager = get_post_meta( $package_id, 'fave_account_manager', true );
             $add_floor_plans = get_post_meta( $package_id, 'fave_add_floor_plans', true );
             $add_3d_view = get_post_meta( $package_id, 'fave_add_3d_view', true );
+
+            $pack_impressions = "";
+            if( !empty( $ads_package_id ) ) {
+                $pack_impressions = get_post_meta( $ads_package_id, 'fave_package_impressions', true );
+            }
 
             if( $pack_billing_period == 'Day')
                 $pack_billing_period = 'days';
@@ -934,6 +942,8 @@ if( !function_exists('houzez_get_user_current_package') ) {
             
             echo '<li>'.esc_html__('Reload Included: ','houzez').'<strong>'.esc_attr( $pack_reloads ).'</strong></li>';
             echo '<li>'.esc_html__('Reload Remaining: ','houzez').'<strong>'.esc_attr( $pack_reloads_remaining ).'</strong></li>';
+            echo '<li>'.esc_html__('Impressions Included: ','houzez').'<strong>'.esc_attr( $pack_impressions ).'</strong></li>';
+            echo '<li>'.esc_html__('Impressions Remaining: ','houzez').'<strong>'.esc_attr( $pack_impressions_remaining ).'</strong></li>';
             
             echo '<li>'.esc_html__('Transfer Credit: ','houzez').'<strong>'.esc_attr( !empty($transfer_credit) ? "Yes" : "No" ).'</strong></li>';
             echo '<li>'.esc_html__('Account Manager: ','houzez').'<strong>'.esc_attr( !empty($account_manager) ? "Yes" : "No" ).'</strong></li>';
@@ -2342,7 +2352,23 @@ if( ! function_exists( 'houzez_update_membership_package' ) ) {
         $pack_listings            =   get_post_meta( $package_id, 'fave_package_listings', true );
         $pack_featured_listings   =   get_post_meta( $package_id, 'fave_package_featured_listings', true );
         $pack_unlimited_listings  =   get_post_meta( $package_id, 'fave_unlimited_listings', true );
-        $pack_reload   =   get_post_meta( $package_id, 'fave_package_reloads', true );
+        $pack_reload              =   get_post_meta( $package_id, 'fave_package_reloads', true );
+        $pack_impressions         =   get_post_meta( $package_id, 'fave_package_impressions', true );
+
+        // ADS Packages So Update only ADS packages fields
+        if( $pack_impressions != "" ) {
+            $user_pack_impressions = get_user_meta( $user_id, 'package_impressions', true );
+            $new_pack_impressions = (int)$user_pack_impressions + (int)$pack_impressions;
+            update_user_meta( $user_id, 'package_impressions', $new_pack_impressions);
+
+            $date = date_i18n( get_option('date_format').' '.get_option('time_format') );
+            update_user_meta( $user_id, 'ads_package_activation', $date );
+            update_user_meta( $user_id, 'ads_package_id', $package_id );
+            return;
+        }
+        // END ADS Packages
+
+
         if( $pack_featured_listings == '' ) {
             $pack_featured_listings = 0;
         }

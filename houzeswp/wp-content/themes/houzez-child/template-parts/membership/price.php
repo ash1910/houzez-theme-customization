@@ -14,6 +14,7 @@ if( isset( $_GET['selected_package'] ) ) {
     $pack_billing_period     = get_post_meta( $selected_package_id, 'fave_billing_time_unit', true );
     $pack_billing_frquency   = get_post_meta( $selected_package_id, 'fave_billing_unit', true );
     $fave_package_popular    = get_post_meta( $selected_package_id, 'fave_package_popular', true );
+    $pack_impressions           = get_post_meta( $selected_package_id, 'fave_package_impressions', true );
 
     if( !empty($pack_tax) && !empty($pack_price) ) {
         $total_taxes = intval($pack_tax)/100 * $pack_price;
@@ -57,6 +58,7 @@ if( isset( $_GET['selected_package'] ) ) {
                         <?php esc_html_e( 'Time Period', 'houzez' ); ?>
                         <strong><?php echo esc_attr( $pack_billing_frquency ).' '.HOUZEZ_billing_period( $pack_billing_period ); ?></strong>
                     </li>
+                    <?php if($pack_listings != "") { ?>
                     <li>
                         <i class="houzez-icon icon-check-circle-1 mr-2 primary-text"></i> 
                         <?php esc_html_e( 'Listing Included', 'houzez' ); ?>
@@ -71,6 +73,15 @@ if( isset( $_GET['selected_package'] ) ) {
                         <?php esc_html_e( 'Featured Listing Included', 'houzez' ); ?>  
                         <strong><?php echo esc_attr( $pack_featured_listings ); ?></strong>
                     </li>
+                    <?php } ?>
+
+                    <?php if($pack_impressions != "") { ?>
+                    <li>
+                        <i class="houzez-icon icon-check-circle-1 mr-2 primary-text"></i> 
+                        <?php esc_html_e('Impressions Included', 'houzez'); ?> 
+                        <strong><?php echo esc_attr($pack_impressions); ?></strong>
+                    </li>
+                    <?php } ?>
 
                     <?php if($pack_tax != "") { ?>
                     <li>

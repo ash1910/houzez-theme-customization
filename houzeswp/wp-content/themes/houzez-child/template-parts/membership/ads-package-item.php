@@ -19,6 +19,7 @@ if(class_exists('Houzez_Currencies')) {
 $payment_page_link = houzez_get_template_link('template/template-payment.php');
 
 $package_type = isset($_GET['package_type']) ? sanitize_text_field($_GET['package_type']) : 'reload';
+$reload_credits_price_per_unit = 2;
 
 $package_role_val = "agency";
 if( houzez_is_developer() ){
@@ -65,7 +66,38 @@ $total_packages = $fave_qry->found_posts;
 ?>
 
 <script type="text/javascript">
-
+    window.onload = function(){
+        const payment_page_link = "<?php echo $payment_page_link;?>";
+        const reload_credits_price_per_unit = "<?php echo $reload_credits_price_per_unit;?>";
+        jQuery('.dashboard-content-ads-packages-item button').click(function() {
+            const package_id = jQuery("#ads_packages").val();
+            if(package_id){
+                window.location.href = payment_page_link + "?selected_package=" + package_id;
+            }
+            else{
+                alert("Please select a ads package.");
+            }
+        });
+        jQuery('#reload_credits').on("input", function() {
+            var reload_credits = jQuery(this).val();
+            if(reload_credits == ""){
+                reload_credits = 0;
+            }
+            const reload_credits_price_total = parseInt(reload_credits) * reload_credits_price_per_unit;
+            console.log(reload_credits_price_total);
+            jQuery("#reload_credits_price_total").val(reload_credits_price_total);
+        });
+        jQuery('.dashboard-content-reaload-packages-item button').click(function() {
+            const package_id = 18960;
+            const reload_credits_price_total = jQuery("#reload_credits_price_total").val();
+            if(reload_credits_price_total){
+                window.location.href = payment_page_link + "?selected_package=" + package_id + "&reload_package_total=" + reload_credits_price_total;
+            }
+            else{
+                alert("Please enter reload credits.");
+            }
+        });
+    }
 </script>
 
     <div class="dashboard-content-ads-packages-block"> 
@@ -88,7 +120,24 @@ $total_packages = $fave_qry->found_posts;
 
         <div class="dashboard-content-reaload-packages-item <?php if($package_type == 'reload')echo 'active';?>">
 
-        reload packages
+            <div class="row">
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6">
+                    <p>Credits</p>
+                    <input id="reload_credits" type="text" class="form-control" placeholder="Enter Credits" value="1">
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6">
+                    <p>Price per unit</p>
+                    <input id="reload_credits_price_per_unit" type="text" class="form-control" value="<?php echo $reload_credits_price_per_unit;?>" readonly="">
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6">
+                    <p>Total</p>
+                    <input id="reload_credits_price_total" type="text" class="form-control" value="<?php echo $reload_credits_price_per_unit;?>" readonly="">
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6">
+                    <p>&nbsp;</p>
+                    <button type="submit" class="btn btn-primary-outlined">Proceed to Payment</button>
+                </div>
+            </div>
         </div>
         <div class="dashboard-content-ads-packages-item <?php if($package_type == 'ads')echo 'active';?>">
 
@@ -98,8 +147,10 @@ $total_packages = $fave_qry->found_posts;
                         <?php echo $ads_packages_options;?>
                     </select><!-- selectpicker -->
                 </div>
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6">
+                    <button type="submit" class="btn btn-primary-outlined">Proceed to Payment</button>
+                </div>
             </div>
-            <button type="submit" class="btn btn-primary-outlined">Submit</button>
 
         </div>
     </div><!-- dashboard-content-block -->
