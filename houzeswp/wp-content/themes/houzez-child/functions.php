@@ -2662,6 +2662,263 @@ if( !function_exists('manage_houzez_ads_packages_posts_custom_column') ) {
     add_action( 'manage_houzez_ads_packages_posts_custom_column', 'manage_houzez_ads_packages_posts_custom_column' );
 }
 
+if( ! function_exists( 'houzez_stripe_package_payment' ) ) {
+    function houzez_stripe_package_payment() {
+        require_once( get_template_directory() . '/framework/stripe-php/init.php' );
+        $stripe_secret_key = houzez_option('stripe_secret_key');
+        $stripe_publishable_key = houzez_option('stripe_publishable_key');
+
+        $stripe = array(
+            "secret_key" => $stripe_secret_key,
+            "publishable_key" => $stripe_publishable_key
+        );
+
+        \Stripe\Stripe::setApiKey($stripe['secret_key']);
+
+        $stripe = new \Stripe\StripeClient( $stripe['secret_key'] );
+
+        $currency    = houzez_option('currency_paid_submission');
+        $blogInfo    = get_bloginfo('name');
+        $userID      = get_current_user_id();
+        $package_id  = intval($_POST['package_id']);
+        $user_email  = wp_get_current_user()->user_email;
+
+        $planId = get_post_meta( $package_id, 'fave_package_stripe_id', true );
+        $tax_rate_id = get_post_meta( $package_id, 'fave_stripe_taxId', true );
+        $is_stripe_recurring   = sanitize_text_field( wp_unslash( $_POST['is_stripe_recurring'] ) );
+
+        $return_link  =  houzez_get_template_link('template/template-stripe-charge.php');
+        $cancelled_link  =  houzez_get_template_link('template/template-payment.php');
+        $product_title     = get_the_title( $package_id );
+        $product_image_url = get_the_post_thumbnail_url( $package_id, 'large' );
+
+        $api_error = '';
+
+        try {
+
+            $stripe_customer_id = get_user_meta($userID, 'fave_stripe_user_profile', true);
+
+            if( $is_stripe_recurring == "true" && ! empty( $planId ) ) {
+
+                // Check for existing subscription
+
+                if( ! empty($stripe_customer_id) ) {
+                    $subscriptions = $stripe->subscriptions->all(['customer' => $stripe_customer_id, 'status' => 'active']);
+
+                    if (count($subscriptions->data) > 0) {
+                        $existing_subscription = $subscriptions->data[0];
+                        // Cancel existing subscription and create a new one
+                        $stripe->subscriptions->cancel($existing_subscription->id);
+                    }
+                }
+
+                $data = [
+                    'success_url' => $return_link . '?houzez_stripe_recurring=1&is_houzez_membership=1&mode=package&pack_id='.esc_attr($package_id).'&success=1&session_id={CHECKOUT_SESSION_ID}',
+                    'cancel_url' => $cancelled_link . '?selected_package=' .$package_id. '&cancel=1',
+                    'payment_method_types' => [
+                      'card',
+                    ],
+                    'subscription_data' => [
+                        'items' => [[
+                            'plan' => $planId,
+                        ]],
+                        'metadata' => [
+                            'payment_type' => 'subscription_fee',
+                            'userID' => get_current_user_id(),
+                            'package_id' => esc_attr($package_id)
+                        ],
+                    ],
+                    'locale' => 'auto',
+                    "metadata" => [
+                        'payment_type' => 'subscription_fee',
+                        'userID' => get_current_user_id(),
+                        'package_id' => esc_attr($package_id)
+                    ],
+                ];
+
+                if( $stripe_customer_id != '' ) {
+                     $data['customer'] = $stripe_customer_id;
+                }
+
+                if($tax_rate_id != null && !empty(trim($tax_rate_id))){
+                    $data['subscription_data']['default_tax_rates'] = [$tax_rate_id];
+                }
+
+                $checkout_session = \Stripe\Checkout\Session::create($data);
+
+            } else {
+
+                $amount  = get_post_meta( $package_id, 'fave_package_price', true );
+
+                // Reload package
+                $cancel_url = $cancelled_link . '?selected_package=' .$package_id. '&cancel=1';
+                $reload_package_total  = get_user_meta( get_current_user_id(), 'reload_package_total', true );
+
+                if( $reload_package_total != "" && str_contains(strtolower($product_title), "reload") ){
+                    $amount  = (float)$reload_package_total;
+                    $cancel_url = $cancelled_link . '?selected_package=' .$package_id. '&reload_package_total='.$amount.'&cancel=1';
+                }
+
+                if( in_array( $currency, houzez_stripe_zero_decimal_currencies() ) ) {
+                    $amount = $amount;
+                } else if( in_array( $currency, houzez_stripe_3digits_currencies() ) ) {
+                    $amount = round($amount * 100) * 10;
+                } else {
+                    $amount = round( $amount * 100, 2 );
+                }
+
+                $product_data = array( 'name' => esc_html( $product_title ) );
+                if ( ! empty( $product_image_url ) ) {
+                    $product_data['images'] = array( esc_url( $product_image_url ) );
+                }
+
+                $data = array(
+                    'payment_method_types' => array( 'card' ),
+                    'line_items' => array(
+                        array(
+                            'price_data' => array(
+                                'currency'     => $currency,
+                                'unit_amount'  => $amount,
+                                'product_data' => $product_data,
+                            ),
+                            'quantity'   => 1,
+                        ),
+                    ),
+                    'locale' => 'auto',
+                    "metadata" => [
+                        'user_id'     => get_current_user_id(),
+                        "package_id"  => $package_id,
+                        "title"       => get_the_title($package_id),
+                    ],
+                    'mode'        => 'payment',
+                    'success_url' => $return_link . '?is_houzez_membership=0&mode=simple_package&pack_id='.esc_attr($package_id).'&success=1&session_id={CHECKOUT_SESSION_ID}',
+                    'cancel_url' => $cancel_url,
+                );
+
+                if( $stripe_customer_id != '' ) {
+                     $data['customer'] = $stripe_customer_id;
+                }
+
+                if($tax_rate_id != null && !empty(trim($tax_rate_id))){
+                    $data['line_items'][0]['tax_rates'] = [$tax_rate_id];
+                }
+
+                $checkout_session = \Stripe\Checkout\Session::create($data);
+                
+
+            }
+        } catch(Exception $e) {  
+            $api_error = $e->getMessage();  
+        } 
+
+        if( empty($api_error) && $checkout_session ) { 
+            $response = array( 
+                'status' => true, 
+                'message' => esc_html__('Checkout Session created successfully!', 'houzez'), 
+                'sessionId' => $checkout_session['id'],
+                'paymeny_link' => $checkout_session->url
+            ); 
+        }else{ 
+            $response = array( 
+                'status' => false, 
+                'message' => esc_html__('Checkout Session creation failed!', 'houzez').' '.$api_error
+            ); 
+        } 
+        update_user_meta( get_current_user_id(), 'houzez_stripe_temp_session_id', $checkout_session->id );
+        echo json_encode($response);
+        wp_die();
+
+    }
+}
+
+if( !function_exists('houzez_generate_invoice') ){
+    function houzez_generate_invoice( $billingFor, $billionType, $packageID, $invoiceDate, $userID, $featured, $upgrade, $paypalTaxID, $paymentMethod, $is_package = 0 ) {
+
+        $total_taxes = 0;
+        $price_per_submission = houzez_option('price_listing_submission');
+        $price_featured_submission = houzez_option('price_featured_listing_submission');
+
+        $price_per_submission      = floatval( $price_per_submission );
+        $price_featured_submission = floatval( $price_featured_submission );
+
+        $args = array(
+            'post_title'    => 'Invoice ',
+            'post_status'   => 'publish',
+            'post_type'     => 'houzez_invoice'
+        );
+        $inserted_post_id =  wp_insert_post( $args );
+
+        if( $billionType != 'one_time' ) {
+            $billionType = __( 'Recurring', 'houzez' );
+        } else {
+            $billionType = __( 'One Time', 'houzez' );
+        }
+
+        if( $is_package == 0 ) {
+            if( $upgrade == 1 ) {
+                $total_price = $price_featured_submission;
+
+            } else {
+                if( $featured == 1 ) {
+                    $total_price = $price_per_submission+$price_featured_submission;
+                } else {
+                    $total_price = $price_per_submission;
+                }
+            }
+        } else {
+            $pack_price = get_post_meta( $packageID, 'fave_package_price', true);
+            $pack_tax = get_post_meta( $packageID, 'fave_package_tax', true );
+
+            // Reload Package
+            $reload_package_total  = get_user_meta( get_current_user_id(), 'reload_package_total', true );
+
+            if( $reload_package_total != "" && str_contains(strtolower($billingFor), "reload") ){
+                $pack_price  = (float)$reload_package_total;
+            }
+            // End Reload Package
+
+            if( !empty($pack_tax) && !empty($pack_price) ) {
+                $total_taxes = intval($pack_tax)/100 * $pack_price;
+                $total_taxes = round($total_taxes, 2);
+            }
+            
+            $total_price = $pack_price + $total_taxes;
+        }
+        
+        $fave_meta = array();
+
+        $fave_meta['invoice_billion_for'] = $billingFor;
+        $fave_meta['invoice_billing_type'] = $billionType;
+        $fave_meta['invoice_item_id'] = $packageID;
+        $fave_meta['invoice_item_price'] = $total_price;
+        $fave_meta['invoice_tax'] = $total_taxes;
+        $fave_meta['invoice_purchase_date'] = $invoiceDate;
+        $fave_meta['invoice_buyer_id'] = $userID;
+        $fave_meta['paypal_txn_id'] = $paypalTaxID;
+        $fave_meta['invoice_payment_method'] = $paymentMethod;
+
+        update_post_meta( $inserted_post_id, 'HOUZEZ_invoice_buyer', $userID );
+        update_post_meta( $inserted_post_id, 'HOUZEZ_invoice_type', $billionType );
+        update_post_meta( $inserted_post_id, 'HOUZEZ_invoice_for', $billingFor );
+        update_post_meta( $inserted_post_id, 'HOUZEZ_invoice_item_id', $packageID );
+        update_post_meta( $inserted_post_id, 'HOUZEZ_invoice_price', $total_price );
+        update_post_meta( $inserted_post_id, 'HOUZEZ_invoice_tax', $total_taxes );
+        update_post_meta( $inserted_post_id, 'HOUZEZ_invoice_date', $invoiceDate );
+        update_post_meta( $inserted_post_id, 'HOUZEZ_paypal_txn_id', $paypalTaxID );
+        update_post_meta( $inserted_post_id, 'HOUZEZ_invoice_payment_method', $paymentMethod );
+
+        update_post_meta( $inserted_post_id, '_houzez_invoice_meta', $fave_meta );
+
+        // Update post title
+        $update_post = array(
+            'ID'         => $inserted_post_id,
+            'post_title' => 'Invoice '.$inserted_post_id,
+        );
+        wp_update_post( $update_post );
+        return $inserted_post_id;
+    }
+}
+
 
 //$user_package_id = houzez_get_user_package_id($userID);
 //$package_images = get_post_meta( $user_package_id, 'fave_package_images', true );

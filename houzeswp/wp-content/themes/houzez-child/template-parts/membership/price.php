@@ -2,6 +2,8 @@
 $currency_symbol = houzez_option( 'currency_symbol' );
 $where_currency = houzez_option( 'currency_position' );
 $select_packages_link = houzez_get_template_link('template/template-packages.php');
+$reload_credits_price_per_unit = 2;
+$reload_credit = "";
 
 if( isset( $_GET['selected_package'] ) ) {
     $total_taxes = 0;
@@ -15,6 +17,14 @@ if( isset( $_GET['selected_package'] ) ) {
     $pack_billing_frquency   = get_post_meta( $selected_package_id, 'fave_billing_unit', true );
     $fave_package_popular    = get_post_meta( $selected_package_id, 'fave_package_popular', true );
     $pack_impressions           = get_post_meta( $selected_package_id, 'fave_package_impressions', true );
+
+    // Reload package
+    if( isset( $_GET['reload_package_total'] ) ) {
+        $pack_price = (float)$_GET['reload_package_total'];
+        $reload_credit = $pack_price / $reload_credits_price_per_unit;
+        
+        update_user_meta( get_current_user_id(), 'reload_package_total', $pack_price );
+    }
 
     if( !empty($pack_tax) && !empty($pack_price) ) {
         $total_taxes = intval($pack_tax)/100 * $pack_price;
@@ -80,6 +90,14 @@ if( isset( $_GET['selected_package'] ) ) {
                         <i class="houzez-icon icon-check-circle-1 mr-2 primary-text"></i> 
                         <?php esc_html_e('Impressions Included', 'houzez'); ?> 
                         <strong><?php echo esc_attr($pack_impressions); ?></strong>
+                    </li>
+                    <?php } ?>
+
+                    <?php if($reload_credit != "") { ?>
+                    <li>
+                        <i class="houzez-icon icon-check-circle-1 mr-2 primary-text"></i> 
+                        <?php esc_html_e('Reload Credit Included', 'houzez'); ?> 
+                        <strong><?php echo esc_attr($reload_credit); ?></strong>
                     </li>
                     <?php } ?>
 
