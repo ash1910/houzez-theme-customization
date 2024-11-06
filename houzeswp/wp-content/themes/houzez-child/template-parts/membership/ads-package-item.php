@@ -88,7 +88,8 @@ endwhile;
 ?>
 
 <script type="text/javascript">
-    window.onload = function(){
+    jQuery(window).load(function() {
+
         const payment_page_link = "<?php echo $payment_page_link;?>";
         const reload_credits_price_per_unit = "<?php echo $reload_credits_price_per_unit;?>";
         jQuery('.dashboard-content-ads-packages-item button').click(function() {
@@ -106,7 +107,7 @@ endwhile;
                 reload_credits = 0;
             }
             const reload_credits_price_total = parseInt(reload_credits) * reload_credits_price_per_unit;
-            console.log(reload_credits_price_total);
+            //console.log(reload_credits_price_total);
             jQuery("#reload_credits_price_total").val(reload_credits_price_total);
         });
         jQuery('.dashboard-content-reaload-packages-item button').click(function() {
@@ -123,7 +124,7 @@ endwhile;
                 alert("Please enter reload credits.");
             }
         });
-    }
+    });
 </script>
 
     <div class="dashboard-content-ads-packages-block"> 

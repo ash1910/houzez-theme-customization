@@ -908,7 +908,7 @@ if( !function_exists('houzez_get_user_current_package') ) {
 
             $package_reloads_included = get_user_meta( $user_id, 'package_reloads_included', true );
             if( $package_reloads_included != "" ){
-                $pack_reloads = $pack_reloads + (int)$package_reloads_included;
+                $pack_reloads = (int)$pack_reloads + (int)$package_reloads_included;
             }
 
             $pack_impressions = "";
@@ -2954,6 +2954,76 @@ if( !function_exists('houzez_generate_invoice') ){
         );
         wp_update_post( $update_post );
         return $inserted_post_id;
+    }
+}
+
+if( !function_exists('houzez_downgrade_package') ){
+    function houzez_downgrade_package( $user_id, $pack_id ) {
+
+        
+
+        // SKIP for ADS Packages AND Reload Package
+        $pack_impressions    =   get_post_meta( $pack_id, 'fave_package_impressions', true );
+        if( $pack_impressions != "" ) {
+            return;
+        }
+
+        $reload_package_total  = get_user_meta( $user_id, 'reload_package_total', true );
+        $product_title     = get_the_title( $pack_id );
+        if( $reload_package_total != "" && str_contains(strtolower($product_title), "reload") ){
+            return;
+        }
+        // END SKIP for ADS Packages AND Reload Package
+
+        $pack_listings           =  get_post_meta( $pack_id, 'pack_listings', true );
+        $pack_featured_listings  =  get_post_meta( $pack_id, 'pack_featured_listings', true );
+
+        update_user_meta( $user_id, 'package_listings', $pack_listings );
+        update_user_meta( $user_id, 'package_featured_listings', $pack_featured_listings );
+
+        $args = array(
+            'post_type'   => 'property',
+            'post_status' => 'any'
+        );
+
+        $agency_agents = houzez_get_agency_agents( $user_id );
+        $package_permission = houzez_can_agent_user_agency_package( $user_id );
+
+        if( $agency_agents && $package_permission ) {
+            $agency_agents[] = $user_id;
+            $args['author__in'] = $agency_agents;
+        } else {
+            $args['author'] = $user_id;
+        }
+
+        $query = new WP_Query( $args );
+        global $post;
+        while( $query->have_posts()){
+            $query->the_post();
+
+            $property = array(
+                'ID'          => $post->ID,
+                'post_type'   => 'property',
+                'post_status' => 'expired'
+            );
+
+            wp_update_post( $property );
+            update_post_meta( $post->ID, 'fave_featured', 0 );
+            update_post_meta( $post->ID, 'houzez_featured_listing_date', '' );
+        }
+        wp_reset_postdata();
+
+        $user = get_user_by( 'id', $user_id );
+        $user_email = $user->user_email;
+
+        $headers = 'From: No Reply <noreply@'.$_SERVER['HTTP_HOST'].'>' . "\r\n";
+        $message  = esc_html__('Account Downgraded,','houzez') . "\r\n\r\n";
+        $message .= sprintf( __("Hello, You downgraded your subscription on  %s. Because your listings number was greater than what the actual package offers, we set the status of all your listings to \"expired\". You will need to choose which listings you want live and send them again for approval. Thank you!",'houzez'), get_option('blogname')) . "\r\n\r\n";
+
+        wp_mail($user_email,
+            sprintf(esc_html__('[%s] Account Downgraded','houzez'), get_option('blogname')),
+            $message,
+            $headers);
     }
 }
 

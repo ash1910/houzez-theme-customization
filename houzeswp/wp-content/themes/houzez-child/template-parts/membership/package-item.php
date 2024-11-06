@@ -54,7 +54,7 @@ $total_packages = $fave_qry->found_posts;
 ?>
 
 <script type="text/javascript">
-    window.onload = function(){
+    jQuery(window).load(function() {
         var total = jQuery('.price-items').data('total');
         var width = jQuery( window ).width();
         jQuery('.btn-price-scroll-right').click(function() {
@@ -67,8 +67,7 @@ $total_packages = $fave_qry->found_posts;
             if( index <= total - 4 || width < 992 )
             jQuery('.price-items > li').last().remove().insertBefore(jQuery('.price-items > li').first());
         })
-    }
-
+    });
 </script>
 
     <div class="dashboard-content-pricing-block">
