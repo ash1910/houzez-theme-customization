@@ -19,7 +19,6 @@ if(class_exists('Houzez_Currencies')) {
 $payment_page_link = houzez_get_template_link('template/template-payment.php');
 
 $package_type = isset($_GET['package_type']) ? sanitize_text_field($_GET['package_type']) : 'reload';
-$reload_credits_price_per_unit = 2;
 
 $package_role_val = "agency";
 if( houzez_is_developer() ){
@@ -63,6 +62,29 @@ endwhile;
 
 $total_packages = $first_pkg_column = '';
 $total_packages = $fave_qry->found_posts;
+
+$reload_credits_price_per_unit = 2;
+$reload_package_id = "";
+$reload_search_term = "Reload";
+$reload_package_args = array(
+    'post_type'       => 'houzez_packages',
+    's'           => $reload_search_term,
+    'search_columns' => ['post_title'],
+    'posts_per_page'  => 1,
+    'meta_query'      =>  array(
+        'relation' => 'AND',
+        array(
+            'key' => 'fave_package_role',
+            'value' => $package_role_val,
+            'compare' => '=',
+        )
+    )
+);
+$reload_package_qry = new WP_Query($reload_package_args);
+while( $reload_package_qry->have_posts() ): $reload_package_qry->the_post();
+    $reload_package_id = get_the_ID();
+    $reload_credits_price_per_unit = get_post_meta( get_the_ID(), 'fave_package_price', true );
+endwhile;
 ?>
 
 <script type="text/javascript">
@@ -88,8 +110,12 @@ $total_packages = $fave_qry->found_posts;
             jQuery("#reload_credits_price_total").val(reload_credits_price_total);
         });
         jQuery('.dashboard-content-reaload-packages-item button').click(function() {
-            const package_id = 18960;
+            const package_id = "<?php echo $reload_package_id;?>";
             const reload_credits_price_total = jQuery("#reload_credits_price_total").val();
+            if( package_id == "" ){
+                alert("There are no reload packages.");
+                return;
+            }
             if(reload_credits_price_total){
                 window.location.href = payment_page_link + "?selected_package=" + package_id + "&reload_package_total=" + reload_credits_price_total;
             }

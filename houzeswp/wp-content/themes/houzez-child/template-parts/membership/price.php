@@ -20,9 +20,10 @@ if( isset( $_GET['selected_package'] ) ) {
 
     // Reload package
     if( isset( $_GET['reload_package_total'] ) ) {
+        $reload_credits_price_per_unit  = $pack_price;
         $pack_price = (float)$_GET['reload_package_total'];
-        $reload_credit = $pack_price / $reload_credits_price_per_unit;
         
+        $reload_credit = $pack_price / $reload_credits_price_per_unit;
         update_user_meta( get_current_user_id(), 'reload_package_total', $pack_price );
     }
 

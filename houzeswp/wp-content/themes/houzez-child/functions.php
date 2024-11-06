@@ -906,9 +906,18 @@ if( !function_exists('houzez_get_user_current_package') ) {
             $add_floor_plans = get_post_meta( $package_id, 'fave_add_floor_plans', true );
             $add_3d_view = get_post_meta( $package_id, 'fave_add_3d_view', true );
 
+            $package_reloads_included = get_user_meta( $user_id, 'package_reloads_included', true );
+            if( $package_reloads_included != "" ){
+                $pack_reloads = $pack_reloads + (int)$package_reloads_included;
+            }
+
             $pack_impressions = "";
-            if( !empty( $ads_package_id ) ) {
-                $pack_impressions = get_post_meta( $ads_package_id, 'fave_package_impressions', true );
+            // if( !empty( $ads_package_id ) ) {
+            //     $pack_impressions = get_post_meta( $ads_package_id, 'fave_package_impressions', true );
+            // }
+            $package_impressions_included = get_user_meta( $user_id, 'package_impressions_included', true );
+            if( $package_impressions_included != "" ){
+                $pack_impressions = (int)$package_impressions_included;
             }
 
             if( $pack_billing_period == 'Day')
@@ -2354,6 +2363,8 @@ if( ! function_exists( 'houzez_update_membership_package' ) ) {
         $pack_unlimited_listings  =   get_post_meta( $package_id, 'fave_unlimited_listings', true );
         $pack_reload              =   get_post_meta( $package_id, 'fave_package_reloads', true );
         $pack_impressions         =   get_post_meta( $package_id, 'fave_package_impressions', true );
+        
+        $date = date_i18n( get_option('date_format').' '.get_option('time_format') );
 
         // ADS Packages So Update only ADS packages fields
         if( $pack_impressions != "" ) {
@@ -2361,12 +2372,38 @@ if( ! function_exists( 'houzez_update_membership_package' ) ) {
             $new_pack_impressions = (int)$user_pack_impressions + (int)$pack_impressions;
             update_user_meta( $user_id, 'package_impressions', $new_pack_impressions);
 
-            $date = date_i18n( get_option('date_format').' '.get_option('time_format') );
+            $user_pack_impressions_included = get_user_meta( $user_id, 'package_impressions_included', true );
+            $new_pack_impressions_included = (int)$user_pack_impressions_included + (int)$pack_impressions;
+            update_user_meta( $user_id, 'package_impressions_included', $new_pack_impressions_included);
+
             update_user_meta( $user_id, 'ads_package_activation', $date );
             update_user_meta( $user_id, 'ads_package_id', $package_id );
             return;
         }
         // END ADS Packages
+
+        // Reload Package
+        $reload_package_total  = get_user_meta( $user_id, 'reload_package_total', true );
+        $product_title     = get_the_title( $package_id );
+        if( $reload_package_total != "" && str_contains(strtolower($product_title), "reload") ){
+            $user_pack_reloads = get_user_meta( $user_id, 'package_reloads', true );
+            $user_pack_reloads_included = get_user_meta( $user_id, 'package_reloads_included', true );
+            $pack_price              = get_post_meta( $package_id, 'fave_package_price', true );
+            $reload_credits_price_per_unit = 2;
+            $reload_credits_price_per_unit = $pack_price;
+            $pack_reload = $reload_package_total / $reload_credits_price_per_unit;
+
+            $new_pack_reloads = (int)$user_pack_reloads + (int)$pack_reload;
+            update_user_meta( $user_id, 'package_reloads', $new_pack_reloads);
+
+            $new_pack_reloads_included = (int)$user_pack_reloads_included + (int)$pack_reload;
+            update_user_meta( $user_id, 'package_reloads_included', $new_pack_reloads_included);
+
+            update_user_meta( $user_id, 'reload_package_activation', $date );
+            update_user_meta( $user_id, 'reload_package_id', $package_id );
+            return;
+        }
+        // End Reload Package
 
 
         if( $pack_featured_listings == '' ) {
@@ -2871,9 +2908,10 @@ if( !function_exists('houzez_generate_invoice') ){
 
             // Reload Package
             $reload_package_total  = get_user_meta( get_current_user_id(), 'reload_package_total', true );
-
-            if( $reload_package_total != "" && str_contains(strtolower($billingFor), "reload") ){
+            $product_title     = get_the_title( $packageID );
+            if( $reload_package_total != "" && str_contains(strtolower($product_title), "reload") ){
                 $pack_price  = (float)$reload_package_total;
+                //update_user_meta( get_current_user_id(), 'reload_package_total', "" ); // empty 
             }
             // End Reload Package
 
