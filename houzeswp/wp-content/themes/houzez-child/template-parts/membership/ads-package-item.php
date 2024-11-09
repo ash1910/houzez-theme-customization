@@ -28,6 +28,9 @@ if( houzez_is_developer() ){
 $args = array(
     'post_type'       => 'houzez_ads_packages',
     'posts_per_page'  => -1,
+    'order'     => 'ASC',
+    'meta_key' => 'fave_package_impressions',
+    'orderby'   => 'meta_value_num',
     'meta_query'      =>  array(
         'relation' => 'AND',
         array(
@@ -44,11 +47,11 @@ $args = array(
 );
 $fave_qry = new WP_Query($args);
 
-$i = 0; $ads_packages_options = "";
+$i = 0; $ads_packages_options = ""; $ads_packages_options_price = "";
 while( $fave_qry->have_posts() ): $fave_qry->the_post(); $i++;
-
+    $ads_packages_selected = "";
     $pack_price              = get_post_meta( get_the_ID(), 'fave_package_price', true );
-    $pack_listings           = get_post_meta( get_the_ID(), 'fave_package_listings', true );
+    $pack_impressions           = get_post_meta( get_the_ID(), 'fave_package_impressions', true );
 
     if ( $where_currency == 'before' ) {
         $package_price = $currency_symbol.' '.$pack_price;
@@ -56,7 +59,12 @@ while( $fave_qry->have_posts() ): $fave_qry->the_post(); $i++;
         $package_price = $pack_price.' '.$currency_symbol;
     }
 
-    $ads_packages_options .= '<option value="'.get_the_ID().'">'.get_the_title() .' - '. $package_price.'</option>';
+    if($i == 1){
+        $ads_packages_selected = "selected";
+        $ads_packages_options_price = $package_price;
+    }
+
+    $ads_packages_options .= '<option data-price="'.$package_price.'" value="'.get_the_ID().'" '.$ads_packages_selected.' >'.$pack_impressions.'</option>';
 
 endwhile;
 
@@ -89,6 +97,12 @@ endwhile;
 
 <script type="text/javascript">
     jQuery(window).load(function() {
+
+        jQuery("#ads_packages").on("change", function(){
+            const package_price = jQuery("#ads_packages").find(':selected').data('price');
+            //alert(package_price); 
+            jQuery("#ads_packages_price").val(package_price);
+        });
 
         const payment_page_link = "<?php echo $payment_page_link;?>";
         const reload_credits_price_per_unit = "<?php echo $reload_credits_price_per_unit;?>";
@@ -124,20 +138,35 @@ endwhile;
                 alert("Please enter reload credits.");
             }
         });
+
+        
     });
+    var changePackageType = function(packageType){
+        //e.preventDefault();
+        //alert(packageType);
+        if( packageType == "reload" ){
+            jQuery(".packageTypeReload").addClass("active");
+            jQuery(".packageTypeAds").removeClass("active");
+        }
+        if( packageType == "ads" ){
+            jQuery(".packageTypeReload").removeClass("active");
+            jQuery(".packageTypeAds").addClass("active");
+        }
+    }
+    
 </script>
 
     <div class="dashboard-content-ads-packages-block"> 
 
         <div class="listing-map-button-view">
             <ul class="list-inline">
-                <li class="list-inline-item <?php if($package_type == 'reload')echo 'active';?>">
-                    <a class="btn btn-primary-outlined btn-listing" href="?packages=1&package_type=reload">
+                <li class="list-inline-item packageTypeReload <?php if($package_type == 'reload')echo 'active';?>">
+                    <a class="btn btn-primary-outlined btn-listing" href="javascript:changePackageType('reload')">
                         <span>RELOAD</span>
                     </a>
                 </li>
-                <li class="list-inline-item <?php if($package_type == 'ads')echo 'active';?>">
-                    <a class="btn btn-primary-outlined btn-listing" href="?packages=1&package_type=ads">
+                <li class="list-inline-item packageTypeAds <?php if($package_type == 'ads')echo 'active';?>">
+                    <a class="btn btn-primary-outlined btn-listing" href="javascript:changePackageType('ads')">
                         <span>Premium ADS</span>
                     </a>
                 </li>
@@ -145,7 +174,7 @@ endwhile;
         </div>
 
 
-        <div class="dashboard-content-reaload-packages-item <?php if($package_type == 'reload')echo 'active';?>">
+        <div class="dashboard-content-reaload-packages-item packageTypeReload <?php if($package_type == 'reload')echo 'active';?>">
 
             <div class="row">
                 <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6">
@@ -166,19 +195,34 @@ endwhile;
                 </div>
             </div>
         </div>
-        <div class="dashboard-content-ads-packages-item <?php if($package_type == 'ads')echo 'active';?>">
-
+        <div class="dashboard-content-ads-packages-item packageTypeAds <?php if($package_type == 'ads')echo 'active';?>">
+            <div class="row">
+                <div class="col-xl-12">
+                    <h4>Out of Ads credit? Add more credits to promot your listings and enhance their visibility at the top of search results!</h4>
+                    <br><br>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 activities_select">
-                    <select id="ads_packages" class="selectpicker form-control " title="<?php esc_html_e( 'Select ADS Packages', 'houzez' ); ?>" >
+                    <p>Impressions</p>
+                    <select id="ads_packages" class="selectpicker form-control " title="<?php esc_html_e( 'Select', 'houzez' ); ?>" >
                         <?php echo $ads_packages_options;?>
                     </select><!-- selectpicker -->
                 </div>
                 <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6">
-                    <button type="submit" class="btn btn-primary-outlined">Proceed to Payment</button>
+                    <p>Price</p>
+                    <input id="ads_packages_price" type="text" class="form-control" value="<?php echo $ads_packages_options_price;?>" readonly="">
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6">
+                    
                 </div>
             </div>
-
+            <div class="row">
+                <div class="col-xl-12">
+                    <p><strong>Your purchased Ads </strong> <button type="submit" class="btn btn-primary-outlined">Proceed to Payment</button></p>
+                    <br><br>
+                </div>
+            </div>
         </div>
     </div><!-- dashboard-content-block -->
 
