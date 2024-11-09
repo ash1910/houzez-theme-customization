@@ -47,7 +47,7 @@ $args = array(
 );
 $fave_qry = new WP_Query($args);
 
-$i = 0; $ads_packages_options = ""; $ads_packages_options_price = "";
+$i = 0; $ads_packages_options = ""; $ads_packages_options_price = ""; $ads_packages_impressions = "";
 while( $fave_qry->have_posts() ): $fave_qry->the_post(); $i++;
     $ads_packages_selected = "";
     $pack_price              = get_post_meta( get_the_ID(), 'fave_package_price', true );
@@ -62,6 +62,7 @@ while( $fave_qry->have_posts() ): $fave_qry->the_post(); $i++;
     if($i == 1){
         $ads_packages_selected = "selected";
         $ads_packages_options_price = $package_price;
+        $ads_packages_impressions = $pack_impressions;
     }
 
     $ads_packages_options .= '<option data-price="'.$package_price.'" value="'.get_the_ID().'" '.$ads_packages_selected.' >'.$pack_impressions.'</option>';
@@ -92,6 +93,12 @@ $reload_package_qry = new WP_Query($reload_package_args);
 while( $reload_package_qry->have_posts() ): $reload_package_qry->the_post();
     $reload_package_id = get_the_ID();
     $reload_credits_price_per_unit = get_post_meta( get_the_ID(), 'fave_package_price', true );
+
+    if ( $where_currency == 'before' ) {
+        $reload_credits_price_per_unit_with_curr = $currency_symbol.' '.$reload_credits_price_per_unit;
+    } else {
+        $reload_credits_price_per_unit_with_curr = $reload_credits_price_per_unit.' '.$currency_symbol;
+    }
 endwhile;
 ?>
 
@@ -100,12 +107,17 @@ endwhile;
 
         jQuery("#ads_packages").on("change", function(){
             const package_price = jQuery("#ads_packages").find(':selected').data('price');
+            const package_impression = jQuery("#ads_packages").find(':selected').html();
             //alert(package_price); 
             jQuery("#ads_packages_price").val(package_price);
+            jQuery("#ads_packages_price_total").html(package_price);
+            jQuery("#ads_packages_impressions_total").html(package_impression);
         });
 
         const payment_page_link = "<?php echo $payment_page_link;?>";
         const reload_credits_price_per_unit = "<?php echo $reload_credits_price_per_unit;?>";
+        const currency_symbol = "<?php echo $currency_symbol;?>";
+
         jQuery('.dashboard-content-ads-packages-item button').click(function() {
             const package_id = jQuery("#ads_packages").val();
             if(package_id){
@@ -122,16 +134,20 @@ endwhile;
             }
             const reload_credits_price_total = parseInt(reload_credits) * reload_credits_price_per_unit;
             //console.log(reload_credits_price_total);
-            jQuery("#reload_credits_price_total").val(reload_credits_price_total);
+            jQuery("#reload_credits_price_total").html(currency_symbol + " " +reload_credits_price_total);
+            jQuery("#reload_credits_total").html(reload_credits);
+            
         });
         jQuery('.dashboard-content-reaload-packages-item button').click(function() {
             const package_id = "<?php echo $reload_package_id;?>";
-            const reload_credits_price_total = jQuery("#reload_credits_price_total").val();
+            var reload_credits = jQuery("#reload_credits").val();
+            const reload_credits_price_total = parseInt(reload_credits) * reload_credits_price_per_unit;
+            //const reload_credits_price_total = jQuery("#reload_credits_price_total").html();
             if( package_id == "" ){
                 alert("There are no reload packages.");
                 return;
             }
-            if(reload_credits_price_total){
+            if(package_id && reload_credits_price_total > 0){
                 window.location.href = payment_page_link + "?selected_package=" + package_id + "&reload_package_total=" + reload_credits_price_total;
             }
             else{
@@ -175,7 +191,12 @@ endwhile;
 
 
         <div class="dashboard-content-reaload-packages-item packageTypeReload <?php if($package_type == 'reload')echo 'active';?>">
-
+            <div class="row">
+                <div class="col-xl-12">
+                    <h4>Ran out of Reload credits? Add more credits to your account to continue refreshing your listings effortlessly!</h4>
+                    <br><br>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6">
                     <p>Credits</p>
@@ -183,14 +204,20 @@ endwhile;
                 </div>
                 <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6">
                     <p>Price per unit</p>
-                    <input id="reload_credits_price_per_unit" type="text" class="form-control" value="<?php echo $reload_credits_price_per_unit;?>" readonly="">
+                    <input id="reload_credits_price_per_unit" type="text" class="form-control" value="<?php echo $reload_credits_price_per_unit_with_curr;?>" readonly="">
+                    <br>
                 </div>
-                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6">
-                    <p>Total</p>
-                    <input id="reload_credits_price_total" type="text" class="form-control" value="<?php echo $reload_credits_price_per_unit;?>" readonly="">
+            </div>
+            <div class="row dashboard-content-ads-packages-item-total">
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                    <p><strong>Total Credits: &copy; <span id="reload_credits_total">1</span></strong></p>
+                    <p><strong>Your purchased credits will remain valid for 6 months, giving you ample time to make the most of them!</strong></p>
                 </div>
-                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6">
-                    <p>&nbsp;</p>
+                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12">
+                    Total   
+                    <h4 id="reload_credits_price_total"><?php echo $reload_credits_price_per_unit_with_curr;?></h4>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
                     <button type="submit" class="btn btn-primary-outlined">Proceed to Payment</button>
                 </div>
             </div>
@@ -213,14 +240,18 @@ endwhile;
                     <p>Price</p>
                     <input id="ads_packages_price" type="text" class="form-control" value="<?php echo $ads_packages_options_price;?>" readonly="">
                 </div>
-                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6">
-                    
-                </div>
             </div>
-            <div class="row">
-                <div class="col-xl-12">
-                    <p><strong>Your purchased Ads </strong> <button type="submit" class="btn btn-primary-outlined">Proceed to Payment</button></p>
-                    <br><br>
+            <div class="row dashboard-content-ads-packages-item-total">
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                    <p><strong>Total Impressions: &copy; <span id="ads_packages_impressions_total"><?php echo $ads_packages_impressions;?></span></strong></p>
+                    <p><strong>Your purchased Ads credits will remain valid for 6 months, allowing you to maximize your advertising potential!</strong></p>
+                </div>
+                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12">
+                    Total   
+                    <h4 id="ads_packages_price_total"><?php echo $ads_packages_options_price;?></h4>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                    <button type="submit" class="btn btn-primary-outlined">Proceed to Payment</button>
                 </div>
             </div>
         </div>
