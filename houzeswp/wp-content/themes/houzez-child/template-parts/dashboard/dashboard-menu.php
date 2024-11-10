@@ -14,6 +14,7 @@ $dashboard_membership = houzez_get_template_link_2('template/user_dashboard_memb
 $dashboard_gdpr = houzez_get_template_link_2('template/user_dashboard_gdpr.php');
 $dashboard_seen_msgs = add_query_arg( 'view', 'inbox', $dashboard_msgs );
 $dashboard_unseen_msgs = add_query_arg( 'view', 'sent', $dashboard_msgs );
+$dashboard_advertise = houzez_get_template_link_2('template/user_dashboard_advertise.php');
 
 $dashboard_crm = houzez_get_template_link_2('template/user_dashboard_crm.php');
 $crm_leads = add_query_arg( 'hpage', 'leads', $dashboard_crm );
@@ -24,7 +25,7 @@ $crm_activities = add_query_arg( 'hpage', 'activities', $dashboard_crm );
 $home_link = home_url('/');
 $enable_paid_submission = houzez_option('enable_paid_submission');
 
-$parent_crm = $parent_props = $parent_agents = $ac_crm = $ac_insight = $ac_profile = $ac_props = $ac_add_prop = $ac_fav = $ac_search = $ac_invoices = $ac_msgs = $ac_mem = $ac_gdpr = '';
+$parent_crm = $parent_props = $parent_agents = $ac_crm = $ac_insight = $ac_profile = $ac_props = $ac_add_prop = $ac_fav = $ac_search = $ac_invoices = $ac_msgs = $ac_mem = $ac_gdpr = $ac_advertise = '';
 if( is_page_template( 'template/user_dashboard_profile.php' ) ) {
     $ac_profile = 'class=active';
 } elseif ( is_page_template( 'template/user_dashboard_properties.php' ) ) {
@@ -49,6 +50,8 @@ if( is_page_template( 'template/user_dashboard_profile.php' ) ) {
 } elseif ( is_page_template( 'template/user_dashboard_crm.php' ) ) {
     $ac_crm = 'class=active';
     $parent_crm = "side-menu-parent-selected";
+} elseif ( is_page_template( 'template/user_dashboard_advertise.php' ) ) {
+    $ac_advertise = 'class=active';
 }
 
 $agency_agents = add_query_arg( 'agents', 'list', $dash_profile_link );
@@ -240,6 +243,14 @@ $need_verification_post_count = houzez_user_posts_count('need_verification');
 
 				$side_menu .= $properties_menu;
 	    }
+
+		if( !empty( $dashboard_advertise ) && houzez_check_role() ) {
+			$side_menu .= '<li class="side-menu-item">
+					<a '.$ac_advertise.' href="'.esc_url($dashboard_advertise).'">
+						<i class="houzez-icon icon-layout-dashboard mr-2"></i> '.houzez_option('dsh_advertise', 'Advertise').'
+					</a>
+				</li>';
+		}
 
 		if( !empty( $dashboard_add_listing ) && houzez_check_role() ) {
 			$side_menu .= '<li class="side-menu-item">

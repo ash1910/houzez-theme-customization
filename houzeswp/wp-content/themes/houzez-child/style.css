@@ -732,6 +732,16 @@ i.menu-icon {
     margin: 15px 0;
     align-items: center;
 }
+.dashboard-table-advertise-wrap .table-hover tbody tr:hover a.btn.btn-advance-state{
+    background-color: rgba(54, 170, 113, 0.15);
+    color: #36AA71;
+    border-color: rgba(54, 170, 113, 0.15);
+}
+.dashboard-table-advertise-wrap .table-hover tbody tr:hover a.btn:hover{
+    background-color: #36AA71;
+    color: #ffffff;
+    border-color: #36AA71;
+}
 
 
 @media (max-width: 767.98px) {

@@ -2254,6 +2254,10 @@ if( !function_exists('houzez_custom_user_profile_fields')) {
                     <th><label for="package_reloads"><?php echo esc_html__('Reload available', 'houzez'); ?></label></th>
                     <td><input type="text" name="package_reloads" id="package_reloads" value="<?php echo esc_attr( get_the_author_meta( 'package_reloads', $user->ID ) ); ?>" class="regular-text"></td>
                 </tr>
+                <tr class="user-package_impressions-wrap">
+                    <th><label for="package_impressions"><?php echo esc_html__('Impression available', 'houzez'); ?></label></th>
+                    <td><input type="text" name="package_impressions" id="package_impressions" value="<?php echo esc_attr( get_the_author_meta( 'package_impressions', $user->ID ) ); ?>" class="regular-text"></td>
+                </tr>
                 <tr class="user-fave_paypal_profile-wrap">
                     <th><label for="fave_paypal_profile"><?php echo esc_html__('Paypal Recuring Profile', 'houzez'); ?></label></th>
                     <td><input type="text" name="fave_paypal_profile" id="fave_paypal_profile" value="<?php echo esc_attr( get_the_author_meta( 'fave_paypal_profile', $user->ID ) ); ?>" class="regular-text"></td>
@@ -2349,6 +2353,7 @@ if( !function_exists('houzez_update_extra_profile_fields_package') ) {
          * Package Info
         --------------------------------------------------------------------------------*/
         update_user_meta($user_id, 'package_reloads', $_POST['package_reloads']);
+        update_user_meta($user_id, 'package_impressions', $_POST['package_impressions']);
     }
     add_action('edit_user_profile_update', 'houzez_update_extra_profile_fields_package');
     add_action('personal_options_update', 'houzez_update_extra_profile_fields_package');
@@ -3025,6 +3030,65 @@ if( !function_exists('houzez_downgrade_package') ){
             $message,
             $headers);
     }
+}
+
+if( !function_exists('houzez_is_dashboard_child') ) {
+    function houzez_is_dashboard_child($files) {
+
+        array_push($files,'template/user_dashboard_advertise.php');
+        
+        return $files;
+    }
+    add_filter( 'houzez_is_dashboard_filter', 'houzez_is_dashboard_child' );
+}
+
+
+if( !function_exists('houzez_property_add_impression') ){
+    function  houzez_property_add_impression(){
+
+        $prop_id = intval( $_POST['propid'] );
+        $type = $_POST['type'];
+        
+        if( $type == 'set_advertise' ) {
+            update_post_meta( $prop_id, 'fave_advertise', 1 );
+        } else if ( $type == 'remove_advertise' ) {
+            update_post_meta( $prop_id, 'fave_advertise', 0 );
+
+        } else if ( $type == 'reload' ) {
+            $userID = get_current_user_id();
+
+            $packageUserId = $userID;
+            $agent_agency_id = houzez_get_agent_agency_id( $userID );
+            if( $agent_agency_id ) {
+                $packageUserId = $agent_agency_id;
+            }
+
+            $package_reloads = get_the_author_meta( 'package_reloads' , $packageUserId );
+
+            if ($package_reloads > 0) {
+                houzez_update_package_reloads($packageUserId);
+
+                $time = current_time('mysql');
+                $listing_data = array(
+                    'ID' => $prop_id,
+                    'post_date'     => $time,
+                    'post_date_gmt' => get_gmt_from_date( $time )
+                );
+                wp_update_post($listing_data);
+            }
+            else{
+                echo json_encode(array('success' => false, 'msg' => 'Expired'));
+                wp_die();
+            }
+
+
+        }
+
+        echo json_encode(array('success' => true, 'msg' => 'Added Impression Credits Successfully.'));
+        wp_die();
+
+    }
+    add_action( 'wp_ajax_houzez_property_add_impression', 'houzez_property_add_impression' );
 }
 
 
