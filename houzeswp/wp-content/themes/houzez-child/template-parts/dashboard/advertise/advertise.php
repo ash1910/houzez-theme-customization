@@ -108,6 +108,9 @@ if (!empty($_GET['keyword'])) {
                     <?php 
                     while ($prop_qry->have_posts()): $prop_qry->the_post(); 
                         $listing_id = get_the_ID();
+                        $fave_impressions = get_post_meta( $listing_id, 'fave_impressions', true );
+                        $fave_advertise = get_post_meta( $listing_id, 'fave_advertise', true );
+                        $fave_spent = 0;
                     ?>
 
                     <tr>
@@ -125,8 +128,14 @@ if (!empty($_GET['keyword'])) {
                                 </a>	
                             </div>
                         </td>
-                        <td></td>
-                        <td></td>
+                        <td>
+                            <?php echo (int)$fave_impressions;?> Allocated <br>
+                            <?php echo $fave_spent;?> Spent <br>
+                            <?php echo (int)$fave_impressions - $fave_spent;?> Remaining 
+                        </td>
+                        <td>  
+                            <input type="checkbox" <?php echo $fave_advertise ? "checked" : "";?> data-toggle="toggle" data-size="lg" class="hz-enable-advertise" data-listing_id="<?php echo $listing_id;?>">
+                        </td>
                         <td>
                             <a class="btn btn-primary btn-advance-state hz-add-impression-popup-js" data-listing_id="<?php echo $listing_id;?>">Edit Spended Credits</a>
                         </td>
@@ -178,15 +187,51 @@ jQuery(window).load(function() {
         //alert(listing_id);
         jQuery('#add-impression-popup').modal("show");
     });
+    jQuery('.hz-enable-advertise').on('change', function() {
+        var listing_id = jQuery(this).data('listing_id');
+        var fave_advertise_type = "remove_advertise";
+        //jQuery("#add-impression-popup #listing_id").val(listing_id);
+        if(jQuery(this).prop('checked')){
+            fave_advertise_type = "set_advertise";
+        }
+
+            var ajaxurl = houzez_vars.admin_url+ 'admin-ajax.php';
+
+            jQuery.ajax({
+                type: 'POST',
+                url: ajaxurl,
+                dataType: 'JSON',
+                data: {
+                    'action' : 'houzez_property_actions_child',
+                    'propid' : listing_id,
+                    'type': fave_advertise_type
+                },
+                success: function ( res ) {
+                    if( res.success ) {
+                        alert("Updated Successfully");
+                        //window.location.reload(true);
+                    } else {
+                        //alert(response.msg);
+                        alert("Failed");
+                    }
+                },
+                error: function(xhr, status, error) {
+                    var err = eval("(" + xhr.responseText + ")");
+                    console.log(err.Message);
+                }
+
+            });//end ajax
+    });
     jQuery( '.houzez_add_impression_form').on('click', function(e) {
         e.preventDefault();
         var ajaxurl = houzez_vars.admin_url+ 'admin-ajax.php';
         var $result;
         var $this = jQuery(this);
         var $form = $this.parents( 'form' );
+        const package_impressions = "<?php echo $package_impressions;?>";
         const add_impression_value = jQuery('input[name="add_impression_value"]').val();
 
-        if( add_impression_value == "" || parseInt(add_impression_value) < 1 ){
+        if( add_impression_value == "" || parseInt(add_impression_value) < 1 || parseInt(add_impression_value) > parseInt(package_impressions) ){
             alert("Please Add Credit");
             return;
         }
@@ -203,7 +248,7 @@ jQuery(window).load(function() {
             success: function(response) {
                 if( response.success ) {
                     alert(response.msg);
-
+                    window.location.reload(true);
                 } else {
                     alert(response.msg);
                 }
@@ -251,3 +296,5 @@ jQuery(window).load(function() {
         </div>
     </div>
 </div>
+<link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>

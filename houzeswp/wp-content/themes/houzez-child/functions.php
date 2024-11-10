@@ -3046,47 +3046,35 @@ if( !function_exists('houzez_is_dashboard_child') ) {
 if( !function_exists('houzez_property_add_impression') ){
     function  houzez_property_add_impression(){
 
-        $prop_id = intval( $_POST['propid'] );
-        $type = $_POST['type'];
-        
-        if( $type == 'set_advertise' ) {
-            update_post_meta( $prop_id, 'fave_advertise', 1 );
-        } else if ( $type == 'remove_advertise' ) {
-            update_post_meta( $prop_id, 'fave_advertise', 0 );
+        $userID = get_current_user_id();
 
-        } else if ( $type == 'reload' ) {
-            $userID = get_current_user_id();
-
-            $packageUserId = $userID;
-            $agent_agency_id = houzez_get_agent_agency_id( $userID );
-            if( $agent_agency_id ) {
-                $packageUserId = $agent_agency_id;
-            }
-
-            $package_reloads = get_the_author_meta( 'package_reloads' , $packageUserId );
-
-            if ($package_reloads > 0) {
-                houzez_update_package_reloads($packageUserId);
-
-                $time = current_time('mysql');
-                $listing_data = array(
-                    'ID' => $prop_id,
-                    'post_date'     => $time,
-                    'post_date_gmt' => get_gmt_from_date( $time )
-                );
-                wp_update_post($listing_data);
-            }
-            else{
-                echo json_encode(array('success' => false, 'msg' => 'Expired'));
-                wp_die();
-            }
-
-
+        $packageUserId = $userID;
+        $agent_agency_id = houzez_get_agent_agency_id( $userID );
+        if( $agent_agency_id ) {
+            $packageUserId = $agent_agency_id;
         }
 
-        echo json_encode(array('success' => true, 'msg' => 'Added Impression Credits Successfully.'));
-        wp_die();
+        $package_impressions = get_the_author_meta( 'package_impressions' , $packageUserId );
 
+        $add_impression_value = intval( $_POST['add_impression_value'] );
+        $prop_id = $_POST['listing_id'];
+        
+        if( $prop_id != "" && $add_impression_value > 0 && $add_impression_value <= intval($package_impressions) ) {
+            $fave_impressions = get_post_meta( $prop_id, 'fave_impressions', true );
+            update_post_meta( $prop_id, 'fave_impressions', intval($fave_impressions) + $add_impression_value );
+
+            if ( $package_impressions - $add_impression_value >= 0 ) {
+                update_user_meta( $packageUserId, 'package_impressions', $package_impressions - $add_impression_value );
+            } else {
+                update_user_meta( $packageUserId, 'package_impressions', 0 ) ;
+            }
+
+            echo json_encode(array('success' => true, 'msg' => 'Added Impression Credits Successfully.'));
+            wp_die();
+        }
+
+        echo json_encode(array('success' => false, 'msg' => 'Failed'));
+        wp_die();
     }
     add_action( 'wp_ajax_houzez_property_add_impression', 'houzez_property_add_impression' );
 }
