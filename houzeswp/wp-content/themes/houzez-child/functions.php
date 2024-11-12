@@ -3082,42 +3082,88 @@ if( !function_exists('houzez_property_add_impression') ){
     add_action( 'wp_ajax_houzez_property_add_impression', 'houzez_property_add_impression' );
 }
 
-function custom_meta_query_where( $where, $query ) {
-    global $wpdb;
+if(!function_exists('houzez20_search_filters_advertise')) {
+	function houzez20_search_filters_advertise($search_qry) {
+		$tax_query = array();
+        $meta_query = array();
+        $allowed_html = array();
+        $keyword_array = '';
+        $keyword_field = houzez_option('keyword_field');
 
-    if ( isset( $query->query_vars['meta_query'] ) ) {
+        if (isset($_GET['keyword']) && $_GET['keyword'] != '') {
+            if ($keyword_field == 'prop_address') {
+                
+                $keyword_array = houzez_keyword_meta_address();
+
+            } else if ($keyword_field == 'prop_city_state_county') {
         
-        $postmeta = $wpdb->postmeta;
-        //echo "<pre>";print_r($query);
+                $taxlocation[] = sanitize_title(wp_kses($_GET['keyword'], $allowed_html));
+		        $_tax_query = Array();
+		        $_tax_query['relation'] = 'OR';
 
-        $meta_key = 'fave_space-size';
+		        $_tax_query[] = array(
+		            'taxonomy' => 'property_area',
+		            'field' => 'slug',
+		            'terms' => $taxlocation
+		        );
 
-        preg_match("/\( (.*?)\.meta_key = \'{$meta_key}\'/", $where, $postmeta_v);
-        if( isset($postmeta_v[1]) && !empty($postmeta_v[1]) ) $postmeta = $postmeta_v[1];
+		        $_tax_query[] = array(
+		            'taxonomy' => 'property_city',
+		            'field' => 'slug',
+		            'terms' => $taxlocation
+		        );
 
-        $where = str_replace(
-            "{$postmeta}.meta_key = '{$meta_key}' AND CAST({$postmeta}.meta_value AS SIGNED)",
-            "{$postmeta}.meta_key = '{$meta_key}' AND CAST(REPLACE(CAST({$postmeta}.meta_value AS CHAR), ',', '') AS SIGNED)",
-            $where
+		        $_tax_query[] = array(
+		            'taxonomy' => 'property_state',
+		            'field' => 'slug',
+		            'terms' => $taxlocation
+		        );
+		        $tax_query[] = $_tax_query;
+                
+            } else {
+            
+                $search_qry = houzez_keyword_search($search_qry);
+            }
+        }
+
+		$tax_query = apply_filters( 'houzez_taxonomy_search_filter', $tax_query );
+		$tax_count = count($tax_query);
+
+        if( $tax_count > 1 ) {
+            $tax_query['relation'] = 'AND';
+        }
+        
+        if ($tax_count > 0) {
+            $search_qry['tax_query'] = $tax_query;
+        }
+
+        $meta_query = apply_filters( 'houzez_meta_search_filter', $meta_query );
+
+        $meta_query[] = array(
+            'key' => 'fave_advertise',
+            'value' => 1,
+            'compare' => '='
         );
 
-        $meta_key = 'fave_rent';
-        preg_match("/\( (.*?)\.meta_key = \'{$meta_key}\'/", $where, $postmeta_v);
-        if( isset($postmeta_v[1]) && !empty($postmeta_v[1]) ) $postmeta = $postmeta_v[1];
+        $meta_count = count($meta_query);
+        if ($meta_count > 0 || !empty($keyword_array)) {
+            $search_qry['meta_query'] = array(
+                'relation' => 'AND',
+                $keyword_array,
+                array(
+                    'relation' => 'AND',
+                    $meta_query
+                ),
+            );
+        }
+        /*echo '<pre>';
+        print_r($search_qry);
+        echo '</pre>';*/
+        return $search_qry;
 
-        $where = str_replace(
-            "{$postmeta}.meta_key = '{$meta_key}' AND CAST({$postmeta}.meta_value AS SIGNED)",
-            "{$postmeta}.meta_key = '{$meta_key}' AND CAST(REPLACE(REPLACE(CAST({$postmeta}.meta_value AS CHAR), '$', ''), ',', '') AS SIGNED)",
-            $where
-        );
-
-        //echo "<pre>";print_r($where);
-    }
-
-    return $where;
+	}
+	add_filter('houzez20_search_filters_advertise', 'houzez20_search_filters_advertise');
 }
-
-//add_filter( 'posts_where', 'custom_meta_query_where', 10, 2 );
 
 
 //$user_package_id = houzez_get_user_package_id($userID);
