@@ -109,8 +109,9 @@ if (!empty($_GET['keyword'])) {
                     while ($prop_qry->have_posts()): $prop_qry->the_post(); 
                         $listing_id = get_the_ID();
                         $fave_impressions = get_post_meta( $listing_id, 'fave_impressions', true );
+                        $fave_impressions_included = get_post_meta( $listing_id, 'fave_impressions_included', true );
                         $fave_advertise = get_post_meta( $listing_id, 'fave_advertise', true );
-                        $fave_spent = 0;
+                        $fave_spent = (int)$fave_impressions_included - (int)$fave_impressions;
                     ?>
 
                     <tr>
@@ -131,7 +132,7 @@ if (!empty($_GET['keyword'])) {
                         <td>
                             <?php echo (int)$fave_impressions;?> Allocated <br>
                             <?php echo $fave_spent;?> Spent <br>
-                            <?php echo (int)$fave_impressions - $fave_spent;?> Remaining 
+                            <?php echo (int)$fave_impressions_included;?> Remaining 
                         </td>
                         <td>  
                             <input type="checkbox" <?php echo $fave_advertise ? "checked" : "";?> data-toggle="toggle" data-size="lg" class="hz-enable-advertise" data-listing_id="<?php echo $listing_id;?>">

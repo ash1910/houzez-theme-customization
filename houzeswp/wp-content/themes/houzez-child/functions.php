@@ -3063,6 +3063,9 @@ if( !function_exists('houzez_property_add_impression') ){
             $fave_impressions = get_post_meta( $prop_id, 'fave_impressions', true );
             update_post_meta( $prop_id, 'fave_impressions', intval($fave_impressions) + $add_impression_value );
 
+            $fave_impressions_included = get_post_meta( $prop_id, 'fave_impressions_included', true );
+            update_post_meta( $prop_id, 'fave_impressions_included', intval($fave_impressions_included) + $add_impression_value );
+
             if ( $package_impressions - $add_impression_value >= 0 ) {
                 update_user_meta( $packageUserId, 'package_impressions', $package_impressions - $add_impression_value );
             } else {
@@ -3078,6 +3081,43 @@ if( !function_exists('houzez_property_add_impression') ){
     }
     add_action( 'wp_ajax_houzez_property_add_impression', 'houzez_property_add_impression' );
 }
+
+function custom_meta_query_where( $where, $query ) {
+    global $wpdb;
+
+    if ( isset( $query->query_vars['meta_query'] ) ) {
+        
+        $postmeta = $wpdb->postmeta;
+        //echo "<pre>";print_r($query);
+
+        $meta_key = 'fave_space-size';
+
+        preg_match("/\( (.*?)\.meta_key = \'{$meta_key}\'/", $where, $postmeta_v);
+        if( isset($postmeta_v[1]) && !empty($postmeta_v[1]) ) $postmeta = $postmeta_v[1];
+
+        $where = str_replace(
+            "{$postmeta}.meta_key = '{$meta_key}' AND CAST({$postmeta}.meta_value AS SIGNED)",
+            "{$postmeta}.meta_key = '{$meta_key}' AND CAST(REPLACE(CAST({$postmeta}.meta_value AS CHAR), ',', '') AS SIGNED)",
+            $where
+        );
+
+        $meta_key = 'fave_rent';
+        preg_match("/\( (.*?)\.meta_key = \'{$meta_key}\'/", $where, $postmeta_v);
+        if( isset($postmeta_v[1]) && !empty($postmeta_v[1]) ) $postmeta = $postmeta_v[1];
+
+        $where = str_replace(
+            "{$postmeta}.meta_key = '{$meta_key}' AND CAST({$postmeta}.meta_value AS SIGNED)",
+            "{$postmeta}.meta_key = '{$meta_key}' AND CAST(REPLACE(REPLACE(CAST({$postmeta}.meta_value AS CHAR), '$', ''), ',', '') AS SIGNED)",
+            $where
+        );
+
+        //echo "<pre>";print_r($where);
+    }
+
+    return $where;
+}
+
+//add_filter( 'posts_where', 'custom_meta_query_where', 10, 2 );
 
 
 //$user_package_id = houzez_get_user_package_id($userID);
