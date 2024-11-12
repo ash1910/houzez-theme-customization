@@ -3145,6 +3145,12 @@ if(!function_exists('houzez20_search_filters_advertise')) {
             'compare' => '='
         );
 
+        $meta_query[] = array(
+            'key' => 'fave_impressions',
+            'value' => 0,
+            'compare' => '>'
+        );
+
         $meta_count = count($meta_query);
         if ($meta_count > 0 || !empty($keyword_array)) {
             $search_qry['meta_query'] = array(

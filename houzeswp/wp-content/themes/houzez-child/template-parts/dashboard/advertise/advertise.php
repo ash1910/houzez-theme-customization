@@ -130,9 +130,9 @@ if (!empty($_GET['keyword'])) {
                             </div>
                         </td>
                         <td>
-                            <?php echo (int)$fave_impressions;?> Allocated <br>
+                            <?php echo (int)$fave_impressions_included;?> Allocated <br>
                             <?php echo $fave_spent;?> Spent <br>
-                            <?php echo (int)$fave_impressions_included;?> Remaining 
+                            <?php echo (int)$fave_impressions;?> Remaining 
                         </td>
                         <td>  
                             <input type="checkbox" <?php echo $fave_advertise ? "checked" : "";?> data-toggle="toggle" data-size="lg" class="hz-enable-advertise" data-listing_id="<?php echo $listing_id;?>">
@@ -141,7 +141,7 @@ if (!empty($_GET['keyword'])) {
                             <a class="btn btn-primary btn-advance-state hz-add-impression-popup-js" data-listing_id="<?php echo $listing_id;?>">Edit Spended Credits</a>
                         </td>
                         <td>
-                            <a class="btn btn-primary btn-advance-state" href="/advertise?listing_id=<?php echo $listing_id;?>">Advance States</a>
+                            <a class="btn btn-primary btn-advance-state" href="#" data-href="/advertise?listing_id=<?php echo $listing_id;?>">Advance States</a>
                         </td>
                     </tr>
 

@@ -119,8 +119,6 @@ if ( is_front_page()  ) {
     $paged = (get_query_var('page')) ? get_query_var('page') : 1;
 }
 
-// are we on page one?
-if(1 == $paged) {
     // Advertise
     $advertise_qry = array(
         'post_type' => 'property',
@@ -132,21 +130,24 @@ if(1 == $paged) {
     $advertise_query = new WP_Query( $advertise_qry );
 
     $advertise_post_ids = wp_list_pluck($advertise_query->posts, 'ID');
+    $number_of_prop_first = $number_of_prop - count($advertise_post_ids);
+    if($number_of_prop_first < 0)$number_of_prop_first = 0;
 
     //echo "<pre>";print_r($advertise_qry);exit;
     //echo "<pre>";print_r($advertise_query);exit;
     //echo "<pre>";print_r($advertise_post_ids);exit;
     // End Advertise
 
-    $number_of_prop = $number_of_prop - count($advertise_post_ids);
-    if($number_of_prop < 0)$number_of_prop = 0;
+// are we on page one?
+if(1 == $paged) {
 
     $search_qry = array(
         'post_type' => 'property',
-        'posts_per_page' => $number_of_prop,
-        'paged' => $paged,
+        'posts_per_page' => $number_of_prop_first,
+        //'paged' => $paged,
         'post_status' => 'publish',
-        'post__not_in'   => $advertise_post_ids
+        'post__not_in'   => $advertise_post_ids,
+        'offset'         => 0
     );
 
     $search_qry = apply_filters( 'houzez20_search_filters', $search_qry );
@@ -161,11 +162,15 @@ if(1 == $paged) {
     shuffle($combined_posts);
 }
 else{
+    $offset = ($paged - 1) * $posts_per_page - count($advertise_post_ids);
+
     $search_qry = array(
         'post_type' => 'property',
         'posts_per_page' => $number_of_prop,
-        'paged' => $paged,
+        //'paged' => $paged,
         'post_status' => 'publish',
+        'post__not_in'   => $advertise_post_ids,
+        'offset'         => $offset
     );
 
     $search_qry = apply_filters( 'houzez20_search_filters', $search_qry );
@@ -321,6 +326,8 @@ if( $total_records > 1 ) {
                             setup_postdata($post);
                             get_template_part('template-parts/listing/item', $item_layout);
 
+                            $fave_impressions = get_post_meta( $post->ID, 'fave_impressions', true );
+                            update_post_meta( $post->ID, 'fave_impressions', intval($fave_impressions) - 1 );
                         }
                     elseif ( $search_query->have_posts() ) :
                         while ( $search_query->have_posts() ) : $search_query->the_post();
