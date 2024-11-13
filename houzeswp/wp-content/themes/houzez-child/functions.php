@@ -1495,39 +1495,47 @@ add_action( 'wp_ajax_houzez_add_tracking_views', 'houzez_add_tracking_views' );
 add_action( 'wp_ajax_nopriv_houzez_add_tracking_views', 'houzez_add_tracking_views' );
 if( ! function_exists('houzez_add_tracking_views') ) {
     function houzez_add_tracking_views() { 
-        global $wpdb;
 
         if ( isset($_POST['type']) && isset($_POST['prop_id']) && !empty($_POST['prop_id']) ) {
 
-            $user_id = get_current_user_id();
-            //$already_exist = $this->checklisting($post->ID, $user_id);
-
-            $table_name = $wpdb->prefix . 'houzez_crm_viewed_listings_statistics'; 
-
-            $data = array(
-                'user_id'        => $user_id,
-                'listing_id'     => $_POST['prop_id'],
-                'type'     => $_POST['type'],
-            );
-
-            $format = array(
-                '%d',
-                '%d',
-                '%s'
-            );
-
-            $wpdb->insert($table_name, $data, $format);
+            houzez_insert_tracking_views($_POST['type'], $_POST['prop_id']);
 
             echo json_encode(array(
                 'success' => true,
             ));
             wp_die();
+
         }
 
         echo json_encode(array(
             'success' => false,
         ));
         wp_die();
+        
+    }
+}
+
+if( ! function_exists('houzez_insert_tracking_views') ) {
+    function houzez_insert_tracking_views($type, $prop_id) { 
+        global $wpdb;
+
+        $user_id = get_current_user_id();
+
+        $table_name = $wpdb->prefix . 'houzez_crm_viewed_listings_statistics'; 
+
+        $data = array(
+            'user_id'        => $user_id,
+            'listing_id'     => $prop_id,
+            'type'     => $type,
+        );
+
+        $format = array(
+            '%d',
+            '%d',
+            '%s'
+        );
+
+        $wpdb->insert($table_name, $data, $format);
         
     }
 }

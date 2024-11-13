@@ -312,9 +312,6 @@ if( $total_records > 1 ) {
 
                     }
                     ?>
-                    
-                    
-
                 </div><!-- listing-tools-wrap -->
 
                 <div class="listing-view <?php echo esc_attr($view_class).' '.esc_attr($cols_in_row).' '.esc_attr($card_deck); ?>">
@@ -328,6 +325,8 @@ if( $total_records > 1 ) {
 
                             $fave_impressions = get_post_meta( $post->ID, 'fave_impressions', true );
                             update_post_meta( $post->ID, 'fave_impressions', intval($fave_impressions) - 1 );
+
+                            houzez_insert_tracking_views('a', $post->ID);
                         }
                     elseif ( $search_query->have_posts() ) :
                         while ( $search_query->have_posts() ) : $search_query->the_post();
