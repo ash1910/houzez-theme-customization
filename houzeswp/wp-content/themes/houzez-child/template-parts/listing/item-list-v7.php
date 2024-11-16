@@ -72,7 +72,7 @@ if( houzez_is_fullwidth_2cols_custom_width() ) {
 					
 				<?php
 				// Agency Picture
-				$agent_info = $listing_agent_info['agent_info'];
+				$agent_info = @$listing_agent_info['agent_info'];
 
 				if( !empty( $agent_info[0] )) {
 					if( $agent_agency_id = get_post_meta($agent_info[0]['agent_id'], 'fave_agent_agencies', true) ) {

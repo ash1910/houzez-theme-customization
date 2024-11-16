@@ -2,7 +2,7 @@
 global $post; 
 $listing_agent_info = houzez20_property_contact_form();
 
-$agent_info = $listing_agent_info['agent_info'];
+$agent_info = @$listing_agent_info['agent_info'];
 
 if(!empty( $agent_info[0] )) { ?>
 <div class="item-author-v3">

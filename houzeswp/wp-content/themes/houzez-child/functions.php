@@ -3179,6 +3179,348 @@ if(!function_exists('houzez20_search_filters_advertise')) {
 	add_filter('houzez20_search_filters_advertise', 'houzez20_search_filters_advertise');
 }
 
+if( ! function_exists('set_advertise_to_posts') ) {
+    function set_advertise_to_posts($posts) { 
+
+        foreach ($posts as $post) {
+
+            $fave_impressions = get_post_meta( $post->ID, 'fave_impressions', true );
+            update_post_meta( $post->ID, 'fave_impressions', intval($fave_impressions) - 1 );
+
+            houzez_insert_tracking_views('ads', $post->ID);
+        }
+        
+    }
+}
+
+if( !function_exists('houzez20_half_map_listings') ) {
+    function houzez20_half_map_listings() {
+        global $post, $houzez_local;
+        $houzez_local = houzez_get_localization();
+
+    	$tax_query = array();
+        $meta_query = array();
+        $allowed_html = array();
+        $keyword_array = '';
+        $keyword_field = houzez_option('keyword_field');
+        $search_num_posts = houzez_option('search_num_posts');
+
+        $number_of_prop = $search_num_posts;
+		if(!$number_of_prop){
+		    $number_of_prop = 9;
+		}
+
+        $listing_page_id = $_GET['listing_page_id'] ?? '';
+        $sort_by = $listing_page_id ? get_post_meta($listing_page_id, 'fave_properties_sort', true) : '';
+        
+        if( isset( $_GET['sortby'] ) && $_GET['sortby'] != '' ) {
+            $sort_by = $_GET['sortby'];
+        }
+
+        $paged = $_GET['paged'] ?? '';
+        if($paged == 0) $paged = 1;
+
+    // Advertise
+    $advertise_qry = array(
+        'post_type' => 'property',
+        'posts_per_page' => 10,
+        'orderby' => 'rand',
+    );
+    $advertise_qry = apply_filters( 'houzez20_search_filters_advertise', $advertise_qry );
+    $advertise_qry = apply_filters( 'houzez_sold_status_filter', $advertise_qry );
+    $advertise_query = new WP_Query( $advertise_qry );
+
+    $advertise_post_ids = wp_list_pluck($advertise_query->posts, 'ID');
+    $number_of_prop_first = $number_of_prop - count($advertise_post_ids);
+    if($number_of_prop_first < 0)$number_of_prop_first = 0;
+
+    //echo "<pre>";print_r($advertise_qry);exit;
+    //echo "<pre>";print_r($advertise_query);exit;
+    //echo "<pre>";print_r($advertise_post_ids);exit;
+    // End Advertise
+
+// are we on page one?
+if(1 == $paged) {
+
+    set_advertise_to_posts($advertise_query->posts);
+
+    $search_qry = array(
+        'post_type' => 'property',
+        'posts_per_page' => $number_of_prop_first,
+        //'paged' => $paged,
+        'post_status' => 'publish',
+        'post__not_in'   => $advertise_post_ids,
+        'offset'         => 0
+    );
+
+    //$search_qry = apply_filters( 'houzez20_search_filters', $search_qry );
+    $search_qry = apply_filters( 'houzez_sold_status_filter', $search_qry );
+    //$search_qry = houzez_prop_sort ( $search_qry );
+    //$search_query = new WP_Query( $search_qry );
+
+    // Combine the results
+    //$combined_posts = array_merge($advertise_query->posts, $search_query->posts);
+
+    // Shuffle the combined array for random placement of advertise posts within 12 spots
+    //shuffle($combined_posts);
+}
+else{
+    $offset = ($paged - 1) * $number_of_prop - count($advertise_post_ids);
+
+    $search_qry = array(
+        'post_type' => 'property',
+        'posts_per_page' => $number_of_prop,
+        //'paged' => $paged,
+        'post_status' => 'publish',
+        'post__not_in'   => $advertise_post_ids,
+        'offset'         => $offset
+    );
+
+    //$search_qry = apply_filters( 'houzez20_search_filters', $search_qry );
+    $search_qry = apply_filters( 'houzez_sold_status_filter', $search_qry );
+    //$search_qry = houzez_prop_sort ( $search_qry );
+    //$search_query = new WP_Query( $search_qry );
+}
+
+        $item_layout = $_GET['item_layout'] ?? 'v1';
+
+        if (isset($_GET['keyword']) && $_GET['keyword'] != '') {
+            if ($keyword_field == 'prop_address') {
+                
+                $keyword_array = houzez_keyword_meta_address();
+
+            } else if ($keyword_field == 'prop_city_state_county') {
+            
+                $taxlocation[] = sanitize_title(wp_kses($_GET['keyword'], $allowed_html));
+		        $_tax_query = Array();
+		        $_tax_query['relation'] = 'OR';
+
+		        $_tax_query[] = array(
+		            'taxonomy' => 'property_area',
+		            'field' => 'slug',
+		            'terms' => $taxlocation
+		        );
+
+		        $_tax_query[] = array(
+		            'taxonomy' => 'property_city',
+		            'field' => 'slug',
+		            'terms' => $taxlocation
+		        );
+
+		        $_tax_query[] = array(
+		            'taxonomy' => 'property_state',
+		            'field' => 'slug',
+		            'terms' => $taxlocation
+		        );
+		        $tax_query[] = $_tax_query;
+                
+            } else {
+            
+                $search_qry = houzez_keyword_search($search_qry);
+            }
+        }
+
+        $tax_query = apply_filters( 'houzez_taxonomy_search_filter', $tax_query );
+		$tax_count = count($tax_query);
+        
+        if( $tax_count > 1 ) {
+            $tax_query['relation'] = 'AND';
+        }
+
+        if ($tax_count > 0) {
+            $search_qry['tax_query'] = $tax_query;
+        }
+
+        $meta_query = apply_filters( 'houzez_meta_search_filter', $meta_query );
+        $meta_count = count($meta_query);
+        if ($meta_count > 0 || !empty($keyword_array)) {
+            $search_qry['meta_query'] = array(
+                'relation' => 'AND',
+                $keyword_array,
+                array(
+                    'relation' => 'AND',
+                    $meta_query
+                ),
+            );
+        }
+
+
+        if ( $sort_by == 'a_title' ) {
+            $search_qry['orderby'] = 'title';
+            $search_qry['order'] = 'ASC';
+        } else if ( $sort_by == 'd_title' ) {
+            $search_qry['orderby'] = 'title';
+            $search_qry['order'] = 'DESC';
+        } else if ( $sort_by == 'a_price' ) {
+            $search_qry['orderby'] = 'meta_value_num';
+            $search_qry['meta_key'] = 'fave_property_price';
+            $search_qry['order'] = 'ASC';
+        } else if ( $sort_by == 'd_price' ) {
+            $search_qry['orderby'] = 'meta_value_num';
+            $search_qry['meta_key'] = 'fave_property_price';
+            $search_qry['order'] = 'DESC';
+        } else if ( $sort_by == 'featured' ) {
+            $search_qry['meta_key'] = 'fave_featured';
+            $search_qry['meta_value'] = '1';
+            $search_qry['orderby'] = 'meta_value date';
+        } else if ( $sort_by == 'featured_random' ) {
+            $search_qry['meta_key'] = 'fave_featured';
+            $search_qry['meta_value'] = '1';
+            $search_qry['orderby'] = 'meta_value DESC rand';
+        } else if ( $sort_by == 'a_date' ) {
+            $search_qry['orderby'] = 'date';
+            $search_qry['order'] = 'ASC';
+        } else if ( $sort_by == 'd_date' ) {
+            $search_qry['orderby'] = 'date';
+            $search_qry['order'] = 'DESC';
+        } else if ( $sort_by == 'featured_first' ) {
+            $search_qry['orderby'] = 'meta_value date';
+            $search_qry['meta_key'] = 'fave_featured';
+        } else if ( $sort_by == 'featured_first_random' ) {
+            $search_qry['meta_key'] = 'fave_featured';
+            $search_qry['orderby'] = 'meta_value DESC rand'; 
+        } else if ( $sort_by == 'featured_top' ) {
+            $search_qry['orderby'] = 'meta_value date';
+            $search_qry['meta_key'] = 'fave_featured';
+        } else if ( $sort_by == 'random' ) {
+            $search_qry['orderby'] = 'rand';
+        }
+
+        
+        $properties_data = array();
+        $query_args = new WP_Query( $search_qry );
+
+        $deck_start = $deck_end = '';
+
+        if( $item_layout != 'list-v7' ) {
+            $deck_start = '<div class="card-deck">';
+            $deck_end   = '</div>';
+        }
+
+        
+        ob_start();
+
+        echo $deck_start;
+
+        $total_properties = $query_args->found_posts;
+
+        //while( $query_args->have_posts() ): $query_args->the_post();
+        if(1 == $paged) {
+            $combined_posts = array_merge($advertise_query->posts, $query_args->posts);
+        }
+        else{
+            $combined_posts = $query_args->posts;
+        }
+
+        foreach ($combined_posts as $post) {
+            setup_postdata($post);
+
+            $property_array_temp = array();
+
+        	$property_array_temp[ 'title' ] = get_the_title();
+            $property_array_temp[ 'url' ] = get_permalink();
+            $property_array_temp[ 'link_target' ] = houzez_option('listing_link_target', '_self');
+            $property_array_temp['price'] = houzez_listing_price_v1();
+            $property_array_temp['property_id'] = get_the_ID();
+            $property_array_temp['pricePin'] = houzez_listing_price_map_pins();
+            $property_array_temp['property_type'] = houzez_taxonomy_simple('property_type');
+
+            $address = houzez_get_listing_data('property_map_address');
+            if(!empty($address)) {
+                $property_array_temp['address'] = $address;
+            }
+
+            //Property meta
+            $property_array_temp['meta'] = houzez_map_listing_meta();
+
+            $property_location = houzez_get_listing_data('property_location');
+            if(!empty($property_location)){
+                $lat_lng = explode(',',$property_location);
+                $property_array_temp['lat'] = $lat_lng[0];
+                $property_array_temp['lng'] = $lat_lng[1];
+            }
+
+            //Get marker 
+            $property_type = get_the_terms( get_the_ID(), 'property_type' );
+            if ( $property_type && ! is_wp_error( $property_type ) ) {
+                foreach ( $property_type as $p_type ) {
+
+                    $marker_id = get_term_meta( $p_type->term_id, 'fave_marker_icon', true );
+                    $property_array_temp[ 'term_id' ] = $p_type->term_id;
+
+                    if ( ! empty ( $marker_id ) ) {
+                        $marker_url = wp_get_attachment_url( $marker_id );
+
+                        if ( $marker_url ) {
+                            $property_array_temp[ 'marker' ] = esc_url( $marker_url );
+
+                            $retina_marker_id = get_term_meta( $p_type->term_id, 'fave_marker_retina_icon', true );
+                            if ( ! empty ( $retina_marker_id ) ) {
+                                $retina_marker_url = wp_get_attachment_url( $retina_marker_id );
+                                if ( $retina_marker_url ) {
+                                    $property_array_temp[ 'retinaMarker' ] = esc_url( $retina_marker_url );
+                                }
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+
+            //Se default markers if property type has no marker uploaded
+            if ( ! isset( $property_array_temp[ 'marker' ] ) ) {
+                $property_array_temp[ 'marker' ]       = HOUZEZ_IMAGE . 'map/pin-single-family.png';           
+                $property_array_temp[ 'retinaMarker' ] = HOUZEZ_IMAGE . 'map/pin-single-family.png';  
+            }
+
+            //Featured image
+            if ( has_post_thumbnail() ) {
+                $thumbnail_id         = get_post_thumbnail_id();
+                $thumbnail_array = wp_get_attachment_image_src( $thumbnail_id, 'houzez-item-image-1' );
+                if ( ! empty( $thumbnail_array[ 0 ] ) ) {
+                    $property_array_temp[ 'thumbnail' ] = $thumbnail_array[ 0 ];
+                }
+            }
+
+        	$properties_data[] = $property_array_temp;
+
+            get_template_part('template-parts/listing/item', $item_layout);
+
+        }
+        wp_reset_postdata();
+        //endwhile;
+
+
+        wp_reset_query();
+        echo $deck_end;
+
+        echo '<div class="clearfix"></div>';
+        houzez_ajax_pagination( $query_args->max_num_pages );
+
+        $listings_html = ob_get_contents();
+        ob_end_clean();
+
+        $encoded_query = base64_encode( serialize( $query_args->query ) );
+
+        $search_uri = '';
+        $get_search_uri = $_SERVER['HTTP_REFERER'];
+        $get_search_uri = explode( '/?', $get_search_uri );
+        if(isset($get_search_uri[1]) && $get_search_uri[1] != "") {
+            $search_uri = $get_search_uri[1];
+        }
+
+        if( count($properties_data) > 0 ) {
+            echo json_encode( array( 'getProperties' => true, 'properties' => $properties_data, 'total_results' => $total_properties, 'propHtml' => $listings_html, 'query' => $encoded_query, 'search_uri' => $search_uri ) );
+            exit();
+        } else {
+            echo json_encode( array( 'getProperties' => false, 'total_results' => $total_properties, 'query' => $encoded_query, 'search_uri' => $search_uri ) );
+            exit();
+        }
+        die();
+
+	}
+}
+
 
 //$user_package_id = houzez_get_user_package_id($userID);
 //$package_images = get_post_meta( $user_package_id, 'fave_package_images', true );

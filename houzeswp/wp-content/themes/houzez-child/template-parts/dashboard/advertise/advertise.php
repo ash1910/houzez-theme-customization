@@ -10,7 +10,7 @@ wp_get_current_user();
 $userID         = get_current_user_id();
 $user_login     = $current_user->user_login;
 
-$package_impressions = get_user_meta( $userID, 'package_impressions', true );
+$package_impressions = (int)get_user_meta( $userID, 'package_impressions', true );
 
 // Get 'sortby' parameter if set
 $sortby = isset($_GET['sortby']) ? $_GET['sortby'] : '';
@@ -65,6 +65,27 @@ if( houzez_is_admin() || houzez_is_editor() ) {
 if (!empty($_GET['keyword'])) {
     $args['s'] = trim($_GET['keyword']);
 }
+
+// Add property ID to meta query if set
+if (!empty($_GET['property_id'])) {
+    
+    $meta_query[] = array(
+        'key' => 'fave_property_id',
+        'value' => $_GET['property_id'],
+        'type' => 'CHAR',
+        'compare' => '=',
+    );
+    
+    $meta_count = count($meta_query);
+
+    if( $meta_count > 1 ) {
+        $meta_query['relation'] = 'AND';
+    }
+
+    if ($meta_count > 0) {
+        $args['meta_query'] = $meta_query;
+    }
+}
 ?>
 
 <header class="header-main-wrap dashboard-header-main-wrap">
@@ -108,6 +129,7 @@ if (!empty($_GET['keyword'])) {
                     <?php 
                     while ($prop_qry->have_posts()): $prop_qry->the_post(); 
                         $listing_id = get_the_ID();
+                        $fave_property_id = get_post_meta( $listing_id, 'fave_property_id', true );
                         $fave_impressions = get_post_meta( $listing_id, 'fave_impressions', true );
                         $fave_impressions_included = get_post_meta( $listing_id, 'fave_impressions_included', true );
                         $fave_advertise = get_post_meta( $listing_id, 'fave_advertise', true );
@@ -288,6 +310,9 @@ jQuery(window).load(function() {
                             <button type="button" class="houzez_add_impression_form btn btn-secondary btn-full-width">
                                 <span class="btn-loader houzez-loader-js"></span> Add Credit                            
                             </button>
+                            <a href="/membership-info/?packages=1" class="btn btn-secondary btn-full-width" style="margin-top: 12px;">
+                                <span class="btn-loader houzez-loader-js"></span> Buy more credits                            
+                            </a>
                             
                         </form>
                     </div><!-- property-form -->

@@ -132,14 +132,12 @@ if ( is_front_page()  ) {
     $advertise_post_ids = wp_list_pluck($advertise_query->posts, 'ID');
     $number_of_prop_first = $number_of_prop - count($advertise_post_ids);
     if($number_of_prop_first < 0)$number_of_prop_first = 0;
-
-    //echo "<pre>";print_r($advertise_qry);exit;
-    //echo "<pre>";print_r($advertise_query);exit;
-    //echo "<pre>";print_r($advertise_post_ids);exit;
     // End Advertise
 
 // are we on page one?
 if(1 == $paged) {
+
+    set_advertise_to_posts($advertise_query->posts);
 
     $search_qry = array(
         'post_type' => 'property',
@@ -159,10 +157,10 @@ if(1 == $paged) {
     $combined_posts = array_merge($advertise_query->posts, $search_query->posts);
 
     // Shuffle the combined array for random placement of advertise posts within 12 spots
-    shuffle($combined_posts);
+    //shuffle($combined_posts);
 }
 else{
-    $offset = ($paged - 1) * $posts_per_page - count($advertise_post_ids);
+    $offset = ($paged - 1) * $number_of_prop - count($advertise_post_ids);
 
     $search_qry = array(
         'post_type' => 'property',
@@ -181,7 +179,7 @@ else{
 
 //echo "<pre>";print_r($search_query);exit;
 
-$total_records = $search_query->found_posts;
+$total_records = $search_query->found_posts + count($advertise_post_ids);
 
 $record_found_text = esc_html__('Result Found', 'houzez');
 if( $total_records > 1 ) {
@@ -323,10 +321,6 @@ if( $total_records > 1 ) {
                             setup_postdata($post);
                             get_template_part('template-parts/listing/item', $item_layout);
 
-                            $fave_impressions = get_post_meta( $post->ID, 'fave_impressions', true );
-                            update_post_meta( $post->ID, 'fave_impressions', intval($fave_impressions) - 1 );
-
-                            houzez_insert_tracking_views('a', $post->ID);
                         }
                     elseif ( $search_query->have_posts() ) :
                         while ( $search_query->have_posts() ) : $search_query->the_post();
