@@ -1211,7 +1211,13 @@ if ( !function_exists( 'houzez_get_agency_photo_url_by_agent_user_id' ) ) {
 
 
 function load_houzez_property_js_child() {
-    wp_enqueue_script('houzez_property_child',  get_stylesheet_directory_uri().'/js/houzez_property_child.js', array('jquery'), '1.0.0', true);
+    if (houzez_is_dashboard() ) {
+        wp_enqueue_script('houzez_property_child',  get_stylesheet_directory_uri().'/js/houzez_property_child.js', array('jquery'), '1.0.0', true);
+    }
+    if ( is_page_template('template/user_dashboard_advertise.php') ) {
+        wp_enqueue_script('chart');
+    }
+
 }
 add_action( 'wp_enqueue_scripts', 'load_houzez_property_js_child' );
 
@@ -3521,6 +3527,266 @@ else{
 	}
 }
 
+if(!function_exists('houzez_views_ads_stats')) {
+    function houzez_views_ads_stats($user_id, $activities_start_date, $activities_end_date, $listing_id = false) {
+
+        //echo "{$user_id}, {$activities_start_date}, {$activities_end_date}";exit;
+
+        if( houzez_is_admin() || houzez_is_editor() ) {
+            $user_id = '';
+        } else if( houzez_is_agency() ) {
+            $agents = houzez_get_agency_agents($user_id);
+
+            if( $agents ) {
+                if (!in_array($user_id, $agents)) {
+                    $agents[] = $user_id;
+                }
+                $user_id = $agents;
+            } else {
+                $user_id = $user_id;
+            }
+
+        } else {
+            $user_id = $user_id;
+        }
+
+        $stats = array();
+        $args = array('user_id' => $user_id, 'listing_id' => $listing_id, 'activities_start_date' => $activities_start_date, 'activities_end_date' => $activities_end_date);
+
+        $stats['views'] = houzez_count_views($args);
+        $stats['impressions'] = houzez_count_views_tracking($args, 'ads');
+
+        if( !empty($stats['views']) && !empty($stats['impressions']) ){
+            $stats['conversation'] = $stats['views'] / $stats['impressions'] * 100;
+        }
+        $stats['conversation'] = empty($stats['conversation']) ? 0 : number_format((float)$stats['conversation'], 2, '.', '');
+
+        return $stats;
+    }
+}
+
+if(!function_exists('houzez_impressions_ads_stats')) {
+    function houzez_impressions_ads_stats($user_id, $listing_id = false) {
+
+        //echo "{$user_id}, {$listing_id},";exit;
+
+        if( houzez_is_admin() || houzez_is_editor() ) {
+            $user_id = '';
+        } else if( houzez_is_agency() ) {
+            $agents = houzez_get_agency_agents($user_id);
+
+            if( $agents ) {
+                if (!in_array($user_id, $agents)) {
+                    $agents[] = $user_id;
+                }
+                $user_id = $agents;
+            } else {
+                $user_id = $user_id;
+            }
+
+        } else {
+            $user_id = $user_id;
+        }
+
+        // Define an array of time periods to retrieve insights for
+        $time_periods = [
+            'lastday', 'lasttwo', 'lastweek', 'last2week', 'lastmonth', 'last2month'
+        ];
+
+        // Initialize an array to store views data for each time period
+        $views = [];
+
+        // Retrieve views data for each time period and store it in the array
+        foreach ($time_periods as $time_period) {
+            $activities_start_date = get_modified_time($time_period);
+
+            $args = array('user_id' => $user_id, 'listing_id' => $listing_id, 'activities_start_date' => $activities_start_date, 'activities_end_date' => false);
+
+            $views[$time_period] = houzez_count_views_tracking($args, 'ads');
+        }
+
+        // Return the array containing views data for each time period
+        return $views;
+    }
+}
+
+if(!function_exists('get_modified_time')) {
+    function get_modified_time($time) {
+        $DateTimeZone = wp_timezone();
+        $DateTime = new DateTime('now', $DateTimeZone);
+
+        $time_token = [
+            'lastday' => '-1 day',
+            'lasttwo' => '-2 day',
+            'lastweek' => '-7 days',
+            'last2week' => '-14 days',
+            'lastmonth' => '-30 days',
+            'last2month' => '-60 days',
+            'lasthalfyear' => '-182 days',
+            'lastyear' => '-365 days'
+        ];
+
+        $modifiedTime = $DateTime->modify($time_token[$time])->format('Y-m-d H:i:s');
+        return $modifiedTime;
+    }
+}
+
+if(!function_exists('get_charts_data_impressions')) {
+    function get_charts_data_impressions( $listing_id ) {
+            
+        $return = array();
+        $user_id = false;
+        $listing_id = isset( $listing_id ) ? $listing_id : false;
+        
+        $return['lastday'] = get_chart_impressions( [ 'time' => 'lastday', 'group_by' => 'hour', 'user_id' => $user_id, 'listing_id' => $listing_id ] );
+        
+        
+        $return['lastweek'] = get_chart_impressions( [ 'time' => 'lastweek', 'group_by' => 'day', 'user_id' => $user_id, 'listing_id' => $listing_id ] );
+        
+
+        $return['lastmonth'] = get_chart_impressions( [ 'time' => 'lastmonth', 'group_by' => 'day', 'user_id' => $user_id, 'listing_id' => $listing_id ] );
+        
+        
+        $return['lasthalfyear'] = get_chart_impressions( [ 'time' => 'lasthalfyear', 'group_by' => 'week', 'user_id' => $user_id, 'listing_id' => $listing_id ] );
+
+
+        $return['lastyear'] = get_chart_impressions( [ 'time' => 'lastyear', 'group_by' => 'month', 'user_id' => $user_id, 'listing_id' => $listing_id ] );
+        
+
+        return $return;
+    }
+}
+if(!function_exists('get_chart_impressions')) {
+    function get_chart_impressions( $args = array() ) {
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'houzez_crm_viewed_listings_statistics';
+        $visits = array();
+        $query = array();
+
+        $args = wp_parse_args( $args, [
+            'listing_id' => false,
+            'user_id' => false,
+            'time' => false,
+            'group_by' => 'day',
+        ] );
+
+        $groups = [
+            'hour' => [
+                'query' => "DATE_FORMAT( {$table_name}.time, '%Y-%m-%d %H:00:00' )",
+                'modifier' => '-1 hour',
+                'id' => 'Y-m-d H:00:00',
+                'count' => function( $a ) { return $a * 24; },
+                'label' => function( $date ) { return date_i18n( 'H:00', $date->getTimestamp() ); },
+            ],
+            'day' => [
+                'query' => "DATE( {$table_name}.time )",
+                'modifier' => '-1 day',
+                'id' => 'Y-m-d',
+                'count' => function( $b ) { return $b; },
+                'label' => function( $date ) { return date_i18n( 'M j', $date->getTimestamp() ); },
+            ],
+            'week' => [
+                'query' => "DATE_FORMAT( {$table_name}.time, '%x-%v' )",
+                'modifier' => '-1 week',
+                'count' => function( $c ) { return $c / 7; },
+                'id' => 'o-W',
+                'label' => function( $date ) { return date_i18n( 'M j', $date->getTimestamp() ); },
+            ],
+            'month' => [
+                'query' => "DATE_FORMAT( {$table_name}.time, '%Y-%m-01' )",
+                'modifier' => '-1 month',
+                'id' => 'Y-m-01',
+                'count' => function( $d ) { return $d / 31; },
+                'label' => function( $date ) { return date_i18n( 'M', $date->getTimestamp() ); },
+            ],
+        ];
+
+        
+        $group = isset( $groups[ $args['group_by'] ] ) ? $groups[ $args['group_by'] ] : $groups['day'];
+
+        
+        $query[] = "
+            SELECT
+                COUNT( {$table_name}.id ) AS views,
+                {$group['query']} as date
+        ";
+
+        $query[] = "FROM {$table_name}";
+        $query[] = "INNER JOIN {$wpdb->posts} ON ( {$wpdb->posts}.ID = {$table_name}.listing_id )";
+        $query[] = "WHERE {$wpdb->posts}.post_status = 'publish'";
+
+        if (!empty($args['listing_id'])) {
+            $query[] = sprintf( " AND {$table_name}.listing_id = %d ", intval( $args['listing_id'] ) );
+        }
+        else if (!empty($args['user_id'])) {
+            if ( is_array( $args['user_id'] ) ) {
+                $user_ids = implode( ',', array_map( 'intval', $args['user_id'] ) );
+                $query[] = " AND {$wpdb->posts}.post_author IN ({$user_ids}) ";
+            } else {
+                $query[] = sprintf( " AND {$wpdb->posts}.post_author = %d ", intval( $args['user_id'] ) );
+            }
+        }
+
+        $activities_start_date = get_modified_time($args['time']);
+
+        if (!empty($activities_start_date)) {
+            $query[] = sprintf(
+                " AND {$table_name}.time >= '%s' ",
+                $activities_start_date
+            );
+        }
+
+        $type = "ads";
+
+        if (!empty($type)) {
+            $query[] = sprintf(
+                " AND {$table_name}.type = '%s' ",
+                $type
+            );
+        }
+
+        $query[] = "GROUP BY date";
+        $query = join( "\n", $query );
+
+        $results = $wpdb->get_results( $query, OBJECT );
+        if ( ! is_array( $results ) || empty( $results ) ) {
+            $results = array();
+        }
+
+        //return $results;
+
+        $DateTimeZone = wp_timezone();//new DateTimeZone( '+02:30' );
+        $date = new DateTime('now', $DateTimeZone);
+
+        $counts = [
+            'lastyear' => 365,
+            'lasthalfyear' => 182,
+            'lastmonth' => 30,
+            'lastweek' => 7,
+            'lastday' => 1,
+        ];
+
+        $count = isset( $counts[ $args['time'] ] ) ? $counts[ $args['time'] ] : 1;
+        $count = $group['count']( $count );
+
+        for ( $i = 0; $i < $count; $i++ ) {
+            $id = $date->format( $group['id'] );
+            $visits[ $id ] = [
+                'views' => 0,
+                'date' => $id,
+                'label' => $group['label']( $date ),
+            ];
+            $date->modify( $group['modifier'] );
+        }
+
+        foreach ( $results as $result ) {
+            $result->views = isset( $result->views ) ? $result->views : 0;
+            $visits[ $result->date ]['views'] = $result->views;
+        }
+
+        return array_reverse( $visits );
+    }
+}
 
 //$user_package_id = houzez_get_user_package_id($userID);
 //$package_images = get_post_meta( $user_package_id, 'fave_package_images', true );

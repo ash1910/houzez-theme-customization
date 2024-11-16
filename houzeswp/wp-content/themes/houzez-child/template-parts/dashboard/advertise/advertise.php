@@ -163,7 +163,7 @@ if (!empty($_GET['property_id'])) {
                             <a class="btn btn-primary btn-advance-state hz-add-impression-popup-js" data-listing_id="<?php echo $listing_id;?>">Edit Spended Credits</a>
                         </td>
                         <td>
-                            <a class="btn btn-primary btn-advance-state" href="#" data-href="/advertise?listing_id=<?php echo $listing_id;?>">Advance States</a>
+                            <a class="btn btn-primary btn-advance-state" href="/advertise?listing_id=<?php echo $listing_id;?>">Advance States</a>
                         </td>
                     </tr>
 

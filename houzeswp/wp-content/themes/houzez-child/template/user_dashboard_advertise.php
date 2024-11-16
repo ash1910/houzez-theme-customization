@@ -22,6 +22,8 @@ if (!empty($_GET['listing_id'])) {
 
     if(!empty($listing_id)) {
         $insights_stats = $insights->fave_listing_stats($_GET['listing_id']);
+        $impression_stats = get_charts_data_impressions($_GET['listing_id']);
+        //echo "<pre>";print_r($impression_stats);exit;
         $author_id = get_post_field( 'post_author', $listing_id );
     } else {
         $insights_stats = $insights->fave_user_stats($user_id);

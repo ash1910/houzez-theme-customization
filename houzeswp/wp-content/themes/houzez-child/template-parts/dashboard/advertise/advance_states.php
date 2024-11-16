@@ -21,7 +21,7 @@ $allowed_html_array = array(
         'target' => array()
     )
 );
-$all_post_count = houzez_user_posts_count('any');
+//$all_post_count = houzez_user_posts_count('any');
 
 $activities_by_month = isset($_GET['activities_by_month']) ? sanitize_text_field($_GET['activities_by_month']) : '';
 $activities_by_day = isset($_GET['activities_by_day']) ? sanitize_text_field($_GET['activities_by_day']) : '';
@@ -47,7 +47,7 @@ for ($i = 0; $i <= 18; $i++) {
     $month_options .= '<option value="'.date("m-Y", $mV).'" '.$selected.'>'.date("F Y", $mV).'</option>';
 }
 
-$activities_stats = houzez_views_user_stats($user_id, $activities_start_date, $activities_end_date, $listing_id);
+$activities_stats = houzez_views_ads_stats($user_id, $activities_start_date, $activities_end_date, $listing_id);
 //echo "<pre>";print_r($activities_stats);exit;
 ?>
 <header class="header-main-wrap dashboard-header-main-wrap">
@@ -96,22 +96,22 @@ $activities_stats = houzez_views_user_stats($user_id, $activities_start_date, $a
                                 <a class="btn btn-listing activities-view-btn" href="javascript:void(0)">  
                                     <div class="left-icon">
                                         <i class="btn-icon">
-                                            <?php include get_stylesheet_directory() . '/assets/images/listing_icon.svg'; ?>
+                                            <?php include get_stylesheet_directory() . '/assets/images/view_icon.svg'; ?>
                                         </i>
                                     </div>
                                     <div class="right-text">
-                                        <span>Total Listing</span>
-                                        <span class="btn-txt-2"><?php echo $all_post_count;?></span>
+                                        <span>Total Impressions</span>
+                                        <span class="btn-txt-2"><?php echo !empty($activities_stats['impressions']) ? $activities_stats['impressions'] : "0"; ?></span>
                                     </div>
                                 </a>
                             </li>
                             <li>
                                 <a class="btn btn-listing activities-view-btn" href="javascript:void(0)">  
                                     <div class="left-icon">
-                                        <i class="btn-icon"><?php include get_stylesheet_directory() . '/assets/images/view_icon.svg'; ?></i>
+                                        <i class="btn-icon fas fa-mouse-pointer"></i>
                                     </div>
                                     <div class="right-text">
-                                        <span>Total View</span>
+                                        <span>Total Click</span>
                                         <span class="btn-txt-2"><?php echo !empty($activities_stats['views']) ? $activities_stats['views'] : "0"; ?></span>
                                     </div>
                                 </a>
@@ -127,38 +127,6 @@ $activities_stats = houzez_views_user_stats($user_id, $activities_start_date, $a
                                     </div>
                                 </a>
                             </li>
-                            <li>
-                                <a class="btn btn-listing activities-view-btn" href="javascript:void(0)">  
-                                    <div class="left-icon">
-                                        <i class="btn-icon houzez-icon icon-envelope"></i>
-                                    </div>
-                                    <div class="right-text">
-                                        <span>Message</span>
-                                        <span class="btn-txt-2"><?php echo !empty($activities_stats['message']) ? $activities_stats['message'] : "0"; ?></span>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="btn btn-listing activities-view-btn" href="javascript:void(0)">  
-                                    <div class="left-icon">
-                                        <i class="btn-icon houzez-icon icon-phone-actions-ring"></i>
-                                    </div>
-                                    <div class="right-text">
-                                        <span>Phone</span>
-                                        <span class="btn-txt-2"><?php echo !empty($activities_stats['phone']) ? $activities_stats['phone'] : "0"; ?></span>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="btn btn-listing activities-view-btn" href="javascript:void(0)">  
-                                    <div class="left-icon">
-                                        <i class="btn-icon houzez-icon icon-messaging-whatsapp"></i>                                    </div>
-                                    <div class="right-text">
-                                        <span>WhatsApp</span>
-                                        <span class="btn-txt-2"><?php echo !empty($activities_stats['whatsapp']) ? $activities_stats['whatsapp'] : "0"; ?></span>
-                                    </div>
-                                </a>
-                            </li>
                         </ul>
 
                     </div><!-- dashboard-content-block -->
@@ -168,12 +136,12 @@ $activities_stats = houzez_views_user_stats($user_id, $activities_start_date, $a
             <div class="row">
                 <div class="col-md-6 col-sm-12">
 
-                    <?php get_template_part('template-parts/dashboard/statistics/chart'); ?>
+                    <?php get_template_part('template-parts/dashboard/advertise/chart'); ?>
 
                 </div><!-- col-md-6 col-sm-12 -->
                 <div class="col-md-6 col-sm-12">
                     
-                    <?php get_template_part('template-parts/dashboard/statistics/views'); ?>
+                    <?php get_template_part('template-parts/dashboard/advertise/views'); ?>
                     
                 </div><!-- col-md-6 col-sm-12 -->
             </div><!-- row -->
