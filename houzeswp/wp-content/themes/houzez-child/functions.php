@@ -1218,6 +1218,8 @@ function load_houzez_property_js_child() {
         wp_enqueue_script('chart');
     }
 
+    wp_enqueue_script('houzez_listing_child',  get_stylesheet_directory_uri().'/js/houzez_listing_child.js', array('jquery'), '1.0.0', true);
+
 }
 add_action( 'wp_enqueue_scripts', 'load_houzez_property_js_child' );
 

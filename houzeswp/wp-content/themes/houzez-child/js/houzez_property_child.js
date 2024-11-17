@@ -395,63 +395,6 @@ jQuery(document).ready( function($) {
 
 });
 
-function functionShowMore(){
-    var elList = document.querySelectorAll('.moreType');
-    elList.forEach(el => el.style.display = "block");
-
-    document.querySelector('.page-type-show-more.show-more').style.display = 'none';
-    document.querySelector('.page-type-show-more.show-less').style.display = 'block';
-}
-function functionShowLess(){
-    var elList = document.querySelectorAll('.moreType');
-    elList.forEach(el => el.style.display = "none");
-
-    document.querySelector('.page-type-show-more.show-more').style.display = 'block';
-    document.querySelector('.page-type-show-more.show-less').style.display = 'none';
-}
-
-/* ------------------------------------------------------------------------ */
-/*  Property phone, whatsapp view track
-/* ------------------------------------------------------------------------ */
-
-var propertyViewTrack = function($) {
-
-    //view track
-    $('.tracking_view').on('click', function(e){
-        //e.preventDefault();
-        //console.log("tracking_view");
-        var $this = $(this);
-        var ajaxurl = houzez_vars.admin_url+ 'admin-ajax.php';
-        //var userID = houzez_vars.user_id;
-        
-        var type = $this.data('type');
-        var prop_id = $this.data('prop_id');
-        
-        var ajax_request = $.ajax({
-            type: 'post',
-            url: ajaxurl,
-            dataType: 'json',
-            data: {
-                'action': 'houzez_add_tracking_views',
-                'type': type,
-                'prop_id': prop_id
-            }
-        });
-
-        ajax_request.done(function( response ) {
-            if ( response.success ) {
-
-            } else {
-
-            }
-        });
-
-        ajax_request.fail(function( jqXHR, textStatus ) {
-            //alert( "Request failed: " + textStatus );
-        });
-
-    });
-}
 
 var houzez_activities_update_url = function($) {
 
@@ -515,12 +458,6 @@ function replaceUrlParam(paramName, paramValue, url){
 
 jQuery(document).ready( function($) {
     "use strict";
-
-    /*--------------------------------------------------------------------------
-    *  Property View Tracking
-    * -------------------------------------------------------------------------*/
-    
-    propertyViewTrack($);
 
     /*--------------------------------------------------------------------------
     *  Activities Filter
@@ -792,40 +729,5 @@ jQuery(document).ready( function($) {
             }
         });
     }
-
-
-    // houzez_property_actions = function( prop_id, currentDiv, type ) {
-
-    //     var $messages = $('#dash-prop-msg');
-
-    //     $.ajax({
-    //         type: 'POST',
-    //         url: ajax_url,
-    //         dataType: 'JSON',
-    //         data: {
-    //             'action' : 'houzez_property_actions',
-    //             'propid' : prop_id,
-    //             'type': type
-    //         },
-    //         success: function ( res ) {
-
-    //             if( res.success ) {
-    //                 window.location.reload();
-    //             } else {
-    //                 houzez_processing_modal_close();
-    //                 $('html, body').animate({
-    //                     scrollTop: $(".dashboard-content-inner-wrap").offset().top
-    //                 }, 'slow');
-    //                 $messages.empty().append('<div class="alert alert-danger alert-dismissible fade show" role="alert">3nd '+houzezProperty.featured_listings_none+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
-    //             }
-
-    //         },
-    //         error: function(xhr, status, error) {
-    //             var err = eval("(" + xhr.responseText + ")");
-    //             console.log(err.Message);
-    //         }
-
-    //     });//end ajax
-    // }
 
 });
