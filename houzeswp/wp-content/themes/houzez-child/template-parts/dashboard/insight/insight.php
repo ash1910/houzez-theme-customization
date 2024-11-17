@@ -151,7 +151,7 @@ if (!empty($_GET['keyword'])) {
                     <tr>
                         <td class="property-table-thumbnail" data-label="<?php echo esc_html__('Thumbnail', 'houzez'); ?>">
                             <div class="table-property-thumb">
-                                <a href="<?php echo esc_url(get_permalink()); ?>">
+                                <a href="<?php echo esc_url(get_permalink()); ?>" target="_blank">
                                 <?php
                                 if( has_post_thumbnail() && get_the_post_thumbnail($listing_id) != '') {
                                     the_post_thumbnail(array('64', '64'));

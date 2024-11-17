@@ -139,7 +139,7 @@ if (!empty($_GET['property_id'])) {
                     <tr>
                         <td class="property-table-thumbnail" data-label="<?php echo esc_html__('Thumbnail', 'houzez'); ?>">
                             <div class="table-property-thumb">
-                                <a href="<?php echo esc_url(get_permalink()); ?>">
+                                <a href="<?php echo esc_url(get_permalink()); ?>" target="_blank">
                                 <?php
                                 if( has_post_thumbnail() && get_the_post_thumbnail($listing_id) != '') {
                                     the_post_thumbnail(array('64', '64'));
@@ -157,7 +157,7 @@ if (!empty($_GET['property_id'])) {
                             <?php echo (int)$fave_impressions;?> Remaining 
                         </td>
                         <td>  
-                            <input type="checkbox" <?php echo $fave_advertise ? "checked" : "";?> data-toggle="toggle" data-size="lg" class="hz-enable-advertise" data-listing_id="<?php echo $listing_id;?>">
+                            <input type="checkbox" <?php echo $fave_advertise ? "checked" : "";?> data-toggle="toggle" data-size="lg" class="hz-enable-advertise" data-listing_id="<?php echo $listing_id;?>" data-impressions="<?php echo (int)$fave_impressions;?>">
                         </td>
                         <td>
                             <a class="btn btn-primary btn-advance-state hz-add-impression-popup-js" data-listing_id="<?php echo $listing_id;?>">Edit Spended Credits</a>
@@ -210,12 +210,31 @@ jQuery(window).load(function() {
         //alert(listing_id);
         jQuery('#add-impression-popup').modal("show");
     });
-    jQuery('.hz-enable-advertise').on('change', function() {
+
+    let isHandlingEvent = false; 
+    jQuery('.hz-enable-advertise').on('change', function(e) {
+        if (isHandlingEvent) return;
+
         var listing_id = jQuery(this).data('listing_id');
+        const impressions = jQuery(this).data('impressions');
         var fave_advertise_type = "remove_advertise";
         //jQuery("#add-impression-popup #listing_id").val(listing_id);
         if(jQuery(this).prop('checked')){
             fave_advertise_type = "set_advertise";
+        }
+
+        if( impressions <= 0 ){
+            e.preventDefault();
+            isHandlingEvent = true;
+            //jQuery(this).bootstrapToggle(jQuery(this).prop('checked') ? 'off' : 'on');
+            const isChecked = jQuery(this).prop('checked');
+            setTimeout(() => {
+                jQuery(this).bootstrapToggle(isChecked ? 'off' : 'on');
+                alert("Add allocated credits to launch your ads.");
+                isHandlingEvent = false; 
+            }, 50);
+
+            return;
         }
 
             var ajaxurl = houzez_vars.admin_url+ 'admin-ajax.php';
