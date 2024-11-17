@@ -223,11 +223,12 @@ jQuery(window).load(function() {
             fave_advertise_type = "set_advertise";
         }
 
-        if( impressions <= 0 ){
+        const isChecked = jQuery(this).prop('checked');
+        if( impressions <= 0 && isChecked){
             e.preventDefault();
             isHandlingEvent = true;
             //jQuery(this).bootstrapToggle(jQuery(this).prop('checked') ? 'off' : 'on');
-            const isChecked = jQuery(this).prop('checked');
+            
             setTimeout(() => {
                 jQuery(this).bootstrapToggle(isChecked ? 'off' : 'on');
                 alert("Add allocated credits to launch your ads.");
