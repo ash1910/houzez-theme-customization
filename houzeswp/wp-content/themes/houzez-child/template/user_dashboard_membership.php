@@ -77,7 +77,9 @@ get_header(); ?>
                 </div>
 
                 <?php
-                echo '<a href="' . esc_url($dashboard_membership) . '?packages=1" class="btn btn-primary mb-2"> ' . esc_html__('Get Membership Plan', 'houzez') . ' </a>';
+                if( !houzez_is_agent($userID) ){
+                    echo '<a href="' . esc_url($dashboard_membership) . '?packages=1" class="btn btn-primary mb-2"> ' . esc_html__('Get Membership Plan', 'houzez') . ' </a>';
+                }
             }
             ?>                
         </div><!-- dashboard-content-block-wrap -->

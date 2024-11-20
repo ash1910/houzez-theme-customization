@@ -285,7 +285,7 @@ $need_verification_post_count = houzez_user_posts_count('need_verification');
 				</li>';
 	    }
 
-		if( !empty( $dashboard_invoices ) && houzez_check_role() ) {
+		if( !empty( $dashboard_invoices ) && houzez_check_role() && !houzez_is_agent($userID) ) {
 			$side_menu .= '<li class="side-menu-item">
 					<a '.esc_attr(  $ac_invoices ).' href="'.esc_url($dashboard_invoices).'">
 						<i class="houzez-icon icon-accounting-document mr-2"></i> '.houzez_option('dsh_invoices', 'Invoices').'
