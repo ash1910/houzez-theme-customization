@@ -244,7 +244,7 @@ $need_verification_post_count = houzez_user_posts_count('need_verification');
 				$side_menu .= $properties_menu;
 	    }
 
-		if( !empty( $dashboard_advertise ) && houzez_check_role() ) {
+		if( !empty( $dashboard_advertise ) && (houzez_is_agency() || houzez_is_developer() || houzez_is_admin() ) ) {
 			$side_menu .= '<li class="side-menu-item">
 					<a '.$ac_advertise.' href="'.esc_url($dashboard_advertise).'">
 						<i class="fas fa-bullhorn mr-2"></i> '.houzez_option('dsh_advertise', 'Advertise').'

@@ -72,7 +72,7 @@ endwhile;
 $total_packages = $first_pkg_column = '';
 $total_packages = $fave_qry->found_posts;
 
-$reload_credits_price_per_unit = 2;
+$reload_credits_price_per_unit = 0;
 $reload_package_id = "";
 $reload_search_term = "Reload";
 $reload_package_args = array(
@@ -204,7 +204,7 @@ endwhile;
                 </div>
                 <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6">
                     <p>Price per unit</p>
-                    <input id="reload_credits_price_per_unit" type="text" class="form-control" value="<?php echo $reload_credits_price_per_unit_with_curr;?>" readonly="">
+                    <input id="reload_credits_price_per_unit" type="text" class="form-control" value="<?php echo isset($reload_credits_price_per_unit_with_curr) ? $reload_credits_price_per_unit_with_curr : 0.00;?>" readonly="">
                     <br>
                 </div>
             </div>
@@ -215,7 +215,7 @@ endwhile;
                 </div>
                 <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12">
                     Total   
-                    <h4 id="reload_credits_price_total"><?php echo $reload_credits_price_per_unit_with_curr;?></h4>
+                    <h4 id="reload_credits_price_total"><?php echo isset($reload_credits_price_per_unit_with_curr) ? $reload_credits_price_per_unit_with_curr : 0.00;?></h4>
                 </div>
                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
                     <button type="submit" class="btn btn-primary-outlined">Proceed to Payment</button>
