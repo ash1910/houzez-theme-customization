@@ -3058,6 +3058,35 @@ if( !function_exists('houzez_is_dashboard_child') ) {
     add_filter( 'houzez_is_dashboard_filter', 'houzez_is_dashboard_child' );
 }
 
+if( !function_exists('houzez_is_dashboard') ) {
+    function houzez_is_dashboard() {
+
+        $files = apply_filters( 'houzez_is_dashboard_filter', array(
+            'template/user_dashboard_profile.php',
+            'template/user_dashboard_insight.php',
+            'template/user_dashboard_crm.php',
+            'template/user_dashboard_properties.php',
+            'template/user_dashboard_favorites.php',
+            'template/user_dashboard_invoices.php',
+            'template/user_dashboard_saved_search.php',
+            'template/user_dashboard_floor_plans.php',
+            'template/user_dashboard_multi_units.php',
+            'template/user_dashboard_membership.php',
+            'template/user_dashboard_gdpr.php',
+            'template/user_dashboard_submit.php',
+            'template/user_dashboard_messages.php'
+            
+        ) );
+
+        
+
+        if ( is_page_template($files) ) {
+            return true;
+        }
+        return false;
+    }
+}
+
 
 if( !function_exists('houzez_property_add_impression') ){
     function  houzez_property_add_impression(){
