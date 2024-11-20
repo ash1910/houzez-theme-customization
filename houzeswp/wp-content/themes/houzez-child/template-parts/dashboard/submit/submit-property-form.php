@@ -101,6 +101,8 @@ if( is_page_template( 'template/user_dashboard_submit.php' ) ) {
                 unset($layout['virtual_tour']);
             }
 
+            unset($layout['attachments']);
+
             if ($layout): foreach ($layout as $key=>$value) {
 
                 switch($key) {

@@ -29,6 +29,8 @@
             unset($layout['virtual_tour']);
         }
 
+        unset($layout['attachments']);
+
         if ($layout): foreach ($layout as $key=>$value) {
 
             switch($key) {
