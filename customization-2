@@ -1,0 +1,249 @@
+# CUSTOMIZATIONS PART 2
+
+**Note:** 
+
+**1 - All the customizations should be responsive on Laptop, Mobile, and Tablet.**
+
+## **1 ) Erros**
+
+Regarding Error 5, We’re a bit confused about what you mean by "These are the default behaviours of the theme." It’s critical to note that it’s impossible to launch the website with such errors, as this issue will 100% impact our SEO negatively.
+
+From our perspective, we don’t understand what caused this problem, as our request was simply to add the filters to the same property listings search page. We did not ask for additional pages with different URLs, and we definitely want to avoid such big errors.
+
+Please, I kindly request that you address and resolve this issue. If it’s more convenient, we can include it in Customization 2 under the new filter customization task that we’re planning. You can prioritize this update so we can launch the website as soon as possible and add future updates live.
+
+For Error 3, from what I understand, this issue arises because I hid the option for users to select their account type during registration, which causes the error when accounts are switched manually afterward. If this is the case, and if you know how, we need you to include a fix for this problem in Customization 2 as well. Please let me know if this can be resolved in the upcoming work.
+
+we intentionally restrict viewers from choosing their account type during registration—they only have one choice: a normal user account. For agencies and developers, once I manually switch their user type to agency or developer, the functionality should work without this error. If you know how to fix this so it works seamlessly without manual intervention, please include the solution in Customization 2 as well.
+
+## **2) Customize Translate press button design**
+
+For the Translation System part, I just checked and I can fully translate every part of the site ( CRM and front-end) with no need to any customization using the existing plugin we have ( translate press Premium )
+
+Now all I need you to change is a simple edit to the style of the existing translate press button switch.
+
+I need it to appear on the header for both of the front-end and the CRM and change the style to something like this one on the screenshots: ( Bayut design )
+
+when they click on the button a popup needs to appear so they can choose and switch the language.
+
+![Screenshot 2024-11-21 at 14.10.22.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/3253b11c-945f-4590-a0df-c8bc630a4bff/c047124d-5cc0-4348-b6d1-497321c70bc6/Screenshot_2024-11-21_at_14.10.22.png)
+
+![Screenshot 2024-11-21 at 14.10.47.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/3253b11c-945f-4590-a0df-c8bc630a4bff/17ec0897-29ce-4ae9-9f16-a4b833dcb594/Screenshot_2024-11-21_at_14.10.47.png)
+
+## **3) New Filter Search Design**
+
+**1- Laptop VIEW**
+
+We want to replace the current filter search with a new design similar to the ones used by Bayut and Propertyfinder, but not identical in appearance. The new filter should be sleek, user-friendly, and aligned with our brand's style, while maintaining the functionality and efficiency of the filters used by these platforms.
+
+in this phase we talk about the Desktop filter :
+
+![Screenshot 2024-09-30 at 00.39.05.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/3253b11c-945f-4590-a0df-c8bc630a4bff/1d042402-b725-4e44-87bd-32db7c604bf6/Screenshot_2024-09-30_at_00.39.05.png)
+
+![Screenshot 2024-09-30 at 00.39.43.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/3253b11c-945f-4590-a0df-c8bc630a4bff/7ebd2f94-1143-4f6d-85e7-fee173f5c5aa/Screenshot_2024-09-30_at_00.39.43.png)
+
+We need somethings speciale like for Bayut and propertyfinder ( We need a figma designe )
+
+![Screenshot 2024-09-30 at 00.38.45.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/3253b11c-945f-4590-a0df-c8bc630a4bff/99ba0a87-be56-407c-9311-d02c4d54db14/Screenshot_2024-09-30_at_00.38.45.png)
+
+![Screenshot 2024-09-30 at 00.40.53.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/3253b11c-945f-4590-a0df-c8bc630a4bff/82663b1a-718a-43a2-ba73-897997eb0363/Screenshot_2024-09-30_at_00.40.53.png)
+
+Additionally, we want to add our own special touch to the filter design, providing users with the fastest and smoothest filtering experience possible.
+
+Please ensure the filter works well on both desktop and mobile devices, especially on phones. The filter should function seamlessly on the home page and property search pages, and we should have the option to control which sections are displayed on mobile devices.
+
+### 2 - Add Multiple City or Area Selection in Search
+
+We would like to add the ability for users to select **multiple cities or areas** within the search bar. This feature should be available on both **desktop browsers and mobile devices**.
+
+The functionality should allow users to add more than one area, similar to the example provided in the screenshot.
+
+![Screenshot 2024-10-27 at 20.30.58.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/3253b11c-945f-4590-a0df-c8bc630a4bff/fe0e6646-4882-4264-8120-3f4bd745fc77/Screenshot_2024-10-27_at_20.30.58.png)
+
+**3 - Mobile Filter Search**
+
+![IMG_2240.PNG](https://prod-files-secure.s3.us-west-2.amazonaws.com/3253b11c-945f-4590-a0df-c8bc630a4bff/4ac802f2-15bc-44b9-92ed-ff2d29909682/IMG_2240.png)
+
+![IMG_2241.PNG](https://prod-files-secure.s3.us-west-2.amazonaws.com/3253b11c-945f-4590-a0df-c8bc630a4bff/ed035b0d-a1af-4cd6-9a76-885b01bcd069/IMG_2241.png)
+
+PS : 
+
+we want to add to filter mobile and with a Good designe and Easy for viewers
+
+FOR BUY : HANDOVER , COMPELETION , VERIFIED , also for NEW PROPERTIES (  ALL, READY , OFF PLAN ) 
+
+FOR RENT ( ALL , FURNISHED , UNFURNISHED ) /  Rental frequency ( ANY , YEARLY , MONTHLY, Weekly , DAILY )
+
+## **4 ) Enhancing the Look of Listings and Buttons with EDGE**
+
+We need some customizations to make the website look more attractive.
+
+1. **The edges of listings and all buttons**: Please add edges like the ones shown in the screenshot below. We would like this style applied to :
+
+All listings
+
+All buttons ( List + Maps + Verified listings first )
+
+AllBadges ( Verified + FEATURED )
+
+The Filter of Cities and Area
+
+and all other button ( Home page and other pages )
+
+![Screenshot 2024-09-15 at 21.54.57.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/3253b11c-945f-4590-a0df-c8bc630a4bff/d8442083-36be-45cf-ad63-cf3e24cb78e5/Screenshot_2024-09-15_at_21.54.57.png)
+
+## **5 ) Updates to Developer Search Feature**
+
+I have a few updates and changes I'd like to implement on the developer search feature:
+
+1. **Hide "Verified Listings First"**: Please remove this filter from the current options.
+2. **Add New Filter "Handover By"**: 
+    
+    ![11.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/3253b11c-945f-4590-a0df-c8bc630a4bff/99e90533-8e68-4a1c-be41-3ec03afc0c0d/11.png)
+    
+
+This filter should be added to the list of available filters and should show the following options:
+
+- Q3 2024
+- Q4 2024
+- Q1 2025
+- Q2 2025
+- Q3 2025
+- Q4 2025
+- 2026
+- 2027
+- 2028
+- 2029
+- 2030
+    
+    ![Screenshot 2024-08-07 at 12.04.55.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/3253b11c-945f-4590-a0df-c8bc630a4bff/bcd0faae-9fcc-47f5-b75c-6e1349fefa3f/Screenshot_2024-08-07_at_12.04.55.png)
+    
+
+1. **Add New Filter "Completion"**: This filter will show the construction status. It should have three options:
+    - Under construction
+    - Completed
+    - Planned
+
+**NOTE :** 
+
+**1 - We would like to ensure that the design for this feature is different from Bayut’s. From the screenshots above, it looks very similar to Bayut, and we want a unique and distinct design.**
+
+**2 - The "Handover By" and "Completion" filters should have a responsive design that works well on mobile devices, ideally in a carousel mode to ensure a smooth and user-friendly experience on phones.**
+
+## **6 )  Add Rent Filters (Furnished/Unfurnished and Yearly Rent)**
+
+1. **ALL/Furnished/Unfurnished**: 
+
+We would like to **add** a new filter for the **Furnished/Unfurnished** option in the **rent** section. Please design it in a different style and place it in a new location on the page. Make sure to avoid using the same design as Bayut or Propertyfinder to ensure our site has a distinct look.
+
+I've attached a screenshot for reference, but feel free to use your creativity to make the design unique and user-friendly.
+
+![Screenshot 2024-09-30 at 00.49.09.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/3253b11c-945f-4590-a0df-c8bc630a4bff/1a7cdb51-20e9-4c2c-8e99-b9a6981ac4ab/Screenshot_2024-09-30_at_00.49.09.png)
+
+1. **Yearly Rent Option**: We want to allow users to choose from the following options:
+    - Yearly
+    - Monthly
+    - Weekly
+    - Daily
+    - Any
+
+Please design these filters in a way that is unique and user-friendly. I've attached a screenshot for reference, but feel free to use your creativity to make the design stand out.
+
+## **7 )  Add Rent Filters (ALL, READY,OFF-Plan)**
+
+We would like to add a filter for the **Buy** section with the following options:
+
+- **All**
+- **Ready**
+- **Off-Plan**
+
+![Screenshot 2024-09-30 at 00.58.02.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/3253b11c-945f-4590-a0df-c8bc630a4bff/a76c6d78-5344-4aa1-a2e8-623a62b4f457/Screenshot_2024-09-30_at_00.58.02.png)
+
+Mobile view exemple
+
+![Off Plan Properties for Sale in UAE  Bayut.jpeg](https://prod-files-secure.s3.us-west-2.amazonaws.com/3253b11c-945f-4590-a0df-c8bc630a4bff/fce3d00e-ed04-4e6d-8e94-589fd76ab94e/Off_Plan_Properties_for_Sale_in_UAE__Bayut.jpeg)
+
+The **Ready** option will be for the **Agency** section.
+
+When a viewer clicks on **Off-Plan**, it should switch to the **Developer** section filter, where the additional filters like **Handover** and **Completion** will be shown.
+
+Please ensure that the icons and options are displayed properly on mobile devices with a good, clean design that is simple and user-friendly for viewers.
+
+Remember, this filter should only be shown in the **Buy** section and not in the **Rent** section.
+
+I've attached a screenshot for reference, but feel free to create a unique design.
+
+PS : the filter for Countries / area / area of Area …. will always shown on the filter for BUY and RENT and DEVELOPER
+
+## **8 )**  Update Developer Search Lisitngs
+
+I need you to make some changes to the design when someone searches for a new property by "new Developer." The listing design should be updated as follows:
+
+1. **Property Type:** Display only the property type (e.g., Studio, Apartment, Villa).
+2. **Developer Name:** Highlight the developer's name with a large font size. The developer will add the property name in the title.
+3. **Design Frames:** Add three distinct frames with the following details:
+    - "Starting From" with the short Price ( Ex : 1199000 AED should Shown only AED 1.199M)
+    
+    ( Ex : 199000 AED should Shown only AED 199K)
+    
+    - "Payment Plan"
+    - "Handover"
+    
+    Please adjust the design style to differ from Bayut's.
+    
+4. **Address:** Ensure the property address is also included.
+
+Please refer to the attached image for the current layout. Let me know if you have any questions or need further details.
+
+PS ( don’t do the Same design , we need another design not like Bayut )
+
+![12.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/3253b11c-945f-4590-a0df-c8bc630a4bff/e819c33f-2269-4fa5-a1c4-246c257c2c56/12.png)
+
+## 9 ) Change the Agent Widget Designe
+
+![Screenshot 2024-10-01 at 01.01.31.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/3253b11c-945f-4590-a0df-c8bc630a4bff/b646d8b4-06a1-4318-902c-b75b700278e2/Screenshot_2024-10-01_at_01.01.31.png)
+
+We would like a new design style for the **Agent Widget** in the listing details. The new design should display:
+
+- Agent name + Profile photo
+- Agency name + Small agency logo
+
+I've attached a screenshot as an example, taken from Bayut, but we want a fresh, unique design.
+
+**Note**: If the agency doesn't have an agent and posts their listings from the agency account, the image should only show the agency logo, and no other agent details should be displayed.
+
+Bayut exemple :
+
+![Screenshot 2024-09-08 at 21.44.46.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/3253b11c-945f-4590-a0df-c8bc630a4bff/5c8b83ad-3a3b-45c7-bf95-f363b706ac97/Screenshot_2024-09-08_at_21.44.46.png)
+
+Property finder exemple
+
+![Screenshot 2024-10-01 at 01.04.09.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/3253b11c-945f-4590-a0df-c8bc630a4bff/e7e9d7ee-347f-4d73-8dd5-3fcd1a9c2275/Screenshot_2024-10-01_at_01.04.09.png)
+
+## **10 ) Report Listings System**
+
+We would like to add a **Report Property** system, but only for **Buy** and **Rent** listings (not for developer properties). Users should be able to report a listing, and these reports should be collected in a dedicated section for the manager.
+
+Additionally, please create a place where the manager can view these reports and receive notifications when a new report is submitted.
+
+![Screenshot 2024-10-01 at 01.10.11.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/3253b11c-945f-4590-a0df-c8bc630a4bff/060b6ea7-56b6-416b-9de0-ffe5616d81b0/Screenshot_2024-10-01_at_01.10.11.png)
+
+Bayut exemple :  ( We need like this one but with diffrent design and words
+
+![Screenshot 2024-10-01 at 01.07.22.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/3253b11c-945f-4590-a0df-c8bc630a4bff/2446fda4-531e-4504-8946-089af8863b0d/Screenshot_2024-10-01_at_01.07.22.png)
+
+![Screenshot 2024-10-01 at 01.07.26.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/3253b11c-945f-4590-a0df-c8bc630a4bff/7c77781f-031b-4260-bce0-7f0e9ac19a1a/Screenshot_2024-10-01_at_01.07.26.png)
+
+![Screenshot 2024-10-01 at 01.17.19.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/3253b11c-945f-4590-a0df-c8bc630a4bff/081b73ec-ae0f-4b9d-b880-1ead9e461cce/Screenshot_2024-10-01_at_01.17.19.png)
+
+## 11 ) TruBroker System (Badge)
+
+We want to implement a **TruBroker System**, similar to Bayut, as a free option based on the agent's performance.
+
+Please change the current badge design, which is too similar to Propertyfinder, and create a new one. I want the design to be unique while still serving the same purpose.
+
+![Screenshot 2024-10-01 at 01.38.28.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/3253b11c-945f-4590-a0df-c8bc630a4bff/ce5ea33a-824e-4ec4-a729-fa2d75e3daee/Screenshot_2024-10-01_at_01.38.28.png)
+
+Please review Bayut’s **TruBroker System** to get a sense of how it works, and develop a similar system from **A to Z**, ensuring that it fits well with our platform's design and functionality.
+
+I've attached a screenshot for reference, but please use your creativity to build a new badge and system.
