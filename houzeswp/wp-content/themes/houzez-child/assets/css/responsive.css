@@ -1,0 +1,824 @@
+/* bootstrap container */
+@media screen and (min-width: 1200px) {
+  .container {
+    max-width: 1170px;
+  }
+  .ms-header .container {
+    max-width: 1210px;
+  }
+}
+
+@media only screen and (min-width: 1200px) and (max-width: 1440px) {
+  /**----------------------------------------
+START: Portfolio CSS
+----------------------------------------*/
+  .ms-new-projects__wrap:hover .ms-new-projects__thumb img {
+    width: 470px;
+  }
+  .ms-new-projects__wrap.active .ms-new-projects__thumb img {
+    width: 470px;
+  }
+  .ms-new-projects__thumb img {
+    width: 218px;
+  }
+  /**----------------------------------------
+!END: Portfolio CSS
+---------
+-------------------------------*/
+}
+@media only screen and (max-width: 1400px) {
+  /**----------------------------------------
+START: Cta CSS
+----------------------------------------*/
+  .ms-cta__img {
+    width: 620px;
+  }
+  /**----------------------------------------
+!END: Cta CSS CSS
+----------------------------------------*/
+}
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+  /**----------------------------------------
+START: Theme Default CSS
+----------------------------------------*/
+  :root {
+    --ms-br-24: 16px;
+    --ms-br-30: 16px;
+  }
+  .body-wrapper {
+    padding: 0px 16px;
+    margin-top: -30px;
+  }
+
+  /* Button CSS */
+  .ms-btn {
+    padding: 15px 20px;
+  }
+  /**----------------------------------------
+!END: Theme Default CSS
+----------------------------------------*/
+
+  /**----------------------------------------
+START: Header CSS
+----------------------------------------*/
+  .ms-header {
+    transform: translateY(50%);
+    margin-bottom: 0px;
+  }
+
+  .ms-header--2 {
+    transform: translateY(0);
+    margin-bottom: 0px;
+  }
+
+  .sticky {
+    transform: translateY(0);
+  }
+  .ms-header__inner-wrapper {
+    padding: 0 16px;
+  }
+  .ms-header__inner {
+    padding: 15px 15px 10px;
+  }
+  .ms-header--2 .ms-header__inner {
+    padding: 15px 15px;
+  }
+  .ms-header__inner-wrapper::before,
+  .ms-header__inner-wrapper::after,
+  .ms-header__inner::before,
+  .ms-header__inner::after {
+    width: 16px;
+    box-shadow: 0 -14px 0 0 var(--ms-color-common-white);
+  }
+
+  .ms-header__inner::before,
+  .ms-header__inner::after {
+    box-shadow: 0 -18px 0 0 var(--ms-color-common-white);
+  }
+
+  .ms-header__heart {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+  .ms-header__avatar img {
+    width: 19px;
+    height: 19px;
+  }
+
+  /**----------------------------------------
+!END: Header CSS
+----------------------------------------*/
+
+  /**----------------------------------------
+START: Hero Banner CSS
+----------------------------------------*/
+  .ms-hero {
+    padding: 128px 15px 0;
+    border-radius: 16px;
+  }
+  .ms-hero__title {
+    margin-bottom: 15px;
+  }
+  .ms-hero__action {
+    margin-top: 30px;
+  }
+  /**----------------------------------------
+!END: Hero Banner CSS
+----------------------------------------*/
+  /**----------------------------------------
+START: Portfolio CSS
+----------------------------------------*/
+  .ms-new-projects__wrap:hover .ms-new-projects__thumb img {
+    width: 415px;
+  }
+  .ms-new-projects__wrap.active .ms-new-projects__thumb img {
+    width: 415px;
+  }
+  .ms-new-projects__thumb img {
+    width: 200px;
+  }
+  /**----------------------------------------
+!END: Portfolio CSS
+----------------------------------------*/
+  .ms-offer__img img {
+    width: 450px;
+  }
+  .ms-apartments-main__card__wrapper--2 {
+    grid-template-columns: 1fr;
+  }
+  /**----------------------------------------
+START: Cta CSS
+----------------------------------------*/
+  .ms-cta__img {
+    width: 450px;
+  }
+  /**----------------------------------------
+!END: Cta CSS CSS
+----------------------------------------*/
+}
+
+@media only screen and (max-width: 767px) {
+  /**----------------------------------------
+START: Theme Default CSS
+----------------------------------------*/
+  :root {
+    /**
+     @Font-Size Declaration
+   */
+    --ms-fs-body: 12px;
+    --ms-fs-body2: 16px;
+    --ms-fs-body3: 12px;
+    --ms-fs-body4: 16px;
+    --ms-fs-h1: 32px;
+    --ms-fs-h2: 24px;
+    --ms-fs-h3: 36px;
+    --ms-fs-h4: 30px;
+    --ms-fs-h5: 18px;
+    --ms-fs-btn: 16px;
+    --ms-fs-btn2: 12px;
+    --ms-fs-icon: 16px;
+    /* border radius */
+    --ms-br-16: 10px;
+    --ms-br-24: 10px;
+    --ms-br-30: 10px;
+  }
+  .body-wrapper {
+    padding: 0px 16px;
+    margin-top: -30px;
+  }
+  /* Button CSS */
+  .ms-btn {
+    height: 42px;
+    padding: 0 15px;
+
+    gap: 10px;
+  }
+  .ms-btn i {
+    font-size: 12px;
+  }
+  .ms-btn svg {
+    width: 20px;
+    height: 20px;
+  }
+  /**----------------------------------------
+!END: Theme Default CSS
+----------------------------------------*/
+
+  /**----------------------------------------
+START: Section CSS
+----------------------------------------*/
+
+  .ms-section-heading {
+    margin-bottom: 25px;
+  }
+  .section--wrapper {
+    margin: 0px 16px;
+    margin-top: 24px;
+  }
+  /**----------------------------------------
+!END: Section CSS
+----------------------------------------*/
+  /**----------------------------------------
+START: Input CSS
+----------------------------------------*/
+
+  .ms-hero__filter-tab__content {
+    padding: 5px 10px;
+  }
+  .ms-hero__filter-tab {
+    margin-top: 50px;
+  }
+  .ms-input {
+    height: 32px;
+    padding: 0 10px;
+  }
+  .ms-input:has(input) {
+    width: 197px;
+    flex-grow: 0;
+  }
+  .ms-input input {
+    width: calc(100% - 16px);
+  }
+  .ms-input:has(.nice-select) {
+    display: none;
+  }
+  .ms-hero__form .ms-btn {
+    height: 32px;
+    padding: 0 10px;
+  }
+  .ms-hero__form .ms-btn span {
+    display: none;
+  }
+  .ms-hero__form .ms-btn i {
+    font-size: var(--ms-fs-icon);
+  }
+
+  /**----------------------------------------
+!END: Input CSS
+----------------------------------------*/
+
+  /**----------------------------------------
+START: Header CSS
+----------------------------------------*/
+  .container-fluid--lg,
+  .container-fluid--lg .row {
+    --bs-gutter-x: 0px;
+  }
+  .ms-header {
+    transform: translateY(50%);
+
+    margin: -30px 16px 0;
+  }
+  .ms-header--2 {
+    transform: translateY(0);
+    margin: 0;
+  }
+  .ms-header--2 .container-fluid {
+    --bs-gutter-x: 0;
+  }
+  .sticky {
+    transform: translateY(0);
+    margin: 0;
+  }
+  .ms-header__inner-wrapper {
+    padding: 0 30px;
+  }
+  .ms-header--2 .ms-header__inner-wrapper {
+    padding: 0;
+  }
+  .ms-header__inner {
+    padding: 9px 15px 10px;
+  }
+  .ms-header--2 .ms-header__inner {
+    padding: 10px 0px 10px;
+  }
+  .ms-header__inner-wrapper::before,
+  .ms-header__inner-wrapper::after,
+  .ms-header__inner::before,
+  .ms-header__inner::after {
+    width: 30px;
+    box-shadow: 0 -14px 0 0 var(--ms-color-common-white);
+  }
+
+  .ms-header__inner::before,
+  .ms-header__inner::after {
+    box-shadow: 0 -18px 0 0 var(--ms-color-common-white);
+  }
+  .ms-header--2 .ms-header__inner-wrapper::before,
+  .ms-header--2 .ms-header__inner-wrapper::after,
+  .ms-header--2 .ms-header__inner::before,
+  .ms-header--2 .ms-header__inner::after {
+    box-shadow: none;
+  }
+  .ms-logo img {
+    width: 100px;
+  }
+  .ms-header__avater__inner {
+    padding: 3px 5px 5px 15px;
+  }
+  .ms-header__avater__inner a,
+  .ms-header__avater__inner button {
+    line-height: 1;
+  }
+  .ms-header__avatar img {
+    width: 19px;
+    height: 19px;
+  }
+  .ms-mobile-menu__profile-button .ms-btn svg {
+    width: 10px;
+    height: 10px;
+  }
+  /**----------------------------------------
+!END: Header CSS
+----------------------------------------*/
+  /**----------------------------------------
+START: Hero Banner CSS
+----------------------------------------*/
+  .ms-hero {
+    margin: 0 16px 40px;
+    padding: 60px 15px 0;
+  }
+  .ms-hero__title {
+    margin-bottom: 15px;
+  }
+  .ms-hero__action {
+    margin-top: 30px;
+  }
+  .ms-hero__tab-controllers__inner {
+    padding: 6px 20px 4px;
+    gap: 15px;
+  }
+  .ms-tab-controllers--transparent button {
+    padding: 2px 0px;
+  }
+  /**----------------------------------------
+!END: Hero Banner CSS
+----------------------------------------*/
+  /**----------------------------------------
+START: Portfolio CSS
+----------------------------------------*/
+  .ms-new-projects.section--wrapper {
+    margin: 30px 0 0;
+  }
+  .ms-new-projects .ms-section-heading {
+    margin-bottom: 25px;
+  }
+  .ms-new-projects .ms-section-heading h2 {
+    margin-bottom: 20px;
+  }
+  .ms-new-projects__content {
+    padding: 5px 10px 8px;
+  }
+  .ms-new-projects .swiper-slide-active .ms-new-projects__content {
+    transform: translateY(0);
+    visibility: visible;
+    opacity: 1;
+  }
+  .ms-new-projects__thumb {
+    width: 100%;
+  }
+  .ms-new-projects__thumb img {
+    width: 100%;
+    max-width: 100%;
+    height: 300px;
+    object-fit: cover;
+  }
+  .ms-new-projects__list {
+    margin-bottom: 10px;
+  }
+  .ms-new-projects__list__item {
+    padding-right: 20px;
+  }
+  .ms-new-projects__list__item:first-child {
+    padding-right: 19px;
+  }
+  .ms-new-projects__content p {
+    white-space: nowrap;
+  }
+  .ms-new-projects__bottom {
+    flex-wrap: nowrap;
+  }
+  .ms-new-projects__bottom p {
+    flex-wrap: wrap;
+    gap: 0 5px;
+  }
+  .ms-new-projects__bottom .ms-btn {
+    height: 32px;
+    padding: 0 12px;
+  }
+  /**----------------------------------------
+!END: Portfolio CSS
+----------------------------------------*/
+  /**----------------------------------------
+START: Offer CSS
+----------------------------------------*/
+  .ms-offer {
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .ms-offer .ms-section-heading {
+    text-align: center;
+  }
+  .ms-offer .ms-section-heading p {
+    margin-bottom: 20px;
+  }
+  .ms-offer__action {
+    gap: 10px;
+  }
+  .ms-offer__inner {
+    clip-path: none;
+
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    padding: 15px;
+  }
+  .ms-offer__img {
+    position: static;
+    padding-top: 0;
+    background-color: var(--ms-color-theme-bg);
+    display: flex;
+    justify-content: center;
+  }
+
+  .ms-offer__shape {
+    display: none;
+  }
+  .ms-offer__action .ms-btn {
+    width: 100%;
+    justify-content: center;
+  }
+  /**----------------------------------------
+!END: Offer CSS
+----------------------------------------*/
+  /**----------------------------------------
+START: Location CSS
+----------------------------------------*/
+
+  .ms-location__tab__contents .ms-location__tab__controllers {
+    justify-content: start;
+  }
+
+  /**----------------------------------------
+!END: Loacation CSS
+----------------------------------------*/
+
+  /**----------------------------------------
+START: Cta CSS
+----------------------------------------*/
+  .ms-cta {
+    padding: 15px 15px 0;
+  }
+  .ms-cta__img {
+    position: static;
+    width: 100%;
+    /* transform: translateX(60px); */
+    margin-top: 30px;
+    transform: translateX(15px);
+    display: flex;
+    justify-content: flex-end;
+  }
+  .ms-cta .ms-section-heading h2 {
+    margin-bottom: 15px;
+  }
+  .ms-cta .ms-section-heading p {
+    margin-bottom: 20px;
+  }
+  .ms-cta__footer {
+    gap: 20px;
+  }
+  .ms-location__tab__contents .ms-location__tab__controllers {
+    margin-bottom: 40px;
+  }
+  .ms-tab-controllers {
+    padding: 5px;
+  }
+  .ms-tab-controllers__wrapper {
+    margin-bottom: 30px;
+  }
+  .ms-tab-controllers .ms-btn {
+    height: 36px;
+
+    padding: 0 27px;
+  }
+  /**----------------------------------------
+!END: Cta CSS CSS
+----------------------------------------*/
+
+  /**----------------------------------------
+START: apartment CSS
+----------------------------------------*/
+  .ms-apartments {
+    padding: 15px 0;
+    overflow: hidden;
+    border-radius: 16px;
+  }
+  .ms-apartments__card__content {
+    padding: 0 2px 10px;
+  }
+  .ms-apartments-main .container-fluid,
+  .ms-apartments-main .container,
+  .ms-apartments-main .row {
+    --bs-gutter-x: 0;
+  }
+  .ms-apartments .ms-section-heading {
+    padding: 0 15px;
+  }
+  .ms-location__tab .ms-tab-controllers__wrapper {
+    margin-bottom: 20px;
+  }
+  .ms-apartments-main.section--wrapper {
+    margin-top: 16px;
+  }
+  .ms-apartments-main .container {
+    --bs-gutter-x: 0;
+  }
+  .ms-apartments-main .row {
+    --bs-gutter-x: 0;
+  }
+
+  .ms-apartments-main__filter {
+    padding-bottom: 16px;
+  }
+  .ms-apartments-main__filter .ms-input--serach {
+    width: auto;
+    flex-grow: 1;
+    height: 42px;
+  }
+  .ms-apartments-main__filter .ms-hero__form .ms-btn {
+    height: 42px;
+    padding: 0 16px;
+  }
+  .ms-apartments-main__heading {
+    padding: 16px 0 16px;
+    flex-wrap: nowrap;
+  }
+
+  .ms-apartments-main__heading h2 {
+    --ms-fs-h2: 20px;
+  }
+  .ms-apartments-main__heading .ms-btn--bordered {
+    height: 36px;
+    padding: 16px;
+  }
+  .ms-apartments-main__location {
+    padding: 10px;
+  }
+  .ms-apartments-main__location a {
+    font-size: 14px;
+  }
+  .ms-apartments-main__button-list {
+    margin-bottom: 20px;
+  }
+  .ms-apartments-main__button-list li {
+    display: none;
+  }
+  .ms-apartments-main__button-list li:last-child {
+    display: block;
+  }
+  .ms-apartments-main__button-list .form-check .form-check-input {
+    height: 18px;
+    width: 30px;
+  }
+  .ms-apartments-main__card__wrapper {
+    gap: 16px;
+  }
+  .ms-apartments-main__card__wrapper--2 {
+    grid-template-columns: 1fr;
+  }
+  .ms-apartments-main__card__thumbnail {
+    width: 100%;
+    border-radius: 16px;
+  }
+  .ms-apartments-main__card__thumbnail__header a {
+    width: 24px;
+    height: 24px;
+  }
+  .ms-apartments-main__card__thumbnail__footer span {
+    padding: 5px 10px;
+  }
+  .ms-apartments-main__card__content {
+    padding: 16px;
+    padding-top: 25px;
+    border-top: 0;
+    border-left: 2px solid var(--ms-color-border);
+    margin-left: 0;
+    margin-top: -10px;
+    border-radius: 0;
+    border-bottom-right-radius: 16px;
+    border-bottom-left-radius: 16px;
+  }
+  .ms-apartments-main__card__content > a {
+    margin-bottom: 12px;
+  }
+  .ms-apartments-main____card__price {
+    margin-bottom: 5px;
+  }
+  .ms-apartments-main____card__price h6 {
+    font-size: 16px;
+  }
+  .ms-apartments-main____card__price a span {
+    font-size: 8px;
+  }
+  .ms-apartments-main____card__button-list {
+    gap: 8px;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+  }
+  .ms-apartments-main____card__button-list .ms-btn {
+    height: 34px;
+    padding: 0 15px;
+    gap: 8px;
+  }
+  .ms-paginations {
+    gap: 10px;
+  }
+  .ms-paginations {
+    gap: 8px;
+    margin-top: 16px;
+    margin-bottom: 16px;
+  }
+  .ms-paginations__item button {
+    width: 30px;
+    height: 30px;
+    font-size: 14px;
+  }
+  .ms-paginations__item--2 button {
+    width: 38px;
+  }
+  .ms-apartments-main__sidebar__single .ms-btn {
+    height: 38px;
+  }
+  /**----------------------------------------
+!END: apartment CSS
+----------------------------------------*/
+
+  /**----------------------------------------
+START: Login CSS
+----------------------------------------*/
+  .ms-form {
+    padding: 30px 16px;
+  }
+  .ms-form__inner {
+    margin-left: 0;
+  }
+  .ms-form__heading {
+    margin-bottom: 25px;
+  }
+  .ms-form__inner .ms-logo {
+    width: 152px;
+    margin-bottom: 30px;
+  }
+  .ms-form h2 {
+    --ms-fs-h2: 32px;
+    margin-bottom: 5px;
+  }
+  .ms-form__main {
+    gap: 16px;
+  }
+  .ms-form .ms-btn {
+    height: 42px;
+    margin-top: 5px;
+  }
+  .ms-input .form-check-input {
+    width: 16px;
+    height: 16px;
+  }
+  .ms-input .form-check label {
+    font-weight: var(--ms-fw-normal);
+    font-size: 14px;
+  }
+  .ms-input--agree a {
+    font-size: 14px;
+  }
+  .ms-form__other-login__title {
+    margin-bottom: 0;
+  }
+  .ms-form__other-login {
+    margin-top: 30px;
+  }
+  .ms-form__suggestion {
+    margin-top: 20px;
+  }
+  .ms-form .ms-btn {
+    font-size: 14px;
+  }
+  /**----------------------------------------
+!END: Login CSS
+----------------------------------------*/
+
+  /**----------------------------------------
+START: Footer CSS
+----------------------------------------*/
+
+  .ms-footer {
+    padding: 15px 15px 60px;
+    margin: 24px 15px 0;
+  }
+  .ms-footer .row {
+    gap: 20px 0;
+  }
+  .ms-footer .ms-logo {
+    margin-bottom: 15px;
+  }
+  .ms-footer__desc {
+    margin-bottom: 30px;
+  }
+  .ms-footer__form {
+    margin-bottom: 20px;
+  }
+  .ms-footer__form .ms-input {
+    width: 249px;
+    max-width: 100%;
+    height: 42px;
+    border-radius: 10px;
+  }
+  .ms-footer__form .ms-btn {
+    padding: 10px 15px;
+    border-radius: 10px;
+  }
+  .ms-social-media {
+    margin-bottom: 15px;
+  }
+  .ms-footer__nav__list li:has(svg) {
+    padding: 3px;
+  }
+  .ms-social-media__link {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+  }
+
+  .ms-footer__nav__link svg {
+    width: 16px;
+  }
+  .ms-footer h6 {
+    margin-bottom: 10px;
+  }
+  .ms-footer__nav__wrapper {
+    margin-bottom: 15px;
+  }
+  .ms-footer__nav {
+    gap: 20px;
+  }
+  .ms-footer__brand__list img {
+    width: 120px;
+    margin-top: 3px;
+  }
+
+  .ms-footer__copyright__inner {
+    padding: 10px 15px 0;
+    justify-content: center;
+    gap: 0px 20px;
+  }
+
+  .ms-footer__nav__list--copyright {
+    gap: 15px;
+  }
+  /* !END: Footer CSS */
+}
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  /**----------------------------------------
+START: Portfolio CSS
+----------------------------------------*/
+  .ms-new-projects__thumb img {
+    height: 400px;
+  }
+  .ms-new-projects .swiper-slide-active .ms-new-projects__content {
+    transform: translateY(0);
+    visibility: visible;
+    opacity: 1;
+  }
+  .ms-new-projects__list {
+    margin-bottom: 10px;
+  }
+  .ms-new-projects__list__item {
+    padding-right: 20px;
+  }
+  .ms-new-projects__list__item:first-child {
+    padding-right: 19px;
+  }
+  .ms-new-projects__content p {
+    white-space: nowrap;
+  }
+  .ms-new-projects__bottom {
+    flex-wrap: nowrap;
+  }
+  .ms-new-projects__bottom p {
+    flex-wrap: wrap;
+    gap: 0 5px;
+  }
+  .ms-new-projects__bottom .ms-btn {
+    height: 32px;
+    padding: 0 12px;
+  }
+  /**----------------------------------------
+!END: Portfolio CSS
+----------------------------------------*/
+  .ms-footer__copyright__inner {
+    justify-content: center;
+  }
+  .ms-apartments-main__card__wrapper--2 {
+    grid-template-columns: 1fr;
+  }
+}

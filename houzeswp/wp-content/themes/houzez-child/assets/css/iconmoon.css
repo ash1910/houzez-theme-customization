@@ -1,0 +1,475 @@
+@font-face {
+  font-family: "icomoon";
+  src: url("../fonts/icomoon.eot?jzv83y");
+  src: url("../fonts/icomoon.eot?jzv83y#iefix") format("embedded-opentype"),
+    url("../fonts/icomoon.ttf?jzv83y") format("truetype"),
+    url("../fonts/icomoon.woff?jzv83y") format("woff"),
+    url("../fonts/icomoon.svg?jzv83y#icomoon") format("svg");
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="icon-"],
+[class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: "icomoon" !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* better font rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-arrows-expand:before {
+  content: "\e900";
+}
+.icon-bg:before {
+  content: "\e901";
+}
+.icon-group:before {
+  content: "\e902";
+}
+.icon-group:before {
+  content: "\e903";
+}
+.icon-group:before {
+  content: "\e904";
+}
+.icon-group:before {
+  content: "\e905";
+}
+.icon-group:before {
+  content: "\e906";
+}
+.icon-group:before {
+  content: "\e907";
+}
+.icon-group:before {
+  content: "\e908";
+}
+.icon-group:before {
+  content: "\e909";
+}
+.icon-group:before {
+  content: "\e90a";
+}
+.icon-group:before {
+  content: "\e90b";
+}
+.icon-group:before {
+  content: "\e90c";
+}
+.icon-group:before {
+  content: "\e90d";
+}
+.icon-group:before {
+  content: "\e90e";
+}
+.icon-group:before {
+  content: "\e90f";
+}
+.icon-group:before {
+  content: "\e910";
+}
+.icon-group:before {
+  content: "\e911";
+}
+.icon-group:before {
+  content: "\e912";
+}
+.icon-group:before {
+  content: "\e913";
+}
+.icon-icn_apple:before {
+  content: "\e914";
+}
+.icon-icn_playstore:before {
+  content: "\e915";
+}
+.icon-layer-2:before {
+  content: "\e916";
+}
+.icon-rectangle-17782:before {
+  content: "\e917";
+}
+.icon-ac:before {
+  content: "\e918";
+}
+.icon-add_black_fill:before {
+  content: "\e919";
+}
+.icon-add_white:before {
+  content: "\e91a";
+}
+.icon-apartment:before {
+  content: "\e91b";
+}
+.icon-arrow:before {
+  content: "\e91c";
+}
+.icon-arrow_down_black:before {
+  content: "\e91d";
+}
+.icon-arrow_green:before {
+  content: "\e91e";
+}
+.icon-arrow_left:before {
+  content: "\e91f";
+}
+.icon-arrow_rigth:before {
+  content: "\e920";
+}
+.icon-barbeque:before {
+  content: "\e921";
+}
+.icon-bathtube:before {
+  content: "\e922";
+}
+.icon-bed:before {
+  content: "\e923";
+}
+.icon-broker:before {
+  content: "\e924";
+}
+.icon-building:before {
+  content: "\e925";
+}
+.icon-calendar_balck_fill:before {
+  content: "\e926";
+}
+.icon-call:before {
+  content: "\e927";
+}
+.icon-checkbox:before {
+  content: "\e928";
+}
+.icon-clock:before {
+  content: "\e929";
+}
+.icon-close:before {
+  content: "\e92a";
+}
+.icon-close_black_fill:before {
+  content: "\e92b";
+}
+.icon-close_green:before {
+  content: "\e92c";
+}
+.icon-degree_black:before {
+  content: "\e92d";
+}
+.icon-dollar:before {
+  content: "\e92e";
+}
+.icon-double_arrow_left:before {
+  content: "\e92f";
+}
+.icon-double_arrow-rigth:before {
+  content: "\e930";
+}
+.icon-down_arrow_grey:before {
+  content: "\e931";
+}
+.icon-dryer:before {
+  content: "\e932";
+}
+.icon-duplex:before {
+  content: "\e933";
+}
+.icon-email:before {
+  content: "\e934";
+}
+.icon-email_big:before {
+  content: "\e935";
+}
+.icon-email_medium:before {
+  content: "\e936";
+}
+.icon-eye:before {
+  content: "\e937";
+}
+.icon-filter_white:before {
+  content: "\e938";
+}
+.icon-floorplan:before {
+  content: "\e939";
+}
+.icon-floorviwe:before {
+  content: "\e93a";
+}
+.icon-fullviwe:before {
+  content: "\e93b";
+}
+.icon-gym:before {
+  content: "\e93c";
+}
+.icon-heart_fill:before {
+  content: "\e93d";
+}
+.icon-heart_small:before {
+  content: "\e93e";
+}
+.icon-hotel_apartment:before {
+  content: "\e93f";
+}
+.icon-laundry:before {
+  content: "\e940";
+}
+.icon-lawn:before {
+  content: "\e941";
+}
+.icon-list:before {
+  content: "\e942";
+}
+.icon-location:before {
+  content: "\e943";
+}
+.icon-location_black:before {
+  content: "\e944";
+}
+.icon-location_fill:before {
+  content: "\e945";
+}
+.icon-location_grey:before {
+  content: "\e946";
+}
+.icon-map_light:before {
+  content: "\e947";
+}
+.icon-map_white:before {
+  content: "\e948";
+}
+.icon-menu_2line:before {
+  content: "\e949";
+}
+.icon-menu_gray:before {
+  content: "\e94a";
+}
+.icon-menu_white:before {
+  content: "\e94b";
+}
+.icon-microwave:before {
+  content: "\e94c";
+}
+.icon-minus:before {
+  content: "\e94d";
+}
+.icon-more:before {
+  content: "\e94e";
+}
+.icon-notification:before {
+  content: "\e94f";
+}
+.icon-outdoor_shower:before {
+  content: "\e950";
+}
+.icon-penthouse:before {
+  content: "\e951";
+}
+.icon-play:before {
+  content: "\e952";
+}
+.icon-playbutton_white:before {
+  content: "\e953";
+}
+.icon-plus:before {
+  content: "\e954";
+}
+.icon-refrigerator:before {
+  content: "\e955";
+}
+.icon-report:before {
+  content: "\e956";
+}
+.icon-residential_building:before {
+  content: "\e957";
+}
+.icon-residential_floor:before {
+  content: "\e958";
+}
+.icon-residential_plot:before {
+  content: "\e959";
+}
+.icon-restaurants__grocery:before {
+  content: "\e95a";
+}
+.icon-rigth_tick:before {
+  content: "\e95b";
+}
+.icon-saudi_arabia:before {
+  content: "\e95c";
+}
+.icon-saudi_arabia:before {
+  content: "\e95d";
+}
+.icon-saudi_arabia:before {
+  content: "\e95e";
+}
+.icon-saudi_arabia:before {
+  content: "\e95f";
+}
+.icon-saudi_arabia:before {
+  content: "\e960";
+}
+.icon-saudi_arabia:before {
+  content: "\e961";
+}
+.icon-saudi_arabia:before {
+  content: "\e962";
+}
+.icon-saudi_arabia:before {
+  content: "\e963";
+}
+.icon-saudi_arabia:before {
+  content: "\e964";
+}
+.icon-saudi_arabia0:before {
+  content: "\e965";
+}
+.icon-saudi_arabia1:before {
+  content: "\e966";
+}
+.icon-saudi_arabia2:before {
+  content: "\e967";
+}
+.icon-saudi_arabia3:before {
+  content: "\e968";
+}
+.icon-saudi_arabia4:before {
+  content: "\e969";
+}
+.icon-saudi_arabia5:before {
+  content: "\e96a";
+}
+.icon-saudi_arabia6:before {
+  content: "\e96b";
+}
+.icon-saudi_arabia7:before {
+  content: "\e96c";
+}
+.icon-saudi_arabia8:before {
+  content: "\e96d";
+}
+.icon-saudi_arabia9:before {
+  content: "\e96e";
+}
+.icon-saudi_arabia0:before {
+  content: "\e96f";
+}
+.icon-saudi_arabia1:before {
+  content: "\e970";
+}
+.icon-saudi_arabia2:before {
+  content: "\e971";
+}
+.icon-saudi_arabia3:before {
+  content: "\e972";
+}
+.icon-saudi_arabia4:before {
+  content: "\e973";
+}
+.icon-saudi_arabia5:before {
+  content: "\e974";
+}
+.icon-saudi_arabia6:before {
+  content: "\e975";
+}
+.icon-sauna:before {
+  content: "\e976";
+}
+.icon-scale:before {
+  content: "\e977";
+}
+.icon-search_black:before {
+  content: "\e978";
+}
+.icon-search_white:before {
+  content: "\e979";
+}
+.icon-security:before {
+  content: "\e97a";
+}
+.icon-share:before {
+  content: "\e97b";
+}
+.icon-share_arrow:before {
+  content: "\e97c";
+}
+.icon-share_black:before {
+  content: "\e97d";
+}
+.icon-smart_home_system:before {
+  content: "\e97e";
+}
+.icon-squrft:before {
+  content: "\e97f";
+}
+.icon-star:before {
+  content: "\e980";
+}
+.icon-swimming_pool:before {
+  content: "\e981";
+}
+.icon-tax:before {
+  content: "\e982";
+}
+.icon-townhouse:before {
+  content: "\e983";
+}
+.icon-tv:before {
+  content: "\e984";
+}
+.icon-verified-1:before {
+  content: "\e985";
+}
+.icon-villa:before {
+  content: "\e986";
+}
+.icon-villa_compound:before {
+  content: "\e987";
+}
+.icon-vr:before {
+  content: "\e988";
+}
+.icon-washer:before {
+  content: "\e989";
+}
+.icon-whatsapp_dark:before {
+  content: "\e98a";
+}
+.icon-whatsapp_white:before {
+  content: "\e98b";
+}
+.icon-wifi:before {
+  content: "\e98c";
+}
+.icon-window_coverings:before {
+  content: "\e98d";
+}
+.icon-world:before {
+  content: "\e98e";
+}
+.icon-vector:before {
+  content: "\e98f";
+}
+.icon-vector-1:before {
+  content: "\e990";
+}
+.icon-vector-2:before {
+  content: "\e991";
+}
+.icon-vector-3:before {
+  content: "\e992";
+}
+.icon-vector-4:before {
+  content: "\e993";
+}
+.icon-verified:before {
+  content: "\e994";
+}
