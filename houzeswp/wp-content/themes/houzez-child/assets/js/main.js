@@ -18,7 +18,7 @@ Mobile Menu Js
   });
 
   // nice select
-  $("select").niceSelect();
+  $(".ms-nice-select").niceSelect();
 
   // portfolio slider
   const portfolioSlides = document.querySelectorAll(".ms-new-projects__wrap");
@@ -81,10 +81,10 @@ Mobile Menu Js
     });
   }
   useapartmentSlider();
-  const tabs = document.querySelectorAll('button[data-bs-toggle="tab"]');
+  const tabs = document.querySelectorAll('button[data-toggle="tab"]');
   tabs.forEach((tab) => {
     tab.addEventListener("shown.bs.tab", (e) => {
-      const target = e.target.getAttribute("data-bs-target");
+      const target = e.target.getAttribute("data-target");
       useapartmentSlider(); // Update Swiper when the tab is shown
     });
   });
