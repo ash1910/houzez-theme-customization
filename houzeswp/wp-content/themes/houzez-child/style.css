@@ -13,6 +13,16 @@ Template: houzez
 */
 
 @import url("../houzez/style.css");
+/* MEstate theme */
+@import url("assets/css/font-awesome-pro.min.css");
+@import url("assets/css/iconmoon.css");
+@import url("assets/css/general-sanse.css");
+@import url("assets/css/meanmenu.css");
+@import url("assets/css/nice-select.css");
+@import url("assets/css/swiper-bundle.min.css");
+@import url("assets/css/price-range.css");
+@import url("assets/css/style.css");
+@import url("assets/css/responsive.css");
 
 /* Your CSS code goes here
 -------------------------------------- */
@@ -744,7 +754,6 @@ i.menu-icon {
 }
 
 /* MEstate theme */
-
 
 @media (max-width: 767.98px) {
     .list-view .item-wrap-v8 .item-header {
