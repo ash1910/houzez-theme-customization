@@ -192,6 +192,7 @@ ul {
 }
 label{
   margin-bottom: 0;
+  padding-bottom: 0;
 }
 a,
 .btn,
@@ -506,6 +507,9 @@ START: Input Css
   justify-content: center;
   gap: 10px;
 }
+.ms-nav-tab{
+  flex-wrap: nowrap;
+}
 .ms-input {
   display: inline-flex;
   align-items: center;
@@ -517,7 +521,7 @@ START: Input Css
   transition: all 0.3s;
   font-size: var(--ms-fs-body3);
   position: relative;
-  z-index: var(--ms-zi-0);
+  /* z-index: var(--ms-zi-0); */
   font-weight: var(--ms-fw-medium);
 }
 .ms-input input,
@@ -589,12 +593,91 @@ START: Input Css
 .ms-input .form-check label {
   font-weight: var(--ms-fw-normal);
 }
+
 .ms-input .form-check-input:focus {
   box-shadow: none;
+}
+ .form-check-input {
+  display: none;
+}
+.form-check:has(.form-check-input){
+  padding: 0;
+
+}
+.form-check:has(.form-check-input) .form-check-label{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  cursor: pointer;
+}
+.form-switch:has(.form-check-input) .form-check-label{
+  gap:12px;
+  font-weight: var(--ms-fw-medium);
+
+}
+.form-check:has(.form-check-input) .form-check-label::before{
+  content: '\f00c';
+ width: 20px ;
+height: 20px;
+font-family: var(--ms-ff-fontawesome);
+display: inline-flex;
+justify-content: center;
+align-items: center;
+ font-size: 10px;
+ border-radius: 6px;
+  background-color: var(--ms-color-common-white);
+  color: var(--ms-color-common-white);
+  border: 1px solid var(--ms-color-theme-primary) ;
+  line-height: 1;
+  cursor: pointer;
+}
+.form-switch:has(.form-check-input) .form-check-label::after{
+
+  content: '';
+
+height: 22px;
+width: 37px;
+border: 0;
+background-color: var(--ms-color-theme-bg-5);
+border-radius: 37px;
+position: relative;
+z-index:1;
+cursor: pointer;
+}
+.form-switch:has(.form-check-input) .form-check-label::before{
+  content: "";
+  position: absolute;
+  right: 17px;
+top: 50%;
+transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  background-color: var(--ms-color-text-body);
+
+  z-index: 2;
+border-radius: 100%;
+  border: 0;
+}
+.form-check:has(.form-check-input:checked) .form-check-label::before{
+
+  background-color: var(--ms-color-theme-primary);
+
 }
 .ms-input .form-check-input:checked {
   box-shadow: none;
   background-color: var(--ms-color-theme-primary);
+}
+
+.form-switch:has(.form-check-input:checked) .form-check-label::after{
+  background-color: var(--ms-color-theme-bg-5);
+
+
+}
+.form-switch:has(.form-check-input:checked) .form-check-label::before{
+ right: 0;
+
+
 }
 .ms-input .nice-select {
   background-color: transparent;
@@ -715,7 +798,7 @@ START: Theme Header CSS
   margin-bottom: 0;
 }
 .ms-header--2 .container-fluid {
-  --bs-gutter-x: 30px;
+  --gutter-x: 30px;
 }
 
 .ms-header__inner-wrapper {
@@ -888,13 +971,16 @@ START: Theme Header CSS
   border-radius: 100%;
 }
 .ms-header__avatar .dropdown-menu {
+  font-family: var(--ms-ff-body);
   left: auto;
   right: 0;
-  top: 100%;
+  padding-top: 10px;
+  top: 97%;
   border: 0;
   padding-bottom: 0;
   background-color: transparent;
  min-width: 258px;
+ font-size: var(--ms-fs-body);
 }
 .ms-header__avatar .dropdown-menu__inner {
   border-radius: 18px;
@@ -905,6 +991,7 @@ START: Theme Header CSS
 .ms-header__avatar .dropdown-item {
 padding: 16px;
   color: var(--ms-color-text-body);
+  font-weight: var(--ms-fw-medium);
 }
 .ms-header__avatar .dropdown-item:hover {
   background-color: transparent;
@@ -1239,8 +1326,9 @@ START: Hero Banner CSS
 .ms-hero__filter-tab .ms-btn {
   font-size: 14px;
   gap: 13px;
-  padding-top: 21.5px;
-  padding-bottom: 21.5px;
+  padding:  21.5px 34px ;
+
+
 }
 .ms-input--price:has(input) {
   width: auto;
@@ -1278,41 +1366,54 @@ START: Hero Banner CSS
   top: 100%;
   left: 50%;
   margin-top: 16px;
-  transform: translateX(-50%) scale(0);
+  transform-origin: top;
+  transform: translateX(-50%) scaleY(0);
+  opacity: 0;
+  visibility: hidden;
   background-color: var(--ms-color-theme-bg);
   padding: 16px;
   border-radius: var(--ms-br-16);
   width: 400px;
   transition: all 0.3s;
-  z-index: var(--ms-zi-md);
+  z-index: var(--ms-zi-lg);
 }
 .ms-input--bed .ms-input__content {
   width: 283px;
 }
 .ms-input--price:has(.ms-btn.open) .ms-input__content,
 .ms-input--bed:has(.ms-btn.open) .ms-input__content {
-  transform: translateX(-50%) scale(1);
+  transform: translateX(-50%) scaleY(1);
+  opacity: 1;
+  visibility:visible ;
 }
-.ui-widget-header {
+.ms-slider-range .ui-widget-header.ui-slider-range {
   background-color: var(--ms-color-theme-primary);
+  height: 100%;
+  top: 0;
 }
-.ui-slider-horizontal {
+.ms-slider-range.ui-slider-horizontal {
   background-color: var(--ms-color-common-white);
   border: 0;
   height: 10px;
 }
+.ms-slider-range  .ui-slider-handle::after   {
+display: none;
+}
+.ms-slider-range  .ui-slider-handle:last-of-type   {
+margin-left: -5px;
+}
 
-.slider-range .ui-slider-handle {
-  width: 16px;
-  height: 16px;
+.ms-slider-range  .ui-slider-handle {
+  width: 20px;
+  height: 20px;
   background-color: var(--ms-color-common-white);
   border-radius: 100%;
-  top: -3px;
+  top: -5px;
 
   transition: none;
   border: 4px solid var(--ms-color-theme-primary);
 }
-.slider-range .ui-slider-handle.ui-state-focus {
+.ms-slider-range .ui-slider-handle.ui-state-focus {
   outline: 0;
 }
 .ms-input__content h6 {
@@ -1820,16 +1921,19 @@ START: Apppartments CSS
   color: var(--ms-color-theme-primary);
 }
 .ms-apartments-main--2.section--wrapper {
-  margin: 48px 16px 0;
+  margin: 48px 32px 0;
 }
 .ms-apartments-main .container-fluid {
-  --bs-gutter-x: 30px;
+  --gutter-x: 30px;
 }
 .ms-apartments-main .container {
-  --bs-gutter-x: 0px;
+  --gutter-x: 0px;
 }
 .ms-apartments-main .row {
-  --bs-gutter-x: 30px;
+  margin:0 -15px;
+}
+.ms-apartments-main [class*="col-"] {
+ padding:0 15px;
 }
 .ms-apartments-main__filter {
   padding-bottom: 30px;
@@ -1844,6 +1948,7 @@ START: Apppartments CSS
 }
 
 .ms-apartments-main__filter .ms-hero__form .ms-btn {
+  height: 64px;
   font-size: 14px;
   gap: 13px;
 }
@@ -1993,13 +2098,13 @@ START: Apppartments CSS
   margin: 0;
   margin-left: 5px;
   box-shadow: none;
-  --bs-form-switch-bg: url("../img/apartments/checkbox.png");
+  --form-switch-bg: url("../img/apartments/checkbox.png");
   border: 0;
 }
 .ms-apartments-main__button-list .form-check-input:checked {
   background-color: var(--ms-color-theme-bg-5);
   color: var(--ms-color-theme-primary);
-  --bs-form-switch-bg: url("../img/apartments/checkbox-active.png");
+  --form-switch-bg: url("../img/apartments/checkbox-active.png");
 }
 .ms-apartments-main__card__wrapper {
   display: flex;
@@ -2018,6 +2123,7 @@ START: Apppartments CSS
 }
 .ms-apartments-main__card--2 {
   flex-direction: column;
+  overflow: hidden;
 }
 .ms-apartments-main__card__thumbnail {
   width: 254px;
@@ -2037,8 +2143,12 @@ START: Apppartments CSS
   height: 100%;
   object-fit: cover;
 }
+
 .ms-apartments-main__card:hover .ms-apartments-main__card__thumbnail img {
   transform: scale(1.1);
+}
+.ms-apartments-main__card--2:hover .ms-apartments-main__card__thumbnail img{
+  transform: scale(1);
 }
 .ms-apartments-main__card__thumbnail__header {
   position: absolute;
@@ -2058,6 +2168,30 @@ START: Apppartments CSS
   display: flex;
   justify-content: space-between;
   align-items: center;
+  z-index: var(--ms-zi-sm);
+}
+.ms-apartments-main__card--2 .ms-apartments-main__card__thumbnail__footer{
+  right: auto;
+
+}
+.ms-aparments-main__card__slider {
+  height: 100%;
+}
+.ms-aparments-main__card__slider .swiper-pagination {
+
+  text-align: right;
+  padding-right: 16px;
+  bottom: 10px;
+  z-index: var(--ms-zi-md);
+}
+.ms-aparments-main__card__slider .swiper-pagination-bullet{
+background-color: var(--ms-color-common-white);
+opacity: .4;
+
+}
+.ms-aparments-main__card__slider .swiper-pagination-bullet-active{
+background-color: var(--ms-color-theme-primary);
+opacity: 1;
 }
 .ms-apartments-main__card__thumbnail__status {
   padding: 5px 8px;
@@ -2071,8 +2205,15 @@ START: Apppartments CSS
   gap: 5px;
   line-height: 1;
 }
+.ms-apartments-main__card--2 .ms-apartments-main__card__thumbnail__header{
+ left: 0;
+ top: 12px;
+ right: 12px;
+}
 .ms-apartments-main__card--2 .ms-apartments-main__card__thumbnail__status {
-  border-radius: var(--ms-br-16);
+  border-radius: 12px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
   font-size: 12px;
   padding: 7px 10px;
 }
@@ -2106,14 +2247,14 @@ START: Apppartments CSS
 
 .ms-apartments-main__card__thumbnail__footer {
   top: auto;
-  bottom: 15px;
+  bottom: 10px;
 }
 .ms-apartments-main__card__thumbnail__footer span {
-  padding: 8px 12px;
+  padding: 6.5px 14px;
   background-color: var(--ms-color-theme-bg-4);
   border-radius: 8px;
   font-size: 10px;
-  font-weight: var(--ms-fw-medium);
+  font-weight: var(--ms-fw-normal);
   color: var(--ms-color-common-white);
   backdrop-filter: blur(7px);
 }
@@ -2162,7 +2303,7 @@ START: Apppartments CSS
 .ms-apartments-main____card__price {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+
   gap: 10px;
   flex-wrap: wrap;
   margin-bottom: 10px;
@@ -2172,7 +2313,8 @@ START: Apppartments CSS
 }
 .ms-apartments-main____card__price a {
   background-color: var(--ms-color-common-black);
-  border-radius: 8px;
+  border-radius: 6px;
+  height: 26px;
   font-size: 10px;
   font-weight: var(--ms-fw-medium);
   color: var(--ms-color-common-white);
@@ -2181,9 +2323,11 @@ START: Apppartments CSS
   overflow: hidden;
   display: inline-flex;
   align-items: center;
+  position: relative;
+  z-index: 1;
 }
 .ms-apartments-main____card__price a span {
-  padding: 0 8px;
+  padding: 0 10px 0 6px;
 }
 .ms-apartments-main____card__price a::after,
 .ms-apartments-main____card__price a::before {
@@ -2200,11 +2344,26 @@ START: Apppartments CSS
 .ms-apartments-main____card__price a::before {
   transform: translateX(-60px) rotate(172deg);
 }
+
+.ms-apartments-main__card .ms-apartments-main____card__price img {
+width: 26px;
+height: 25px;
+border: 2px solid var(--ms-color-common-white);
+border-radius: 6px;
+box-sizing: content-box;
+object-fit: cover;
+position: relative;
+transform: translateX(-2px);
+
+z-index: 2;
+}
 .ms-apartments-main____card__price h6 {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 15px;
+  margin-bottom: 0;
+  margin-top: 5px ;
 }
 .ms-apartments-main____card__price h6 span {
   padding: 5px 8px;
@@ -2805,7 +2964,7 @@ START: Hero CSS
 }
 .container-fluid--lg,
 .container-fluid--lg .row {
-  --bs-gutter-x: 30px;
+  --gutter-x: 30px;
 }
 .ms-form__inner {
   max-width: 437px;
@@ -2973,3 +3132,4 @@ START: Hero CSS
 START: Hero CSS
 ----------------------------------------*/
 /* !END: Hero CSS */
+

@@ -222,6 +222,9 @@ START: Section CSS
     margin: 0px 16px;
     margin-top: 24px;
   }
+  .ms-apartments-main--2.section--wrapper {
+    margin:24px  16px 0;
+  }
   /**----------------------------------------
 !END: Section CSS
 ----------------------------------------*/
@@ -259,6 +262,27 @@ START: Input CSS
   .ms-hero__form .ms-btn i {
     font-size: var(--ms-fs-icon);
   }
+  .form-check:has(.form-check-input) .form-check-label::before{
+    width: 16px;
+    height: 16px;
+    font-size: 8px;
+    border-radius: 4px;
+  }
+  .form-switch:has(.form-check-input) .form-check-label::after{
+
+  
+  height: 18px;
+  width: 30px;
+  
+  }
+  .form-switch:has(.form-check-input) .form-check-label::before{
+
+    width: 16px;
+    height: 16px;
+    border-radius: 100%;
+    right: 14px;
+   
+  }
 
   /**----------------------------------------
 !END: Input CSS
@@ -269,7 +293,7 @@ START: Header CSS
 ----------------------------------------*/
   .container-fluid--lg,
   .container-fluid--lg .row {
-    --bs-gutter-x: 0px;
+    --gutter-x: 0px;
   }
   .ms-header {
     transform: translateY(50%);
@@ -281,7 +305,7 @@ START: Header CSS
     margin: 0;
   }
   .ms-header--2 .container-fluid {
-    --bs-gutter-x: 0;
+    --gutter-x: 0;
   }
   .sticky {
     transform: translateY(0);
@@ -587,7 +611,7 @@ START: apartment CSS
   .ms-apartments-main .container-fluid,
   .ms-apartments-main .container,
   .ms-apartments-main .row {
-    --bs-gutter-x: 0;
+    --gutter-x: 0;
   }
   .ms-apartments .ms-section-heading {
     padding: 0 15px;
@@ -599,10 +623,10 @@ START: apartment CSS
     margin-top: 16px;
   }
   .ms-apartments-main .container {
-    --bs-gutter-x: 0;
+    --gutter-x: 0;
   }
   .ms-apartments-main .row {
-    --bs-gutter-x: 0;
+    --gutter-x: 0;
   }
 
   .ms-apartments-main__filter {
@@ -687,11 +711,21 @@ START: apartment CSS
   }
   .ms-apartments-main____card__price a span {
     font-size: 8px;
+    padding: 0 8px 0 6px;
   }
   .ms-apartments-main____card__button-list {
     gap: 8px;
     flex-wrap: nowrap;
     justify-content: space-between;
+  }
+  .ms-apartments-main__card .ms-apartments-main____card__price a {
+    height: 24px;
+  
+  }
+  .ms-apartments-main__card .ms-apartments-main____card__price img {
+    height: 24px;
+    width: 24px;
+    border-width: 1px;
   }
   .ms-apartments-main____card__button-list .ms-btn {
     height: 34px;

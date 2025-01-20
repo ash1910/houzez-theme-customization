@@ -9,13 +9,6 @@ Mobile Menu Js
 (function ($) {
   "use strict";
 
-  ////////////////////////////////////////////////////
-  // Mobile Menu Js
-  $("#mobile-menu").meanmenu({
-    meanMenuContainer: ".mobile-menu",
-    meanScreenWidth: "991",
-    meanExpand: ['<i class="fal fa-plus"></i>'],
-  });
 
   // nice select
   $(".ms-nice-select").niceSelect();
@@ -62,6 +55,17 @@ Mobile Menu Js
       delay: 10000,
     },
   });
+  // card slider
+  var formSlider = new Swiper(".ms-aparments-main__card__slider ", {
+    slidesPerView: 1,
+    spaceBetween: 0,
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true,
+    },
+    loop: true,
+ 
+  });
   // apartment
   function useapartmentSlider() {
     const apartmentSlider = new Swiper(".ms-apartments__slider", {
@@ -81,7 +85,8 @@ Mobile Menu Js
     });
   }
   useapartmentSlider();
-  const tabs = document.querySelectorAll('button[data-toggle="tab"]');
+
+  const tabs = document.querySelectorAll('.nav-tab button[data-toggle="tab"]');
   tabs.forEach((tab) => {
     tab.addEventListener("shown.bs.tab", (e) => {
       const target = e.target.getAttribute("data-target");
@@ -94,9 +99,9 @@ Mobile Menu Js
     var scroll = $(this).scrollTop();
 
     if (scroll < 200) {
-      $(".header-sticky").removeClass("sticky");
+      $(".ms-header-sticky").removeClass("sticky");
     } else {
-      $(".header-sticky").addClass("sticky");
+      $(".ms-header-sticky").addClass("sticky");
     }
   });
   // mobile menu     // mobileMenu togglar
@@ -116,7 +121,7 @@ Mobile Menu Js
   /* ---------------------------------------------------------
             32. Price Slider
         --------------------------------------------------------- */
-  $(".slider-range").slider({
+  $(".ms-slider-range").slider({
     range: true,
     min: 0,
     max: 2000,
@@ -126,14 +131,9 @@ Mobile Menu Js
       $(".ms-input__content__value--max").html("$" + ui.values[1]);
     },
   });
-  $(".amount").val(
-    "$" +
-      $(".slider-range").slider("values", 0) +
-      " - $" +
-      $(".slider-range").slider("values", 1)
-  );
+
   // get all button in form
-  const forms = document.querySelectorAll("form");
+  const forms = document.querySelectorAll(".ms-hero__form");
   if (forms?.length) {
     forms?.forEach((form, idx) => {
       form.addEventListener("submit", function (e) {
