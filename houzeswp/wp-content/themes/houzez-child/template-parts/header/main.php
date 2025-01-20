@@ -6,8 +6,8 @@ if(empty($header) || houzez_is_splash()) {
 
 if($header == 11){ ?>
 <!-- MEstate Header -->
-
-	<header class="ms-header">
+    <!-- start: Header Area -->
+    <header class="ms-header">
       <div class="container">
         <div class="ms-header__inner-wrapper">
           <div class="ms-header__inner">
