@@ -1238,7 +1238,6 @@ function load_houzez_property_js_child() {
         wp_enqueue_style('houzez_mestate_price-range', get_stylesheet_directory_uri() . '/assets/css/price-range.css', array(), '1.0.0', 'all');
         wp_enqueue_style('houzez_mestate_style', get_stylesheet_directory_uri() . '/assets/css/style.css', array(), '1.0.0', 'all');
         wp_enqueue_style('houzez_mestate_responsive', get_stylesheet_directory_uri() . '/assets/css/responsive.css', array(), '1.0.0', 'all');
-
         
     }
 
