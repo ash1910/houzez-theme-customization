@@ -132,7 +132,7 @@ if(isset($args['sticky_header']) && $args['sticky_header'] == '1'){
 								print '<img src="'.esc_url( $user_custom_picture ).'" alt="user image" >';
 							}
 							?>
-							</span>
+						</span>
 						</button>
 					</li>
 					
@@ -160,50 +160,50 @@ if(isset($args['sticky_header']) && $args['sticky_header'] == '1'){
 							<ul>
 							<?php if( is_user_logged_in() ) { ?>
 
-							<?php if( !empty( $dashboard_crm ) && houzez_check_role() ) { ?>
+								<?php if( !empty( $dashboard_crm ) && houzez_check_role() ) { ?>
+									<li>
+									<a class="dropdown-item" href="<?php echo esc_url( $dashboard_crm ); ?>">Dashboard</a>
+									</li>
+								<?php } ?>
+								
+								<?php if( !empty( $dashboard_listings ) && houzez_check_role() ) { ?>
 								<li>
-								<a class="dropdown-item" href="<?php echo esc_url( $dashboard_crm ); ?>">Dashboard</a>
+									<a class="dropdown-item" href="<?php echo esc_url( $dashboard_listings ); ?>">Properties</a>
 								</li>
-							<?php } ?>
-							
-							<?php if( !empty( $dashboard_listings ) && houzez_check_role() ) { ?>
-							<li>
-								<a class="dropdown-item" href="<?php echo esc_url( $dashboard_listings ); ?>">Properties</a>
-							</li>
-							<?php } ?>
+								<?php } ?>
 
-							<?php if( !empty( $dashboard_invoices ) && houzez_check_role() ) { ?>
-							<li>
-								<a class="dropdown-item" href="<?php echo esc_url( $dashboard_invoices ); ?>">Invoices</a>
-							</li>
-							<?php } ?>
+								<?php if( !empty( $dashboard_invoices ) && houzez_check_role() ) { ?>
+								<li>
+									<a class="dropdown-item" href="<?php echo esc_url( $dashboard_invoices ); ?>">Invoices</a>
+								</li>
+								<?php } ?>
 
-							<?php if( $create_lisiting_enable != 0 && houzez_check_role() ) { ?>
-							<li>
-								<a class="dropdown-item" href="<?php echo esc_url( $header_create_listing_template ); ?>">Create a Listing</a>
-							</li>
-							<?php } ?>
+								<?php if( $create_lisiting_enable != 0 && houzez_check_role() ) { ?>
+								<li>
+									<a class="dropdown-item" href="<?php echo esc_url( $header_create_listing_template ); ?>">Create a Listing</a>
+								</li>
+								<?php } ?>
 
-							<?php if( !empty( $dash_profile_link ) ) { ?>
-							<li>
-								<a class="dropdown-item" href="<?php echo esc_url( $dash_profile_link ); ?>">Profile </a>
-							</li>
-							<?php } ?>
+								<?php if( !empty( $dash_profile_link ) ) { ?>
+								<li>
+									<a class="dropdown-item" href="<?php echo esc_url( $dash_profile_link ); ?>">Profile </a>
+								</li>
+								<?php } ?>
 							<?php } else { ?>
-							<?php if( houzez_option('header_register') ) { ?>
-							<li>
-								<a class="dropdown-item" href="/register"><?php esc_html_e('Register', 'houzez'); ?> </a>
-							</li>
-							<?php } ?>
+								<?php if( houzez_option('header_register') ) { ?>
+								<li>
+									<a class="dropdown-item" href="/register"><?php esc_html_e('Register', 'houzez'); ?> </a>
+								</li>
+								<?php } ?>
 							<?php } ?>
 
 							</ul>
 							<?php if( is_user_logged_in() ) { ?>
-							<a class="ms-btn" href="<?php echo wp_logout_url( home_url() ); ?>">Log Out</a>
+								<a class="ms-btn" href="<?php echo wp_logout_url( home_url() ); ?>">Log Out</a>
 							<?php } else { ?>
-							<?php if( houzez_option('header_login') ) { ?>
-								<a class="ms-btn" href="/login"><?php esc_html_e('Login', 'houzez'); ?></a>
-							<?php } ?>
+								<?php if( houzez_option('header_login') ) { ?>
+									<a class="ms-btn" href="/login"><?php esc_html_e('Login', 'houzez'); ?></a>
+								<?php } ?>
 							<?php } ?>
 						</div>
 						</div>

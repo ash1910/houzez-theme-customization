@@ -19,6 +19,8 @@ if($header == 11){
     get_template_part('template-parts/header/header', $header, array('sticky_header' => $sticky_header));
   }
 
+  get_template_part('template-parts/header/header-mobile', $header); 
+
 } else{ ?>
 
 <header class="header-main-wrap <?php houzez_transparent(); ?>">
