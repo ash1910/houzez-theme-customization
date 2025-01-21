@@ -190,7 +190,7 @@ ul {
   margin: 0px;
   padding: 0px;
 }
-label{
+label {
   margin-bottom: 0;
   padding-bottom: 0;
 }
@@ -331,15 +331,15 @@ ul {
   padding-left: 0;
 }
 .container {
-  padding-right:0;
+  padding-right: 0;
   padding-left: 0;
 }
 .row {
- margin-right: 0;
- margin-left: 0;
+  margin-right: 0;
+  margin-left: 0;
 }
-[class*="col-"]{
-  padding-right:0;
+[class*="col-"] {
+  padding-right: 0;
   padding-left: 0;
 }
 .body-wrapper {
@@ -507,7 +507,7 @@ START: Input Css
   justify-content: center;
   gap: 10px;
 }
-.ms-nav-tab{
+.ms-nav-tab {
   flex-wrap: nowrap;
 }
 .ms-input {
@@ -597,87 +597,78 @@ START: Input Css
 .ms-input .form-check-input:focus {
   box-shadow: none;
 }
- .form-check-input {
+.form-check-input {
   display: none;
 }
-.form-check:has(.form-check-input){
+.form-check:has(.form-check-input) {
   padding: 0;
-
 }
-.form-check:has(.form-check-input) .form-check-label{
+.form-check:has(.form-check-input) .form-check-label {
   display: flex;
   align-items: center;
   gap: 8px;
   position: relative;
   cursor: pointer;
 }
-.form-switch:has(.form-check-input) .form-check-label{
-  gap:12px;
+.form-switch:has(.form-check-input) .form-check-label {
+  gap: 12px;
   font-weight: var(--ms-fw-medium);
-
 }
-.form-check:has(.form-check-input) .form-check-label::before{
-  content: '\f00c';
- width: 20px ;
-height: 20px;
-font-family: var(--ms-ff-fontawesome);
-display: inline-flex;
-justify-content: center;
-align-items: center;
- font-size: 10px;
- border-radius: 6px;
+.form-check:has(.form-check-input) .form-check-label::before {
+  content: "\f00c";
+  width: 20px;
+  height: 20px;
+  font-family: var(--ms-ff-fontawesome);
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 10px;
+  border-radius: 6px;
   background-color: var(--ms-color-common-white);
   color: var(--ms-color-common-white);
-  border: 1px solid var(--ms-color-theme-primary) ;
+  border: 1px solid var(--ms-color-theme-primary);
   line-height: 1;
   cursor: pointer;
 }
-.form-switch:has(.form-check-input) .form-check-label::after{
+.form-switch:has(.form-check-input) .form-check-label::after {
+  content: "";
 
-  content: '';
-
-height: 22px;
-width: 37px;
-border: 0;
-background-color: var(--ms-color-theme-bg-5);
-border-radius: 37px;
-position: relative;
-z-index:1;
-cursor: pointer;
+  height: 22px;
+  width: 37px;
+  border: 0;
+  background-color: var(--ms-color-theme-bg-5);
+  border-radius: 37px;
+  position: relative;
+  z-index: 1;
+  cursor: pointer;
 }
-.form-switch:has(.form-check-input) .form-check-label::before{
+.form-switch:has(.form-check-input) .form-check-label::before {
   content: "";
   position: absolute;
   right: 17px;
-top: 50%;
-transform: translateY(-50%);
+  top: 50%;
+  transform: translateY(-50%);
   width: 20px;
   height: 20px;
   background-color: var(--ms-color-text-body);
 
   z-index: 2;
-border-radius: 100%;
+  border-radius: 100%;
   border: 0;
 }
-.form-check:has(.form-check-input:checked) .form-check-label::before{
-
+.form-check:has(.form-check-input:checked) .form-check-label::before {
   background-color: var(--ms-color-theme-primary);
-
 }
 .ms-input .form-check-input:checked {
   box-shadow: none;
   background-color: var(--ms-color-theme-primary);
 }
 
-.form-switch:has(.form-check-input:checked) .form-check-label::after{
+.form-switch:has(.form-check-input:checked) .form-check-label::after {
   background-color: var(--ms-color-theme-bg-5);
-
-
 }
-.form-switch:has(.form-check-input:checked) .form-check-label::before{
- right: 0;
-
-
+.form-switch:has(.form-check-input:checked) .form-check-label::before {
+  right: 0;
 }
 .ms-input .nice-select {
   background-color: transparent;
@@ -979,8 +970,8 @@ START: Theme Header CSS
   border: 0;
   padding-bottom: 0;
   background-color: transparent;
- min-width: 258px;
- font-size: var(--ms-fs-body);
+  min-width: 258px;
+  font-size: var(--ms-fs-body);
 }
 .ms-header__avatar .dropdown-menu__inner {
   border-radius: 18px;
@@ -989,7 +980,7 @@ START: Theme Header CSS
   padding: 5px 15px 16px;
 }
 .ms-header__avatar .dropdown-item {
-padding: 16px;
+  padding: 16px;
   color: var(--ms-color-text-body);
   font-weight: var(--ms-fw-medium);
 }
@@ -1135,13 +1126,13 @@ padding: 16px;
   flex-grow: 1;
 }
 .ms-mobile-menu__nav .dropdown-item {
-padding: 16px;
+  padding: 16px;
   color: var(--ms-color-text-body);
   font-size: 14px;
 }
 
 .ms-mobile-menu__nav .dropdown-item--heart {
-padding: 10px 16px;
+  padding: 10px 16px;
   color: var(--ms-color-link);
   font-size: 10px;
   border: 1px solid var(--ms-color-border);
@@ -1326,9 +1317,7 @@ START: Hero Banner CSS
 .ms-hero__filter-tab .ms-btn {
   font-size: 14px;
   gap: 13px;
-  padding:  21.5px 34px ;
-
-
+  padding: 21.5px 34px;
 }
 .ms-input--price:has(input) {
   width: auto;
@@ -1384,7 +1373,7 @@ START: Hero Banner CSS
 .ms-input--bed:has(.ms-btn.open) .ms-input__content {
   transform: translateX(-50%) scaleY(1);
   opacity: 1;
-  visibility:visible ;
+  visibility: visible;
 }
 .ms-slider-range .ui-widget-header.ui-slider-range {
   background-color: var(--ms-color-theme-primary);
@@ -1396,14 +1385,14 @@ START: Hero Banner CSS
   border: 0;
   height: 10px;
 }
-.ms-slider-range  .ui-slider-handle::after   {
-display: none;
+.ms-slider-range .ui-slider-handle::after {
+  display: none;
 }
-.ms-slider-range  .ui-slider-handle:last-of-type   {
-margin-left: -5px;
+.ms-slider-range .ui-slider-handle:last-of-type {
+  margin-left: -5px;
 }
 
-.ms-slider-range  .ui-slider-handle {
+.ms-slider-range .ui-slider-handle {
   width: 20px;
   height: 20px;
   background-color: var(--ms-color-common-white);
@@ -1930,10 +1919,10 @@ START: Apppartments CSS
   --gutter-x: 0px;
 }
 .ms-apartments-main .row {
-  margin:0 -15px;
+  margin: 0 -15px;
 }
 .ms-apartments-main [class*="col-"] {
- padding:0 15px;
+  padding: 0 15px;
 }
 .ms-apartments-main__filter {
   padding-bottom: 30px;
@@ -2147,7 +2136,7 @@ START: Apppartments CSS
 .ms-apartments-main__card:hover .ms-apartments-main__card__thumbnail img {
   transform: scale(1.1);
 }
-.ms-apartments-main__card--2:hover .ms-apartments-main__card__thumbnail img{
+.ms-apartments-main__card--2:hover .ms-apartments-main__card__thumbnail img {
   transform: scale(1);
 }
 .ms-apartments-main__card__thumbnail__header {
@@ -2170,28 +2159,25 @@ START: Apppartments CSS
   align-items: center;
   z-index: var(--ms-zi-sm);
 }
-.ms-apartments-main__card--2 .ms-apartments-main__card__thumbnail__footer{
+.ms-apartments-main__card--2 .ms-apartments-main__card__thumbnail__footer {
   right: auto;
-
 }
 .ms-aparments-main__card__slider {
   height: 100%;
 }
 .ms-aparments-main__card__slider .swiper-pagination {
-
   text-align: right;
   padding-right: 16px;
   bottom: 10px;
   z-index: var(--ms-zi-md);
 }
-.ms-aparments-main__card__slider .swiper-pagination-bullet{
-background-color: var(--ms-color-common-white);
-opacity: .4;
-
+.ms-aparments-main__card__slider .swiper-pagination-bullet {
+  background-color: var(--ms-color-common-white);
+  opacity: 0.4;
 }
-.ms-aparments-main__card__slider .swiper-pagination-bullet-active{
-background-color: var(--ms-color-theme-primary);
-opacity: 1;
+.ms-aparments-main__card__slider .swiper-pagination-bullet-active {
+  background-color: var(--ms-color-theme-primary);
+  opacity: 1;
 }
 .ms-apartments-main__card__thumbnail__status {
   padding: 5px 8px;
@@ -2205,10 +2191,10 @@ opacity: 1;
   gap: 5px;
   line-height: 1;
 }
-.ms-apartments-main__card--2 .ms-apartments-main__card__thumbnail__header{
- left: 0;
- top: 12px;
- right: 12px;
+.ms-apartments-main__card--2 .ms-apartments-main__card__thumbnail__header {
+  left: 0;
+  top: 12px;
+  right: 12px;
 }
 .ms-apartments-main__card--2 .ms-apartments-main__card__thumbnail__status {
   border-radius: 12px;
@@ -2346,16 +2332,16 @@ opacity: 1;
 }
 
 .ms-apartments-main__card .ms-apartments-main____card__price img {
-width: 26px;
-height: 25px;
-border: 2px solid var(--ms-color-common-white);
-border-radius: 6px;
-box-sizing: content-box;
-object-fit: cover;
-position: relative;
-transform: translateX(-2px);
+  width: 26px;
+  height: 25px;
+  border: 2px solid var(--ms-color-common-white);
+  border-radius: 6px;
+  box-sizing: content-box;
+  object-fit: cover;
+  position: relative;
+  transform: translateX(-2px);
 
-z-index: 2;
+  z-index: 2;
 }
 .ms-apartments-main____card__price h6 {
   display: flex;
@@ -2363,7 +2349,7 @@ z-index: 2;
   align-items: center;
   gap: 15px;
   margin-bottom: 0;
-  margin-top: 5px ;
+  margin-top: 5px;
 }
 .ms-apartments-main____card__price h6 span {
   padding: 5px 8px;
@@ -2757,7 +2743,7 @@ START: form widzard CSS
 /**----------------------------------------
 START: Filter Modal CSS
 ----------------------------------------*/
-.nav-tabs{
+.nav-tabs {
   border: 0;
 }
 .modal {
@@ -2767,16 +2753,15 @@ START: Filter Modal CSS
   z-index: var(--ms-zi-xl);
   background: #0000002e;
   backdrop-filter: blur(7px);
-
 }
-.modal-backdrop.show{
+.modal-backdrop.show {
   opacity: 1;
 }
 .modal-dialog {
   max-width: 600px;
 }
 .modal-body {
- padding: 0;
+  padding: 0;
 }
 .modal-content {
   border-color: var(--ms-color-border);
@@ -3121,15 +3106,117 @@ START: Hero CSS
 }
 /* !END: Hero CSS */
 /**----------------------------------------
-START: Hero CSS
+START: New Project CSS
 ----------------------------------------*/
-/* !END: Hero CSS */
-/**----------------------------------------
-START: Hero CSS
-----------------------------------------*/
-/* !END: Hero CSS */
-/**----------------------------------------
-START: Hero CSS
-----------------------------------------*/
-/* !END: Hero CSS */
+.ms-apartments-main__filter .ms-btn {
+  position: relative;
+}
+.ms-total-filter-item {
+  width: 24px;
+  height: 24px;
+  border-radius: 100%;
+  background-color: var(--ms-color-theme-red);
+  color: var(--ms-color-common-white);
+  font-size: 12px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: var(--ms-zi-1);
+  transform: translate(20%, -25%);
+}
+.ms-apartments-main__card--3 .ms-apartments-main__card__thumbnail {
+  overflow: visible;
+  z-index: 0;
+}
+.ms-apartments-main__card--3 .ms-apartments-main__card__thumbnail > a {
+  border-radius: var(--ms-br-24);
+  display: block;
+  overflow: hidden;
+  height: 100%;
+}
+.ms-apartments-main__card--3 .ms-apartments-main__card__thumbnail__header {
+  top: 0;
+  justify-content: flex-end;
+  z-index: 0;
+}
+.ms-apartments-main__card--3 .ms-apartments-main__card__thumbnail__status {
+  padding: 9.5px 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  font-size: 14px;
+  font-weight: var(--ms-fw-medium);
+  position: absolute;
+  left: 50%;
+  top: -8px;
+  transform: translateX(-50%);
+  z-index: 9;
+  font-weight: var(--ms-fw-normal);
+}
 
+.ms-apartments-main__card--3
+  .ms-apartments-main__card__thumbnail__status::before,
+.ms-apartments-main__card--3
+  .ms-apartments-main__card__thumbnail__status::after {
+  content: "";
+  width: 0;
+  height: 0;
+  position: absolute;
+  top: 0;
+  border-top: 9px solid transparent;
+  border-bottom: 0px solid transparent;
+  z-index: -1;
+}
+.ms-apartments-main__card--3
+  .ms-apartments-main__card__thumbnail__status::before {
+  border-right: 5px solid var(--ms-color-common-black);
+
+  right: 100%;
+}
+.ms-apartments-main__card--3
+  .ms-apartments-main__card__thumbnail__status::after {
+  border-left: 5px solid var(--ms-color-common-black);
+
+  left: 100%;
+}
+.ms-apartments-main__card--3
+  .ms-apartments-main__card__thumbnail__header
+  .added-wishlist {
+  margin-top: 15px;
+}
+.ms-apartments-main__card--3 .ms-apartments-main____card__details-list {
+  margin-bottom: 0;
+  align-items: center;
+}
+.ms-apartments-main__card--3 .ms-apartments-main____card__price {
+  margin-bottom: 0;
+}
+.ms-apartments-main__card--3 .ms-apartments-main____card__details-list li {
+  flex-direction: column;
+  align-items: flex-start;
+}
+.ms-apartments-main__card--3 .ms-apartments-main____card__details-list li div {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.ms-apartments-main__card--3 li:has(.ms-apartments-main____card__price) p {
+  grid-area: 5px;
+  font-size: 14px;
+  color: var(--ms-color-text-body);
+  text-align: right;
+  width: 100%;
+  margin-bottom: 0;
+}
+
+/* !END:  New Project CSS */
+/**----------------------------------------
+START: Hero CSS
+----------------------------------------*/
+/* !END: Hero CSS */
+/**----------------------------------------
+START: Hero CSS
+----------------------------------------*/
+/* !END: Hero CSS */
