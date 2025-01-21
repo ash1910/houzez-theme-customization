@@ -1229,20 +1229,15 @@ function load_houzez_property_js_child() {
         wp_enqueue_script('houzez_mestate_main',  get_stylesheet_directory_uri().'/assets/js/main.js', array('jquery'), '1.0.0', true);
 
         // Enqueue CSS
-        // wp_enqueue_style('houzez_mestate_font-awesome-pro', get_stylesheet_directory_uri() . '/assets/css/font-awesome-pro.min.css', array(), '1.0.0', 'all');
-        // wp_enqueue_style('houzez_mestate_iconmoon', get_stylesheet_directory_uri() . '/assets/css/iconmoon.css', array(), '1.0.0', 'all');
-        // wp_enqueue_style('houzez_mestate_general-sanse', get_stylesheet_directory_uri() . '/assets/css/general-sanse.css', array(), '1.0.0', 'all');
-        // wp_enqueue_style('houzez_mestate_meanmenu', get_stylesheet_directory_uri() . '/assets/css/meanmenu.css', array(), '1.0.0', 'all');
-        // wp_enqueue_style('houzez_mestate_nice-select', get_stylesheet_directory_uri() . '/assets/css/nice-select.css', array(), '1.0.0', 'all');
-        // wp_enqueue_style('houzez_mestate_swiper-bundle', get_stylesheet_directory_uri() . '/assets/css/swiper-bundle.min.css', array(), '1.0.0', 'all');
-        // wp_enqueue_style('houzez_mestate_price-range', get_stylesheet_directory_uri() . '/assets/css/price-range.css', array(), '1.0.0', 'all');
-        // wp_enqueue_style('houzez_mestate_style', get_stylesheet_directory_uri() . '/assets/css/style.css', array(), '1.0.0', 'all');
-        // wp_enqueue_style('houzez_mestate_responsive', get_stylesheet_directory_uri() . '/assets/css/responsive.css', array(), '1.0.0', 'all');
-
-        // Remove the default child theme stylesheet
-        wp_dequeue_style('houzez-style-css');
-        wp_deregister_style('houzez-style-css');
-        wp_enqueue_style('houzez-style-css', get_stylesheet_directory_uri() . '/style.css', array(), '1.0.0', 'all');
+        wp_enqueue_style('houzez_mestate_font-awesome-pro', get_stylesheet_directory_uri() . '/assets/css/font-awesome-pro.min.css', array(), '1.0.0', 'all');
+        wp_enqueue_style('houzez_mestate_iconmoon', get_stylesheet_directory_uri() . '/assets/css/iconmoon.css', array(), '1.0.0', 'all');
+        wp_enqueue_style('houzez_mestate_general-sanse', get_stylesheet_directory_uri() . '/assets/css/general-sanse.css', array(), '1.0.0', 'all');
+        wp_enqueue_style('houzez_mestate_meanmenu', get_stylesheet_directory_uri() . '/assets/css/meanmenu.css', array(), '1.0.0', 'all');
+        wp_enqueue_style('houzez_mestate_nice-select', get_stylesheet_directory_uri() . '/assets/css/nice-select.css', array(), '1.0.0', 'all');
+        wp_enqueue_style('houzez_mestate_swiper-bundle', get_stylesheet_directory_uri() . '/assets/css/swiper-bundle.min.css', array(), '1.0.0', 'all');
+        wp_enqueue_style('houzez_mestate_price-range', get_stylesheet_directory_uri() . '/assets/css/price-range.css', array(), '1.0.0', 'all');
+        wp_enqueue_style('houzez_mestate_style', get_stylesheet_directory_uri() . '/assets/css/style.css', array(), '1.0.0', 'all');
+        wp_enqueue_style('houzez_mestate_responsive', get_stylesheet_directory_uri() . '/assets/css/responsive.css', array(), '1.0.0', 'all');
 
         
     }
