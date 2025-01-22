@@ -3,6 +3,11 @@ global $post, $current_user, $houzez_local;
 wp_get_current_user();
 $userID  =  $current_user->ID;
 
+$user_login     = $current_user->user_login;
+$fav_ids = 'houzez_favorites-'.$userID;
+$fav_ids = get_option( $fav_ids );
+
+
 $user_custom_picture    =   get_the_author_meta( 'fave_author_custom_picture' , $userID );
 $author_picture_id      =   get_the_author_meta( 'fave_author_picture_id' , $userID );
 $display_name = get_the_author_meta( 'display_name' , $userID );
@@ -125,19 +130,44 @@ add_filter('nav_menu_link_attributes', function($atts) {
             <li>
               <a class="dropdown-item dropdown-item--heart" href="<?php echo esc_url( $dashboard_favorites ); ?>"
                 ><i class="fa-light fa-heart"></i> Favorite
-                <span class="dropdown-item__status">32</span></a
-              >
+                <span class="dropdown-item__status">
+                  <?php echo empty($fav_ids) ? 0 : count($fav_ids); ?>
+                </span>
+              </a>
             </li>
             <?php } ?>
           </ul>
           <!-- language -->
           <div class="ms-mobile-menu__language">
             <h6>Languages</h6>
-            <ul>
-              <li><a href="#">English</a></li>
-              <li><a href="#">Arabic</a></li>
-              <li><a href="#">Hindi</a></li>
-            </ul>
+            <?php echo do_shortcode('[language-switcher]'); ?>
+            <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const languageDiv = document.querySelector('.ms-mobile-menu__language .trp-ls-shortcode-language');
+                if (languageDiv) {
+                    const links = languageDiv.querySelectorAll('a');
+                    const ul = document.createElement('ul');
+
+                    links.forEach(link => {
+                        const li = document.createElement('li');
+                        const newLink = document.createElement('a');
+
+                        newLink.href = link.getAttribute('href');
+                        newLink.textContent = link.textContent;
+
+                        if (link.hasAttribute('onclick')) {
+                            newLink.setAttribute('onclick', link.getAttribute('onclick'));
+                        }
+
+                        li.appendChild(newLink);
+                        ul.appendChild(li);
+                    });
+
+                    // Replace the original div with the new <ul>
+                    document.querySelector('.ms-mobile-menu__language .trp_language_switcher_shortcode').replaceWith(ul);
+                }
+            });
+            </script>
           </div>
           <!-- profile -->
           <div class="ms-mobile-menu__profile-button">
