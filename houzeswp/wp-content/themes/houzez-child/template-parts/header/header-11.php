@@ -102,7 +102,47 @@ if(isset($args['sticky_header']) && $args['sticky_header'] == '1'){
 					<li class="d-none d-lg-block">
 						<div class="ms-header__right-lang">
 						<label for="input-lang"><i class="icon-world"></i></label>
+						
 						<?php echo do_shortcode('[language-switcher]'); ?>
+						<script>
+							document.addEventListener('DOMContentLoaded', () => {
+								const languageContainerDiv = document.querySelector('<?php echo empty($sticky_class)? ".ms-header__right-lang" : ".ms-header--sticky .ms-header__right-lang";?>');
+								const languageDiv = languageContainerDiv.querySelector('.trp-ls-shortcode-language');
+								if (languageDiv) {
+									const links = languageDiv.querySelectorAll('a');
+									const select = document.createElement('select');
+									select.className = 'ms-nice-select';
+									select.name = 'input-lang';
+									select.id = 'input-lang';
+
+									links.forEach(link => {
+										const option = document.createElement('option');
+										option.value = link.getAttribute('href');
+										option.textContent = link.textContent;
+
+										// If the link has "onclick" to prevent default, disable the option
+										if (link.getAttribute('onclick')) {
+											option.disabled = true;
+											option.selected = true;
+										}
+										select.appendChild(option);
+									});
+
+									// Replace the original div with the new <select>
+									languageContainerDiv.querySelector('.trp_language_switcher_shortcode').replaceWith(select);
+									if (typeof jQuery !== 'undefined') {
+										jQuery(select).niceSelect();
+										// Add event listener to handle redirection
+										jQuery(select).on('change', function () {
+											const selectedUrl = jQuery(this).val();
+											if (selectedUrl && selectedUrl !== '#') {
+												window.location.href = selectedUrl;
+											}
+										});
+									}
+								}
+							});
+						</script>
 						</div>
 					</li>
 

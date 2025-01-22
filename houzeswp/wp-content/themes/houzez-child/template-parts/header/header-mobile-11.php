@@ -143,7 +143,8 @@ add_filter('nav_menu_link_attributes', function($atts) {
             <?php echo do_shortcode('[language-switcher]'); ?>
             <script>
             document.addEventListener('DOMContentLoaded', () => {
-                const languageDiv = document.querySelector('.ms-mobile-menu__language .trp-ls-shortcode-language');
+              const languageContainerDiv = document.querySelector('.ms-mobile-menu__language');
+              const languageDiv = languageContainerDiv.querySelector('.trp-ls-shortcode-language');
                 if (languageDiv) {
                     const links = languageDiv.querySelectorAll('a');
                     const ul = document.createElement('ul');
@@ -164,7 +165,7 @@ add_filter('nav_menu_link_attributes', function($atts) {
                     });
 
                     // Replace the original div with the new <ul>
-                    document.querySelector('.ms-mobile-menu__language .trp_language_switcher_shortcode').replaceWith(ul);
+                    languageContainerDiv.querySelector('.trp_language_switcher_shortcode').replaceWith(ul);
                 }
             });
             </script>
