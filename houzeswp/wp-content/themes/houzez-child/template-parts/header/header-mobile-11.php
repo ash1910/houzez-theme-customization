@@ -139,8 +139,11 @@ add_filter('nav_menu_link_attributes', function($atts) {
           </ul>
           <!-- language -->
           <div class="ms-mobile-menu__language">
-            <h6>Languages</h6>
-            <?php echo do_shortcode('[language-switcher]'); ?>
+            <?php 
+						if (shortcode_exists('language-switcher')) {
+							echo '<h6>Languages</h6>';
+							echo do_shortcode('[language-switcher]'); 
+						}?>
             <script>
             document.addEventListener('DOMContentLoaded', () => {
               const languageContainerDiv = document.querySelector('.ms-mobile-menu__language');

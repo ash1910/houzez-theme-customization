@@ -101,9 +101,11 @@ if(isset($args['sticky_header']) && $args['sticky_header'] == '1'){
 					<ul class="ms-header__right-list">
 					<li class="d-none d-lg-block">
 						<div class="ms-header__right-lang">
-						<label for="input-lang"><i class="icon-world"></i></label>
-						
-						<?php echo do_shortcode('[language-switcher]'); ?>
+						<?php 
+						if (shortcode_exists('language-switcher')) {
+							echo '<label for="input-lang"><i class="icon-world"></i></label>';
+							echo do_shortcode('[language-switcher]'); 
+						}?>
 						<script>
 							document.addEventListener('DOMContentLoaded', () => {
 								const languageContainerDiv = document.querySelector('<?php echo empty($sticky_class)? ".ms-header__right-lang" : ".ms-header--sticky .ms-header__right-lang";?>');

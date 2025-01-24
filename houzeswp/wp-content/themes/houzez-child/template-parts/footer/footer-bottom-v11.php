@@ -142,11 +142,14 @@
                     </div>
                   </div>
                   <div class="col-12 col-xl-6">
-                    <h6>Contact Us</h6>
+                    <?php if( houzez_option('footer_contact_text') != '' ) { ?>
+                    <h6><?php echo houzez_option('footer_contact_text'); ?></h6>
+                    <?php }?>
                     <div class="ms-footer__nav">
                       <ul class="ms-footer__nav__list">
+                        <?php if( houzez_option('footer_contact_phone') != '' ) { ?>
                         <li>
-                          <a class="ms-footer__nav__link" href="index.html">
+                          <a class="ms-footer__nav__link" href="tel:<?php echo houzez_option('footer_contact_phone'); ?>">
                             <svg
                               width="25"
                               height="25"
@@ -175,11 +178,13 @@
                                 stroke-linejoin="round"
                               />
                             </svg>
-                            +971 55 123 4567
+                            <?php echo houzez_option('footer_contact_phone'); ?>
                           </a>
                         </li>
+                        <?php }?>
+                        <?php if( houzez_option('footer_contact_address') != '' ) { ?>
                         <li>
-                          <p class="ms-footer__nav__link">
+                          <p class="ms-footer__nav__link" style="white-space: pre-wrap;">
                             <svg
                               width="24"
                               height="25"
@@ -197,14 +202,12 @@
                                 stroke="#1B1B1B"
                                 stroke-width="1.8"
                               />
-                            </svg>
-
-                            1234 Business Tower, Downtown <br />
-                            Dubai, UAE
-                          </p>
+                            </svg><?php echo houzez_option('footer_contact_address'); ?></p>
                         </li>
+                        <?php }?>
+                        <?php if( houzez_option('footer_contact_email') != '' ) { ?>
                         <li>
-                          <a class="ms-footer__nav__link" href="#">
+                          <a class="ms-footer__nav__link" href="mailto:<?php echo houzez_option('footer_contact_email'); ?>">
                             <svg
                               width="24"
                               height="25"
@@ -229,11 +232,13 @@
                                 stroke-linejoin="round"
                               />
                             </svg>
-                            info@mestate.com</a
-                          >
+                            <?php echo houzez_option('footer_contact_email'); ?>
+                            </a>
                         </li>
+                        <?php }?>
+                        <?php if( houzez_option('footer_contact_time') != '' ) { ?>
                         <li>
-                          <p class="ms-footer__nav__link">
+                          <p class="ms-footer__nav__link" style="white-space: pre-wrap;">
                             <svg
                               width="24"
                               height="25"
@@ -255,33 +260,38 @@
                                 stroke-linecap="round"
                                 stroke-linejoin="round"
                               />
-                            </svg>
-
-                            Mon-Fri: 9:00 AM - 6:00 PM <br />
-                            Sat: 10:00 AM - 4:00 PM
-                          </p>
+                            </svg><?php echo houzez_option('footer_contact_time'); ?></p>
                         </li>
+                        <?php }?>
                       </ul>
                     </div>
                   </div>
                 </div>
               </div>
               <!-- footer barnd -->
+              <?php if( houzez_option('mobile_app') != '0' ) { ?>
               <div class="ms-footer__brand">
-                <h6>Discover properties on the go!</h6>
+                <?php if( houzez_option('mobile_app_text') != '' ){ ?>
+                <h6><?php echo houzez_option('mobile_app_text'); ?></h6>
+                <?php }?>
                 <ul class="ms-footer__brand__list">
+                  <?php if( houzez_option('google_app_url') != '' ){ ?>
                   <li>
-                    <a href="#"
+                    <a href="<?php echo esc_url(houzez_option('google_app_url')); ?>"
                       ><img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/footer/google-play.png" alt=""
                     /></a>
                   </li>
+                  <?php }?>
+                  <?php if( houzez_option('ios_app_url') != '' ){ ?>
                   <li>
-                    <a href="#"
+                    <a href="<?php echo esc_url(houzez_option('ios_app_url')); ?>"
                       ><img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/footer/apple-store.png" alt=""
                     /></a>
                   </li>
+                  <?php }?>
                 </ul>
               </div>
+              <?php }?>
             </div>
           </div>
         </div>

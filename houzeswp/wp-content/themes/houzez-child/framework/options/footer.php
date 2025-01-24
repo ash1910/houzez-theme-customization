@@ -125,7 +125,41 @@ Redux::setSection( $houzez_opt_name, array(
             'desc' => esc_html__( 'Enter the url of ios app', 'houzez' ),
             'default'  => false,
         ),
-
+        array(
+            'id'       => 'footer_contact_text',
+            'type'     => 'text',
+            'title'    => esc_html__( 'Contact Text', 'houzez' ),
+            'desc'     => esc_html__( 'Enter the contact text', 'houzez' ),
+            'default'  => ''
+        ),
+        array(
+            'id'       => 'footer_contact_phone',
+            'type'     => 'text',
+            'title'    => esc_html__( 'Contact Phone', 'houzez' ),
+            'desc'     => esc_html__( 'Enter the phone text', 'houzez' ),
+            'default'  => ''
+        ),
+        array(
+            'id'       => 'footer_contact_address',
+            'type'     => 'textarea',
+            'title'    => esc_html__( 'Address', 'houzez' ),
+            'desc'     => esc_html__( 'Enter the address text', 'houzez' ),
+            'default'  => ''
+        ),
+        array(
+            'id'       => 'footer_contact_email',
+            'type'     => 'text',
+            'title'    => esc_html__( 'Email', 'houzez' ),
+            'desc'     => esc_html__( 'Enter the email text', 'houzez' ),
+            'default'  => ''
+        ),
+        array(
+            'id'       => 'footer_contact_time',
+            'type'     => 'textarea',
+            'title'    => esc_html__( 'Office Time', 'houzez' ),
+            'desc'     => esc_html__( 'Enter the time text', 'houzez' ),
+            'default'  => ''
+        ),
         array(
             'id'       => 'social-footer',
             'type'     => 'switch',
