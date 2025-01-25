@@ -67,6 +67,8 @@ START: Theme Default CSS
   --ms-color-theme-bg-3: #f5fcf9;
   --ms-color-theme-bg-4: #0000004d;
   --ms-color-theme-bg-5: #e8e8e8;
+  --ms-color-theme-bg-6: #1b1b1b99;
+  --ms-color-theme-bg-7: #00a86b29;
   --ms-color-theme-light-green: #fafafa;
   --ms-color-grey-1: #c5c5c5;
   --ms-color-border: #eeeeee;
@@ -1251,6 +1253,14 @@ START: Hero Banner CSS
   border-radius: var(--ms-br-30);
   margin: 0 30px 96px;
 }
+.ms-hero--2 {
+  background: url("../img/hero-banner/hero-banner-2.png") no-repeat top;
+  background-size: cover;
+  min-height: 612px;
+  padding: 0;
+  position: relative;
+}
+
 .ms-hero__title {
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -1506,6 +1516,7 @@ START: Hero Banner CSS
   width: auto;
   padding: 0 16px;
 }
+
 .ms-input__list button:hover svg path {
   fill: var(--ms-color-common-white);
 }
@@ -1523,11 +1534,15 @@ START: Hero Banner CSS
   width: auto;
   padding: 0 16px;
 }
+.ms-input__list--rounded li:first-child button {
+  width: 100%;
+}
 .ms-input__list button:hover {
   border: 1px solid var(--ms-color-theme-primary);
   background-color: var(--ms-color-theme-primary);
   color: var(--ms-color-common-white);
 }
+ms-input__list--rounded
 /**----------------------------------------
 START: Portfolio CSS
 ----------------------------------------*/
@@ -2109,6 +2124,16 @@ START: Apppartments CSS
   flex-wrap: wrap;
   border-radius: var(--ms-br-24);
   box-sizing: border-box;
+  position: relative;
+}
+.ms-apartments-main__card__link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  height: 100%;
+  width: 100%;
+  z-index: var(--ms-zi-md);
 }
 .ms-apartments-main__card--2 {
   flex-direction: column;
@@ -2122,6 +2147,11 @@ START: Apppartments CSS
   position: relative;
 
   z-index: 2;
+}
+
+.ms-apartments-main__card__thumbnail__img {
+  height: 100%;
+  width: 100%;
 }
 .ms-apartments-main__card--2 .ms-apartments-main__card__thumbnail {
   width: 100%;
@@ -2139,25 +2169,24 @@ START: Apppartments CSS
 .ms-apartments-main__card--2:hover .ms-apartments-main__card__thumbnail img {
   transform: scale(1);
 }
-.ms-apartments-main__card__thumbnail__header {
-  position: absolute;
-  top: 15px;
-  left: 15px;
-  right: 15px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+
 .ms-apartments-main__card__thumbnail__header,
 .ms-apartments-main__card__thumbnail__footer {
   position: absolute;
-  top: 15px;
-  left: 15px;
-  right: 15px;
+  top: 10px;
+  left: 11px;
+  right: 11px;
   display: flex;
   justify-content: space-between;
+
   align-items: center;
   z-index: var(--ms-zi-sm);
+}
+
+.ms-apartments-main__card__thumbnail__footer {
+  top: auto;
+  left: 8px;
+  bottom: 8px;
 }
 .ms-apartments-main__card--2 .ms-apartments-main__card__thumbnail__footer {
   right: auto;
@@ -2180,16 +2209,17 @@ START: Apppartments CSS
   opacity: 1;
 }
 .ms-apartments-main__card__thumbnail__status {
-  padding: 5px 8px;
+  padding: 5.75px 8.7px;
   background-color: var(--ms-color-common-black);
   border-radius: 8px;
   font-size: 10px;
-  font-weight: var(--ms-fw-medium);
+  font-weight: var(--ms-fw-normal);
   color: var(--ms-color-common-white);
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
   line-height: 1;
+  font-weight: var(--ms-fw-normal);
 }
 .ms-apartments-main__card--2 .ms-apartments-main__card__thumbnail__header {
   left: 0;
@@ -2204,7 +2234,7 @@ START: Apppartments CSS
   padding: 7px 10px;
 }
 .ms-apartments-main__card__thumbnail__status i {
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .ms-apartments-main__card__thumbnail__header a {
@@ -2216,6 +2246,8 @@ START: Apppartments CSS
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+  z-index: var(--ms-zi-lg);
 }
 .ms-apartments-main__card__thumbnail__header a i:first-child {
   display: none;
@@ -2231,12 +2263,8 @@ START: Apppartments CSS
   display: none;
 }
 
-.ms-apartments-main__card__thumbnail__footer {
-  top: auto;
-  bottom: 10px;
-}
 .ms-apartments-main__card__thumbnail__footer span {
-  padding: 6.5px 14px;
+  padding: 8px 14px;
   background-color: var(--ms-color-theme-bg-4);
   border-radius: 8px;
   font-size: 10px;
@@ -2249,13 +2277,12 @@ START: Apppartments CSS
   padding: 20px;
   padding-left: 40px;
   padding-top: 18px;
-  border: 2px solid var(--ms-color-border);
+  border: 1px solid var(--ms-color-border);
   border-left: 0;
   border-top-right-radius: var(--ms-br-24);
   border-bottom-right-radius: var(--ms-br-24);
   margin-left: -20px;
   position: relative;
-  z-index: 1;
 }
 .ms-apartments-main__card--2 .ms-apartments-main__card__content {
   padding: 16px;
@@ -2263,7 +2290,7 @@ START: Apppartments CSS
   margin-left: 0;
   margin-top: -16px;
   border-top: 0;
-  border-left: 2px solid var(--ms-color-border);
+  border-left: 1px solid var(--ms-color-border);
   border-radius: 0;
   border-bottom-left-radius: var(--ms-br-24);
   border-bottom-right-radius: var(--ms-br-24);
@@ -2271,7 +2298,11 @@ START: Apppartments CSS
 .ms-apartments-main__card__content h5 {
   --ms-fw-sbold: 500;
 }
-.ms-apartments-main__card__content > a {
+.ms-apartments-main__card__content h5:hover a {
+  color: var(--ms-color-theme-primary);
+}
+.ms-apartments-main__card__content > a,
+.ms-apartments-main__card--3 .ms-apartments-main__card__heading > a {
   font-size: var(--ms-fs-body3);
   font-weight: var(--ms-fw-medium);
   margin-bottom: 16px;
@@ -2279,17 +2310,18 @@ START: Apppartments CSS
   align-items: center;
   gap: 5px;
 }
-.ms-apartments-main__card--2 .ms-apartments-main__card__content > a {
+.ms-apartments-main__card--2 .ms-apartments-main__card__content > a,
+.ms-apartments-main__card--3 .ms-apartments-main__card__heading > a {
   margin-bottom: 10px;
 }
 
-.ms-apartments-main__card__content > a i {
+.ms-apartments-main__card__content > a i,
+.ms-apartments-main__card--3 .ms-apartments-main__card__heading > a i {
   font-size: var(--ms-fs-body4);
 }
 .ms-apartments-main____card__price {
   display: flex;
   justify-content: space-between;
-
   gap: 10px;
   flex-wrap: wrap;
   margin-bottom: 10px;
@@ -2297,6 +2329,7 @@ START: Apppartments CSS
 .ms-apartments-main__card--2 .ms-apartments-main____card__price {
   margin-bottom: 5px;
 }
+
 .ms-apartments-main____card__price a {
   background-color: var(--ms-color-common-black);
   border-radius: 6px;
@@ -2304,13 +2337,11 @@ START: Apppartments CSS
   font-size: 10px;
   font-weight: var(--ms-fw-medium);
   color: var(--ms-color-common-white);
-  position: relative;
-  z-index: 0;
   overflow: hidden;
   display: inline-flex;
   align-items: center;
   position: relative;
-  z-index: 1;
+  z-index: var(--ms-zi-lg);
 }
 .ms-apartments-main____card__price a span {
   padding: 0 10px 0 6px;
@@ -2351,6 +2382,9 @@ START: Apppartments CSS
   margin-bottom: 0;
   margin-top: 5px;
 }
+.ms-apartments-main__card--4 .ms-apartments-main____card__price h6 {
+  margin-top: 0;
+}
 .ms-apartments-main____card__price h6 span {
   padding: 5px 8px;
   background-color: var(--ms-color-theme-primary);
@@ -2361,19 +2395,22 @@ START: Apppartments CSS
 }
 .ms-apartments-main____card__details-list {
   display: flex;
-  gap: 16px;
+  gap: 5px;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
   margin-bottom: 15px;
 }
 .ms-apartments-main__card--2 .ms-apartments-main____card__details-list {
-  gap: 8px;
+  gap: 5px;
 }
+
 .ms-apartments-main____card__details-list li {
   display: flex;
   gap: 8px;
   align-items: center;
+}
+.ms-apartments-main____card__details-list li:has(hr) {
   height: 24px;
 }
 .ms-apartments-main__card--2 .ms-apartments-main____card__details-list li {
@@ -2396,6 +2433,8 @@ START: Apppartments CSS
   gap: 10px;
   flex-wrap: nowrap;
   align-items: center;
+  position: relative;
+  z-index: var(--ms-zi-lg);
 }
 
 .ms-apartments-main____card__button-list li {
@@ -2649,13 +2688,18 @@ START: Footer CSS
 .ms-footer__nav__wrapper {
   margin-bottom: 20px;
 }
-.ms-footer__nav {
-  display: flex;
-  gap: 30px;
+
+.ms-footer__nav__list--2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 0;
+  padding-right: 54px;
 }
+
 .ms-footer__nav__list li {
   padding: 8px 0;
 }
+
 .ms-footer__nav__link:not(p):hover {
   color: var(--ms-color-theme-primary);
 }
@@ -2910,6 +2954,22 @@ START: Filter Modal CSS
   gap: 8px;
   transition: all 0.3s;
 }
+.ms-input__list--rounded {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.ms-input__list--rounded li button {
+  height: 35px;
+  width: 100%;
+  font-size: 14px;
+  font-weight: var(--ms-fw-regular);
+  padding: 0 16px;
+  border-radius: 40px;
+  color: var(--ms-color-text-body);
+  transition: all 0.3s;
+}
 .ms-input__list--auto-width li button i {
   font-size: var(--ms-fs-body);
 }
@@ -2944,7 +3004,7 @@ START: Hero CSS
   margin: 0 auto;
 }
 .container-fluid--lg {
-  max-width: 1849px;
+  max-width: 1440px;
   margin: 0 auto;
 }
 .container-fluid--lg,
@@ -3127,20 +3187,59 @@ START: New Project CSS
   z-index: var(--ms-zi-1);
   transform: translate(20%, -25%);
 }
-.ms-apartments-main__card--3 .ms-apartments-main__card__thumbnail {
-  overflow: visible;
-  z-index: 0;
+.ms-apartments-main__card--3 {
+  align-items: center;
 }
-.ms-apartments-main__card--3 .ms-apartments-main__card__thumbnail > a {
+
+.ms-apartments-main__card--3 .ms-apartments-main__card__thumbnail {
+  width: 243px;
+  height: 234px;
+  overflow: visible;
+  z-index: 2;
+}
+.ms-apartments-main__card--4 {
+  overflow: hidden;
+  padding-top: 8px;
+}
+.ms-apartments-main__card--4 .ms-apartments-main__card__thumbnail {
+  width: 100%;
+  height: 222px;
+  padding: 0 10px;
+}
+
+.ms-apartments-main__card--3:hover .ms-apartments-main__card__thumbnail a img {
+  transform: scale(1);
+}
+.ms-apartments-main__card--3
+  .ms-apartments-main__card__thumbnail
+  .swiper-slide
+  > a {
   border-radius: var(--ms-br-24);
   display: block;
   overflow: hidden;
   height: 100%;
 }
+.ms-apartments-main__card--3
+  .ms-apartments-main__card__thumbnail
+  .swiper-pagination {
+  text-align: center;
+}
+.ms-apartments-main__card--3
+  .ms-apartments-main__card__thumbnail
+  .swiper-pagination-bullet {
+  width: 6.7px;
+  height: 6.7px;
+}
+.ms-apartments-main__card--3
+  .ms-apartments-main__card__thumbnail
+  .swiper-pagination-bullet-active {
+  border: 1px solid var(--ms-color-common-white);
+}
 .ms-apartments-main__card--3 .ms-apartments-main__card__thumbnail__header {
+  left: 0;
   top: 0;
   justify-content: flex-end;
-  z-index: 0;
+  z-index: var(--ms-zi-sm);
 }
 .ms-apartments-main__card--3 .ms-apartments-main__card__thumbnail__status {
   padding: 9.5px 10px;
@@ -3149,11 +3248,12 @@ START: New Project CSS
   font-size: 14px;
   font-weight: var(--ms-fw-medium);
   position: absolute;
-  left: 50%;
+  left: 34px;
   top: -8px;
-  transform: translateX(-50%);
-  z-index: 9;
+
+  z-index: var(--ms-zi-sm);
   font-weight: var(--ms-fw-normal);
+  white-space: nowrap;
 }
 
 .ms-apartments-main__card--3
@@ -3183,19 +3283,106 @@ START: New Project CSS
 }
 .ms-apartments-main__card--3
   .ms-apartments-main__card__thumbnail__header
-  .added-wishlist {
-  margin-top: 15px;
+  .ms-apartments-main__card__thumbnail__heart {
+  margin-top: 12px;
+  margin-right: 1px;
+  z-index: var(--ms-zi-sm);
+}
+.ms-apartments-main__card--4
+  .ms-apartments-main__card__thumbnail__header
+  .ms-apartments-main__card__thumbnail__heart {
+  margin-top: 12px;
+  margin-right: 23px;
+}
+.ms-apartments-main__card--3 .ms-apartments-main__card__content {
+  padding-left: 25px;
+  border-width: 1px;
+  margin-left: 0;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+.ms-apartments-main__card--4 .ms-apartments-main__card__content {
+  border: 1px solid var(--ms-color-border);
+  border-radius: var(--ms-br-24);
+  padding: 60px 16px 16px;
+  margin-top: -45px;
+  z-index: 1;
+  position: relative;
+}
+.ms-apartments-main__card--4 .ms-apartments-main__card__thumbnail__status {
+  left: 44px;
+}
+.ms-apartments-main__card--3 .ms-apartments-main__card__logo {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.ms-apartments-main__card--3 .ms-apartments-main__card__logo a {
+  height: 30px;
+  padding: 8px 14px 8px 12px;
+  background-color: var(--ms-color-theme-bg);
+  border-bottom-left-radius: 12px;
+  display: inline-flex;
+  line-height: 1;
+  align-items: center;
+  border: 1px solid var(--ms-color-border);
+  border-top: 0;
+  border-right: 0;
+}
+.ms-apartments-main__card--3 .ms-apartments-main__card__logo img {
+  height: 100%;
+  width: auto;
+  object-fit: cover;
+}
+.ms-apartments-main__card--3 .ms-apartments-main__card__heading {
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--ms-color-border);
+  margin-bottom: 16px;
+}
+.ms-apartments-main__card--4 .ms-apartments-main__card__heading {
+  padding-bottom: 0;
+  border-bottom: 0;
+  margin-bottom: 12px;
+}
+
+.ms-apartments-main__card--3 .ms-apartments-main__card__content h5 {
+  margin-bottom: 12px;
+}
+.ms-apartments-main__card--4 .ms-apartments-main__card__content h5 {
+  margin-bottom: 6px;
 }
 .ms-apartments-main__card--3 .ms-apartments-main____card__details-list {
   margin-bottom: 0;
   align-items: center;
 }
+.ms-apartments-main__card--4 .ms-apartments-main____card__details-list {
+  max-width: 240px;
+  margin-bottom: 12px;
+}
 .ms-apartments-main__card--3 .ms-apartments-main____card__price {
   margin-bottom: 0;
+}
+.ms-apartments-main__card--4 .ms-apartments-main____card__price {
+  max-width: 204px;
+  gap: 5px;
+  align-items: center;
+  margin-bottom: 12px;
 }
 .ms-apartments-main__card--3 .ms-apartments-main____card__details-list li {
   flex-direction: column;
   align-items: flex-start;
+  gap: 14px;
+}
+.ms-apartments-main__card--3 li:has(.ms-apartments-main____card__price) {
+  gap: 5px;
+}
+.ms-apartments-main__card--3 li:has(hr) {
+  height: 62px;
+}
+.ms-apartments-main__card--4 li:has(hr) {
+  height: 24px;
 }
 .ms-apartments-main__card--3 .ms-apartments-main____card__details-list li div {
   display: flex;
@@ -3206,15 +3393,186 @@ START: New Project CSS
   grid-area: 5px;
   font-size: 14px;
   color: var(--ms-color-text-body);
+  font-weight: var(--ms-fw-normal);
   text-align: right;
   width: 100%;
   margin-bottom: 0;
 }
+.ms-apartments-main__card--4 .ms-apartments-main____card__price p {
+  font-size: 14px;
+  margin-bottom: 0;
+  line-height: 1;
+}
+.ms-apartments-main__card--2 .ms-apartments-main____card__button-list .ms-btn {
+  font-size: 12px;
+}
+.ms-apartments-main__card--3 .ms-apartments-main____card__button-list .ms-btn {
+  height: 40px;
+  padding-left: 12px;
+  padding-right: 16px;
+  font-size: 12px;
+}
 
+.ms-apartments-main__card--2
+  .ms-apartments-main____card__button-list
+  .ms-btn
+  svg {
+  width: 16px;
+  height: 16px;
+}
+.ms-apartments-main__card--2
+  .ms-apartments-main____card__button-list
+  .ms-btn
+  svg
+  path {
+  width: 100%;
+}
+
+.ms-apartments-main__card--3
+  .ms-apartments-main____card__button-list
+  .ms-btn
+  svg {
+  width: 16px;
+}
+
+.ms-apartments-main__card--3
+  .ms-apartments-main____card__button-list
+  .ms-btn:hover
+  svg
+  path {
+  stroke: var(--ms-color-common-white);
+  opacity: 1;
+}
 /* !END:  New Project CSS */
 /**----------------------------------------
-START: Hero CSS
+START: New Project Details CSS
 ----------------------------------------*/
+.ms-apartments-main__section {
+  margin-bottom: 40px;
+}
+.ms-apartments-main__heading--details {
+  display: block;
+  padding: 0;
+}
+.ms-apartments-main__heading--details h3 {
+  margin-bottom: 6px;
+}
+.ms-apartments-main__heading--details h4 {
+  margin-bottom: 24px;
+}
+.ms-hero__btn-list {
+  position: absolute;
+  bottom: 32px;
+  left: 32px;
+  right: 32px;
+  display: flex;
+  gap: 16px;
+  align-items: flex-end;
+}
+.ms-hero__btn-list .ms-btn {
+  height: 52px;
+  background-color: var(--ms-color-theme-bg-6);
+  padding: 0 24px;
+  font-size: 16px;
+  gap: 12px;
+  font-weight: var(--ms-fw-normal);
+}
+.ms-hero__btn-list .ms-btn:hover {
+  background-color: var(--ms-color-theme-primary);
+  color: var(--ms-color-common-white);
+}
+.ms-hero__btn-list .ms-btn i {
+  transform: rotate(0);
+  font-size: 24px;
+}
+.ms-hero__btn-list li:last-child {
+  margin-left: auto;
+}
+.ms-hero__btn-list li:last-child .ms-btn {
+  height: 74px;
+  padding: 0 16px;
+}
+
+/* breadcrumb */
+.ms-apartments-main__breadcrumb {
+  margin-bottom: 32px;
+}
+.ms-apartments-main__breadcrumb ul {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+.ms-apartments-main__breadcrumb ul li {
+  font-size: var(--ms-fs-btn2);
+  color: var(--ms-color-link);
+  font-weight: var(--ms-fw-medium);
+}
+.ms-apartments-main__breadcrumb ul li a:hover {
+  color: var(--ms-color-theme-primary);
+}
+.ms-apartments-main__breadcrumb ul li p {
+  margin-bottom: 0;
+  font-weight: var(--ms-fw-sbold);
+}
+.ms-apartments-main__heading--details .ms-apartments-main____card__price {
+  justify-content: start;
+  align-items: flex-end;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+.ms-apartments-main__heading--details .ms-apartments-main____card__price p {
+  color: var(--ms-color-link);
+  margin-bottom: 5px;
+}
+.ms-apartments-main__heading--details .ms-apartments-main____card__price h6 {
+  color: var(--ms-color-theme-primary);
+  font-size: var(--ms-fs-h5);
+  margin: 0;
+}
+.ms-apartments-main__heading--details .ms-apartments-main____card__button-list {
+  gap: 12px;
+}
+
+.ms-apartments-main__heading--details
+  .ms-apartments-main____card__button-list
+  li {
+  flex-grow: 0;
+  flex-basis: auto;
+}
+.ms-apartments-main__heading--details
+  .ms-apartments-main____card__button-list
+  li
+  .ms-btn {
+  height: 44px;
+  padding: 0 20px;
+  gap: 10px;
+  background-color: var(--ms-color-theme-bg-7);
+  color: var(--ms-color-link);
+}
+.ms-apartments-main__heading--details
+  .ms-apartments-main____card__button-list
+  li
+  .ms-btn:hover {
+  background-color: var(--ms-color-theme-primary);
+  color: var(--ms-color-common-white);
+}
+.ms-apartments-main__heading--details
+  .ms-apartments-main____card__button-list
+  li
+  .ms-btn
+  i {
+  font-size: 18px;
+  color: var(--ms-color-link);
+  transform: rotate(0);
+}
+.ms-apartments-main__heading--details
+  .ms-apartments-main____card__button-list
+  li
+  .ms-btn:hover
+  i {
+  color: var(--ms-color-common-white);
+}
+/*  */
 /* !END: Hero CSS */
 /**----------------------------------------
 START: Hero CSS

@@ -80,6 +80,7 @@ Redux::setSection( $houzez_opt_name, array(
         array(
             'id'       => 'footer_description',
             'type'     => 'textarea',
+            'required' => array( 'ft-bottom', '=', 'v11' ),
             'title'    => esc_html__( 'Description', 'houzez' ),
             'desc'     => esc_html__( 'Enter the description text', 'houzez' ),
             'default'  => 'Stay ahead of the market'
@@ -94,6 +95,7 @@ Redux::setSection( $houzez_opt_name, array(
         array(
             'id'       => 'mobile_app',
             'type'     => 'switch',
+            'required' => array( 'ft-bottom', '=', 'v11' ),
             'title'    => esc_html__( 'Mobile App', 'houzez' ),
             'desc'     => esc_html__( 'Enable or disable mobile app links', 'houzez' ),
             'subtitle' => '',
@@ -128,6 +130,7 @@ Redux::setSection( $houzez_opt_name, array(
         array(
             'id'       => 'footer_contact_text',
             'type'     => 'text',
+            'required' => array( 'ft-bottom', '=', 'v11' ),
             'title'    => esc_html__( 'Contact Text', 'houzez' ),
             'desc'     => esc_html__( 'Enter the contact text', 'houzez' ),
             'default'  => ''
@@ -135,6 +138,7 @@ Redux::setSection( $houzez_opt_name, array(
         array(
             'id'       => 'footer_contact_phone',
             'type'     => 'text',
+            'required' => array( 'ft-bottom', '=', 'v11' ),
             'title'    => esc_html__( 'Contact Phone', 'houzez' ),
             'desc'     => esc_html__( 'Enter the phone text', 'houzez' ),
             'default'  => ''
@@ -142,6 +146,7 @@ Redux::setSection( $houzez_opt_name, array(
         array(
             'id'       => 'footer_contact_address',
             'type'     => 'textarea',
+            'required' => array( 'ft-bottom', '=', 'v11' ),
             'title'    => esc_html__( 'Address', 'houzez' ),
             'desc'     => esc_html__( 'Enter the address text', 'houzez' ),
             'default'  => ''
@@ -149,6 +154,7 @@ Redux::setSection( $houzez_opt_name, array(
         array(
             'id'       => 'footer_contact_email',
             'type'     => 'text',
+            'required' => array( 'ft-bottom', '=', 'v11' ),
             'title'    => esc_html__( 'Email', 'houzez' ),
             'desc'     => esc_html__( 'Enter the email text', 'houzez' ),
             'default'  => ''
@@ -156,6 +162,7 @@ Redux::setSection( $houzez_opt_name, array(
         array(
             'id'       => 'footer_contact_time',
             'type'     => 'textarea',
+            'required' => array( 'ft-bottom', '=', 'v11' ),
             'title'    => esc_html__( 'Office Time', 'houzez' ),
             'desc'     => esc_html__( 'Enter the time text', 'houzez' ),
             'default'  => ''

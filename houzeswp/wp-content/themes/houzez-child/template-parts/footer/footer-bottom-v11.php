@@ -80,17 +80,63 @@
               </ul>
               <?php } ?>
               <!-- location -->
-              <div class="ms-footer__location">
+              <div class="ms-footer__location" style="visibility: hidden;">
                 <label for="footer-location">
                   Country:
-                  <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/footer/saudi-arabia.png" alt=""
+                  <img class="ms-footer__location__flag" src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/footer/saudi-arabia.png" alt=""
                 /></label>
-                <select class="ms-nice-select" id="footer-location">
-                  <option value="braning">Saudi Arabia</option>
-                  <option value="web">USA</option>
-                  <option value="uxui">UK</option>
-                  <option value="uxui">UAE</option>
-                </select>
+                <?php 
+                if (shortcode_exists('language-switcher')) {
+                  echo do_shortcode('[language-switcher]'); 
+                }?>
+              <script>
+							document.addEventListener('DOMContentLoaded', () => {
+								const languageContainerDiv = document.querySelector('.ms-footer__location');
+								const languageDiv = languageContainerDiv.querySelector('.trp-ls-shortcode-language');
+								if (languageDiv) {
+									const links = languageDiv.querySelectorAll('a');
+									const select = document.createElement('select');
+									select.className = 'ms-nice-select';
+									select.name = 'input-lang';
+									select.id = 'input-lang';
+
+									links.forEach(link => {
+										const option = document.createElement('option');
+										option.value = link.getAttribute('href');
+										option.textContent = link.textContent;
+
+                    const flagURL = link.querySelector('.trp-flag-image').getAttribute('src');
+                    option.setAttribute("data-flag", flagURL);
+
+										// If the link has "onclick" to prevent default, disable the option
+										if (link.getAttribute('onclick')) {
+											option.disabled = true;
+											option.selected = true;
+
+                      languageContainerDiv.querySelector(".ms-footer__location__flag").setAttribute('src', flagURL);
+										}
+										select.appendChild(option);
+									});
+
+									// Replace the original div with the new <select>
+									languageContainerDiv.querySelector('.trp_language_switcher_shortcode').replaceWith(select);
+									if (typeof jQuery !== 'undefined') {
+										jQuery(select).niceSelect();
+                    languageContainerDiv.style.visibility = 'visible';
+
+										// Add event listener to handle redirection
+										jQuery(select).on('change', function () {
+											const selectedUrl = jQuery(this).val();
+                      const selectedFlag = jQuery(this).find(':selected').data('flag');
+											if (selectedUrl && selectedUrl !== '#') {
+                        languageContainerDiv.querySelector(".ms-footer__location__flag").setAttribute('src', selectedFlag);
+												window.location.href = selectedUrl;
+											}
+										});
+									}
+								}
+							});
+						</script>
               </div>
             </div>
 
@@ -101,44 +147,21 @@
                   <div class="col-12 col-xl-6">
                     <h6>Quick Links</h6>
                     <div class="ms-footer__nav">
-                      <ul class="ms-footer__nav__list">
-                        <li>
-                          <a class="ms-footer__nav__link" href="index.html"
-                            >Home</a
-                          >
-                        </li>
-                        <li>
-                          <a class="ms-footer__nav__link" href="#"
-                            >Commercial</a
-                          >
-                        </li>
-                        <li>
-                          <a class="ms-footer__nav__link" href="#">Buy</a>
-                        </li>
-                        <li>
-                          <a class="ms-footer__nav__link" href="#">Rent</a>
-                        </li>
-                        <li>
-                          <a class="ms-footer__nav__link" href="#"
-                            >New Projects</a
-                          >
-                        </li>
-                      </ul>
-                      <ul class="ms-footer__nav__list">
-                        <li>
-                          <a class="ms-footer__nav__link" href="#"
-                            >Commercial</a
-                          >
-                        </li>
-                        <li>
-                          <a class="ms-footer__nav__link" href="#">Blog</a>
-                        </li>
-                        <li>
-                          <a class="ms-footer__nav__link" href="#"
-                            >Contact Us</a
-                          >
-                        </li>
-                      </ul>
+                      <?php
+                      $menu = wp_get_nav_menu_object('64'); 
+                      if ( $menu ) :
+                      add_filter('nav_menu_link_attributes', function($atts) {
+                          $atts['class'] = 'ms-footer__nav__link';
+                          return $atts;
+                      });
+                      wp_nav_menu( array (
+                        'menu' => 'Footer Quick Links',
+                        'container' => '',
+                        'container_class' => '',
+                        'menu_class' => 'ms-footer__nav__list ms-footer__nav__list--2',
+                      ));
+                      endif;
+                      ?>
                     </div>
                   </div>
                   <div class="col-12 col-xl-6">
@@ -308,20 +331,20 @@
                       &copy; <?php echo houzez_option('copy_rights'); ?>
                     </div>
                   <?php } ?>
-                    <ul
-                      class="ms-footer__nav__list ms-footer__nav__list--copyright"
-                    >
-                      <li>
-                        <a class="ms-footer__nav__link" href="/privacy"
-                          >Privacy Policy</a
-                        >
-                      </li>
-                      <li>
-                        <a class="ms-footer__nav__link" href="/terms-and-conditions"
-                          >Terms & Conditions</a
-                        >
-                      </li>
-                    </ul>
+                  <?php
+                    if ( has_nav_menu( 'footer-menu' ) ) :
+                    add_filter('nav_menu_link_attributes', function($atts) {
+                        $atts['class'] = 'ms-footer__nav__link';
+                        return $atts;
+                    });
+                    wp_nav_menu( array (
+                      'theme_location' => 'footer-menu',
+                      'container' => '',
+                      'container_class' => '',
+                      'menu_class' => 'ms-footer__nav__list ms-footer__nav__list--copyright',
+                    ));
+                    endif;
+                  ?>
                   </div>
                 </div>
               </div>

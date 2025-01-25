@@ -100,7 +100,7 @@ if(isset($args['sticky_header']) && $args['sticky_header'] == '1'){
 				<div class="ms-header__right">
 					<ul class="ms-header__right-list">
 					<li class="d-none d-lg-block">
-						<div class="ms-header__right-lang">
+						<div class="ms-header__right-lang" style="visibility: hidden;">
 						<?php 
 						if (shortcode_exists('language-switcher')) {
 							echo '<label for="input-lang"><i class="icon-world"></i></label>';
@@ -134,6 +134,8 @@ if(isset($args['sticky_header']) && $args['sticky_header'] == '1'){
 									languageContainerDiv.querySelector('.trp_language_switcher_shortcode').replaceWith(select);
 									if (typeof jQuery !== 'undefined') {
 										jQuery(select).niceSelect();
+										languageContainerDiv.style.visibility = 'visible';
+
 										// Add event listener to handle redirection
 										jQuery(select).on('change', function () {
 											const selectedUrl = jQuery(this).val();
