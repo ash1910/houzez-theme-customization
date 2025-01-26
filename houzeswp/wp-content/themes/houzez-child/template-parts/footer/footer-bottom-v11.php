@@ -1,5 +1,7 @@
 <?php 
     $footer_logo = houzez_option( 'footer_logo', false, 'url' ); 
+    $google_app_logo = houzez_option( 'google_app_logo', false, 'url' );
+    $ios_app_logo = houzez_option( 'ios_app_logo', false, 'url' );
 ?>    
 
     <!-- start: Footer   -->
@@ -309,17 +311,17 @@
                 <h6><?php echo houzez_option('mobile_app_text'); ?></h6>
                 <?php }?>
                 <ul class="ms-footer__brand__list">
-                  <?php if( houzez_option('google_app_url') != '' ){ ?>
+                  <?php if( houzez_option('google_app_url') != '' && $google_app_logo != '' ){ ?> 
                   <li>
                     <a href="<?php echo esc_url(houzez_option('google_app_url')); ?>"
-                      ><img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/footer/google-play.png" alt=""
+                      ><img src="<?php echo esc_url($google_app_logo); ?>" alt=""
                     /></a>
                   </li>
                   <?php }?>
-                  <?php if( houzez_option('ios_app_url') != '' ){ ?>
+                  <?php if( houzez_option('ios_app_url') != '' && $ios_app_logo != '' ){ ?>
                   <li>
                     <a href="<?php echo esc_url(houzez_option('ios_app_url')); ?>"
-                      ><img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/footer/apple-store.png" alt=""
+                      ><img src="<?php echo esc_url($ios_app_logo); ?>" alt=""
                     /></a>
                   </li>
                   <?php }?>

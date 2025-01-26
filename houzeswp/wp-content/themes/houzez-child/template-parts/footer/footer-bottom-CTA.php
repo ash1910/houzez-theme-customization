@@ -22,7 +22,7 @@
                 <?php } ?>
               </div>
               <div class="ms-cta__footer">
-                <?php if( houzez_option('google_app_url') != '' && $google_app_logo != '' ){ ?> 
+                <?php if( houzez_option('google_app_url') != '' && $google_app_logo != '' ){ ?>
                 <a href="<?php echo esc_url('google_app_url'); ?>"
                   ><img src="<?php echo esc_url($google_app_logo); ?>" alt=""
                 /></a>
