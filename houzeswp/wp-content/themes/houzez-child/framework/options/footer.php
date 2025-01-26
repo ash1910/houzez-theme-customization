@@ -40,6 +40,10 @@ Redux::setSection( $houzez_opt_name, array(
                     'alt' => '',
                     'img' => HOUZEZ_IMAGE . '3cr.png'
                 ),
+                'CTA' => array(
+                    'alt' => 'CTA',
+                    'img' => get_stylesheet_directory_uri() . '/assets/images/CTA.png'
+                ),
             ),
             'default'  => 'three_cols'
         ),
@@ -112,12 +116,28 @@ Redux::setSection( $houzez_opt_name, array(
             'default'  => 'Discover properties on the go!'
         ),
         array(
+            'id'        => 'google_app_logo',
+            'url'       => true,
+            'type'      => 'media',
+            'title'     => esc_html__( 'Google App Logo', 'houzez' ),
+            'read-only' => false,
+            'desc'  => esc_html__( 'Upload the google app logo.', 'houzez' ),
+        ),
+        array(
             'id'       => 'google_app_url',
             'type'     => 'text',
             'required' => array( 'mobile_app', '=', '1' ),
             'title'    => esc_html__( 'Google App URL', 'houzez' ),
             'desc' => esc_html__( 'Enter the url of google app', 'houzez' ),
             'default'  => false,
+        ),
+        array(
+            'id'        => 'ios_app_logo',
+            'url'       => true,
+            'type'      => 'media',
+            'title'     => esc_html__( 'iOS App Logo', 'houzez' ),
+            'read-only' => false,
+            'desc'  => esc_html__( 'Upload the ios app logo.', 'houzez' ),
         ),
         array(
             'id'       => 'ios_app_url',
@@ -290,6 +310,51 @@ Redux::setSection( $houzez_opt_name, array(
             'title'    => esc_html__( 'Skype', 'houzez' ),
             'desc' => esc_html__( 'Enter the Skype username', 'houzez' ),
             'default'  => false,
+        ),
+        array(
+            'id'       => 'cta_section',
+            'type'     => 'switch',
+            'required' => array( 'ft-bottom', '=', 'v11' ),
+            'title'    => esc_html__( 'CTA Section', 'houzez' ),
+            'desc'     => esc_html__( 'Enable or disable cta section', 'houzez' ),
+            'subtitle' => '',
+            'default'  => 1,
+            'on'       => 'Enabled',
+            'off'      => 'Disabled',
+        ),
+        array(
+            'id'       => 'cta_title',
+            'type'     => 'textarea',
+            'required' => array( 'cta_section', '=', '1' ),
+            'title'    => esc_html__( 'CTA Title', 'houzez' ),
+            'desc' => esc_html__( 'Enter the CTA title', 'houzez' ),
+            'default'  => 'Ready to get started?',
+        ),
+        array(
+            'id'       => 'cta_description',
+            'type'     => 'textarea',
+            'required' => array( 'cta_section', '=', '1' ),
+            'title'    => esc_html__( 'CTA Description', 'houzez' ),
+            'desc' => esc_html__( 'Enter the CTA description', 'houzez' ),
+            'default'  => 'We are ready to help you find your dream home.',
+        ),
+        array(
+            'id'        => 'cta_image',
+            'url'       => true,
+            'type'      => 'media',
+            'required' => array( 'cta_section', '=', '1' ),
+            'title'     => esc_html__( 'CTA Image', 'houzez' ),
+            'read-only' => false,
+            'desc'  => esc_html__( 'Upload the cta image.', 'houzez' ),
+        ),
+        array(
+            'id'        => 'cta_image_mobile',
+            'url'       => true,
+            'type'      => 'media',
+            'required' => array( 'cta_section', '=', '1' ),
+            'title'     => esc_html__( 'CTA Image Mobile', 'houzez' ),
+            'read-only' => false,
+            'desc'  => esc_html__( 'Upload the cta image mobile.', 'houzez' ),
         ),
 
         array(

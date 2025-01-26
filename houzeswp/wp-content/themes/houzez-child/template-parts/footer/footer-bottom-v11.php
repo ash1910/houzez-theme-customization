@@ -2,7 +2,6 @@
     $footer_logo = houzez_option( 'footer_logo', false, 'url' ); 
 ?>    
 
-    
     <!-- start: Footer   -->
     <footer>
       <div class="ms-footer <?php if ( is_home() || is_front_page() ){}else{ echo 'ms-footer--2'; } ?>">
@@ -24,21 +23,27 @@
               </p>
               <?php } ?>
               <!-- subscription -->
-              <form class="ms-footer__form">
+              <form class="ms-footer__form" onsubmit="return validateInput()" action="<?php echo esc_url(home_url('/')); ?>/search-results/" method="get">
+                
                 <div class="ms-input ms-input--white">
-                  <input
-                    type="search"
-                    placeholder="Search Location"
-                    class="ms-hero__search-loaction"
-                    id="ms-hero__search-loaction"
-                  />
+                  <?php get_template_part('template-parts/search/fields/keyword'); ?>
                 </div>
 
                 <div>
-                  <button class="ms-btn ms-btn--primary">
+                  <button class="ms-btn ms-btn--primary" onclick="return validateInput()">
                     <i class="fa-regular fa-arrow-right-long"></i>
                   </button>
                 </div>
+                <script>
+                  function validateInput() {
+                    const textInput = document.querySelector('.ms-footer__form .houzez-keyword-autocomplete').value.trim();
+                    if (textInput.length === 0) {
+                      alert('Please enter at least one character.');
+                      return false; // Prevent form submission
+                    }
+                    return true; // Allow form submission
+                  }
+                </script>
               </form>
               <!-- socials media -->
               <?php if( houzez_option('social-footer') != '0' ) { ?>
@@ -83,7 +88,7 @@
               <div class="ms-footer__location" style="visibility: hidden;">
                 <label for="footer-location">
                   Country:
-                  <img class="ms-footer__location__flag" src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/footer/saudi-arabia.png" alt=""
+                  <img style="visibility: hidden;" class="ms-footer__location__flag" src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/footer/saudi-arabia.png" alt=""
                 /></label>
                 <?php 
                 if (shortcode_exists('language-switcher')) {
@@ -105,15 +110,22 @@
 										option.value = link.getAttribute('href');
 										option.textContent = link.textContent;
 
-                    const flagURL = link.querySelector('.trp-flag-image').getAttribute('src');
-                    option.setAttribute("data-flag", flagURL);
+                    let flagURL = '';
+                    if (link.querySelector('.trp-flag-image')) {
+                      flagURL = link.querySelector('.trp-flag-image').getAttribute('src');
+                      option.setAttribute("data-flag", flagURL);
+                    }
 
 										// If the link has "onclick" to prevent default, disable the option
 										if (link.getAttribute('onclick')) {
 											option.disabled = true;
 											option.selected = true;
 
-                      languageContainerDiv.querySelector(".ms-footer__location__flag").setAttribute('src', flagURL);
+                      const languageContainerFlag = languageContainerDiv.querySelector(".ms-footer__location__flag");
+                      if (flagURL  && languageContainerFlag) {
+                        languageContainerFlag.setAttribute('src', flagURL);
+                        languageContainerFlag.style.visibility = 'visible';
+                      }
 										}
 										select.appendChild(option);
 									});
@@ -145,24 +157,23 @@
               <div class="ms-footer__nav__wrapper">
                 <div class="row">
                   <div class="col-12 col-xl-6">
+                    <?php if( has_nav_menu( 'main-menu-right' ) ) { ?>
                     <h6>Quick Links</h6>
                     <div class="ms-footer__nav">
                       <?php
-                      $menu = wp_get_nav_menu_object('64'); 
-                      if ( $menu ) :
                       add_filter('nav_menu_link_attributes', function($atts) {
                           $atts['class'] = 'ms-footer__nav__link';
                           return $atts;
                       });
                       wp_nav_menu( array (
-                        'menu' => 'Footer Quick Links',
+                        'theme_location' => 'main-menu-right',
                         'container' => '',
                         'container_class' => '',
                         'menu_class' => 'ms-footer__nav__list ms-footer__nav__list--2',
                       ));
-                      endif;
                       ?>
                     </div>
+                    <?php } ?>
                   </div>
                   <div class="col-12 col-xl-6">
                     <?php if( houzez_option('footer_contact_text') != '' ) { ?>
