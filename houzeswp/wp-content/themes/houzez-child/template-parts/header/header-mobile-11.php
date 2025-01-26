@@ -85,7 +85,7 @@ add_filter('nav_menu_link_attributes', function($atts) {
             <?php } else { ?>
                 <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="ms-mobile-menu__logo">
                 <?php if( !empty( $custom_logo ) ) { ?>
-                    <img src="<?php echo esc_url( $custom_logo ); ?>" height="<?php echo esc_attr($logo_height); ?>" width="<?php echo esc_attr($logo_width); ?>" alt="logo">
+                    <img src="<?php echo esc_url( $custom_logo ); ?>" alt="logo">
                 <?php } ?>
                 </a>
             <?php } ?>

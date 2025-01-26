@@ -77,7 +77,7 @@ if(isset($args['sticky_header']) && $args['sticky_header'] == '1'){
 				<?php } else { ?>
 					<a href="<?php echo esc_url( home_url( '/' ) ); ?>">
 					<?php if( !empty( $custom_logo ) ) { ?>
-						<img src="<?php echo esc_url( $custom_logo ); ?>" height="<?php echo esc_attr($logo_height); ?>" width="<?php echo esc_attr($logo_width); ?>" alt="logo">
+						<img src="<?php echo esc_url( $custom_logo ); ?>"  alt="logo">
 					<?php } ?>
 					</a>
 				<?php } ?>
