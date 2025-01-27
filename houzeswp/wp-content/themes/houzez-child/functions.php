@@ -3840,6 +3840,137 @@ if(!function_exists('get_chart_impressions')) {
     }
 }
 
+add_action( 'elementor/init', function() {
+    if ( class_exists( '\Elementor\Widget_Base' ) ) {
+
+        class Houzez_Property_Carousel extends \Elementor\Widget_Base {
+
+            public function get_name() {
+                return 'houzez_property_carousel';
+            }
+
+            public function get_title() {
+                return __( 'Property Carousel', 'houzez' );
+            }
+
+            public function get_icon() {
+                return 'eicon-post-slider';
+            }
+
+            public function get_categories() {
+                return [ 'general' ]; // Change category if needed
+            }
+
+            protected function _register_controls() {
+                $this->start_controls_section(
+                    'content_section',
+                    [
+                        'label' => __( 'Content', 'houzez' ),
+                        'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
+                    ]
+                );
+
+                $this->add_control(
+                    'posts_per_page',
+                    [
+                        'label' => __( 'Number of Properties', 'houzez' ),
+                        'type' => \Elementor\Controls_Manager::NUMBER,
+                        'default' => 5,
+                    ]
+                );
+
+                $this->add_control(
+                    'property_type',
+                    [
+                        'label' => __( 'Property Type', 'houzez' ),
+                        'type' => \Elementor\Controls_Manager::SELECT2,
+                        'options' => $this->get_property_type_options(), // Fetch options dynamically
+                        'multiple' => false, // Change to true if you want to allow multiple types
+                        'label_block' => true,
+                        'description' => __( 'Select a property type to filter the carousel.', 'houzez' ),
+                    ]
+                );
+
+                $this->end_controls_section();
+            }
+
+            protected function render() {
+                $settings = $this->get_settings_for_display();
+            
+                // Query arguments for properties
+                $args = [
+                    'post_type' => 'property', // Houzez property post type
+                    'posts_per_page' => $settings['posts_per_page'],
+                ];
+            
+                // Add taxonomy filter if a property type is provided
+                if (!empty($settings['property_type'])) {
+                    $args['tax_query'] = [
+                        [
+                            'taxonomy' => 'property_type', // Houzez's property type taxonomy
+                            'field' => 'slug', // You can also use 'term_id' if needed
+                            'terms' => $settings['property_type'], // Slug provided via the widget control
+                        ],
+                    ];
+                }
+            
+                $query = new WP_Query($args);
+            
+                if ($query->have_posts()) {
+                    echo '<div class="houzez-property-carousel swiper-container">';
+                    echo '<div class="swiper-wrapper">';
+            
+                    while ($query->have_posts()) {
+                        $query->the_post();
+                        echo '<div class="swiper-slide">';
+                        echo '<a href="' . get_the_permalink() . '">';
+                        echo get_the_post_thumbnail(get_the_ID(), 'medium');
+                        echo '<h3>' . get_the_title() . '</h3>';
+                        echo '</a>';
+                        echo '</div>';
+                    }
+            
+                    echo '</div>'; // swiper-wrapper
+                    echo '<div class="swiper-pagination"></div>';
+                    echo '<div class="swiper-button-next"></div>';
+                    echo '<div class="swiper-button-prev"></div>';
+                    echo '</div>'; // swiper-container
+                } else {
+                    echo __( 'No properties found', 'houzez' );
+                }
+            
+                wp_reset_postdata();
+            }
+            
+
+            private function get_property_type_options() {
+                $terms = get_terms([
+                    'taxonomy' => 'property_type',
+                    'hide_empty' => true,
+                ]);
+            
+                $options = [];
+                if (!empty($terms) && !is_wp_error($terms)) {
+                    foreach ($terms as $term) {
+                        $options[$term->slug] = $term->name;
+                    }
+                }
+            
+                return $options;
+            }
+            
+        }
+
+        // Register the widget after class is defined
+        add_action( 'elementor/widgets/widgets_registered', function() {
+            \Elementor\Plugin::instance()->widgets_manager->register( new Houzez_Property_Carousel() );
+        } );
+
+
+    }
+});
+
+
 //$user_package_id = houzez_get_user_package_id($userID);
 //$package_images = get_post_meta( $user_package_id, 'fave_package_images', true );
 ?>
