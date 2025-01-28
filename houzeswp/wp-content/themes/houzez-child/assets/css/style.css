@@ -1246,6 +1246,10 @@ START: Theme Header CSS
 /**----------------------------------------
 START: Hero Banner CSS
 ----------------------------------------*/
+.ms-hero__wrapper {
+  position: relative;
+  overflow: hidden;
+}
 .ms-hero {
   background: url("../img/hero-banner/hero-banner.png") no-repeat top;
   background-size: cover;
@@ -1254,11 +1258,14 @@ START: Hero Banner CSS
   margin: 0 30px 96px;
 }
 .ms-hero--2 {
-  background: url("../img/hero-banner/hero-banner-2.png") no-repeat top;
+  background-repeat: no-repeat;
+  background-position: center;
   background-size: cover;
   min-height: 612px;
   padding: 0;
+
   position: relative;
+  margin: 0;
 }
 
 .ms-hero__title {
@@ -1943,6 +1950,14 @@ START: Apppartments CSS
   padding-bottom: 30px;
   border-bottom: 1px solid var(--ms-color-border);
 }
+.ms-header--sticky.ms-apartments-main__filter {
+  padding: 20px 32px;
+}
+
+.ms-header--sticky .ms-hero__form {
+  max-width: 1440px;
+  margin: 0 auto;
+}
 .ms-apartments-main__filter .ms-input--serach {
   width: 300px;
   box-sizing: border-box;
@@ -2221,18 +2236,18 @@ START: Apppartments CSS
   line-height: 1;
   font-weight: var(--ms-fw-normal);
 }
-.ms-apartments-main__card--2 .ms-apartments-main__card__thumbnail__header {
+/* .ms-apartments-main__card--2 .ms-apartments-main__card__thumbnail__header {
   left: 0;
   top: 12px;
   right: 12px;
-}
-.ms-apartments-main__card--2 .ms-apartments-main__card__thumbnail__status {
+} */
+/* .ms-apartments-main__card--2 .ms-apartments-main__card__thumbnail__status {
   border-radius: 12px;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
   font-size: 12px;
   padding: 7px 10px;
-}
+} */
 .ms-apartments-main__card__thumbnail__status i {
   font-size: 13px;
 }
@@ -3462,12 +3477,13 @@ START: New Project Details CSS
 }
 .ms-hero__btn-list {
   position: absolute;
-  bottom: 32px;
+  bottom: 32%;
   left: 32px;
   right: 32px;
   display: flex;
   gap: 16px;
   align-items: flex-end;
+  z-index: var(--ms-zi-lg);
 }
 .ms-hero__btn-list .ms-btn {
   height: 52px;
@@ -3485,14 +3501,49 @@ START: New Project Details CSS
   transform: rotate(0);
   font-size: 24px;
 }
-.ms-hero__btn-list li:last-child {
+.ms-hero__btn-list .ms-btn:last-child {
   margin-left: auto;
-}
-.ms-hero__btn-list li:last-child .ms-btn {
   height: 74px;
   padding: 0 16px;
 }
 
+/* slider */
+.container-fluid--lg:has(.ms-hero__slider) {
+  padding: 0 30px;
+}
+.ms-hero__slider {
+  border-radius: var(--ms-br-30);
+  overflow: hidden;
+  margin-bottom: 30px;
+}
+.ms-hero__slider__pagination-count-img-slide-arrow-inner {
+  border-radius: var(--ms-br-24);
+  overflow: hidden;
+  margin: 0;
+}
+.ms-hero__slider__thumbs {
+  margin-left: -15px;
+  margin-right: -15px;
+}
+.ms-hero__slider__thumbs .slick-slide {
+  padding: 0 15px;
+}
+
+.ms-hero__slider__thumbs .slick-slide img {
+  border-radius: var(--ms-br-24);
+}
+.ms-hero__slider__thumbs .slick-prev,
+.ms-hero__slider__thumbs .slick-next {
+  display: none;
+}
+
+.ms-hero__360,
+.ms-hero__map,
+.ms-hero__video {
+  width: 100%;
+  min-height: 857px;
+  border-radius: var(--ms-br-30);
+}
 /* breadcrumb */
 .ms-apartments-main__breadcrumb {
   margin-bottom: 32px;
@@ -3572,6 +3623,7 @@ START: New Project Details CSS
   i {
   color: var(--ms-color-common-white);
 }
+
 /*  */
 /* !END: Hero CSS */
 /**----------------------------------------

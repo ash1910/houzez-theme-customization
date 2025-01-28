@@ -9,7 +9,6 @@ Mobile Menu Js
 (function ($) {
   "use strict";
 
-
   // nice select
   $(".ms-nice-select").niceSelect();
 
@@ -64,7 +63,6 @@ Mobile Menu Js
       clickable: true,
     },
     loop: true,
- 
   });
   // apartment
   function useapartmentSlider() {
@@ -99,9 +97,9 @@ Mobile Menu Js
     var scroll = $(this).scrollTop();
 
     if (scroll < 200) {
-      $(".ms-header-sticky").removeClass("sticky");
+      $(".ms-header--sticky").removeClass("sticky");
     } else {
-      $(".ms-header-sticky").addClass("sticky");
+      $(".ms-header--sticky").addClass("sticky");
     }
   });
   // mobile menu     // mobileMenu togglar
@@ -256,4 +254,108 @@ Mobile Menu Js
     });
   }
   formWizardController();
+
+  /*----------------------
+            Slider 11 active
+        -----------------------*/
+  $(".ms-hero__slider").slick({
+    dots: false /* slider left or right side pagination count with line */,
+    arrows: false /* slider arrow  */,
+    appendDots: ".ms-hero__slider__pagination-count-pagination-count",
+    infinite: true,
+    autoplay: false,
+    autoplaySpeed: 10000,
+    speed: 500,
+    asNavFor: ".ms-hero__slider__thumbs",
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    prevArrow:
+      '<a class="slick-prev"><i class="fas fa-arrow-left" alt="Arrow Icon"></i></a>',
+    nextArrow:
+      '<a class="slick-next"><i class="fas fa-arrow-right" alt="Arrow Icon"></i></a>',
+    responsive: [
+      {
+        breakpoint: 1600,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          arrows: false,
+          dots: false,
+        },
+      },
+      {
+        breakpoint: 992,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          arrows: false,
+          dots: false,
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          arrows: false,
+          dots: false,
+        },
+      },
+      {
+        breakpoint: 575,
+        settings: {
+          arrows: false,
+          dots: false,
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
+  });
+
+  $(".ms-hero__slider__thumbs").slick({
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    initialSlide: 0,
+    asNavFor: ".ms-hero__slider",
+    dots: false /* image slide dots */,
+    arrows: false /* image slide arrow */,
+    centerMode: false,
+    focusOnSelect: true,
+    centerPadding: "30px",
+    // prevArrow:
+    //   '<a class="slick-prev"><i class="fas fa-arrow-left" alt="Arrow Icon"></i></a>',
+    // nextArrow:
+    //   '<a class="slick-next"><i class="fas fa-arrow-right" alt="Arrow Icon"></i></a>',
+    responsive: [
+      {
+        breakpoint: 1600,
+        settings: {
+          arrows: false,
+          dots: false,
+        },
+      },
+      {
+        breakpoint: 1200,
+        settings: {
+          arrows: false,
+          dots: false,
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          arrows: false,
+          dots: false,
+        },
+      },
+      {
+        breakpoint: 575,
+        settings: {
+          arrows: false,
+          dots: false,
+        },
+      },
+    ],
+  });
 })(jQuery);

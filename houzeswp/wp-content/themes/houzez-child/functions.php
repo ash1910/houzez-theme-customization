@@ -3843,14 +3843,14 @@ if(!function_exists('get_chart_impressions')) {
 add_action( 'elementor/init', function() {
     if ( class_exists( '\Elementor\Widget_Base' ) ) {
 
-        class Houzez_Property_Carousel extends \Elementor\Widget_Base {
+        class MEstate_Property_Carousel extends \Elementor\Widget_Base {
 
             public function get_name() {
-                return 'houzez_property_carousel';
+                return 'mestate_property_carousel';
             }
 
             public function get_title() {
-                return __( 'Property Carousel', 'houzez' );
+                return __( 'MEstate Property Carousel', 'houzez' );
             }
 
             public function get_icon() {
@@ -3896,48 +3896,54 @@ add_action( 'elementor/init', function() {
 
             protected function render() {
                 $settings = $this->get_settings_for_display();
-            
-                // Query arguments for properties
-                $args = [
-                    'post_type' => 'property', // Houzez property post type
-                    'posts_per_page' => $settings['posts_per_page'],
-                ];
-            
-                // Add taxonomy filter if a property type is provided
-                if (!empty($settings['property_status'])) {
-                    $args['tax_query'] = [
-                        [
-                            'taxonomy' => 'property_status', // Houzez's property type taxonomy
-                            'field' => 'slug', // You can also use 'term_id' if needed
-                            'terms' => $settings['property_status'], // Slug provided via the widget control
-                        ],
-                    ];
-                }
-            
-                $query = new WP_Query($args);
+
+                $atts = array(
+                    'property_status' => $settings['property_status'],
+                    'posts_limit' => $settings['posts_per_page'],
+                );
+                $query = houzez_data_source::get_wp_query($atts);
+
+                //<!-- start: New Projects  -->
+                echo '<section class="ms-new-projects section--wrapper">';
+                echo '<div class="container-fluid">';
             
                 if ($query->have_posts()) {
-                    echo '<div class="houzez-property-carousel swiper-container">';
+                    echo '<div class="ms-new-projects__wrapper d-none d-lg-flex">';
+            
+                    while ($query->have_posts()) {
+                        $query->the_post();
+                        // <!--New Projects for desktop -->
+                        echo '<div class="ms-new-projects__wrap">';
+                        
+                        get_template_part('template-parts/listing/partials/item-mestate-carousel-v1');
+                        
+                        echo '</div>';
+                    }
+            
+                    echo '</div>';
+
+                    // <!--New Projects for mobile -->
+                    echo '<div class="swiper ms-new-projects__slider d-block d-lg-none">';
                     echo '<div class="swiper-wrapper">';
             
                     while ($query->have_posts()) {
                         $query->the_post();
                         echo '<div class="swiper-slide">';
-                        echo '<a href="' . get_the_permalink() . '">';
-                        echo get_the_post_thumbnail(get_the_ID(), 'medium');
-                        echo '<h3>' . get_the_title() . '</h3>';
-                        echo '</a>';
+                        echo '<div>';
+                        
+                        get_template_part('template-parts/listing/partials/item-mestate-carousel-v1');
+                        echo '</div>';
                         echo '</div>';
                     }
             
-                    echo '</div>'; // swiper-wrapper
-                    echo '<div class="swiper-pagination"></div>';
-                    echo '<div class="swiper-button-next"></div>';
-                    echo '<div class="swiper-button-prev"></div>';
-                    echo '</div>'; // swiper-container
+                    echo '</div>';
+                    echo '</div>';
                 } else {
                     echo __( 'No properties found', 'houzez' );
                 }
+
+                echo '</div>';
+                echo '</div>';
             
                 wp_reset_postdata();
             }
@@ -3963,7 +3969,7 @@ add_action( 'elementor/init', function() {
 
         // Register the widget after class is defined
         add_action( 'elementor/widgets/widgets_registered', function() {
-            \Elementor\Plugin::instance()->widgets_manager->register( new Houzez_Property_Carousel() );
+            \Elementor\Plugin::instance()->widgets_manager->register( new MEstate_Property_Carousel() );
         } );
 
 

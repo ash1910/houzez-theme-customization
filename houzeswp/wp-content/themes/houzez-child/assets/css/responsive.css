@@ -116,6 +116,10 @@ START: Hero Banner CSS
     padding: 128px 15px 0;
     border-radius: 16px;
   }
+  .ms-hero--2 {
+    margin: 0;
+    padding: 0;
+  }
   .ms-hero__title {
     margin-bottom: 15px;
   }
@@ -306,6 +310,9 @@ START: Header CSS
   .container-fluid--lg .row {
     --gutter-x: 0px;
   }
+  .container-fluid--lg:has(.ms-hero__slider) {
+    padding: 0 16px;
+  }
   .ms-header {
     transform: translateY(50%);
 
@@ -380,6 +387,10 @@ START: Hero Banner CSS
   .ms-hero {
     margin: 0 16px 40px;
     padding: 60px 15px 0;
+  }
+  .ms-hero--2 {
+    margin: 0;
+    padding: 0;
   }
   .ms-hero__title {
     margin-bottom: 15px;
@@ -643,6 +654,9 @@ START: apartment CSS
   .ms-apartments-main__filter {
     padding-bottom: 16px;
   }
+  .ms-header--sticky.ms-apartments-main__filter {
+    padding: 16px 16px;
+  }
   .ms-apartments-main__filter .ms-input--serach {
     width: auto;
     flex-grow: 1;
@@ -849,9 +863,20 @@ START: apartment CSS
   .ms-paginations__item--2 button {
     width: 38px;
   }
+  .ms-hero__slider {
+    margin-bottom: 16px;
+  }
+  .ms-hero__slider__thumbs {
+    margin-left: -8px;
+    margin-right: -8px;
+  }
+  .ms-hero__slider__thumbs .slick-slide {
+    padding: 0 8px;
+  }
   .ms-apartments-main__sidebar__single .ms-btn {
     height: 38px;
   }
+
   /**----------------------------------------
 !END: apartment CSS
 ----------------------------------------*/
