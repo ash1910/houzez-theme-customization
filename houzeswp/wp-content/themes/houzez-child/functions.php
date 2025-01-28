@@ -3880,14 +3880,14 @@ add_action( 'elementor/init', function() {
                 );
 
                 $this->add_control(
-                    'property_type',
+                    'property_status',
                     [
-                        'label' => __( 'Property Type', 'houzez' ),
+                        'label' => __( 'Property Status', 'houzez' ), 
                         'type' => \Elementor\Controls_Manager::SELECT2,
-                        'options' => $this->get_property_type_options(), // Fetch options dynamically
+                        'options' => $this->get_property_status_options(), // Fetch options dynamically
                         'multiple' => false, // Change to true if you want to allow multiple types
                         'label_block' => true,
-                        'description' => __( 'Select a property type to filter the carousel.', 'houzez' ),
+                        'description' => __( 'Select a property status to filter the carousel.', 'houzez' ),
                     ]
                 );
 
@@ -3904,12 +3904,12 @@ add_action( 'elementor/init', function() {
                 ];
             
                 // Add taxonomy filter if a property type is provided
-                if (!empty($settings['property_type'])) {
+                if (!empty($settings['property_status'])) {
                     $args['tax_query'] = [
                         [
-                            'taxonomy' => 'property_type', // Houzez's property type taxonomy
+                            'taxonomy' => 'property_status', // Houzez's property type taxonomy
                             'field' => 'slug', // You can also use 'term_id' if needed
-                            'terms' => $settings['property_type'], // Slug provided via the widget control
+                            'terms' => $settings['property_status'], // Slug provided via the widget control
                         ],
                     ];
                 }
@@ -3943,12 +3943,12 @@ add_action( 'elementor/init', function() {
             }
             
 
-            private function get_property_type_options() {
+            private function get_property_status_options() {
                 $terms = get_terms([
-                    'taxonomy' => 'property_type',
+                    'taxonomy' => 'property_status',
                     'hide_empty' => true,
                 ]);
-            
+                
                 $options = [];
                 if (!empty($terms) && !is_wp_error($terms)) {
                     foreach ($terms as $term) {
