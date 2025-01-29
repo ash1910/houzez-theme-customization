@@ -3856,6 +3856,12 @@ add_action( 'elementor/init', function() {
         } );
 
 
+        add_action( 'elementor/widgets/widgets_registered', function() {
+            require_once get_stylesheet_directory() . '/elementor-widgets/class-mestate-city-carousel.php';
+
+            \Elementor\Plugin::instance()->widgets_manager->register( new MEstate_City_Carousel() ); 
+        } );
+
     }
 });
 

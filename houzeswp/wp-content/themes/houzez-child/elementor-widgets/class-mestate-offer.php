@@ -12,7 +12,7 @@ class MEstate_Offer extends \Elementor\Widget_Base {
     }
 
     public function get_icon() {
-        return 'eicon-post-grid';
+        return 'eicon-post-slider';
     }
 
     public function get_categories() {
