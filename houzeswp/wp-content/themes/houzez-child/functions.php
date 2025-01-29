@@ -3861,20 +3861,21 @@ add_action( 'elementor/init', function() {
                 return [ 'general' ];
             }
 
-            // public function get_script_depends() {
-            //     return [ 'houzez_mestate_nice', 'houzez_mestate_meanmenu', 'houzez_mestate_swiper', 'houzez_mestate_price_range', 'houzez_mestate_main' ];
-            // }
-
-            // public function get_style_depends() {
-            //     return [ 'houzez_mestate_font-awesome-pro', 'houzez_mestate_iconmoon', 'houzez_mestate_general-sanse', 'houzez_mestate_meanmenu', 'houzez_mestate_nice-select', 'houzez_mestate_swiper-bundle', 'houzez_mestate_price-range', 'houzez_mestate_style', 'houzez_mestate_responsive' ];
-            // }
-
             protected function _register_controls() {
                 $this->start_controls_section(
                     'content_section',
                     [
                         'label' => __( 'Content', 'houzez' ),
                         'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
+                    ]
+                );
+
+                $this->add_control(
+                    'section_heading',
+                    [
+                        'label' => __( 'Section Heading', 'houzez' ),
+                        'type' => \Elementor\Controls_Manager::TEXT,
+                        'default' => 'Explore the New Project',
                     ]
                 );
 
@@ -3905,6 +3906,8 @@ add_action( 'elementor/init', function() {
             protected function render() {
                 $settings = $this->get_settings_for_display();
 
+                $section_heading = $settings['section_heading'];
+
                 $atts = array(
                     'property_status' => $settings['property_status'],
                     'posts_limit' => $settings['posts_per_page'],
@@ -3914,14 +3917,24 @@ add_action( 'elementor/init', function() {
                 //<!-- start: New Projects  -->
                 echo '<section class="ms-new-projects section--wrapper">';
                 echo '<div class="container-fluid">';
+                // section heading
+                echo '<div class="row">';
+                echo '<div class="col-12">';
+                echo '<div class="ms-section-heading">';
+                echo '<h2>'.$section_heading.'</h2>';
+                echo '</div>';
+                echo '</div>';
+                echo '</div>';
             
                 if ($query->have_posts()) {
                     echo '<div class="ms-new-projects__wrapper d-none d-lg-flex">';
-            
+                    $post_index = 0;
                     while ($query->have_posts()) {
                         $query->the_post();
                         // <!--New Projects for desktop -->
-                        echo '<div class="ms-new-projects__wrap">';
+                        $post_index++;
+                        $active_class = ($post_index === 2) ? ' active' : '';
+                        echo '<div class="ms-new-projects__wrap' . $active_class . '">';
                         
                         get_template_part('template-parts/listing/partials/item-mestate-carousel-v1');
                         
