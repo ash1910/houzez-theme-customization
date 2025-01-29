@@ -3858,8 +3858,16 @@ add_action( 'elementor/init', function() {
             }
 
             public function get_categories() {
-                return [ 'general' ]; // Change category if needed
+                return [ 'general' ];
             }
+
+            // public function get_script_depends() {
+            //     return [ 'houzez_mestate_nice', 'houzez_mestate_meanmenu', 'houzez_mestate_swiper', 'houzez_mestate_price_range', 'houzez_mestate_main' ];
+            // }
+
+            // public function get_style_depends() {
+            //     return [ 'houzez_mestate_font-awesome-pro', 'houzez_mestate_iconmoon', 'houzez_mestate_general-sanse', 'houzez_mestate_meanmenu', 'houzez_mestate_nice-select', 'houzez_mestate_swiper-bundle', 'houzez_mestate_price-range', 'houzez_mestate_style', 'houzez_mestate_responsive' ];
+            // }
 
             protected function _register_controls() {
                 $this->start_controls_section(
@@ -3938,6 +3946,41 @@ add_action( 'elementor/init', function() {
             
                     echo '</div>';
                     echo '</div>';
+
+                    if (\Elementor\Plugin::$instance->editor->is_edit_mode()) {
+                        echo '<script>
+                          // portfolio slider
+                          portfolioSlides = document.querySelectorAll(".ms-new-projects__wrap");
+                          if (portfolioSlides?.length) {
+                            portfolioSlides?.forEach((portfolioSlide, id) => {
+                              portfolioSlide?.addEventListener("mouseenter", function (e) {
+                                portfolioSlides?.forEach((portfolioSlide) => {
+                                  portfolioSlide.classList.remove("active");
+                                });
+                        
+                                this.classList.add("active");
+                              });
+                            });
+                          }
+                          // portfolio
+                          var portfolioSlider = new Swiper(".ms-new-projects__slider", {
+                            slidesPerView: 1.4,
+                            spaceBetween: 12,
+                            centeredSlides: true,
+                            loop: true,
+                            autoplay: {
+                              delay: 5000,
+                            },
+                            breakpoints: {
+                              768: {
+                                slidesPerView: 3,
+                                spaceBetween: 20,
+                              },
+                            },
+                          });
+                        </script>';
+                    }
+
                 } else {
                     echo __( 'No properties found', 'houzez' );
                 }
@@ -3971,7 +4014,6 @@ add_action( 'elementor/init', function() {
         add_action( 'elementor/widgets/widgets_registered', function() {
             \Elementor\Plugin::instance()->widgets_manager->register( new MEstate_Property_Carousel() );
         } );
-
 
     }
 });

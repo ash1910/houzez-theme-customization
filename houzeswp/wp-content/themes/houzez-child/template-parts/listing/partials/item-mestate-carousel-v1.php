@@ -1,7 +1,8 @@
 <?php
 global $post, $ele_thumbnail_size, $image_size;
 
-$author_id = get_the_author_ID();
+$author_id = get_the_author_meta('ID');
+$prop_handover_val = "";
 
 if ( houzez_is_developer($author_id ) ) {
     $prop_price = houzez_get_listing_data('property_price');
