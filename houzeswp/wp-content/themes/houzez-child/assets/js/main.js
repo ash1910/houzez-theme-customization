@@ -13,34 +13,41 @@ Mobile Menu Js
   $(".ms-nice-select").niceSelect();
 
   // portfolio slider
-  const portfolioSlides = document.querySelectorAll(".ms-new-projects__wrap");
-  if (portfolioSlides?.length) {
-    portfolioSlides?.forEach((portfolioSlide, id) => {
-      portfolioSlide?.addEventListener("mouseenter", function (e) {
-        portfolioSlides?.forEach((portfolioSlide) => {
-          portfolioSlide.classList.remove("active");
-        });
+  window.usePortfolioSlides = function() {
+    const portfolioSlides = document.querySelectorAll(".ms-new-projects__wrap");
+    if (portfolioSlides?.length) {
+      portfolioSlides?.forEach((portfolioSlide, id) => {
+        portfolioSlide?.addEventListener("mouseenter", function (e) {
+          portfolioSlides?.forEach((portfolioSlide) => {
+            portfolioSlide.classList.remove("active");
+          });
 
-        this.classList.add("active");
+          this.classList.add("active");
+        });
       });
+    }
+  }
+  usePortfolioSlides();
+  // portfolio
+  window.usePortfolioSlider = function() {
+    const portfolioSlider = new Swiper(".ms-new-projects__slider", {
+      slidesPerView: 1.4,
+      spaceBetween: 12,
+      centeredSlides: true,
+      loop: true,
+      autoplay: {
+        delay: 5000,
+      },
+      breakpoints: {
+        768: {
+          slidesPerView: 3,
+          spaceBetween: 20,
+        },
+      },
     });
   }
-  // portfolio
-  var portfolioSlider = new Swiper(".ms-new-projects__slider", {
-    slidesPerView: 1.4,
-    spaceBetween: 12,
-    centeredSlides: true,
-    loop: true,
-    autoplay: {
-      delay: 5000,
-    },
-    breakpoints: {
-      768: {
-        slidesPerView: 3,
-        spaceBetween: 20,
-      },
-    },
-  });
+  usePortfolioSlider();
+
   // form slider
   var formSlider = new Swiper(".ms-form__slider", {
     slidesPerView: 1,
@@ -65,7 +72,7 @@ Mobile Menu Js
     loop: true,
   });
   // apartment
-  function useapartmentSlider() {
+  window.useapartmentSlider = function() {
     const apartmentSlider = new Swiper(".ms-apartments__slider", {
       slidesPerView: 1.5,
       spaceBetween: 20,
