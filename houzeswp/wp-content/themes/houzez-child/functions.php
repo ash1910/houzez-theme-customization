@@ -3862,8 +3862,32 @@ add_action( 'elementor/init', function() {
             \Elementor\Plugin::instance()->widgets_manager->register( new MEstate_City_Carousel() ); 
         } );
 
+        add_action( 'elementor/widgets/widgets_registered', function() {
+            require_once get_stylesheet_directory() . '/elementor-widgets/class-mestate-city-map.php';
+
+            \Elementor\Plugin::instance()->widgets_manager->register( new MEstate_City_Map() ); 
+        } );
+
+        // add_action('init', function() {
+        //     // if ( class_exists('\Elementor\Plugin') ) {
+        //     //     $widgets_manager = \Elementor\Plugin::instance()->widgets_manager;
+        //     //     $registered_widgets = $widgets_manager->get_widget_types();
+
+        //     //     // echo '<pre>';
+        //     //     // foreach ($registered_widgets as $widget) {
+        //     //     //     echo get_class($widget) . "\n";
+        //     //     // }
+        //     //     // echo '</pre>';
+        //     // }
+        // });
+
     }
 });
+
+function get_city_name_by_slug($slug) {
+    $term = get_term_by('slug', $slug, 'property_city');
+    return $term ? $term->name : ucwords(str_replace('-', ' ', $slug));
+}
 
 
 //$user_package_id = houzez_get_user_package_id($userID);

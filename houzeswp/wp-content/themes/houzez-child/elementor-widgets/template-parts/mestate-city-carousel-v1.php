@@ -6,10 +6,6 @@
     $city_list = $settings['city_list'];
     $city_list_rent = $settings['city_list_rent'];
 
-    function get_city_name_by_slug($slug) {
-        $term = get_term_by('slug', $slug, 'property_city');
-        return $term ? $term->name : ucwords(str_replace('-', ' ', $slug));
-    }
 ?>
 
       
