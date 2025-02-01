@@ -39,7 +39,7 @@
       </div>
       <?php endif; ?>
     </div>
-    <div class="ms-hero__filter-tab">
+    <div class="ms-hero__filter-tab">    
       <div class="ms-header__filter-tab__inner">
         <!-- tab controllers -->
         <div class="ms-hero__tab-controllers">
@@ -51,7 +51,7 @@
               <?php $i = 0; foreach($status_data as $status): $i++; 
               $tabname = houzez_get_term_by( 'slug', $status, 'property_status' );
               ?>
-                <button class="<?php echo $i == 1 ? 'active' : ''; ?>" data-target="#<?php echo $status; ?>" data-toggle="tab">
+                <button class="ms-property-status-btn <?php echo $i == 1 ? 'active' : ''; ?>" data-target="#<?php echo $status; ?>" data-toggle="tab">
                   <?php echo $tabname->name; ?>
                 </button>
               <?php endforeach; ?>
@@ -64,24 +64,32 @@
           <!-- content 1 -->
           <?php if($status_data): ?>
               <div class="ms-hero__tab-content tab-pane fade show active" id="">
-                <div class="ms-hero__form">
+              
+                <form class="ms-hero__form">
+                  <input type="hidden" name="ms-min-price" class="ms-min-price-range-hidden range-input" readonly >
+                  <input type="hidden" name="ms-max-price" class="ms-max-price-range-hidden range-input" readonly >
                   <input type="hidden" name="ms-bed" class="ms-bed-hidden" readonly >
                   <input type="hidden" name="ms-bath" class="ms-bath-hidden" readonly >
+
                   <div class="ms-input ms-input--serach">
+                  
                     <input
                       type="search"
                       placeholder="Search Location"
-                      class="ms-hero__search-loaction"
+                      name="keyword"
+                      class="ms-hero__search-loaction houzez-keyword-autocomplete"
                       id="ms-hero__search-loaction"
                       autofocus
+                      autocomplete="off"
                     />
+                    <div id="auto_complete_ajax" class="auto-complete" style="top: 100%;"></div>
 
                     <label for="ms-hero__search-loaction"
                       ><i class="icon-search_black"></i
                     ></label>
                   </div>
                   <div class="ms-input">
-                    <select class="ms-nice-select" name="property_type">
+                    <select class="ms-nice-select" name="property_type" style="visibility: hidden;">
                       <option value="" selected disabled>Property type</option>
                       <?php
                       $tax_terms = get_terms('property_type', array(
@@ -122,8 +130,6 @@
                       </div>
 
                       <div class="ms-input__content__action">
-                        <input type="hidden" name="ms-min-price" class="ms-min-price-range-hidden range-input" readonly >
-                        <input type="hidden" name="ms-max-price" class="ms-max-price-range-hidden range-input" readonly >
                         <button class="ms-btn ms-btn--transparent ms-reset-price-range">
                           Reset All
                         </button>
@@ -186,11 +192,11 @@
                     </button>
                   </div>
                   <div>
-                    <button class="ms-btn ms-btn--primary">
+                    <button class="ms-btn ms-btn--primary ms-btn--search">
                       <i class="icon-search_black"></i>
                     </button>
                   </div>
-                </div>
+                </form>
               </div>
           <?php endif; ?>
 
@@ -337,6 +343,33 @@
             
             jQuery('.ms-bed-btn-text').html(displayText);
         }
+
+        jQuery('.ms-btn--search').on('click', function() {
+            const keyword = jQuery('.ms-hero__form .houzez-keyword-autocomplete').val();
+            const property_type = jQuery('.ms-hero__form .ms-nice-select').val();
+            const min_price = jQuery('.ms-hero__form .ms-min-price-range-hidden').val();
+            const max_price = jQuery('.ms-hero__form .ms-max-price-range-hidden').val();
+            const bedrooms = jQuery('.ms-hero__form .ms-bed-hidden').val();
+            const bathrooms = jQuery('.ms-hero__form .ms-bath-hidden').val();
+            
+            // Add null check for property status
+            const activeStatusBtn = jQuery('.ms-hero__filter-tab .ms-property-status-btn.active');
+            const property_status = activeStatusBtn.length ? activeStatusBtn.data('target').replace('#', '') : '';
+
+            console.log(keyword, property_type, property_status, min_price, max_price, bedrooms, bathrooms);
+
+            const url = '<?php echo home_url(); ?>/search-results/';
+            const searchParams = new URLSearchParams({
+                "keyword": keyword || '',
+                "type[]": property_type || '',
+                "status[]": property_status || '',
+                "min-price": min_price || '',
+                "max-price": max_price || '',
+                "bedrooms": bedrooms || '',
+                "bathrooms": bathrooms || ''
+            });
+            window.location.href = url + '?' + searchParams.toString();
+        });
     });
   </script>
 

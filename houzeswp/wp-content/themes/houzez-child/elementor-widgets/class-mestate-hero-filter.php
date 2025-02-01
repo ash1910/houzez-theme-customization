@@ -82,7 +82,9 @@ class MEstate_Hero_Filter extends \Elementor\Widget_Base {
 
         set_query_var('settings', $settings);
 
-        get_template_part('elementor-widgets/template-parts/mestate-hero-filter-v1');     
+        get_template_part('elementor-widgets/template-parts/mestate-hero-filter-v1');   
+        
+        get_template_part('elementor-widgets/template-parts/mestate-advanced-filter-v1'); 
 
     }
     
