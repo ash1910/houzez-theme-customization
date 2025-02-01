@@ -191,7 +191,19 @@ class MEstate_City_Map extends \Elementor\Widget_Base {
     protected function render() {
         $settings = $this->get_settings_for_display();
 
-        $properties_data = $this->get_properties_data();
+        $city_list = $settings['city_list'];
+        $city_list_rent = $settings['city_list_rent'];
+
+        foreach ($city_list as $key => $city) {
+            $properties_data = $this->get_properties_data($city['city_slug'], 'for-sale');
+            $city_list[$key]['properties_data'] = $properties_data;
+        }
+
+        foreach ($city_list_rent as $key => $city) {
+            $properties_data_rent = $this->get_properties_data($city['city_slug_rent'], 'for-rent');
+            $city_list_rent[$key]['properties_data'] = $properties_data_rent;
+        }
+
         $map_options = array();
 
         $map_cluster = houzez_option( 'map_cluster', false, 'url' );
@@ -209,8 +221,9 @@ class MEstate_City_Map extends \Elementor\Widget_Base {
         $map_options['infoWindowPlac'] = get_template_directory_uri() . '/img/pixel.gif';
         $map_options['mapbox_api_key'] = '';
 
-        $settings['properties_data'] = $properties_data;
         $settings['map_options'] = $map_options;
+        $settings['city_list'] = $city_list;
+        $settings['city_list_rent'] = $city_list_rent;
 
         set_query_var('settings', $settings);
 
@@ -238,10 +251,11 @@ class MEstate_City_Map extends \Elementor\Widget_Base {
         return $options;
     }
 
-    private function get_properties_data() {
+    private function get_properties_data($city_slug, $property_status) {
         $atts = array(
-            'property_city' => 'abu-dhabi', //$settings['property_city'],
-            'posts_limit' => 100,
+            'property_city' => $city_slug,
+            'property_status' => $property_status,
+            'posts_limit' => 20,
         );
         $prop_map_query = houzez_data_source::get_wp_query($atts);
 

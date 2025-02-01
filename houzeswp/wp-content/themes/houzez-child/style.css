@@ -772,6 +772,18 @@ i.menu-icon {
 .ms-footer__form .search-icon input {
     padding: 0;
 }
+.ms-location__card {
+    left: 48px;
+    z-index: 1;
+}
+.map-rounded {
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid #e5e7eb;
+}
+.map-rounded {
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
 
 
 @media (max-width: 767.98px) {

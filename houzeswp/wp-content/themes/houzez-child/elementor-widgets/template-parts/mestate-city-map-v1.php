@@ -6,9 +6,6 @@
     $city_list = $settings['city_list'];
     $city_list_rent = $settings['city_list_rent'];
     $map_options = $settings['map_options'];
-    $properties_data = $settings['properties_data'];
-
-    $id = 'abu-dhabi';
 
     wp_enqueue_script('leaflet');
     wp_enqueue_style('leaflet');
@@ -82,6 +79,7 @@
                         <?php $i = 0; foreach($city_list as $city): 
                           $city_name = get_city_name_by_slug($city['city_slug']);
                           $i++;
+                          $map_id = 'houzez-osm-map-' . $city['city_slug'];
                           ?>
                         <button
                           class="<?php echo $i == 1 ? 'active' : ''; ?>"
@@ -96,7 +94,9 @@
                       <div class="tab-content ms-location__tab__content">
                         <?php $i = 0; foreach($city_list as $city): 
                           $city_name = get_city_name_by_slug($city['city_slug']);
+                          $properties_data = $city['properties_data'];
                           $i++; 
+                          $map_id = 'houzez-osm-map-' . $city['city_slug'];
                           ?>
                         <div id="<?php echo $city['city_slug']; ?>" class="tab-pane fade <?php echo $i == 1 ? 'show active' : ''; ?>">
                           <!-- location card -->
@@ -128,23 +128,35 @@
                           <?php endif; ?>
 
                           <div class="houzez-elementor-map-wrap">
-                            <div id="houzez-osm-map-<?php echo $city['city_slug']; ?>" class="h-properties-map-for-elementor" style="height: 600px; width: 100%;"></div>
+                            <div id="<?php echo $map_id; ?>" class="h-properties-map-for-elementor map-rounded" style="height: 600px; width: 100%;"></div>
                           </div>
 
-                          <?php
-                          if ( \Elementor\Plugin::$instance->editor->is_edit_mode() ) { ?>
-
-                          <script type="application/javascript">
-                              houzezOpenStreetMapElementor("<?php echo 'houzez-osm-map-' . esc_attr($city['city_slug']); ?>", <?php echo json_encode( $properties_data );?> , <?php echo json_encode($map_options);?> );
-                          </script>
-
-                          <?php    
-                          } else { ?> 
-                          <script type="application/javascript">
-                              jQuery(document).bind("ready", function () {
-                                  houzezOpenStreetMapElementor("<?php echo 'houzez-osm-map-' . esc_attr($city['city_slug']); ?>", <?php echo json_encode( $properties_data );?> , <?php echo json_encode($map_options);?> );
-                              });
-                          </script>
+                          <?php if ( \Elementor\Plugin::$instance->editor->is_edit_mode() ) { ?>
+                            <script type="application/javascript">
+                                <?php if($i == 1): ?>
+                                if (jQuery('#<?php echo $city['city_slug']; ?>').hasClass('active')) {
+                                    houzezOpenStreetMapElementor("<?php echo esc_attr($map_id); ?>", <?php echo json_encode($properties_data); ?>, <?php echo json_encode($map_options); ?>);
+                                }
+                                <?php else: ?>
+                                  jQuery('[data-target="#<?php echo $city['city_slug']; ?>"]').one('shown.bs.tab', function() {
+                                    houzezOpenStreetMapElementor("<?php echo esc_attr($map_id); ?>", <?php echo json_encode($properties_data); ?>, <?php echo json_encode($map_options); ?>);
+                                });
+                                <?php endif; ?>
+                            </script>
+                          <?php } else { ?> 
+                            <script type="application/javascript">
+                                jQuery(document).ready(function() {
+                                    <?php if($i == 1): ?>
+                                    if (jQuery('#<?php echo $city['city_slug']; ?>').hasClass('active')) {
+                                        houzezOpenStreetMapElementor("<?php echo esc_attr($map_id); ?>", <?php echo json_encode($properties_data); ?>, <?php echo json_encode($map_options); ?>);
+                                    }
+                                    <?php else: ?>
+                                      jQuery('[data-target="#<?php echo $city['city_slug']; ?>"]').one('shown.bs.tab', function() {
+                                        houzezOpenStreetMapElementor("<?php echo esc_attr($map_id); ?>", <?php echo json_encode($properties_data); ?>, <?php echo json_encode($map_options); ?>);
+                                    });
+                                    <?php endif; ?>
+                                });
+                            </script>
                           <?php } ?>
 
                         </div>
@@ -173,7 +185,9 @@
                       <div class="tab-content ms-location__tab__content">
                         <?php $i = 0; foreach($city_list_rent as $city): 
                           $city_name = get_city_name_by_slug($city['city_slug_rent']);
+                          $properties_data = $city['properties_data'];
                           $i++;
+                          $map_id = 'houzez-osm-map-rent-' . $city['city_slug_rent'];
                           ?>
                         <div id="rent-<?php echo $city['city_slug_rent']; ?>" class="tab-pane fade <?php echo $i == 1 ? 'show active' : ''; ?>">
                           <!-- location card -->
@@ -204,14 +218,41 @@
                           </div>
                           <?php endif; ?>
 
-                          <div class="ms-location__card-action">
-                            <a href="#" class="ms-btn ms-btn--bordered">
-                              3214 properties
-                              <i class="fa-regular fa-arrow-right-long"></i>
-                            </a>
+                          <div class="houzez-elementor-map-wrap">
+                            <div id="<?php echo $map_id; ?>" class="h-properties-map-for-elementor map-rounded" style="height: 600px; width: 100%;"></div>
                           </div>
-                          <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/location/1.png" alt="" />
-                          <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/location/2.png" alt="" />
+
+                          <?php if ( \Elementor\Plugin::$instance->editor->is_edit_mode() ) { ?>
+                            <script type="application/javascript">
+                                <?php if($i == 1): ?>
+                                jQuery('[data-target="#location-rent"]').one('shown.bs.tab', function() {
+                                  if (jQuery('#rent-<?php echo $city['city_slug_rent']; ?>').hasClass('active')) {
+                                    houzezOpenStreetMapElementor("<?php echo esc_attr($map_id); ?>", <?php echo json_encode($properties_data); ?>, <?php echo json_encode($map_options); ?>);
+                                  }
+                                });
+                                <?php else: ?>
+                                jQuery('[data-target="#rent-<?php echo $city['city_slug_rent']; ?>"]').one('shown.bs.tab', function() {
+                                    houzezOpenStreetMapElementor("<?php echo esc_attr($map_id); ?>", <?php echo json_encode($properties_data); ?>, <?php echo json_encode($map_options); ?>);
+                                });
+                                <?php endif; ?>
+                            </script>
+                          <?php } else { ?> 
+                            <script type="application/javascript">
+                                jQuery(document).ready(function() {
+                                    <?php if($i == 1): ?>
+                                    jQuery('[data-target="#location-rent"]').one('shown.bs.tab', function() {
+                                      if (jQuery('#rent-<?php echo $city['city_slug_rent']; ?>').hasClass('active')) {
+                                        houzezOpenStreetMapElementor("<?php echo esc_attr($map_id); ?>", <?php echo json_encode($properties_data); ?>, <?php echo json_encode($map_options); ?>);
+                                      }
+                                    });
+                                    <?php else: ?>
+                                    jQuery('[data-target="#rent-<?php echo $city['city_slug_rent']; ?>"]').one('shown.bs.tab', function() {
+                                        houzezOpenStreetMapElementor("<?php echo esc_attr($map_id); ?>", <?php echo json_encode($properties_data); ?>, <?php echo json_encode($map_options); ?>);
+                                    });
+                                    <?php endif; ?>
+                                });
+                            </script>
+                          <?php } ?>
                         </div>
                         <?php endforeach; ?>
                       </div>
