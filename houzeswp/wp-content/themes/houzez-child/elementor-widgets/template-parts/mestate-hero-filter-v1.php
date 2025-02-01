@@ -5,6 +5,12 @@
   $description = $settings['description'];
   $filter_button_text = $settings['filter_button_text']; 
   $status_data = $settings['status_data'];
+  $image = $settings['image'];
+
+  $background_url = "";
+  if($image){
+    $background_url = "background: url('".$image['url']."') no-repeat top;";
+  }
 
   $default_currency = houzez_option('default_currency');
   if(empty($default_currency)) {
@@ -14,7 +20,7 @@
 
 
 <!-- start: Hero Banner -->
-<section class="ms-hero">
+<section class="ms-hero" style="<?php echo $background_url; ?>"> 
   <div class="container">
     <div class="ms-hero__inner">
       <?php if($title): ?>
@@ -89,7 +95,7 @@
                     ></label>
                   </div>
                   <div class="ms-input">
-                    <select class="ms-nice-select" name="property_type" style="visibility: hidden;">
+                    <select class="ms-nice-select-property-type" name="property_type" style="visibility: hidden;">
                       <option value="" selected disabled>Property type</option>
                       <?php
                       $tax_terms = get_terms('property_type', array(
@@ -278,11 +284,51 @@
         jQuery(".ms-input--price-btn").html('Select Price <i class="">' + currency_symb + '</i>');
       });
     }
+    const filterBtns = function(){
+        // get all button in form
+        const forms = document.querySelectorAll(".ms-hero__form");
+        if (forms?.length) {
+          forms?.forEach((form, idx) => {
+            form.addEventListener("submit", function (e) {
+              e.preventDefault();
+            });
+            const buttonsInForm = form.querySelectorAll(
+              "button:not([data-toggle='modal'])"
+            );
+            if (buttonsInForm?.length) {
+              buttonsInForm?.forEach((button) => {
+                button.addEventListener("click", function (e) {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  this.classList.toggle("open");
+                });
+
+                document.body?.addEventListener(
+                  "click",
+                  function () {
+                    button.classList.remove("open");
+                  },
+                  false
+                );
+              });
+            }
+          });
+        }
+    }
+
+
+
     <?php if ( \Elementor\Plugin::$instance->editor->is_edit_mode() ) { ?>
+      filterBtns();
       ms_price_range();
+
+      jQuery(".ms-nice-select-property-type").niceSelect();
     <?php } else { ?>
     jQuery(document).ready(function() {
+      filterBtns();
       ms_price_range();
+
+      jQuery(".ms-nice-select-property-type").niceSelect();
     });
     <?php } ?>
 
@@ -346,7 +392,7 @@
 
         jQuery('.ms-btn--search').on('click', function() {
             const keyword = jQuery('.ms-hero__form .houzez-keyword-autocomplete').val();
-            const property_type = jQuery('.ms-hero__form .ms-nice-select').val();
+            const property_type = jQuery('.ms-hero__form .ms-nice-select-property-type').val();
             const min_price = jQuery('.ms-hero__form .ms-min-price-range-hidden').val();
             const max_price = jQuery('.ms-hero__form .ms-max-price-range-hidden').val();
             const bedrooms = jQuery('.ms-hero__form .ms-bed-hidden').val();

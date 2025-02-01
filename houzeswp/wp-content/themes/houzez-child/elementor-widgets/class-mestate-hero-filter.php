@@ -30,6 +30,17 @@ class MEstate_Hero_Filter extends \Elementor\Widget_Base {
         );
 
         $this->add_control(
+            'image',
+            [
+                'label' => __( 'Image', 'houzez' ),
+                'type' => \Elementor\Controls_Manager::MEDIA,
+                'default' => [
+                    'url' => '',
+                ],
+            ]
+        );
+
+        $this->add_control(
             'title',
             [
                 'label' => __( 'Title', 'houzez' ),

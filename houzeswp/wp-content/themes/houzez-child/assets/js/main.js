@@ -137,36 +137,6 @@ Mobile Menu Js
     },
   });
 
-  // get all button in form
-  const forms = document.querySelectorAll(".ms-hero__form");
-  if (forms?.length) {
-    forms?.forEach((form, idx) => {
-      form.addEventListener("submit", function (e) {
-        e.preventDefault();
-      });
-      const buttonsInForm = form.querySelectorAll(
-        "button:not([data-toggle='modal'])"
-      );
-      if (buttonsInForm?.length) {
-        buttonsInForm?.forEach((button) => {
-          button.addEventListener("click", function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            this.classList.toggle("open");
-          });
-
-          document.body?.addEventListener(
-            "click",
-            function () {
-              button.classList.remove("open");
-            },
-            false
-          );
-        });
-      }
-    });
-  }
-
   function formWizardController() {
     // click on next button
     jQuery(`.form-wizard-next-btn`).click(function () {
