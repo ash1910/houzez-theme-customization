@@ -3868,6 +3868,12 @@ add_action( 'elementor/init', function() {
             \Elementor\Plugin::instance()->widgets_manager->register( new MEstate_City_Map() ); 
         } );
 
+        add_action( 'elementor/widgets/widgets_registered', function() {
+            require_once get_stylesheet_directory() . '/elementor-widgets/class-mestate-hero-filter.php';
+
+            \Elementor\Plugin::instance()->widgets_manager->register( new MEstate_Hero_Filter() ); 
+        } );
+
         // add_action('init', function() {
         //     // if ( class_exists('\Elementor\Plugin') ) {
         //     //     $widgets_manager = \Elementor\Plugin::instance()->widgets_manager;
