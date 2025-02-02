@@ -3895,6 +3895,118 @@ function get_city_name_by_slug($slug) {
     return $term ? $term->name : ucwords(str_replace('-', ' ', $slug));
 }
 
+add_action( 'wp_ajax_nopriv_houzez_get_auto_complete_search_advanced_filter', 'houzez_get_auto_complete_search_advanced_filter' );
+add_action( 'wp_ajax_houzez_get_auto_complete_search_advanced_filter', 'houzez_get_auto_complete_search_advance d_filter' );
+
+if ( !function_exists( 'houzez_get_auto_complete_search_advanced_filter' ) ) {
+
+    function houzez_get_auto_complete_search_advanced_filter() {
+        $current_language = apply_filters( 'wpml_current_language', null );
+        global $wpdb;
+        $key = $_POST['key'];
+        $key = $wpdb->esc_like($key);
+        $keyword_field = houzez_option('keyword_field');
+        $houzez_local = houzez_get_localization();
+        $response = '';
+
+            $terms_table = $wpdb->terms;
+            $term_taxonomy = $wpdb->term_taxonomy;
+
+            $data = $wpdb->get_results( 
+                $wpdb->prepare(
+                    "SELECT DISTINCT * FROM {$terms_table} as term INNER JOIN $term_taxonomy AS term_taxonomy ON term.term_id = term_taxonomy.term_id AND term.name LIKE %s AND ( term_taxonomy.taxonomy = %s OR term_taxonomy.taxonomy = %s OR term_taxonomy.taxonomy = %s )",
+                    '%' . $key . '%',
+                    'property_area'
+                )
+            );
+
+            if ( sizeof( $data ) != 0 ) {
+
+                echo '<ul class="list-group">';
+
+                $new_data = array();
+
+                foreach ( $data as $term ) {
+        
+                    $term_language = apply_filters( 'wpml_element_language_code', null, array('element_id' => $term->term_id, 'element_type' => 'category'));
+
+                    if ($term_language !== $current_language) {
+                        continue;
+                    }
+
+                    $new_data [] = $term;
+                }
+
+                // Display the sorted terms
+                foreach ($new_data as $term) {
+                    
+
+                    $taxonomy_img_id = get_term_meta( $term->term_id, 'fave_taxonomy_img', true );
+
+                    $term_type = explode( 'property_', $term->taxonomy );
+                    $term_type = $term_type[1];
+                    $prop_count = $term->count;
+
+                    if ( empty( $taxonomy_img_id ) ) {
+                       $term_img = '<img src="http://placehold.it/40x40" width="40" height="40">';
+                   } else {
+                        $term_img = wp_get_attachment_image( $taxonomy_img_id, array( 40, 40 ), array( "class" => "img-fluid rounded" ) );
+                   }
+
+                   if( $term_type == 'state' ) {
+                        $term_type = $houzez_local['auto_state'];
+                   } else if( $term_type == 'city' ) {
+                        $term_type = $houzez_local['auto_city'];
+                   } else if( $term_type == 'area' ) {
+                        $term_type = $houzez_local['auto_area'];
+                   }
+
+                    ?>
+                    <li class="list-group-item" data-text="<?php echo $term->name; ?>">
+                        <div class="d-flex align-items-center">
+                            <div class="auto-complete-image-wrap">
+                                <a href="<?php echo get_term_link( $term ); ?>">
+                                    <?php echo $term_img; ?>
+                                </a>    
+                            </div><!-- auto-complete-image-wrap -->
+                            <div class="auto-complete-content-wrap flex-fill ml-3">
+                                <div class="auto-complete-title"><?php echo esc_attr($term->name); ?></div>
+                                <ul class="item-amenities">
+                                    <li><?php if ( !empty( $term_type ) ) { ?>
+                                    <?php echo $term_type; ?>
+                                <?php } ?>
+                                <?php if ( !empty( $prop_count ) ) : ?>
+                                     - <?php echo $prop_count . ' ' . $houzez_local['auto_listings']; ?>
+                                <?php endif; ?></li>
+                                </ul>
+                            </div><!-- auto-complete-content-wrap -->
+                            <div class="auto-complete-content-wrap ml-3">
+                                <a target="_blank" href="<?php echo get_term_link( $term ); ?>" class="search-result-view"><?php echo $houzez_local['auto_view_lists']; ?></a>
+                            </div><!-- auto-complete-content-wrap -->
+                        </div><!-- d-flex -->
+                    </li>
+                    <?php
+
+                }
+
+                echo '</ul>';
+
+            } else {
+
+               ?>
+               <ul class="list-group">
+                   <li class="list-group-item"> <?php echo $houzez_local['auto_result_not_found']; ?> </li>
+               </ul>
+               <?php
+
+           }
+
+        wp_die();
+
+    }
+
+}
+
 
 //$user_package_id = houzez_get_user_package_id($userID);
 //$package_images = get_post_meta( $user_package_id, 'fave_package_images', true );

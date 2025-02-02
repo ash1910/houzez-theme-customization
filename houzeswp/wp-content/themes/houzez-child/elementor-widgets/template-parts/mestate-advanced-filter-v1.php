@@ -1,3 +1,8 @@
+    <?php
+
+    ?>    
+    
+    
     
     
     <!-- start: Advanced Filter Modal   -->
@@ -68,11 +73,13 @@
                           ></label>
                           <input
                             type="search"
+                            name="keyword"
                             placeholder="Search Location"
-                            class="ms-hero__search-loaction"
+                            class="ms-hero__search-loaction houzez-keyword-autocomplete-advanced-filter"
                             id="ms-hero__search-loaction"
                             autofocus
                           />
+                          <div id="auto_complete_ajax" class="auto-complete" style="top: 100%;"></div>
                         </div>
                         <button
                           class="ms-inupt__contoller ms-btn ms-btn--primary"
@@ -1090,3 +1097,88 @@
         </div>
       </div>
     </div>
+
+
+    <script>
+        function HouzezDebounce(func, delay) {
+            let debounceTimer;
+            return function() {
+                const context = this;
+                const args = arguments;
+                clearTimeout(debounceTimer);
+                debounceTimer = setTimeout(() => func.apply(context, args), delay);
+            };
+        }
+
+        var houzezAutoCompleteAdvancedFilter = function () {
+
+            var ajaxCount = 0;
+            var auto_complete_container = $('.auto-complete');
+            var lastLenght = 0;
+
+            $( 'body' ).on('keyup', '.houzez-keyword-autocomplete-advanced-filter', HouzezDebounce(function() {
+
+                var $this = $( this );
+                var $dataType = $this.data('type');
+                var $form = $this.parents( 'form');
+                
+                if( $dataType == 'banner' ) {
+                    var auto_complete_container = $( '#houzez-auto-complete-banner' );
+                } else {
+                    var auto_complete_container = $form.find( '.auto-complete' );
+                }
+
+                var keyword = $( this ).val();
+                
+                keyword = $.trim( keyword );
+                var currentLenght = keyword.length;
+
+                if ( currentLenght >= 2 && currentLenght != lastLenght ) {
+
+                    lastLenght = currentLenght;
+                    auto_complete_container.fadeIn();
+
+                    $.ajax({
+                        type: 'POST',
+                        url: '<?php echo admin_url('admin-ajax.php'); ?>',
+                        data: {
+                            'action': 'houzez_get_auto_complete_search_advanced_filter',
+                            'key': keyword,
+                        },
+                        beforeSend: function( ) {
+                            ajaxCount++;
+                            if ( ajaxCount == 1 ) {
+                                auto_complete_container.html('<ul class="list-group"><li class="list-group-item"><i class="fa fa-spinner fa-spin fa-fw"></i> '+autosearch_text+ '</li></ul>');
+                            }
+                        },
+                        success: function(data) {
+                            ajaxCount--;
+                            if ( ajaxCount == 0 ) {
+                                auto_complete_container.show();
+                                if( data != '' ) {
+                                    auto_complete_container.empty().html(data).bind();
+                                }
+                            }
+                        },
+                        error: function(errorThrown) {
+                            ajaxCount--;
+                            if ( ajaxCount == 0 ) {
+                                auto_complete_container.html('<ul class="list-group"><li class="list-group-item"><i class="fa fa-spinner fa-spin fa-fw"></i> '+autosearch_text+ '</li></ul>');
+                            }
+                        }
+                    });
+
+                } else {
+                    if ( currentLenght != lastLenght ) {
+                        auto_complete_container.fadeOut();
+                    }
+                }
+
+            }, 400)); // 500 milliseconds as the delay
+            auto_complete_container.on( 'click', 'li', function (){
+                $('.houzez-keyword-autocomplete-advanced-filter').val( $( this ).data( 'text' ) );
+                auto_complete_container.fadeOut();
+            }).bind();
+        }
+        houzezAutoCompleteAdvancedFilter();
+    </script>
