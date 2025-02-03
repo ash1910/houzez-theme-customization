@@ -3895,7 +3895,14 @@ function get_city_name_by_slug($slug) {
     return $term ? $term->name : ucwords(str_replace('-', ' ', $slug));
 }
 
-
+function get_Houzez_Fields_Builder_select_options($slug) {
+    if(class_exists('Houzez_Fields_Builder')) {
+        $field_array = Houzez_Fields_Builder::get_field_by_slug($slug);
+        $options = unserialize($field_array['fvalues']);
+        return $options;
+    }
+    return array();
+}
 
 //$user_package_id = houzez_get_user_package_id($userID);
 //$package_images = get_post_meta( $user_package_id, 'fave_package_images', true );

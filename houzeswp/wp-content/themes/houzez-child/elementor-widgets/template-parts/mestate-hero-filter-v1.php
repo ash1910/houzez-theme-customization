@@ -139,7 +139,7 @@
                         <button class="ms-btn ms-btn--transparent ms-reset-price-range">
                           Reset All
                         </button>
-                        <button class="ms-btn ms-btn--primary" data-toggle="modal" data-target="#msFilterModal">Apply</button>
+                        <button class="ms-btn ms-btn--primary ms-btn--apply">Apply</button>
                       </div>
                     </div>
                   </div>
@@ -240,50 +240,56 @@
         }
         return price;
     }
-    function ms_price_range() {
+    function ms_hero_filter_price_range(price_range_slider) {
+      let $form = price_range_slider.closest('form');
       var currency_symb = houzez_vars.currency_symbol;
       var currency_position = houzez_vars.currency_position;
       var min_price = <?php echo houzez_option('advanced_search_widget_min_price', 0); ?>;
       var max_price = <?php echo houzez_option('advanced_search_widget_max_price', 2500000); ?>;
       
-      var slider = jQuery(".ms-price-slider-range").slider({
+      var slider = price_range_slider.slider({
         range: true,
         min: min_price,
         max: max_price,
         values: [min_price, max_price],
         slide: function (event, ui) {
-          jQuery(".ms-input__content__value--min").html(currency_symb + thousandSeparator(ui.values[0]));
-          jQuery(".ms-input__content__value--max").html(currency_symb + thousandSeparator(ui.values[1]));
+          $form.find(".ms-input__content__value--min").html(currency_symb + thousandSeparator(ui.values[0]));
+          $form.find(".ms-input__content__value--max").html(currency_symb + thousandSeparator(ui.values[1]));
 
-          jQuery(".ms-input--price-btn").html('Up to ' + formatPrice(ui.values[1]) + ' ' + currency_symb);
+          $form.find(".ms-min-price-range-hidden").val( ui.values[0] );
+          $form.find(".ms-max-price-range-hidden").val( ui.values[1] );
 
-          jQuery(".ms-min-price-range-hidden").val( ui.values[0] );
-          jQuery(".ms-max-price-range-hidden").val( ui.values[1] );
+          $form.find(".ms-input--price-btn").html('Up to ' + formatPrice(ui.values[1]) + ' ' + currency_symb);
         },
       });
 
-      jQuery(".ms-input__content__value--min").html(currency_symb + thousandSeparator(min_price));
-      jQuery(".ms-input__content__value--max").html(currency_symb + thousandSeparator(max_price));
-      jQuery(".ms-min-price-range-hidden").val(min_price);
-      jQuery(".ms-max-price-range-hidden").val(max_price);
+      $form.find(".ms-input__content__value--min").html(currency_symb + thousandSeparator(min_price));
+      $form.find(".ms-input__content__value--max").html(currency_symb + thousandSeparator(max_price));
+      $form.find(".ms-min-price-range-hidden").val(min_price);
+      $form.find(".ms-max-price-range-hidden").val(max_price);
 
-      // Reset price range when clicking reset button
-      jQuery('.ms-reset-price-range').on('click', function() {
+      $form.find('.ms-reset-price-range').on('click', function() {
         // Reset slider values
         slider.slider('values', [min_price, max_price]);
         
         // Reset displayed values
-        jQuery(".ms-input__content__value--min").html(currency_symb + thousandSeparator(min_price));
-        jQuery(".ms-input__content__value--max").html(currency_symb + thousandSeparator(max_price));
+        $form.find(".ms-input__content__value--min").html(currency_symb + thousandSeparator(min_price));
+        $form.find(".ms-input__content__value--max").html(currency_symb + thousandSeparator(max_price));
         
         // Reset hidden inputs
-        jQuery(".ms-min-price-range-hidden").val(min_price);
-        jQuery(".ms-max-price-range-hidden").val(max_price);
+        $form.find(".ms-min-price-range-hidden").val(min_price);
+        $form.find(".ms-max-price-range-hidden").val(max_price);
         
         // Reset button text
-        jQuery(".ms-input--price-btn").html('Select Price <i class="">' + currency_symb + '</i>');
+        $form.find(".ms-input--price-btn").html('Select Price <i class="">' + currency_symb + '</i>');
+      });
+
+      $form.find(".ms-btn--apply").on('click', function() {
+        console.log('apply');
+        //jQuery(".ms-input--price-btn").removeClass('open');
       });
     }
+
     const filterBtns = function(){
         // get all button in form
         const forms = document.querySelectorAll(".ms-hero__form");
@@ -320,13 +326,13 @@
 
     <?php if ( \Elementor\Plugin::$instance->editor->is_edit_mode() ) { ?>
       filterBtns();
-      ms_price_range();
+      ms_hero_filter_price_range(jQuery('.ms-price-slider-range'));
 
       jQuery(".ms-nice-select-property-type").niceSelect();
     <?php } else { ?>
     jQuery(document).ready(function() {
       filterBtns();
-      ms_price_range();
+      ms_hero_filter_price_range(jQuery('.ms-price-slider-range'));
 
       jQuery(".ms-nice-select-property-type").niceSelect();
     });
