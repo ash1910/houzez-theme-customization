@@ -397,6 +397,30 @@ if($adv_baths_list) {
     </div>
 
     <script>
+    var thousandSeparator = (n) => {
+      var thousands_separator = houzez_vars.thousands_separator;
+        if (typeof n === 'number') {
+            n += '';
+            var x = n.split('.');
+            var x1 = x[0];
+            var x2 = x.length > 1 ? '.' + x[1] : '';
+            var rgx = /(\d+)(\d{3})/;
+            while (rgx.test(x1)) {
+                x1 = x1.replace(rgx, '$1' + thousands_separator + '$2');
+            }
+            return x1 + x2;
+        } else {
+            return n;
+        }
+    }
+    function formatPrice(price) {
+        if (price >= 1000000) {
+            return (price / 1000000).toFixed(1) + 'M';
+        } else if (price >= 1000) {
+            return (price / 1000).toFixed(0) + 'K';
+        }
+        return price;
+    }
     function ms_advanced_filter_price_range(price_range_slider) {
       let $form = price_range_slider.closest('form');
       var currency_symb = houzez_vars.currency_symbol;
@@ -425,6 +449,7 @@ if($adv_baths_list) {
     }
 
     function ms_advanced_filter_functionality(){
+        ms_advanced_filter_price_range(jQuery('.ms-price-slider-range-advanced-filter'));
 
         // Get areas data from hidden input
         const areasData = JSON.parse(jQuery('#prop_areas_data').val());
@@ -710,62 +735,10 @@ if($adv_baths_list) {
     }
     
     <?php if ( \Elementor\Plugin::$instance->editor->is_edit_mode() ) { ?>
-        ms_advanced_filter_price_range(jQuery('.ms-price-slider-range-advanced-filter'));
         ms_advanced_filter_functionality();
     <?php } else { ?> 
     jQuery(document).ready(function($) {
-      
-        ms_advanced_filter_price_range(jQuery('.ms-price-slider-range-advanced-filter'));
-        ms_advanced_filter_functionality();
-
+      ms_advanced_filter_functionality();
     });
     <?php } ?>
     </script>
-
-    <style>
-    .auto-complete-container {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        background: white;
-        border: 1px solid #ddd;
-        border-radius: 0 0 4px 4px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        z-index: 1000;
-        display: none;
-    }
-
-    .area-autocomplete-list {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-    }
-
-    .area-autocomplete-list li {
-        padding: 0;
-        margin: 0;
-    }
-
-    .area-suggestion {
-        display: block;
-        padding: 8px 15px;
-        color: #333;
-        text-decoration: none;
-    }
-
-    .area-suggestion:hover {
-        background-color: #f5f5f5;
-        cursor: pointer;
-    }
-
-    .filter-item.active {
-        background-color: #00a86b;
-        color: white;
-    }
-
-    .initial-hide{
-      display: none;
-    }
-
-  </style>

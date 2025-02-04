@@ -784,6 +784,55 @@ i.menu-icon {
 .map-rounded {
     box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
 }
+.ms-bed-btn.active,
+.ms-bath-btn.active {
+    background-color: #00a86b;
+    color: white;
+}
+.auto-complete-container {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 0 0 4px 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    z-index: 1000;
+    display: none;
+}
+
+.area-autocomplete-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.area-autocomplete-list li {
+    padding: 0;
+    margin: 0;
+}
+
+.area-suggestion {
+    display: block;
+    padding: 8px 15px;
+    color: #333;
+    text-decoration: none;
+}
+
+.area-suggestion:hover {
+    background-color: #f5f5f5;
+    cursor: pointer;
+}
+
+.filter-item.active {
+    background-color: #00a86b;
+    color: white;
+}
+.initial-hide{
+  display: none;
+}
+
 
 
 @media (max-width: 767.98px) {

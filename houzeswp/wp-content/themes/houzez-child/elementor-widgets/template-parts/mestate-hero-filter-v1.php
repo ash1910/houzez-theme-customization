@@ -322,23 +322,28 @@
         }
     }
 
+    function updateBedBathButtonText() {
+        var bedValue = jQuery('.ms-bed-hidden').val();
+        var bathValue = jQuery('.ms-bath-hidden').val();
+        
+        var bedText = bedValue ? (bedValue === 'any' ? 'Any' : bedValue) : 'Any';
+        var bathText = bathValue ? (bathValue === 'any' ? 'Any' : bathValue) : 'Any';
+        
+        var displayText = bedText + ' BD / ' + bathText + ' Bath';
+        if (!bedValue && !bathValue) {
+            displayText = 'Select beds/baths';
+        }
+        
+        jQuery('.ms-bed-btn-text').html(displayText);
+    }
 
+    function ms_hero_filter_functionality(){
+        filterBtns();
 
-    <?php if ( \Elementor\Plugin::$instance->editor->is_edit_mode() ) { ?>
-      filterBtns();
-      ms_hero_filter_price_range(jQuery('.ms-price-slider-range'));
+        ms_hero_filter_price_range(jQuery('.ms-price-slider-range'));
 
-      jQuery(".ms-nice-select-property-type").niceSelect();
-    <?php } else { ?>
-    jQuery(document).ready(function() {
-      filterBtns();
-      ms_hero_filter_price_range(jQuery('.ms-price-slider-range'));
+        jQuery(".ms-nice-select-property-type").niceSelect();
 
-      jQuery(".ms-nice-select-property-type").niceSelect();
-    });
-    <?php } ?>
-
-    jQuery(document).ready(function() {
         // Handle bed button clicks
         jQuery('.ms-bed-btn').on('click', function() {
             var bedValue = jQuery(this).data('value');
@@ -381,21 +386,6 @@
             updateBedBathButtonText();
         });
 
-        function updateBedBathButtonText() {
-            var bedValue = jQuery('.ms-bed-hidden').val();
-            var bathValue = jQuery('.ms-bath-hidden').val();
-            
-            var bedText = bedValue ? (bedValue === 'any' ? 'Any' : bedValue) : 'Any';
-            var bathText = bathValue ? (bathValue === 'any' ? 'Any' : bathValue) : 'Any';
-            
-            var displayText = bedText + ' BD / ' + bathText + ' Bath';
-            if (!bedValue && !bathValue) {
-                displayText = 'Select beds/baths';
-            }
-            
-            jQuery('.ms-bed-btn-text').html(displayText);
-        }
-
         jQuery('.ms-btn--search').on('click', function() {
             const keyword = jQuery('.ms-hero__form .houzez-keyword-autocomplete').val();
             const property_type = jQuery('.ms-hero__form .ms-nice-select-property-type').val();
@@ -422,13 +412,14 @@
             });
             window.location.href = url + '?' + searchParams.toString();
         });
-    });
-  </script>
-
-<style>
-    .ms-bed-btn.active,
-    .ms-bath-btn.active {
-        background-color: #00a86b;
-        color: white;
     }
-</style>
+
+
+    <?php if ( \Elementor\Plugin::$instance->editor->is_edit_mode() ) { ?>
+      ms_hero_filter_functionality();
+    <?php } else { ?>
+    jQuery(document).ready(function($) {
+      ms_hero_filter_functionality();
+    });
+    <?php } ?>
+  </script>
