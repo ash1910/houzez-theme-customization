@@ -27,6 +27,7 @@ do_action( 'houzez_after_footer' );
 
 do_action( 'houzez_before_wp_footer' );
 
+// Advanced Filter 
 get_template_part('elementor-widgets/template-parts/mestate-advanced-filter-v1'); 
 
 wp_footer(); ?>
