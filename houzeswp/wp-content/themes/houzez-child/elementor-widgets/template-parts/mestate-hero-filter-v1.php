@@ -16,6 +16,19 @@
   if(empty($default_currency)) {
       $default_currency = 'USD';
   }
+
+$adv_beds_list = houzez_option('adv_beds_list');
+$adv_baths_list = houzez_option('adv_baths_list');
+
+$bed_list = array();
+if($adv_beds_list) {
+    $bed_list = explode(',', $adv_beds_list);
+}
+
+$bath_list = array();
+if($adv_baths_list) {
+    $bath_list = explode(',', $adv_baths_list);
+}
 ?>
 
 
@@ -168,20 +181,18 @@
                         <h6>Beds</h6>
                         <ul class="ms-input__list">
                           <li><button class="ms-bed-btn" data-value="any">Any</button></li>
-                          <li><button class="ms-bed-btn" data-value="1">1</button></li>
-                          <li><button class="ms-bed-btn" data-value="2">2</button></li>
-                          <li><button class="ms-bed-btn" data-value="3">3</button></li>
-                          <li><button class="ms-bed-btn" data-value="4+">4+</button></li>
+                          <?php foreach($bed_list as $value): ?>
+                          <li><button class="ms-bed-btn" data-value="<?php echo $value; ?>"><?php echo $value; ?></button></li>
+                          <?php endforeach; ?>
                         </ul>
                       </div>
                       <div class="ms-input__content__beds">
                         <h6>Baths</h6>
                         <ul class="ms-input__list">
                           <li><button class="ms-bath-btn" data-value="any">Any</button></li>
-                          <li><button class="ms-bath-btn" data-value="1">1</button></li>
-                          <li><button class="ms-bath-btn" data-value="2">2</button></li>
-                          <li><button class="ms-bath-btn" data-value="3">3</button></li>
-                          <li><button class="ms-bath-btn" data-value="4+">4+</button></li>
+                          <?php foreach($bath_list as $value): ?>
+                          <li><button class="ms-bath-btn" data-value="<?php echo $value; ?>"><?php echo $value; ?></button></li>
+                          <?php endforeach; ?>
                         </ul>
                       </div>
                     </div>
@@ -286,7 +297,7 @@
 
       $form.find(".ms-btn--apply").on('click', function() {
         console.log('apply');
-        //jQuery(".ms-input--price-btn").removeClass('open');
+        jQuery(".ms-input--price-btn").removeClass('open');
       });
     }
 

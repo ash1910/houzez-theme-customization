@@ -3886,6 +3886,12 @@ add_action( 'elementor/init', function() {
             \Elementor\Plugin::instance()->widgets_manager->register( new MEstate_Register() );    
         } );
 
+        add_action( 'elementor/widgets/widgets_registered', function() {
+            require_once get_stylesheet_directory() . '/elementor-widgets/class-mestate-new-project.php';
+
+            \Elementor\Plugin::instance()->widgets_manager->register( new MEstate_New_Project() );    
+        } );
+
 
 
         // add_action('init', function() {
