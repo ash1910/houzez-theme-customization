@@ -126,10 +126,43 @@
       </section>
       <!-- end: apartments -->
 
-      <?php if (\Elementor\Plugin::$instance->editor->is_edit_mode()) {?>
       <script>
-        if (typeof useapartmentSlider === 'function') {
-            useapartmentSlider();
-        }
-      </script>
+      // apartment
+      function useApartmentSlider() {
+        const apartmentSlider = new Swiper(".ms-apartments__slider", {
+          slidesPerView: 1.5,
+          spaceBetween: 20,
+          centeredSlides: true,
+          loop: true,
+          autoplay: {
+            delay: 5000,
+          },
+          breakpoints: {
+            1024: {
+              slidesPerView: 3.5,
+              spaceBetween: 30,
+            },
+          },
+        });
+      }
+      function useApartmentSliderTab() {
+        const tabs = document.querySelectorAll('.nav-tab button[data-toggle="tab"]');
+        tabs.forEach(tab => {
+          tab.addEventListener("shown.bs.tab", e => {
+            const target = e.target.getAttribute("data-target");
+            useApartmentSlider(); // Update Swiper when the tab is shown
+          });
+        });
+      }
+
+	
+      <?php if (\Elementor\Plugin::$instance->editor->is_edit_mode()) {?>
+        useApartmentSlider();
+        useApartmentSliderTab();
+      <?php } else { ?>
+        jQuery(document).ready(function($) {
+          useApartmentSlider();
+          useApartmentSliderTab();
+        });
       <?php } ?>
+      </script>

@@ -232,9 +232,9 @@
 
                   <!-- other sign in -->
                   <div class="ms-form__other-login">
-                    <p class="ms-form__other-login__title">Or Sign In With</p>
                     <?php if( houzez_option('facebook_login') == 'yes' || houzez_option('google_login') == 'yes' ) { ?>
-                    <div class="ms-fomr__other-login__buttons">
+                      <p class="ms-form__other-login__title">Or Sign In With</p>
+                      <div class="ms-fomr__other-login__buttons">
                       <?php if( houzez_option('google_login') == 'yes' ) { ?>
                       <button class="ms-btn ms-btn--bordered">
                         <svg
@@ -342,3 +342,28 @@
         </div>
       </section>
       <!-- end:  Login  -->
+
+      <script>
+        // form slider
+        function useFormSlider() {
+          var formSlider = new Swiper(".ms-form__slider", {
+            slidesPerView: 1,
+            spaceBetween: 0,
+            pagination: {
+              el: ".swiper-pagination",
+              clickable: true,
+            },
+            loop: true,
+            autoplay: {
+              delay: 10000,
+            },
+          });
+        }
+        <?php if (\Elementor\Plugin::$instance->editor->is_edit_mode()) {?>
+          useFormSlider();
+        <?php } else { ?>
+          jQuery(document).ready(function($) {
+            useFormSlider();
+          });
+        <?php } ?>
+      </script>

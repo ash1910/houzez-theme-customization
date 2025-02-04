@@ -118,14 +118,54 @@ class MEstate_Property_Carousel extends \Elementor\Widget_Base {
             echo '</div>';
             echo '</div>';
 
+            echo '<script>
+                // portfolio slides
+                function usePortfolioSlides() {
+                    const portfolioSlides = document.querySelectorAll(".ms-new-projects__wrap");
+                    if (portfolioSlides?.length) {
+                        portfolioSlides?.forEach((portfolioSlide, id) => {
+                            portfolioSlide?.addEventListener("mouseenter", function (e) {
+                                portfolioSlides?.forEach(portfolioSlide => {
+                                    portfolioSlide.classList.remove("active");
+                                });
+
+                                this.classList.add("active");
+                            });
+                        });
+                    }
+                }
+                function usePortfolioSlider() {
+                    // portfolio
+                    var portfolioSlider = new Swiper(".ms-new-projects__slider", {
+                        slidesPerView: 1.4,
+                        spaceBetween: 12,
+                        centeredSlides: true,
+                        loop: true,
+                        autoplay: {
+                            delay: 5000,
+                        },
+                        breakpoints: {
+                            768: {
+                                slidesPerView: 3,
+                                spaceBetween: 20,
+                            },
+                        },
+                    });
+                }
+            </script>';
+
             if (\Elementor\Plugin::$instance->editor->is_edit_mode()) {
                 echo '<script>
-                if (typeof usePortfolioSlider === \'function\') {
-                    usePortfolioSlider();
-                }
-                if (typeof usePortfolioSlides === \'function\') {
                     usePortfolioSlides();
-                }
+                    usePortfolioSlider();
+                </script>';
+            }
+            else{
+                echo '<script>
+                    jQuery(document).ready(function($) {
+                        usePortfolioSlides();
+                        usePortfolioSlider();
+                    });
                 </script>';
             }
 

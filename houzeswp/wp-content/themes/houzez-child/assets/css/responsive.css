@@ -1,1096 +1,1918 @@
 /* bootstrap container */
 @media screen and (min-width: 1200px) {
-  .container {
-    max-width: 1170px;
-  }
+	.container {
+		max-width: 1170px;
+	}
 }
 
 @media only screen and (min-width: 1200px) and (max-width: 1440px) {
-  /**----------------------------------------
+	/**----------------------------------------
 START: Portfolio CSS
 ----------------------------------------*/
-  .ms-new-projects__wrap:hover .ms-new-projects__thumb img {
-    width: 470px;
-  }
-  .ms-new-projects__wrap.active .ms-new-projects__thumb img {
-    width: 470px;
-  }
-  .ms-new-projects__thumb img {
-    width: 218px;
-  }
-  /**----------------------------------------
+	.ms-new-projects__wrap:hover .ms-new-projects__thumb img {
+		width: 470px;
+	}
+	.ms-new-projects__wrap.active .ms-new-projects__thumb img {
+		width: 470px;
+	}
+	.ms-new-projects__thumb img {
+		width: 218px;
+	}
+	/**----------------------------------------
 !END: Portfolio CSS
 ---------
 -------------------------------*/
 }
 @media only screen and (max-width: 1400px) {
-  /**----------------------------------------
+	/**----------------------------------------
 START: Cta CSS
 ----------------------------------------*/
-  .ms-cta__img {
-    width: 620px;
-  }
-  /**----------------------------------------
+	.ms-cta__img {
+		width: 620px;
+	}
+	/**----------------------------------------
 !END: Cta CSS CSS
 ----------------------------------------*/
 }
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
-  /**----------------------------------------
+	/**----------------------------------------
 START: Theme Default CSS
 ----------------------------------------*/
-  :root {
-    --ms-br-24: 16px;
-    --ms-br-30: 16px;
-  }
-  .body-wrapper {
-    padding: 0px 16px;
-    margin-top: -30px;
-  }
+	:root {
+		--ms-br-24: 16px;
+		--ms-br-30: 16px;
+	}
+	.body-wrapper {
+		padding: 0px 16px;
+		margin-top: -30px;
+	}
 
-  /* Button CSS */
-  .ms-btn {
-    padding: 15px 20px;
-  }
-  /**----------------------------------------
+	/* Button CSS */
+	.ms-btn {
+		padding: 15px 20px;
+	}
+	/**----------------------------------------
 !END: Theme Default CSS
 ----------------------------------------*/
 
-  /**----------------------------------------
+	/**----------------------------------------
 START: Header CSS
 ----------------------------------------*/
-  .ms-header {
-    transform: translateY(50%);
-    margin-bottom: 0px;
+	.ms-header {
+		transform: translateY(50%);
+		margin-bottom: 0px;
 
-    padding: 0 70px;
-  }
+		padding: 0 70px;
+	}
 
-  .ms-header--2 {
-    transform: translateY(0);
-    margin-bottom: 0px;
-  }
+	.ms-header--2 {
+		transform: translateY(0);
+		margin-bottom: 0px;
+	}
 
-  .sticky {
-    transform: translateY(0);
-  }
-  .ms-header__inner-wrapper {
-    padding: 0 16px;
-  }
-  .ms-header__inner {
-    padding: 15px 15px 10px;
-  }
-  .ms-header--2 .ms-header__inner {
-    padding: 15px 15px;
-  }
-  .ms-header__inner-wrapper::before,
-  .ms-header__inner-wrapper::after,
-  .ms-header__inner::before,
-  .ms-header__inner::after {
-    width: 16px;
-    box-shadow: 0 -14px 0 0 var(--ms-color-common-white);
-  }
+	.sticky {
+		transform: translateY(0);
+	}
+	.ms-header__inner-wrapper {
+		padding: 0 16px;
+	}
+	.ms-header__inner {
+		padding: 15px 15px 10px;
+	}
+	.ms-header--2 .ms-header__inner {
+		padding: 15px 15px;
+	}
+	.ms-header__inner-wrapper::before,
+	.ms-header__inner-wrapper::after,
+	.ms-header__inner::before,
+	.ms-header__inner::after {
+		width: 16px;
+		box-shadow: 0 -14px 0 0 var(--ms-color-common-white);
+	}
 
-  .ms-header__inner::before,
-  .ms-header__inner::after {
-    box-shadow: 0 -18px 0 0 var(--ms-color-common-white);
-  }
+	.ms-header__inner::before,
+	.ms-header__inner::after {
+		box-shadow: 0 -18px 0 0 var(--ms-color-common-white);
+	}
 
-  .ms-header__heart {
-    width: 40px;
-    height: 40px;
-    font-size: 20px;
-  }
-  .ms-header__avatar img {
-    width: 19px;
-    height: 19px;
-  }
+	.ms-header__heart {
+		width: 40px;
+		height: 40px;
+		font-size: 20px;
+	}
+	.ms-header__avatar img {
+		width: 19px;
+		height: 19px;
+	}
 
-  /**----------------------------------------
+	/**----------------------------------------
 !END: Header CSS
 ----------------------------------------*/
 
-  /**----------------------------------------
+	/**----------------------------------------
 START: Hero Banner CSS
 ----------------------------------------*/
-  .ms-hero {
-    padding: 128px 15px 0;
-    border-radius: 16px;
-  }
-  .ms-hero--2 {
-    margin: 0;
-    padding: 0;
-  }
-  .ms-hero__title {
-    margin-bottom: 15px;
-  }
-  .ms-hero__action {
-    margin-top: 30px;
-  }
-  /**----------------------------------------
+	.ms-hero {
+		padding: 128px 15px 0;
+		border-radius: 16px;
+	}
+	.ms-hero--2 {
+		margin: 0;
+		padding: 0;
+	}
+	.ms-hero__title {
+		margin-bottom: 15px;
+	}
+	.ms-hero__action {
+		margin-top: 30px;
+	}
+	/**----------------------------------------
 !END: Hero Banner CSS
 ----------------------------------------*/
-  /**----------------------------------------
+	/**----------------------------------------
 START: Portfolio CSS
 ----------------------------------------*/
-  .ms-new-projects__wrap:hover .ms-new-projects__thumb img {
-    width: 415px;
-  }
-  .ms-new-projects__wrap.active .ms-new-projects__thumb img {
-    width: 415px;
-  }
-  .ms-new-projects__thumb img {
-    width: 200px;
-  }
-  /**----------------------------------------
+	.ms-new-projects__wrap:hover .ms-new-projects__thumb img {
+		width: 415px;
+	}
+	.ms-new-projects__wrap.active .ms-new-projects__thumb img {
+		width: 415px;
+	}
+	.ms-new-projects__thumb img {
+		width: 200px;
+	}
+	/**----------------------------------------
 !END: Portfolio CSS
 ----------------------------------------*/
-  .ms-offer__img img {
-    width: 450px;
-  }
-  .ms-apartments-main__card__wrapper--2 {
-    grid-template-columns: 1fr;
-  }
-  /**----------------------------------------
+	.ms-offer__img img {
+		width: 450px;
+	}
+	.ms-apartments-main__card__wrapper--2 {
+		grid-template-columns: 1fr;
+	}
+	/**----------------------------------------
 START: Cta CSS
 ----------------------------------------*/
-  .ms-cta__img {
-    width: 450px;
-  }
-  .ms-cta__shape--1 {
-    left: 0;
-  }
-  .ms-cta__shape--2 {
-    right: -32%;
-    margin-top: 40%;
-  }
-  /**----------------------------------------
+	.ms-cta__img {
+		width: 450px;
+	}
+	.ms-cta__shape--1 {
+		left: 0;
+	}
+	.ms-cta__shape--2 {
+		right: -32%;
+		margin-top: 40%;
+	}
+	/**----------------------------------------
 !END: Cta CSS CSS
 ----------------------------------------*/
 }
 
 @media only screen and (max-width: 767px) {
-  /**----------------------------------------
+	/**----------------------------------------
 START: Theme Default CSS
 ----------------------------------------*/
-  :root {
-    /**
+	:root {
+		/**
      @Font-Size Declaration
    */
-    --ms-fs-body: 12px;
-    --ms-fs-body2: 16px;
-    --ms-fs-body3: 12px;
-    --ms-fs-body4: 16px;
-    --ms-fs-h1: 32px;
-    --ms-fs-h2: 24px;
-    --ms-fs-h3: 36px;
-    --ms-fs-h4: 30px;
-    --ms-fs-h5: 18px;
-    --ms-fs-btn: 16px;
-    --ms-fs-btn2: 12px;
-    --ms-fs-icon: 16px;
-    /* border radius */
-    --ms-br-16: 10px;
-    --ms-br-24: 10px;
-    --ms-br-30: 10px;
-  }
-  .body-wrapper {
-    padding: 0px 16px;
-    margin-top: -30px;
-  }
-  /* Button CSS */
-  .ms-btn {
-    height: 42px;
-    padding: 0 15px;
+		--ms-fs-body: 12px;
+		--ms-fs-body2: 16px;
+		--ms-fs-body3: 12px;
+		--ms-fs-body4: 16px;
+		--ms-fs-h1: 32px;
+		--ms-fs-h2: 24px;
+		--ms-fs-h3: 36px;
+		--ms-fs-h4: 30px;
+		--ms-fs-h5: 18px;
+		--ms-fs-btn: 16px;
+		--ms-fs-btn2: 12px;
+		--ms-fs-icon: 16px;
+		/* border radius */
+		--ms-br-16: 10px;
+		--ms-br-24: 10px;
+		--ms-br-30: 10px;
+	}
+	.body-wrapper {
+		padding: 0px 16px;
+		margin-top: -30px;
+	}
+	/* Button CSS */
+	.ms-btn {
+		height: 42px;
+		padding: 0 15px;
 
-    gap: 10px;
-  }
-  .ms-btn i {
-    font-size: 12px;
-  }
-  .ms-btn svg {
-    width: 20px;
-    height: 20px;
-  }
-  /**----------------------------------------
+		gap: 10px;
+	}
+	.ms-btn i {
+		font-size: 12px;
+	}
+	.ms-btn svg {
+		width: 20px;
+		height: 20px;
+	}
+	/**----------------------------------------
 !END: Theme Default CSS
 ----------------------------------------*/
 
-  /**----------------------------------------
+	/**----------------------------------------
 START: Section CSS
 ----------------------------------------*/
 
-  .ms-section-heading {
-    margin-bottom: 25px;
-  }
-  .section--wrapper {
-    margin: 0px 16px;
-    margin-top: 24px;
-  }
-  .ms-apartments-main--2.section--wrapper {
-    margin: 24px 16px 0;
-  }
-  /**----------------------------------------
+	.ms-section-heading {
+		margin-bottom: 25px;
+	}
+	.section--wrapper {
+		margin: 0px 16px;
+		margin-top: 24px;
+	}
+	.ms-apartments-main--2.section--wrapper {
+		margin: 24px 16px 0;
+	}
+	/**----------------------------------------
 !END: Section CSS
 ----------------------------------------*/
-  /**----------------------------------------
+	/**----------------------------------------
 START: Input CSS
 ----------------------------------------*/
 
-  .ms-hero__filter-tab__content {
-    padding: 5px 10px;
-  }
-  .ms-hero__filter-tab {
-    margin-top: 50px;
-  }
-  .ms-input {
-    height: 32px;
-    padding: 0 10px;
-  }
-  .ms-input:has(input) {
-    width: 197px;
-    flex-grow: 0;
-  }
-  .ms-input input {
-    width: calc(100% - 16px);
-  }
-  .ms-input:has(.nice-select) {
-    display: none;
-  }
-  .ms-hero__form .ms-btn {
-    height: 32px;
-    padding: 0 10px;
-  }
-  .ms-hero__form .ms-btn span {
-    display: none;
-  }
-  .ms-hero__form .ms-btn i {
-    font-size: var(--ms-fs-icon);
-  }
-  .form-check:has(.form-check-input) .form-check-label::before {
-    width: 16px;
-    height: 16px;
-    font-size: 8px;
-    border-radius: 4px;
-  }
-  .form-switch:has(.form-check-input) .form-check-label::after {
-    height: 18px;
-    width: 30px;
-  }
-  .form-switch:has(.form-check-input) .form-check-label::before {
-    width: 16px;
-    height: 16px;
-    border-radius: 100%;
-    right: 14px;
-  }
+	.ms-hero__filter-tab__content {
+		padding: 5px 10px;
+	}
+	.ms-hero__filter-tab {
+		margin-top: 50px;
+	}
+	.ms-input {
+		height: 32px;
+		padding: 0 10px;
+	}
+	.ms-input:has(input) {
+		width: 197px;
+		flex-grow: 0;
+	}
+	.ms-input input {
+		width: calc(100% - 16px);
+	}
+	.ms-input:has(.nice-select) {
+		display: none;
+	}
+	.ms-hero__form .ms-btn {
+		height: 32px;
+		padding: 0 10px;
+	}
+	.ms-hero__form .ms-btn span {
+		display: none;
+	}
+	.ms-hero__form .ms-btn i {
+		font-size: var(--ms-fs-icon);
+	}
+	.form-check:has(.form-check-input) .form-check-label::before {
+		width: 16px;
+		height: 16px;
+		font-size: 8px;
+		border-radius: 4px;
+	}
+	.form-switch:has(.form-check-input) .form-check-label::after {
+		height: 18px;
+		width: 30px;
+	}
+	.form-switch:has(.form-check-input) .form-check-label::before {
+		width: 16px;
+		height: 16px;
+		border-radius: 100%;
+		right: 14px;
+	}
 
-  /**----------------------------------------
+	/**----------------------------------------
 !END: Input CSS
 ----------------------------------------*/
 
-  /**----------------------------------------
+	/**----------------------------------------
 START: Filter Modal CSS
 ----------------------------------------*/
-  .ms-input__list--rounded {
-    grid-template-columns: 1fr 1fr;
-  }
-  .ms-input__list--rounded li button {
-    font-size: 12px;
+	.ms-input__list--rounded {
+		grid-template-columns: 1fr 1fr;
+	}
+	.ms-input__list--rounded li button {
+		font-size: 12px;
 
-    padding: 0 12px;
-    border-radius: 40px;
-  }
-  /**----------------------------------------
+		padding: 0 12px;
+		border-radius: 40px;
+	}
+	/**----------------------------------------
 !END:  Filter Modal CSS
 ----------------------------------------*/
 
-  /**----------------------------------------
+	/**----------------------------------------
 START: Header CSS
 ----------------------------------------*/
-  .container-fluid--lg,
-  .container-fluid--lg .row {
-    --gutter-x: 0px;
-  }
-  .container-fluid--lg:has(.ms-hero__slider) {
-    padding: 0 16px;
-  }
-  .ms-header {
-    transform: translateY(50%);
+	.container-fluid--lg,
+	.container-fluid--lg .row {
+		--gutter-x: 0px;
+	}
+	.container-fluid--lg:has(.ms-hero__slider) {
+		padding: 0 16px;
+	}
+	.ms-header {
+		transform: translateY(50%);
 
-    margin: -30px 16px 0;
-  }
-  .ms-header--2 {
-    transform: translateY(0);
-    margin: 0;
-  }
-  .ms-header--2 .container-fluid {
-    --gutter-x: 0;
-  }
-  .sticky {
-    transform: translateY(0);
-    margin: 0;
-  }
-  .ms-header__inner-wrapper {
-    padding: 0 30px;
-  }
-  .ms-header--2 .ms-header__inner-wrapper {
-    padding: 0;
-  }
-  .ms-header__inner {
-    padding: 9px 15px 10px;
-  }
-  .ms-header--2 .ms-header__inner {
-    padding: 10px 0px 10px;
-  }
-  .ms-header__inner-wrapper::before,
-  .ms-header__inner-wrapper::after,
-  .ms-header__inner::before,
-  .ms-header__inner::after {
-    width: 30px;
-    box-shadow: 0 -14px 0 0 var(--ms-color-common-white);
-  }
+		margin: -30px 16px 0;
+	}
+	.ms-header--2 {
+		transform: translateY(0);
+		margin: 0;
+	}
+	.ms-header--2 .container-fluid {
+		--gutter-x: 0;
+	}
+	.sticky {
+		transform: translateY(0);
+		margin: 0;
+	}
+	.ms-header__inner-wrapper {
+		padding: 0 30px;
+	}
+	.ms-header--2 .ms-header__inner-wrapper {
+		padding: 0;
+	}
+	.ms-header__inner {
+		padding: 9px 15px 10px;
+	}
+	.ms-header--2 .ms-header__inner {
+		padding: 10px 0px 10px;
+	}
+	.ms-header__inner-wrapper::before,
+	.ms-header__inner-wrapper::after,
+	.ms-header__inner::before,
+	.ms-header__inner::after {
+		width: 30px;
+		box-shadow: 0 -14px 0 0 var(--ms-color-common-white);
+	}
 
-  .ms-header__inner::before,
-  .ms-header__inner::after {
-    box-shadow: 0 -18px 0 0 var(--ms-color-common-white);
-  }
-  .ms-header--2 .ms-header__inner-wrapper::before,
-  .ms-header--2 .ms-header__inner-wrapper::after,
-  .ms-header--2 .ms-header__inner::before,
-  .ms-header--2 .ms-header__inner::after {
-    box-shadow: none;
-  }
-  .ms-logo img {
-    width: 100px;
-  }
-  .ms-header__avater__inner {
-    padding: 3px 5px 5px 12px;
-    gap: 8px;
-  }
-  .ms-header__avater__inner a,
-  .ms-header__avater__inner button {
-    line-height: 1;
-  }
-  .ms-header__avatar img {
-    width: 19px;
-    height: 19px;
-  }
-  .ms-mobile-menu__profile-button .ms-btn svg {
-    width: 10px;
-    height: 10px;
-  }
-  /**----------------------------------------
+	.ms-header__inner::before,
+	.ms-header__inner::after {
+		box-shadow: 0 -18px 0 0 var(--ms-color-common-white);
+	}
+	.ms-header--2 .ms-header__inner-wrapper::before,
+	.ms-header--2 .ms-header__inner-wrapper::after,
+	.ms-header--2 .ms-header__inner::before,
+	.ms-header--2 .ms-header__inner::after {
+		box-shadow: none;
+	}
+	.ms-logo img {
+		width: 100px;
+	}
+	.ms-header__avater__inner {
+		padding: 3px 5px 5px 12px;
+		gap: 8px;
+	}
+	.ms-header__avater__inner a,
+	.ms-header__avater__inner button {
+		line-height: 1;
+	}
+	.ms-header__avatar img {
+		width: 19px;
+		height: 19px;
+	}
+	.ms-mobile-menu__profile-button .ms-btn svg {
+		width: 10px;
+		height: 10px;
+	}
+	/**----------------------------------------
 !END: Header CSS
 ----------------------------------------*/
-  /**----------------------------------------
+	/**----------------------------------------
 START: Hero Banner CSS
 ----------------------------------------*/
-  .ms-hero {
-    margin: 0 16px 40px;
-    padding: 60px 15px 0;
-  }
-  .ms-hero--2 {
-    margin: 0;
-    padding: 0;
-  }
-  .ms-hero__title {
-    margin-bottom: 15px;
-  }
-  .ms-hero__action {
-    margin-top: 30px;
-  }
-  .ms-hero__tab-controllers__inner {
-    padding: 6px 20px 4px;
-    gap: 15px;
-  }
-  .ms-tab-controllers--transparent button {
-    padding: 2px 0px;
-  }
-  /**----------------------------------------
+	.ms-hero {
+		margin: 0 16px 40px;
+		padding: 60px 15px 0;
+	}
+	.ms-hero--2 {
+		margin: 0;
+		padding: 0;
+	}
+	.ms-hero__title {
+		margin-bottom: 15px;
+	}
+	.ms-hero__action {
+		margin-top: 30px;
+	}
+	.ms-hero__tab-controllers__inner {
+		padding: 6px 20px 4px;
+		gap: 15px;
+	}
+	.ms-tab-controllers--transparent button {
+		padding: 2px 0px;
+	}
+	/**----------------------------------------
 !END: Hero Banner CSS
 ----------------------------------------*/
-  /**----------------------------------------
+	/**----------------------------------------
 START: Portfolio CSS
 ----------------------------------------*/
-  .ms-new-projects.section--wrapper {
-    margin: 30px 0 0;
-  }
-  .ms-new-projects .ms-section-heading {
-    margin-bottom: 25px;
-  }
-  .ms-new-projects .ms-section-heading h2 {
-    margin-bottom: 20px;
-  }
-  .ms-new-projects__content {
-    padding: 5px 10px 8px;
-  }
-  .ms-new-projects .swiper-slide-active .ms-new-projects__content {
-    transform: translateY(0);
-    visibility: visible;
-    opacity: 1;
-  }
-  .ms-new-projects__thumb {
-    width: 100%;
-  }
-  .ms-new-projects__thumb img {
-    width: 100%;
-    max-width: 100%;
-    height: 300px;
-    object-fit: cover;
-  }
-  .ms-new-projects__list {
-    margin-bottom: 10px;
-  }
-  .ms-new-projects__list__item {
-    padding-right: 20px;
-  }
-  .ms-new-projects__list__item:first-child {
-    padding-right: 19px;
-  }
-  .ms-new-projects__content p {
-    white-space: nowrap;
-  }
-  .ms-new-projects__bottom {
-    flex-wrap: nowrap;
-  }
-  .ms-new-projects__bottom p {
-    flex-wrap: wrap;
-    gap: 0 5px;
-  }
-  .ms-new-projects__bottom .ms-btn {
-    height: 32px;
-    padding: 0 12px;
-  }
-  /**----------------------------------------
+	.ms-new-projects.section--wrapper {
+		margin: 30px 0 0;
+	}
+	.ms-new-projects .ms-section-heading {
+		margin-bottom: 25px;
+	}
+	.ms-new-projects .ms-section-heading h2 {
+		margin-bottom: 20px;
+	}
+	.ms-new-projects__content {
+		padding: 5px 10px 8px;
+	}
+	.ms-new-projects .swiper-slide-active .ms-new-projects__content {
+		transform: translateY(0);
+		visibility: visible;
+		opacity: 1;
+	}
+	.ms-new-projects__thumb {
+		width: 100%;
+	}
+	.ms-new-projects__thumb img {
+		width: 100%;
+		max-width: 100%;
+		height: 300px;
+		object-fit: cover;
+	}
+	.ms-new-projects__list {
+		margin-bottom: 10px;
+	}
+	.ms-new-projects__list__item {
+		padding-right: 20px;
+	}
+	.ms-new-projects__list__item:first-child {
+		padding-right: 19px;
+	}
+	.ms-new-projects__content p {
+		white-space: nowrap;
+	}
+	.ms-new-projects__bottom {
+		flex-wrap: nowrap;
+	}
+	.ms-new-projects__bottom p {
+		flex-wrap: wrap;
+		gap: 0 5px;
+	}
+	.ms-new-projects__bottom .ms-btn {
+		height: 32px;
+		padding: 0 12px;
+	}
+	/**----------------------------------------
 !END: Portfolio CSS
 ----------------------------------------*/
-  /**----------------------------------------
+	/**----------------------------------------
 START: Offer CSS
 ----------------------------------------*/
-  .ms-offer {
-    border-radius: 16px;
-    overflow: hidden;
-  }
-  .ms-offer .ms-section-heading {
-    text-align: center;
-  }
-  .ms-offer .ms-section-heading p {
-    margin-bottom: 20px;
-  }
-  .ms-offer__action {
-    gap: 10px;
-  }
-  .ms-offer__inner {
-    clip-path: none;
+	.ms-offer {
+		border-radius: 16px;
+		overflow: hidden;
+	}
+	.ms-offer .ms-section-heading {
+		text-align: center;
+	}
+	.ms-offer .ms-section-heading p {
+		margin-bottom: 20px;
+	}
+	.ms-offer__action {
+		gap: 10px;
+	}
+	.ms-offer__inner {
+		clip-path: none;
 
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-    padding: 15px;
-  }
-  .ms-offer__img {
-    position: static;
-    padding-top: 0;
-    background-color: var(--ms-color-theme-bg);
-    display: flex;
-    justify-content: center;
-  }
+		border-bottom-left-radius: 0;
+		border-bottom-right-radius: 0;
+		padding: 15px;
+	}
+	.ms-offer__img {
+		position: static;
+		padding-top: 0;
+		background-color: var(--ms-color-theme-bg);
+		display: flex;
+		justify-content: center;
+	}
 
-  .ms-offer__shape {
-    display: none;
-  }
-  .ms-offer__action .ms-btn {
-    width: 100%;
-    justify-content: center;
-  }
-  /**----------------------------------------
+	.ms-offer__shape {
+		display: none;
+	}
+	.ms-offer__action .ms-btn {
+		width: 100%;
+		justify-content: center;
+	}
+	/**----------------------------------------
 !END: Offer CSS
 ----------------------------------------*/
-  /**----------------------------------------
+	/**----------------------------------------
 START: Location CSS
 ----------------------------------------*/
 
-  .ms-location__card {
-    width: 100%;
-    padding: 16px;
-    border-radius: 0;
-    position: static;
-    margin-bottom: 10px;
-  }
-  .ms-location__card h5 {
-    font-size: 16px;
-    margin-bottom: 15px;
-  }
-  .ms-location__card__list__item {
-    padding: 14px 0 10px;
-  }
-  .ms-location__card__list__item p span {
-    width: 12px;
-    height: 12px;
-  }
-  .ms-location__card__list__item h6 {
-    font-size: 14px;
-  }
-  .ms-location__card-action {
-    top: auto;
-    right: 2px;
-    bottom: 40%;
-  }
-  .ms-location__card-action .ms-btn--bordered {
-    height: 24px;
-    font-size: 10px;
-    border-radius: 6px;
-    padding: 0 10px;
-  }
-  .ms-location__card-action .ms-btn--bordered::after {
-    left: 90%;
+	.ms-location__card {
+		width: 100%;
+		padding: 16px;
+		border-radius: 0;
+		position: static;
+		margin-bottom: 10px;
+	}
+	.ms-location__card h5 {
+		font-size: 16px;
+		margin-bottom: 15px;
+	}
+	.ms-location__card__list__item {
+		padding: 14px 0 10px;
+	}
+	.ms-location__card__list__item p span {
+		width: 12px;
+		height: 12px;
+	}
+	.ms-location__card__list__item h6 {
+		font-size: 14px;
+	}
+	.ms-location__card-action {
+		top: auto;
+		right: 2px;
+		bottom: 40%;
+	}
+	.ms-location__card-action .ms-btn--bordered {
+		height: 24px;
+		font-size: 10px;
+		border-radius: 6px;
+		padding: 0 10px;
+	}
+	.ms-location__card-action .ms-btn--bordered::after {
+		left: 90%;
 
-    border-width: 7px;
-  }
-  .ms-location__card-action .ms-btn--bordered i {
-    font-size: 9px;
-  }
-  .ms-location__tab__contents:has(.ms-location__card) img {
-    display: none;
-  }
-  .ms-location__tab__contents:has(.ms-location__card) img:last-child {
-    display: block;
-  }
+		border-width: 7px;
+	}
+	.ms-location__card-action .ms-btn--bordered i {
+		font-size: 9px;
+	}
+	.ms-location__tab__contents:has(.ms-location__card) img {
+		display: none;
+	}
+	.ms-location__tab__contents:has(.ms-location__card) img:last-child {
+		display: block;
+	}
 
-  /**----------------------------------------
+	/**----------------------------------------
 !END: Loacation CSS
 ----------------------------------------*/
 
-  /**----------------------------------------
+	/**----------------------------------------
 START: Cta CSS
 ----------------------------------------*/
-  .ms-cta {
-    padding: 15px 15px 0;
-    border-radius: 16px;
-  }
-  .ms-cta__img {
-    position: static;
-    width: 100%;
-    /* transform: translateX(60px); */
-    margin-top: 30px;
-    transform: translateX(16px);
-    display: flex;
-    justify-content: flex-end;
-  }
-  .ms-cta__img img {
-    display: none;
-  }
-  .ms-cta__img img:last-child {
-    display: block;
-    width: 100%;
-  }
-  .ms-cta .ms-section-heading h2 {
-    margin-bottom: 15px;
-  }
-  .ms-cta .ms-section-heading p {
-    margin-bottom: 20px;
-  }
-  .ms-cta__footer {
-    gap: 20px;
-  }
-  .ms-location__tab__contents .ms-location__tab__controllers {
-    margin-bottom: 40px;
-  }
-  .ms-location__tab__contents .ms-tab-controllers--transparent {
-    margin-bottom: 15px;
-  }
-  .ms-tab-controllers {
-    padding: 5px;
-  }
-  .ms-tab-controllers__wrapper {
-    margin-bottom: 30px;
-  }
-  .ms-tab-controllers .ms-btn {
-    height: 36px;
+	.ms-cta {
+		padding: 15px 15px 0;
+		border-radius: 16px;
+	}
+	.ms-cta__img {
+		position: static;
+		width: 100%;
+		/* transform: translateX(60px); */
+		margin-top: 30px;
+		transform: translateX(16px);
+		display: flex;
+		justify-content: flex-end;
+	}
+	.ms-cta__img img {
+		display: none;
+	}
+	.ms-cta__img img:last-child {
+		display: block;
+		width: 100%;
+	}
+	.ms-cta .ms-section-heading h2 {
+		margin-bottom: 15px;
+	}
+	.ms-cta .ms-section-heading p {
+		margin-bottom: 20px;
+	}
+	.ms-cta__footer {
+		gap: 20px;
+	}
+	.ms-location__tab__contents .ms-location__tab__controllers {
+		margin-bottom: 40px;
+	}
+	.ms-location__tab__contents .ms-tab-controllers--transparent {
+		margin-bottom: 15px;
+	}
+	.ms-tab-controllers {
+		padding: 5px;
+	}
+	.ms-tab-controllers__wrapper {
+		margin-bottom: 30px;
+	}
+	.ms-tab-controllers .ms-btn {
+		height: 36px;
 
-    padding: 0 27px;
-  }
-  .ms-cta__shape--1 {
-    display: none;
-  }
-  .ms-cta__shape--2 {
-    right: -72%;
-    margin-top: 64%;
-  }
-  /**----------------------------------------
+		padding: 0 27px;
+	}
+	.ms-cta__shape--1 {
+		display: none;
+	}
+	.ms-cta__shape--2 {
+		right: -72%;
+		margin-top: 64%;
+	}
+	/**----------------------------------------
 !END: Cta CSS CSS
 ----------------------------------------*/
 
-  /**----------------------------------------
+	/**----------------------------------------
 START: apartment CSS
 ----------------------------------------*/
-  .ms-apartments {
-    padding: 15px 0;
-    overflow: hidden;
-    border-radius: 16px;
-  }
-  .ms-apartments__card__content {
-    padding: 0 2px 10px;
-  }
-  .ms-apartments-main .container-fluid,
-  .ms-apartments-main .container,
-  .ms-apartments-main .row {
-    --gutter-x: 0;
-  }
-  .ms-apartments .ms-section-heading {
-    padding: 0 15px;
-  }
-  .ms-location__tab .ms-tab-controllers__wrapper {
-    margin-bottom: 20px;
-  }
-  .ms-apartments-main.section--wrapper {
-    margin-top: 16px;
-  }
-  .ms-apartments-main .container {
-    --gutter-x: 0;
-  }
-  .ms-apartments-main .row {
-    --gutter-x: 0;
-  }
+	.ms-apartments {
+		padding: 15px 0;
+		overflow: hidden;
+		border-radius: 16px;
+	}
+	.ms-apartments__card__content {
+		padding: 0 2px 10px;
+	}
+	.ms-apartments-main .container-fluid,
+	.ms-apartments-main .container,
+	.ms-apartments-main .row {
+		--gutter-x: 0;
+	}
+	.ms-apartments .ms-section-heading {
+		padding: 0 15px;
+	}
+	.ms-location__tab .ms-tab-controllers__wrapper {
+		margin-bottom: 20px;
+	}
+	.ms-apartments-main.section--wrapper {
+		margin-top: 16px;
+	}
+	.ms-apartments-main .container {
+		--gutter-x: 0;
+	}
+	.ms-apartments-main .row {
+		--gutter-x: 0;
+	}
 
-  .ms-apartments-main__filter {
-    padding-bottom: 16px;
-  }
-  .ms-header--sticky.ms-apartments-main__filter {
-    padding: 16px 16px;
-  }
-  .ms-apartments-main__filter .ms-input--serach {
-    width: auto;
-    flex-grow: 1;
-    height: 42px;
-  }
-  .ms-apartments-main__filter .ms-hero__form .ms-btn {
-    height: 42px;
-    padding: 0 16px;
-  }
-  .ms-apartments-main__heading {
-    padding: 16px 0 16px;
-    flex-wrap: nowrap;
-  }
+	.ms-apartments-main__filter {
+		padding-bottom: 16px;
+	}
+	.ms-header--sticky.ms-apartments-main__filter {
+		padding: 16px 16px;
+	}
+	.ms-apartments-main__filter .ms-input--serach {
+		width: auto;
+		flex-grow: 1;
+		height: 42px;
+	}
+	.ms-apartments-main__filter .ms-hero__form .ms-btn {
+		height: 42px;
+		padding: 0 16px;
+	}
+	.ms-apartments-main__heading {
+		padding: 16px 0 16px;
+		flex-wrap: nowrap;
+	}
 
-  .ms-apartments-main__heading h2 {
-    --ms-fs-h2: 20px;
-  }
-  .ms-apartments-main__heading .ms-btn--bordered {
-    height: 36px;
-    padding: 16px;
-  }
-  .ms-apartments-main__location {
-    padding: 10px;
-  }
-  .ms-apartments-main__location a {
-    font-size: 14px;
-  }
-  .ms-apartments-main__button-list {
-    margin-bottom: 20px;
-  }
-  .ms-apartments-main__button-list li {
-    display: none;
-  }
-  .ms-apartments-main__button-list li:last-child {
-    display: block;
-  }
-  .ms-apartments-main__button-list .form-check .form-check-input {
-    height: 18px;
-    width: 30px;
-  }
-  .ms-apartments-main__card__wrapper {
-    gap: 16px;
-  }
-  .ms-apartments-main__card__wrapper--2 {
-    grid-template-columns: 1fr;
-  }
-  .ms-apartments-main__card__thumbnail,
-  .ms-apartments-main__card--3 .ms-apartments-main__card__thumbnail {
-    width: 100%;
-    border-radius: 16px;
-  }
+	.ms-apartments-main__heading h2 {
+		--ms-fs-h2: 20px;
+	}
+	.ms-apartments-main__heading .ms-btn--bordered {
+		height: 36px;
+		padding: 16px;
+	}
+	.ms-apartments-main__location {
+		padding: 10px;
+	}
+	.ms-apartments-main__location a {
+		font-size: 14px;
+	}
+	.ms-apartments-main__button-list {
+		margin-bottom: 20px;
+	}
+	.ms-apartments-main__button-list li {
+		display: none;
+	}
+	.ms-apartments-main__button-list li:last-child {
+		display: block;
+	}
+	.ms-apartments-main__button-list .form-check .form-check-input {
+		height: 18px;
+		width: 30px;
+	}
+	.ms-apartments-main__card__wrapper {
+		gap: 16px;
+	}
+	.ms-apartments-main__card__wrapper--2 {
+		grid-template-columns: 1fr;
+	}
+	.ms-apartments-main__card__thumbnail,
+	.ms-apartments-main__card--3 .ms-apartments-main__card__thumbnail {
+		width: 100%;
+		border-radius: 16px;
+	}
 
-  .ms-apartments-main__card__thumbnail__header a {
-    width: 24px;
-    height: 24px;
-  }
-  .ms-apartments-main__card__thumbnail__footer span {
-    padding: 5px 10px;
-  }
-  .ms-apartments-main__card__content {
-    padding: 16px;
-    padding-top: 25px;
-    border-top: 0;
-    border-left: 2px solid var(--ms-color-border);
-    margin-left: 0;
-    margin-top: -10px;
-    border-radius: 0;
-    border-bottom-right-radius: 16px;
-    border-bottom-left-radius: 16px;
-  }
-  .ms-apartments-main__card__content > a {
-    margin-bottom: 12px;
-  }
-  .ms-apartments-main____card__price {
-    margin-bottom: 5px;
-  }
-  .ms-apartments-main____card__price h6 {
-    font-size: 16px;
-  }
-  .ms-apartments-main____card__price a span {
-    font-size: 8px;
-    padding: 0 8px 0 6px;
-  }
-  .ms-apartments-main____card__button-list {
-    gap: 8px;
-    flex-wrap: nowrap;
-    justify-content: space-between;
-  }
-  .ms-apartments-main__card .ms-apartments-main____card__price a {
-    height: 24px;
-  }
-  .ms-apartments-main__card .ms-apartments-main____card__price img {
-    height: 24px;
-    width: 24px;
-    border-width: 1px;
-  }
-  .ms-apartments-main____card__button-list .ms-btn {
-    height: 34px;
-    padding: 0 10px;
-    gap: 8px;
-  }
-  .ms-apartments-main__card--3 .ms-apartments-main__card__thumbnail__status {
-    left: 30px;
-    transform: translateX(0);
-    font-size: 12px;
-    padding: 7px 11px;
-  }
+	.ms-apartments-main__card__thumbnail__header a {
+		width: 24px;
+		height: 24px;
+	}
+	.ms-apartments-main__card__thumbnail__footer span {
+		padding: 5px 10px;
+	}
+	.ms-apartments-main__card__content {
+		padding: 16px;
+		padding-top: 25px;
+		border-top: 0;
+		border-left: 2px solid var(--ms-color-border);
+		margin-left: 0;
+		margin-top: -10px;
+		border-radius: 0;
+		border-bottom-right-radius: 16px;
+		border-bottom-left-radius: 16px;
+	}
+	.ms-apartments-main__card__content > a {
+		margin-bottom: 12px;
+	}
+	.ms-apartments-main____card__price {
+		margin-bottom: 5px;
+	}
+	.ms-apartments-main____card__price h6 {
+		font-size: 16px;
+	}
+	.ms-apartments-main____card__price a span {
+		font-size: 8px;
+		padding: 0 8px 0 6px;
+	}
+	.ms-apartments-main____card__button-list {
+		gap: 8px;
+		flex-wrap: nowrap;
+		justify-content: space-between;
+	}
+	.ms-apartments-main__card .ms-apartments-main____card__price a {
+		height: 24px;
+	}
+	.ms-apartments-main__card .ms-apartments-main____card__price img {
+		height: 24px;
+		width: 24px;
+		border-width: 1px;
+	}
+	.ms-apartments-main____card__button-list .ms-btn {
+		height: 34px;
+		padding: 0 10px;
+		gap: 8px;
+	}
+	.ms-apartments-main__card--3 .ms-apartments-main__card__thumbnail__status {
+		left: 30px;
+		transform: translateX(0);
+		font-size: 12px;
+		padding: 7px 11px;
+	}
 
-  .ms-apartments-main__card--3
-    .ms-apartments-main__card__thumbnail__status::before {
-    border-right: 4px solid var(--ms-color-common-black);
-  }
-  .ms-apartments-main__card--3
-    .ms-apartments-main__card__thumbnail__status::after {
-    border-left: 4px solid var(--ms-color-common-black);
-  }
-  .ms-apartments-main__card--3 .ms-apartments-main__card__logo {
-    top: 25px;
-    right: 14px;
-  }
-  .ms-apartments-main__card--3 .ms-apartments-main__card__logo a {
-    border: 1px solid var(--ms-color-border);
-    border-radius: 6px;
-    height: 20px;
-    padding: 4px 8px;
-    padding-right: 5px;
-    padding-bottom: 5px;
-  }
-  .ms-apartments-main__card--3 .ms-apartments-main__card__content {
-    padding: 16px;
-    padding-top: 28px;
-  }
-  .ms-apartments-main__card--3 .ms-apartments-main____card__details-list {
-    gap: 12px;
-  }
-  .ms-apartments-main__card--3
-    .ms-apartments-main____card__button-list
-    .ms-btn {
-    height: 34px;
-    border-radius: 10px;
-  }
-  .ms-apartments-main__card--3
-    li:has(.ms-apartments-main____card__button-list) {
-    width: 100%;
-  }
-  .ms-apartments-main__card--3
-    li:has(.ms-apartments-main____card__button-list)
-    ul,
-  .ms-apartments-main__card--3
-    li:has(.ms-apartments-main____card__button-list)
-    ul
-    li {
-    width: 100%;
-  }
-  .ms-apartments-main__card--3 li:has(hr) {
-    height: 45px;
-  }
-  .ms-apartments-main__card--3 li:nth-child(4) {
-    display: none;
-  }
-  .ms-apartments-main__card--3 .ms-apartments-main__card__heading {
-    margin-bottom: 12px;
-    padding: 0;
-    border: 0;
-  }
-  .ms-apartments-main:has(.ms-apartments-main__card--3)
-    .ms-apartments-main__location {
-    margin-bottom: 10px;
-  }
-  .ms-apartments-main:has(.ms-apartments-main__card--3)
-    .ms-apartments-main__button-list
-    li {
-    display: none;
-  }
-  .ms-apartments-main__card--3 .ms-apartments-main__card__content h5 {
-    margin-bottom: 5px;
-  }
-  .ms-apartments-main__card--3
-    .ms-apartments-main____card__button-list
-    li:has(.ms-btn) {
-    width: 100%;
-    flex-basis: 100%;
-    flex-grow: 1;
-  }
-  .ms-apartments-main__card--3 li:has(.ms-apartments-main____card__price) {
-    gap: 3px;
-  }
-  .ms-apartments-main__card--3 li:has(.ms-apartments-main____card__price) p {
-    font-size: 10px;
-  }
-  .ms-paginations {
-    gap: 10px;
-  }
-  .ms-paginations {
-    gap: 8px;
-    margin-top: 16px;
-    margin-bottom: 16px;
-  }
-  .ms-paginations__item button {
-    width: 30px;
-    height: 30px;
-    font-size: 14px;
-  }
-  .ms-paginations__item--2 button {
-    width: 38px;
-  }
-  .ms-hero__slider {
-    margin-bottom: 16px;
-  }
-  .ms-hero__slider__thumbs {
-    margin-left: -8px;
-    margin-right: -8px;
-  }
-  .ms-hero__slider__thumbs .slick-slide {
-    padding: 0 8px;
-  }
-  .ms-apartments-main__sidebar__single .ms-btn {
-    height: 38px;
-  }
+	.ms-apartments-main__card--3
+		.ms-apartments-main__card__thumbnail__status::before {
+		border-right: 4px solid var(--ms-color-common-black);
+	}
+	.ms-apartments-main__card--3
+		.ms-apartments-main__card__thumbnail__status::after {
+		border-left: 4px solid var(--ms-color-common-black);
+	}
+	.ms-apartments-main__card--3 .ms-apartments-main__card__logo {
+		top: 25px;
+		right: 14px;
+	}
+	.ms-apartments-main__card--3 .ms-apartments-main__card__logo a {
+		border: 1px solid var(--ms-color-border);
+		border-radius: 6px;
+		height: 20px;
+		padding: 4px 8px;
+		padding-right: 5px;
+		padding-bottom: 5px;
+	}
+	.ms-apartments-main__card--3 .ms-apartments-main__card__content {
+		padding: 16px;
+		padding-top: 28px;
+	}
+	.ms-apartments-main__card--3 .ms-apartments-main____card__details-list {
+		gap: 12px;
+	}
+	.ms-apartments-main__card--3
+		.ms-apartments-main____card__button-list
+		.ms-btn {
+		height: 34px;
+		border-radius: 10px;
+	}
+	.ms-apartments-main__card--3
+		li:has(.ms-apartments-main____card__button-list) {
+		width: 100%;
+	}
+	.ms-apartments-main__card--3
+		li:has(.ms-apartments-main____card__button-list)
+		ul,
+	.ms-apartments-main__card--3
+		li:has(.ms-apartments-main____card__button-list)
+		ul
+		li {
+		width: 100%;
+	}
+	.ms-apartments-main__card--3 li:has(hr) {
+		height: 45px;
+	}
+	.ms-apartments-main__card--3 li:nth-child(4) {
+		display: none;
+	}
+	.ms-apartments-main__card--3 .ms-apartments-main__card__heading {
+		margin-bottom: 12px;
+		padding: 0;
+		border: 0;
+	}
+	.ms-apartments-main:has(.ms-apartments-main__card--3)
+		.ms-apartments-main__location {
+		margin-bottom: 10px;
+	}
+	.ms-apartments-main:has(.ms-apartments-main__card--3)
+		.ms-apartments-main__button-list
+		li {
+		display: none;
+	}
+	.ms-apartments-main__card--3 .ms-apartments-main__card__content h5 {
+		margin-bottom: 5px;
+	}
+	.ms-apartments-main__card--3
+		.ms-apartments-main____card__button-list
+		li:has(.ms-btn) {
+		width: 100%;
+		flex-basis: 100%;
+		flex-grow: 1;
+	}
+	.ms-apartments-main__card--3 li:has(.ms-apartments-main____card__price) {
+		gap: 3px;
+	}
+	.ms-apartments-main__card--3 li:has(.ms-apartments-main____card__price) p {
+		font-size: 10px;
+	}
+	.ms-paginations {
+		gap: 10px;
+	}
+	.ms-paginations {
+		gap: 8px;
+		margin-top: 16px;
+		margin-bottom: 16px;
+	}
+	.ms-paginations__item button {
+		width: 30px;
+		height: 30px;
+		font-size: 14px;
+	}
+	.ms-paginations__item--2 button {
+		width: 38px;
+	}
+	.ms-hero__slider {
+		margin-bottom: 16px;
+	}
+	.ms-hero__slider__thumbs {
+		margin-left: -8px;
+		margin-right: -8px;
+	}
+	.ms-hero__slider__thumbs .slick-slide {
+		padding: 0 8px;
+	}
+	.ms-hero__slider__thumbs .image-slide-item {
+		border-radius: 10px !important;
+		height: 170px;
+		overflow: hidden;
+	}
+	.ms-hero__slider__thumbs .image-slide-item img {
+		object-fit: cover;
+	}
+	.ms-apartments-main__sidebar__single {
+		border-radius: 16px;
+	}
+	.ms-apartments-main__sidebar__single .ms-btn {
+		height: 38px;
+	}
 
-  /**----------------------------------------
+	/**----------------------------------------
 !END: apartment CSS
 ----------------------------------------*/
 
-  /**----------------------------------------
+	/**----------------------------------------
 START: Login CSS
 ----------------------------------------*/
-  .ms-form {
-    padding: 30px 16px;
-  }
-  .ms-form__inner {
-    margin-left: 0;
-  }
-  .ms-form__heading {
-    margin-bottom: 25px;
-  }
-  .ms-form__inner .ms-logo {
-    width: 152px;
-    margin-bottom: 30px;
-  }
-  .ms-form h2 {
-    --ms-fs-h2: 32px;
-    margin-bottom: 5px;
-  }
-  .ms-form__main {
-    gap: 16px;
-  }
-  .ms-form .ms-btn {
-    height: 42px;
-    margin-top: 5px;
-  }
-  .ms-input .form-check-input {
-    width: 16px;
-    height: 16px;
-  }
-  .ms-input .form-check label {
-    font-weight: var(--ms-fw-normal);
-    font-size: 14px;
-  }
-  .ms-input--agree a {
-    font-size: 14px;
-  }
-  .ms-form__other-login__title {
-    margin-bottom: 0;
-  }
-  .ms-form__other-login {
-    margin-top: 30px;
-  }
-  .ms-form__suggestion {
-    margin-top: 20px;
-  }
-  .ms-form .ms-btn {
-    font-size: 14px;
-  }
-  /**----------------------------------------
+	.ms-form {
+		padding: 30px 16px;
+	}
+	.ms-form__inner {
+		margin-left: 0;
+	}
+	.ms-form__heading {
+		margin-bottom: 25px;
+	}
+	.ms-form__inner .ms-logo {
+		width: 152px;
+		margin-bottom: 30px;
+	}
+	.ms-form h2 {
+		--ms-fs-h2: 32px;
+		margin-bottom: 5px;
+	}
+	.ms-form__main {
+		gap: 16px;
+	}
+	.ms-form .ms-btn {
+		height: 42px;
+		margin-top: 5px;
+	}
+	.ms-input .form-check-input {
+		width: 16px;
+		height: 16px;
+	}
+	.ms-input .form-check label {
+		font-weight: var(--ms-fw-normal);
+		font-size: 14px;
+	}
+	.ms-input--agree a {
+		font-size: 14px;
+	}
+	.ms-form__other-login__title {
+		margin-bottom: 0;
+	}
+	.ms-form__other-login {
+		margin-top: 30px;
+	}
+	.ms-form__suggestion {
+		margin-top: 20px;
+	}
+	.ms-form .ms-btn {
+		font-size: 14px;
+	}
+	/**----------------------------------------
 !END: Login CSS
 ----------------------------------------*/
 
-  /**----------------------------------------
+	/**----------------------------------------
 START: Footer CSS
 ----------------------------------------*/
 
-  .ms-footer {
-    padding: 15px 15px 60px;
-    margin: 24px 15px 0;
-  }
-  .ms-footer .row {
-    gap: 20px 0;
-  }
-  .ms-footer .ms-logo {
-    margin-bottom: 15px;
-  }
-  .ms-footer__desc {
-    margin-bottom: 30px;
-  }
-  .ms-footer__form {
-    margin-bottom: 20px;
-  }
-  .ms-footer__form .ms-input {
-    width: 249px;
-    max-width: 100%;
-    height: 42px;
-    border-radius: 10px;
-  }
-  .ms-footer__form .ms-btn {
-    padding: 10px 15px;
-    border-radius: 10px;
-  }
-  .ms-social-media {
-    margin-bottom: 15px;
-  }
-  .ms-footer__nav__list li:has(svg) {
-    padding: 3px;
-  }
-  .ms-social-media__link {
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
-  }
+	.ms-footer {
+		padding: 15px 15px 60px;
+		margin: 24px 15px 0;
+	}
+	.ms-footer .row {
+		gap: 20px 0;
+	}
+	.ms-footer .ms-logo {
+		margin-bottom: 15px;
+	}
+	.ms-footer__desc {
+		margin-bottom: 30px;
+	}
+	.ms-footer__form {
+		margin-bottom: 20px;
+	}
+	.ms-footer__form .ms-input {
+		width: 249px;
+		max-width: 100%;
+		height: 42px;
+		border-radius: 10px;
+	}
+	.ms-footer__form .ms-btn {
+		padding: 10px 15px;
+		border-radius: 10px;
+	}
+	.ms-social-media {
+		margin-bottom: 15px;
+	}
+	.ms-footer__nav__list li:has(svg) {
+		padding: 3px;
+	}
+	.ms-social-media__link {
+		width: 36px;
+		height: 36px;
+		border-radius: 10px;
+	}
 
-  .ms-footer__nav__link svg {
-    width: 16px;
-  }
-  .ms-footer h6 {
-    margin-bottom: 10px;
-  }
-  .ms-footer__nav__wrapper {
-    margin-bottom: 15px;
-  }
+	.ms-footer__nav__link svg {
+		width: 16px;
+	}
+	.ms-footer h6 {
+		margin-bottom: 10px;
+	}
+	.ms-footer__nav__wrapper {
+		margin-bottom: 15px;
+	}
 
-  .ms-footer__nav__list--2 {
-    gap: 0 0;
-    padding-right: 140px;
-  }
-  .ms-footer__brand__list img {
-    width: 120px;
-    margin-top: 3px;
-  }
+	.ms-footer__nav__list--2 {
+		gap: 0 0;
+		padding-right: 140px;
+	}
+	.ms-footer__brand__list img {
+		width: 120px;
+		margin-top: 3px;
+	}
 
-  .ms-footer__copyright__inner {
-    padding: 10px 15px 0;
-    justify-content: center;
-    gap: 0px 20px;
-  }
+	.ms-footer__copyright__inner {
+		padding: 10px 15px 0;
+		justify-content: center;
+		gap: 0px 20px;
+	}
 
-  .ms-footer__nav__list--copyright {
-    gap: 15px;
+	.ms-footer__nav__list--copyright {
+		gap: 15px;
+	}
+	/* !END: Footer CSS */
+
+	/**----------------------------------------
+START: New Project Details CSS
+----------------------------------------*/
+
+	.ms-hero--2 {
+		min-height: 229px;
+	}
+	.ms-hero__wrapper:has(.ms-hero__slider__pagination-count-img-slide-arrow) {
+		margin-right: -16px;
+		overflow: visible;
+	}
+	.ms-hero__btn-list {
+		position: absolute;
+		bottom: 52%;
+		left: 16px;
+		right: 16px;
+
+		gap: 10px;
+	}
+	.ms-hero__btn-list .ms-btn {
+		height: 24px;
+		font-size: 10px;
+		padding: 0 10px;
+		border-radius: 10px;
+		gap: 5px;
+	}
+	.ms-hero__btn-list .ms-btn:last-child {
+		height: 24px;
+		width: 24px;
+		padding: 0;
+		justify-content: center;
+	}
+	.ms-hero__btn-list .ms-btn svg {
+		width: 15px;
+		height: 15px;
+	}
+
+	.ms-hero__btn-list .ms-btn i {
+		font-size: 12px;
+	}
+	.ms-apartments-main__heading {
+		padding-bottom: 15px;
+		margin-bottom: 0;
+	}
+	.ms-apartments-main__heading h3 {
+		font-size: 24px;
+	}
+	.ms-apartments-main__heading h4 {
+		font-size: 20px;
+	}
+
+	.ms-apartments-main__breadcrumb {
+		margin-bottom: -5px;
+		margin-top: 15px;
+	}
+	/* heading  */
+	.ms-apartments-main__section {
+		margin-bottom: 5px;
+	}
+	.ms-apartments-main__heading--details .ms-apartments-main____card__price p {
+		margin-bottom: 0;
+	}
+	.ms-apartments-main__heading--details .ms-apartments-main____card__price {
+		margin-bottom: 15px;
+	}
+	.ms-apartments-main__heading--details
+		.ms-apartments-main____card__button-list {
+		justify-content: flex-start;
+		gap: 10px;
+	}
+	.ms-apartments-main__heading--details
+		.ms-apartments-main____card__button-list
+		li
+		.ms-btn {
+		height: 38px;
+		padding: 0 16px;
+	}
+	.ms-hero__slider__pagination-count-img-slide-arrow-inner {
+		border-top-right-radius: 0;
+		border-bottom-right-radius: 0;
+	}
+	/* overfiew */
+	.ms-apartments-main__overview {
+		padding: 12px;
+		gap: 4px;
+	}
+	.ms-apartments-main__overview--3 ul:last-child li:first-child {
+		flex-grow: 0;
+	}
+	.ms-apartments-main__overview__item-list {
+		gap: 8px;
+	}
+	.ms-apartments-main__overview__line-list {
+		gap: 8px;
+	}
+	.ms-apartments-main__overview__item-list li {
+		text-align: center;
+		align-items: center;
+		padding: 8px 10px;
+	}
+	.ms-apartments-main__overview__item-list li h6 {
+		white-space: wrap;
+		font-size: 16px;
+	}
+
+	/* timeline */
+	.ms-apartments-main__timeline {
+		grid-template-columns: 1fr;
+		gap: 16px;
+	}
+	.ms-apartments-main__timeline__single {
+		flex-direction: row;
+		gap: 16px;
+		padding: 12px;
+	}
+
+	.ms-apartments-main__timeline__single svg {
+		height: 20px;
+		width: 20px;
+		margin-bottom: 0;
+	}
+
+	p.ms-apartments-main__timeline__single__title {
+		margin-bottom: 3px;
+	}
+	/* description */
+	.ms-apartments-main__heading--mobile {
+		flex-wrap: wrap;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 10px;
+	}
+	.ms-apartments-main__heading p i {
+		font-size: 20px;
+	}
+	.ms-apartments-main__desc {
+		padding: 12px;
+	}
+
+	.ms-apartments-main__doc-list {
+		grid-template-columns: 1fr;
+		gap: 8px;
+	}
+	.ms-apartments-main__desc__list {
+		grid-template-columns: 1fr;
+		row-gap: 2px;
+	}
+
+	.ms-apartments-main__desc p {
+		margin-bottom: 0;
+	}
+	.ms-apartments-main__desc > h6 {
+		font-size: 16px;
+		margin-top: 16px;
+		margin-bottom: 12px;
+	}
+	.ms-apartments-main__desc__list h6 {
+		font-size: 14px;
+	}
+	.ms-apartments-main__desc__list h6 span {
+		font-size: 12px;
+	}
+	.ms-apartments-main__doc-list a {
+		padding: 10px 12px;
+	}
+	.ms-apartments-main__doc__title h6 {
+		font-size: 16px;
+	}
+	.ms-apartments-main__doc__title span {
+		font-size: 12px;
+	}
+	.ms-apartments-main__doc__icon {
+		width: 32px;
+		height: 32px;
+		padding: 0;
+	}
+	.ms-apartments-main__doc__icon svg {
+		width: 20px;
+	}
+	.ms-apartments-main__doc__download-icon svg {
+		width: 24px;
+	}
+	/* details */
+	.ms-apartments-main__overview--2 ul:last-child li:first-child {
+		flex: 0 1 calc(50% - 9px);
+	}
+	/* features */
+	.ms-apartments-main__fetures .ms-input__list {
+		flex-wrap: wrap;
+		gap: 12px;
+	}
+	.ms-apartments-main__fetures .ms-input__list li {
+		width: auto;
+	}
+	.ms-apartments-main__fetures .ms-input__list li button {
+		gap: 8px;
+		height: 38px;
+		padding: 0 10px;
+		font-size: 12px;
+		border-radius: 10px;
+	}
+	.ms-apartments-main__fetures .ms-input__list li button i {
+		font-size: 16px;
+	}
+	/* floor plan */
+
+	.ms-apartments-main__floor-plan h6 {
+		font-size: 16px;
+		padding-bottom: 10px;
+	}
+
+	.ms-apartments-main__floor-plan__accordion__control {
+		padding: 12px 14px;
+		gap: 15px;
+		display: flex;
+	}
+	.ms-apartments-main__floor-plan__accordion__control
+		.ms-apartments-main____card__details-list {
+		gap: 15px;
+		display: flex;
+	}
+	.ms-apartments-main__floor-plan__accordion__control
+		.ms-apartments-main____card__details-list:first-child {
+		gap: 15px;
+		flex-grow: 1;
+	}
+	.ms-apartments-main__floor-plan__accordion__control
+		.ms-apartments-main____card__details-list:last-child {
+		gap: 8px;
+	}
+	.ms-apartments-main__floor-plan__accordion__control
+		.ms-apartments-main____card__details-list
+		li
+		i {
+		font-size: 16px;
+	}
+	.ms-apartments-main__floor-plan__accordion__control
+		.ms-apartments-main____card__details-list
+		li {
+		gap: 5px;
+	}
+	.ms-apartments-main__floor-plan__accordion__control
+		.ms-apartments-main____card__details-list:first-child
+		li:first-child {
+		flex-grow: 1;
+	}
+	.ms-apartments-main__floor-plan__accordion__control
+		.ms-apartments-main____card__details-list:first-child
+		li:last-child {
+		padding-right: 15px;
+	}
+	.ms-apartments-main__floor-plan__accordion__control
+		.ms-apartments-main____card__details-list:last-child
+		li:last-child
+		i {
+		width: 15px;
+		height: 15px;
+		font-size: 10px;
+		display: inline-flex;
+	}
+	.ms-apartments-main__floor-plan__accordion .card-body {
+		padding: 12px 14px;
+	}
+	.ms-apartments-main__floor-plan h6 {
+		margin-bottom: 5px;
+		font-size: 14px;
+	}
+	.ms-apartments-main__floor-plan img {
+		width: 78px;
+	}
+	.ms-apartments-main__floor-plan__accordion__content-list p {
+		font-size: 12px;
+	}
+	/* pricing plan */
+	.ms-apartments-main__payment-plan {
+		flex-direction: column;
+		gap: 28px;
+	}
+	.ms-apartments-main__payment-plan__single {
+		padding: 12px;
+	}
+	.ms-apartments-main__payment-plan__single h4 {
+		font-size: 20px;
+		margin-bottom: 6px;
+	}
+	.ms-apartments-main__payment-plan__single p br {
+		display: none;
+	}
+	.ms-apartments-main__payment-plan__single::after {
+		top: 103%;
+		right: 50%;
+		transform: translateX(50%) rotate(90deg);
+		font-size: 15px;
+	}
+	/* virtual tour */
+	.ms-apartments-main__virtual-tour h6 {
+		font-size: 14px;
+	}
+	.ms-apartments-main__virtual-tour__content {
+		min-height: 200px;
+		height: 200px;
+	}
+	/* morgage calcalutor */
+	.ms-apartments-main__mortgage-calculator {
+		flex-direction: column;
+		padding: 16px 12px;
+		gap: 20px;
+	}
+	.ms-apartments-main__mortgage-calculator__outputs__img img {
+		max-width: 100%;
+		width: 196px;
+	}
+	.ms-apartments-main__mortgage-calculator__outputs__list {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+	}
+	.ms-apartments-main__mortgage-calculator__outputs__list__item {
+		flex-direction: column;
+		align-items: flex-start;
+		padding: 10px 0;
+		padding-left: 25px;
+		justify-content: center;
+		line-height: 1;
+	}
+	.ms-apartments-main__mortgage-calculator__outputs__list__item:nth-child(odd) {
+		border-right: 1px solid var(--ms-color-border);
+	}
+	.ms-apartments-main__mortgage-calculator__outputs__list__item:nth-child(
+			even
+		) {
+		padding-left: 35px;
+	}
+	.ms-apartments-main__mortgage-calculator__outputs__list__item:last-child {
+		border-right: 0;
+	}
+	.ms-apartments-main__mortgage-calculator__outputs__list__item::before {
+		width: 12px;
+		height: 12px;
+		left: 8px;
+	}
+	.ms-apartments-main__mortgage-calculator__outputs__list__item:nth-child(
+			even
+		)::before {
+		left: 16px;
+	}
+
+	.ms-apartments-main__mortgage-calculator__outputs__list__item p {
+		font-size: 10px;
+		margin-bottom: 0;
+		max-width: 129px;
+	}
+	.ms-apartments-main__mortgage-calculator__outputs__list__item h6 {
+		font-size: 12px;
+		margin-bottom: 0;
+	}
+	.ms-apartments-main__mortgage-calculator__inputs .ms-input__wrapper {
+		margin-bottom: 10px;
+	}
+	.ms-apartments-main__mortgage-calculator__inputs
+		.ms-input__wrapper:last-child {
+		margin-bottom: 0;
+	}
+	.ms-apartments-main__mortgage-calculator__inputs
+		.ms-input__wrapper__inner
+		> label {
+		font-size: 12px;
+	}
+	.ms-apartments-main__mortgage-calculator__inputs .ms-input:has(input) {
+		font-size: 10px;
+		gap: 8px;
+		height: 35px;
+		border-radius: 10px;
+	}
+	.ms-apartments-main__mortgage-calculator__inputs
+		input:not([type="checkbox"]) {
+		padding-left: 8px;
+	}
+	.ms-apartments-main__mortgage-calculator__inputs .ms-input:has(input) label {
+		font-size: 10px;
+	}
+	.ms-apartments-main__mortgage-calculator__inputs
+		.ms-input:has(input)
+		label
+		i {
+		font-size: 16px;
+	}
+	/* videos */
+	.ms-apartments-main__videos {
+		border-top-right-radius: 0;
+		border-bottom-right-radius: 0;
+		margin-right: -16px;
+	}
+	.ms-apartments-main__videos__single {
+		padding: 0 8px;
+	}
+	.ms-apartments-main__videos__single a {
+		height: 170px;
+	}
+
+	.ms-apartments-main__videos__play-btn {
+		height: 42px;
+		width: 42px;
+		left: 57%;
+	}
+	.ms-apartments-main__videos__play-btn i {
+		font-size: 13px;
+	}
+
+	/* regulatory information */
+	.ms-apartments-main__regulatory-information {
+		flex-direction: column;
+		gap: 12px;
+		padding: 12px;
+		align-items: center;
+	}
+	.ms-apartments-main__qr-code {
+		align-self: center;
+		border-radius: 10px;
+	}
+	.ms-apartments-main__qr-code img {
+		width: 119px;
+	}
+	.ms-apartments-main__heading--2 a {
+		font-size: 14px;
+		flex-shrink: 0;
+	}
+	/* new projects  */
+	/* .ms-apartments-main__section:has(.ms-apartments-main__card__wrapper) {
+    overflow-x: auto;
   }
-  /* !END: Footer CSS */
+  .ms-apartments-main__card__wrapper {
+    width: 500px;
+    flex-direction: row;
+  } */
+
+	/* sidebar */
+	.ms-apartments-main__sidebar__single--broker {
+		padding: 24px 12px 16px;
+	}
+
+	.ms-apartments-main__sidebar__single--broker-2 {
+		padding: 12px;
+	}
+
+	.ms-apartments-main__sidebar__single--broker-top {
+		padding: 24px 12px 16px;
+	}
+
+	.ms-apartments-main__sidebar__single--broker::after {
+		height: 60px;
+		display: block;
+	}
+	.ms-apartments-main__sidebar__single--broker-2::after {
+		display: none;
+	}
+	.ms-apartments-main__sidebar__single--broker-top::after {
+		height: 60px;
+		display: block;
+	}
+	.ms-apartments-main__sidebar__broker-batch {
+		display: none;
+	}
+	.ms-apartments-main__sidebar__broker-details {
+		margin-bottom: 15px;
+		gap: 10px;
+	}
+	.ms-apartments-main__sidebar__single--broker-top
+		.ms-apartments-main__sidebar__broker-details {
+		gap: 10px;
+	}
+	.ms-apartments-main__sidebar__single--broker-2
+		.ms-apartments-main__sidebar__broker-details {
+		margin-bottom: 13px;
+	}
+	.ms-apartments-main__sidebar__broker-details a img {
+		width: 80px;
+	}
+	.ms-apartments-main__sidebar__single--broker-2
+		.ms-apartments-main__sidebar__broker-details
+		a
+		img {
+		width: 60px;
+	}
+	.ms-apartments-main__sidebar__single--broker-top
+		.ms-apartments-main__sidebar__broker-details
+		a
+		img {
+		width: 80px;
+	}
+	.ms-apartments-main__sidebar__broker-name h6 {
+		font-size: 18px;
+		margin-bottom: 3px;
+	}
+
+	.ms-apartments-main__sidebar__single--broker-2
+		.ms-apartments-main__sidebar__broker-name
+		h6 {
+		font-size: 16px;
+	}
+	.ms-apartments-main__sidebar__broker-details__list li a,
+	.ms-apartments-main__sidebar__broker-details__list li span,
+	.ms-apartments-main__sidebar__bottom-list li a:has(span),
+	.ms-apartments-main__sidebar__bottom-list li:last-child a {
+		font-size: 12px;
+	}
+	.ms-apartments-main__sidebar__whatsapp {
+		margin-bottom: 12px;
+		padding-bottom: 12px;
+	}
+	.ms-apartments-main__sidebar__single .ms-btn {
+		height: 32px;
+		font-size: 10px;
+		border-radius: 10px;
+		gap: 8px;
+	}
+	.ms-apartments-main__sidebar__single--broker-2
+		.ms-apartments-main__sidebar__whatsapp
+		.ms-btn
+		svg {
+		width: 12px;
+	}
+	.ms-apartments-main__sidebar__single--broker-2
+		.ms-apartments-main__sidebar__whatsapp {
+		margin-bottom: 12px;
+	}
+
+	.ms-apartments-main__sidebar__single--broker-top
+		.ms-apartments-main__sidebar__whatsapp {
+		gap: 10px;
+	}
+	.ms-apartments-main__sidebar__single--broker-top
+		.ms-apartments-main__sidebar__whatsapp
+		.ms-btn {
+		height: 32px;
+	}
+
+	.ms-apartments-main__sidebar__single--broker-top
+		.ms-apartments-main__sidebar__whatsap
+		.ms-apartments-main__sidebar__single--broker-2
+		.ms-apartments-main____card__button-list {
+		margin-bottom: 12px;
+	}
+	.ms-apartments-main__sidebar__single--broker-2
+		.ms-apartments-main____card__button-list
+		.ms-btn {
+		font-size: 10px;
+		height: 32px;
+	}
+
+	.ms-apartments-main__sidebar__single--broker-top
+		.ms-apartments-main____card__button-list
+		.ms-btn {
+		display: none;
+	}
+	.ms-apartments-main__sidebar__single--broker-2
+		.ms-apartments-main____card__button-list:not(
+			.ms-apartments-main____card__button-list--2
+		) {
+		margin-bottom: 12px;
+		padding-bottom: 12px;
+		gap: 7px;
+	}
+	.ms-apartments-main__sidebar__single--broker-top
+		.ms-apartments-main____card__button-list:not(
+			.ms-apartments-main____card__button-list--2
+		) {
+		padding-bottom: 0;
+	}
+	.ms-apartments-main__sidebar__single--broker-top
+		.ms-apartments-main____card__button-list:not(
+			.ms-apartments-main____card__button-list--2
+		)
+		.ms-btn {
+		display: none;
+	}
+	.ms-apartments-main__sidebar__single--broker-2
+		.ms-apartments-main____card__button-list--2 {
+		margin-bottom: 12px;
+	}
+	.ms-apartments-main__sidebar__single--broker-top
+		.ms-apartments-main____card__button-list--2 {
+		margin-bottom: 0;
+	}
+	.ms-apartments-main__sidebar__single--broker-2
+		.ms-apartments-main____card__button-list--2
+		.ms-btn {
+		font-size: 12px;
+		height: 30px;
+	}
+
+	.ms-apartments-main__sidebar__bottom-list li:first-child {
+		gap: 6px;
+	}
+	.ms-apartments-main__sidebar__bottom-list svg {
+		width: 13px;
+	}
+	.ms-quality-lister-modal .modal-content {
+		--ms-br-24: 16px;
+	}
+	.ms-filter__modal__heading {
+		padding: 13px 16px 9px;
+	}
+	.ms-quality-lister-modal .ms-filter__modal__heading {
+		padding: 13px 16px;
+	}
+	.ms-filter__modal__heading h5 {
+		font-size: 20px;
+	}
+	.ms-quality-lister-modal .ms-filter__modal__heading h5 {
+		font-size: 16px;
+		gap: 15px;
+	}
+	.ms-quality-lister-modal .ms-filter__modal__heading h5 svg {
+		width: 20px;
+	}
+
+	button.ms-filter__modal__close {
+		width: 16.67px;
+		height: 16.67px;
+	}
+	.ms-quality-lister-modal
+		.ms-filter__modal__heading
+		button.ms-filter__modal__close {
+		width: 15px;
+		height: 15px;
+	}
+	.ms-quality-lister-modal
+		.ms-filter__modal__heading
+		.ms-filter__modal__close
+		i {
+		font-size: 10px;
+	}
+
+	.ms-filter__modal__close i {
+		font-size: 9px;
+	}
+	.ms-filter__modal__heading .ms-filter__modal__close i {
+		font-size: 10px;
+	}
+	.ms-quality-lister-modal .ms-quality-lister-modal__content {
+		padding: 16px;
+	}
+	.ms-filter__modal__form {
+		padding: 16px;
+	}
+	.ms-report-modal .ms-filter__modal__form {
+		padding-top: 10px;
+	}
+	.ms-report-modal--submit .ms-filter__modal__form {
+		padding-top: 16px;
+	}
+	.ms-report-modal .ms-filter__modal__form .ms-input:has(.nice-select) {
+		display: flex;
+	}
+	.ms-report-modal .ms-filter__modal__form .ms-input--serach textarea {
+		min-height: 85px;
+	}
+	.ms-report-modal .ms-filter__modal__form .ms-input--serach {
+		height: 42px;
+	}
+	.ms-filter__modal__filter .ms-input__content__action {
+		gap: 12px;
+		padding: 16px;
+	}
+	.ms-filter__modal__filter .ms-input__content__action .ms-btn {
+		height: 42px;
+		flex: 1 1 calc(50% - 6px);
+		justify-content: center;
+		box-sizing: border-box;
+		font-size: 12px;
+		border-radius: 12px;
+	}
+	.ms-report-modal--submit .ms-input__content__action .ms-btn {
+		flex: 0 1 auto;
+		padding: 0 27px;
+	}
+	.ms-quality-lister-modal .ms-quality-lister-modal__content h6 {
+		font-size: 16px;
+	}
+	.ms-report-modal--submit .ms-report-modal__content img {
+		margin-bottom: 20px;
+	}
+	.ms-report-modal--submit .ms-report-modal__content h6 {
+		margin-bottom: 12px;
+	}
+	.ms-apartments-main__sidebar__single--broker-top::after {
+		border-radius: 16px;
+	}
+
+	.ms-apartments-main__sidebar__bottom-list li a span {
+		font-size: 12px;
+	}
+	/**----------------------------------------
+END: New Project Details CSS
+----------------------------------------*/
+
+	/**----------------------------------------
+START: Blog CSS
+----------------------------------------*/
+	.ms-hero--blog {
+		min-height: 229px;
+		position: relative;
+	}
+	.ms-hero--blog .ms-hero__title {
+		font-size: 24px;
+		margin-bottom: 12px;
+	}
+	.ms-apartments-main__breadcrumb--hero {
+		margin-top: 0;
+	}
+	.ms-filter__modal__form--search-hero {
+		position: absolute;
+		top: 100%;
+		left: 8px;
+		right: 8px;
+		transform: translateY(-50%);
+		background: var(--ms-color-common-white);
+		padding: 0;
+		border-radius: 10px;
+	}
+	.ms-filter__modal__form--search .ms-input {
+		height: 42px;
+		font-size: 14px;
+	}
+	.ms-filter__modal__form--search .ms-input input:not([type="checkbox"]),
+	.ms-filter__modal__form--search
+		.ms-input
+		input:not([type="checkbox"])::placeholder {
+		font-size: 14px;
+	}
+	.ms-filter__modal__form--search .ms-input label svg {
+		width: 18px;
+	}
+	.ms-blog-tab__controllers .ms-btn {
+		width: 36px;
+		height: 36px;
+	}
+	.ms-apartments-main--blog.section--wrapper {
+		margin-top: 0;
+	}
+	.ms-blog-tab__controllers .ms-btn svg {
+		width: 17px;
+		height: 20px;
+	}
+	.ms-apartments-main__section--blog .ms-apartments-main__heading {
+		padding-top: 0;
+		margin-bottom: 10px;
+	}
+	.ms-apartments-main__section--blog .ms-apartments-main__heading h4 {
+		font-size: 24px;
+	}
+	.ms-apartments-main__card--blog {
+		border-radius: 16px;
+		padding: 8px;
+	}
+	.ms-apartments-main__card--blog .ms-apartments-main__card__thumbnail {
+		border-radius: 12px;
+	}
+	.ms-apartments-main__card--blog .ms-apartments-main__card__content {
+		margin-top: 0;
+		padding: 10px;
+		padding-top: 16px;
+	}
+	.ms-apartments-main__card--blog .ms-apartments-main__card__content p {
+		font-size: 12px;
+		margin-top: 0;
+	}
+	.ms-apartments-main__card--blog
+		.ms-apartments-main__card__content
+		.ms-apartments-main__card__date {
+		margin-bottom: 8px;
+	}
+	.ms-apartments-main__card--blog .ms-apartments-main__card__content h5 {
+		font-size: 16px;
+	}
+	.ms-apartments-main__card--blog .ms-apartments-main__card__reademore {
+		padding-top: 10px;
+		margin-top: 8px;
+	}
+	.ms-apartments-main__card--blog .ms-apartments-main__card__reademore a {
+		font-size: 14px;
+	}
+	.ms-apartments-main__card--blog .ms-apartments-main__card__reademore a svg {
+		width: 18px;
+	}
+	.ms-apartments-main__sidebar__single__wrapper h5 {
+		margin-bottom: 10px;
+	}
+	.ms-filter__modal__form--search {
+		padding: 0;
+	}
+	.ms-apartments-main__sidebar__single--lg {
+		padding: 14px;
+	}
+	.sidebar-category-list {
+		gap: 8px;
+	}
+	.sidebar-category-list li {
+		font-size: 14px;
+		padding-bottom: 10px;
+	}
+	.ms-apartments-main__sidebar__single__wrapper {
+		margin-bottom: 16px;
+	}
+	.ms-apartments-main__sidebar__single__wrapper:last-child {
+		margin-bottom: 0;
+	}
+	/**----------------------------------------
+END: Blog CSS
+----------------------------------------*/
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
-  :root {
-    --ms-br-24: 16px;
-    --ms-br-30: 16px;
-  }
-  .ms-header {
-    padding: 0 50px;
-  }
-  /**----------------------------------------
+	:root {
+		--ms-br-24: 16px;
+		--ms-br-30: 16px;
+	}
+	.ms-header {
+		padding: 0 50px;
+	}
+	/**----------------------------------------
 START: Portfolio CSS
 ----------------------------------------*/
-  .ms-new-projects__thumb img {
-    height: 400px;
-  }
-  .ms-new-projects .swiper-slide-active .ms-new-projects__content {
-    transform: translateY(0);
-    visibility: visible;
-    opacity: 1;
-  }
-  .ms-new-projects__list {
-    margin-bottom: 10px;
-  }
-  .ms-new-projects__list__item {
-    padding-right: 20px;
-  }
-  .ms-new-projects__list__item:first-child {
-    padding-right: 19px;
-  }
-  .ms-new-projects__content p {
-    white-space: nowrap;
-  }
-  .ms-new-projects__bottom {
-    flex-wrap: nowrap;
-  }
-  .ms-new-projects__bottom p {
-    flex-wrap: wrap;
-    gap: 0 5px;
-  }
-  .ms-new-projects__bottom .ms-btn {
-    height: 32px;
-    padding: 0 12px;
-  }
-  .ms-location__tab__contents .ms-location__tab__controllers {
-    gap: 0;
-  }
-  /**----------------------------------------
+	.ms-new-projects__thumb img {
+		height: 400px;
+	}
+	.ms-new-projects .swiper-slide-active .ms-new-projects__content {
+		transform: translateY(0);
+		visibility: visible;
+		opacity: 1;
+	}
+	.ms-new-projects__list {
+		margin-bottom: 10px;
+	}
+	.ms-new-projects__list__item {
+		padding-right: 20px;
+	}
+	.ms-new-projects__list__item:first-child {
+		padding-right: 19px;
+	}
+	.ms-new-projects__content p {
+		white-space: nowrap;
+	}
+	.ms-new-projects__bottom {
+		flex-wrap: nowrap;
+	}
+	.ms-new-projects__bottom p {
+		flex-wrap: wrap;
+		gap: 0 5px;
+	}
+	.ms-new-projects__bottom .ms-btn {
+		height: 32px;
+		padding: 0 12px;
+	}
+	.ms-location__tab__contents .ms-location__tab__controllers {
+		gap: 0;
+	}
+	/**----------------------------------------
 !END: Portfolio CSS
 ----------------------------------------*/
-  .ms-footer__copyright__inner {
-    justify-content: center;
-  }
-  .ms-apartments-main__card__wrapper--2 {
-    grid-template-columns: 1fr;
-  }
-  .ms-cta__shape--1 {
-    left: 0;
-  }
-  .ms-cta__shape--2 {
-    right: -32%;
-    margin-top: 40%;
-  }
-  .ms-offer__inner {
-    clip-path: none;
+	.ms-footer__copyright__inner {
+		justify-content: center;
+	}
+	.ms-apartments-main__card__wrapper--2 {
+		grid-template-columns: 1fr;
+	}
+	.ms-cta__shape--1 {
+		left: 0;
+	}
+	.ms-cta__shape--2 {
+		right: -32%;
+		margin-top: 40%;
+	}
+	.ms-offer__inner {
+		clip-path: none;
 
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-    padding: 15px;
-  }
-  .ms-offer__img {
-    position: static;
-    padding-top: 0;
-    background-color: var(--ms-color-theme-bg);
-    display: flex;
-    justify-content: center;
-    margin-top: 25px;
-  }
+		border-bottom-left-radius: 0;
+		border-bottom-right-radius: 0;
+		padding: 15px;
+	}
+	.ms-offer__img {
+		position: static;
+		padding-top: 0;
+		background-color: var(--ms-color-theme-bg);
+		display: flex;
+		justify-content: center;
+		margin-top: 25px;
+	}
 
-  .ms-offer__shape {
-    display: none;
-  }
+	.ms-offer__shape {
+		display: none;
+	}
 }
 
 @media only screen and (max-width: 484px) {
-  .ms-location__tab__contents .ms-location__tab__controllers {
-    justify-content: start;
-  }
+	.ms-location__tab__contents .ms-location__tab__controllers {
+		justify-content: start;
+	}
 }
