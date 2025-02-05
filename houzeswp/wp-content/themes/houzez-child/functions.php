@@ -1085,18 +1085,19 @@ if ( !function_exists( 'houzez_after_search__get_property_type_list' ) ) {
                     if($list_inc > 3){
                         $className = "moreType";
                     }
-                    $output .= '<li class="'.$className.'"><a href="'.change_url_parameter($actual_link, $search_qry_param, array($term->slug)).'">' . $term->name . " <span>(" . $search_query_property_type_final->found_posts . ")</span></a></li>";
+                    $output .= '<li><a href="'.change_url_parameter($actual_link, $search_qry_param, array($term->slug)).'">' . $term->name . ' <span>(' . $search_query_property_type_final->found_posts . ')</span></a></li><li><hr /></li>';
                 }
 
             }
 
-            if( $output !== "" )$output = "<ul>$output</ul>";
-            
             if($list_inc > 3){
-                $output .= '<div class="page-type-show-more show-more bootstrap-select"><button class="dropdown-toggle" onclick="functionShowMore()">Show More</button></div>';
-                $output .= '<div class="page-type-show-more show-less bootstrap-select"><button class="dropdown-toggle" onclick="functionShowLess()">Show Less</button></div>';
+                $output .= '<li class="ms-apartments-main__location__all"><a href="#"><span>View All Locations</span></a></li>';
+                $output .= '<li class="ms-apartments-main__location__less"><a href="#"><span>View Less</span></a></li>';
             }
 
+            if( $output !== "" )$output = '<ul class="ms-apartments-main__location">'.$output.'</ul>';
+            
+            
         }
 
         return $output;

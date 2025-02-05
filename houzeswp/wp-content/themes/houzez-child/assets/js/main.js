@@ -330,44 +330,6 @@ Mobile Menu Js
 			maxHeight: 600,
 		});
 	}
-	// controll location
-	const locationList = document.querySelector(
-		"ul.ms-apartments-main__location"
-	);
 
-	if (locationList) {
-		const viewAllBtn = locationList.querySelector(
-			".ms-apartments-main__location__all"
-		);
-		const viewLessBtn = locationList.querySelector(
-			".ms-apartments-main__location__less"
-		);
-		function msControlLoaction(isAll) {
-			const allItems = locationList.querySelectorAll("li");
-			allItems?.forEach((item, idx) => {
-				item?.classList?.remove("ms-show");
-			});
-			if (isAll) {
-				allItems?.forEach((item2, idx2) => {
-					item2?.classList?.add("ms-show");
-				});
-				viewAllBtn?.classList?.remove("ms-show");
-				viewLessBtn?.classList?.add("ms-show");
-			} else {
-				allItems?.forEach((item2, idx2) => {
-					if (idx2 < 6) {
-						item2?.classList?.add("ms-show");
-					}
-				});
-				viewAllBtn?.classList?.add("ms-show");
-			}
-		}
-		msControlLoaction(false);
-		viewAllBtn?.addEventListener("click", function () {
-			msControlLoaction(true);
-		});
-		viewLessBtn?.addEventListener("click", function () {
-			msControlLoaction(false);
-		});
-	}
+	
 })(jQuery);
