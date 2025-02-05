@@ -83,6 +83,11 @@ if( $total_records > 1 ) {
     $record_found_text = esc_html__('Results Found', 'houzez');
 }
 
+// Get the current URL path and extract 'new-projects'
+$current_url_path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+$path_parts = explode('/', trim($current_url_path, '/'));
+$page_type = $path_parts[0]; // This will get 'new-projects'
+
 ?>
 
 <!-- start: Apartments section  -->
@@ -93,16 +98,39 @@ if( $total_records > 1 ) {
             <!-- heading -->
             <div class="col-12">
                 <div class="ms-apartments-main__heading">
-                    <h2>Commercial Villas for sale in Dubai
+                    <h2>
                         <?php       
-                        if( isset($_GET["type"]) && !empty($_GET["type"]) ){
-                            $types = [];
-                            foreach($_GET["type"] as $type){
-                                $types[] = $type;
+                        if( isset($_GET["status"]) && !empty($_GET["status"]) && !empty($_GET["status"][0]) ){
+                            $statuses = [];
+                            foreach($_GET["status"] as $status){
+                                $term = get_term_by('slug', $status, 'property_status');
+                                $statuses[] = $term ? $term->name : $status; 
                             }
-                            echo implode(", ", $types);
+                            echo " ".implode(", ", $statuses);
+                        }
+                        else if( $page_type == "new-projects" ){
+                            echo "New Projects";
+                        }
+                        else if( $page_type == "" ){
+                            echo ucwords(str_replace('-', ' ', $page_type)) . ' ';
                         }
 
+
+                        if( isset($_GET["location"]) && !empty($_GET["location"]) ){
+                            $locations = [];
+                            foreach($_GET["location"] as $location){
+                                $term = get_term_by('slug', $location, 'property_city');
+                                $locations[] = $term ? $term->name : $location; 
+                            }
+                            echo " in ".implode(", ", $locations);
+                        }
+                        else if( isset($_GET["keyword"]) && !empty($_GET["keyword"]) ){
+                            $keyword = $_GET["keyword"];
+                            echo " in ". $keyword;
+                        }
+                        else{
+                            echo " in UAE";
+                        }
                         ?>
                     </h2>
                     <button class="ms-btn ms-btn--bordered">
