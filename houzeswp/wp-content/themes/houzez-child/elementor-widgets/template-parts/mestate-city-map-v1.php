@@ -7,6 +7,14 @@
     $city_list_rent = $settings['city_list_rent'];
     $map_options = $settings['map_options'];
 
+    // wp_enqueue_style( 'leaflet', HOUZEZ_JS_DIR_URI . '/vendors/leaflet/leaflet.css', array(), '1.9.3' );
+    // wp_enqueue_script( 'leaflet', HOUZEZ_JS_DIR_URI . '/vendors/leaflet/leaflet.js', array(), '1.9.3', true );
+    // wp_enqueue_style('leafletMarkerCluster', HOUZEZ_JS_DIR_URI . '/vendors/leafletCluster/MarkerCluster.css', array(), '1.4.0', 'all');
+    // wp_enqueue_style('leafletMarkerClusterDefault', HOUZEZ_JS_DIR_URI . '/vendors/leafletCluster/MarkerCluster.Default.css', array(), '1.4.0', 'all');
+    // wp_enqueue_script('leafletMarkerCluster', HOUZEZ_JS_DIR_URI . 'vendors/leafletCluster/leaflet.markercluster.js', array('leaflet'), '1.4.0', false);
+
+    //houzez_enqueue_osm_location_js();
+
     wp_enqueue_script('leaflet');
     wp_enqueue_style('leaflet');
     wp_enqueue_script('leafletMarkerCluster');
@@ -145,7 +153,7 @@
                             </script>
                           <?php } else { ?> 
                             <script type="application/javascript">
-                                jQuery(document).ready(function() {
+                                jQuery(document).bind("ready", function () {
                                     <?php if($i == 1): ?>
                                     if (jQuery('#<?php echo $city['city_slug']; ?>').hasClass('active')) {
                                         houzezOpenStreetMapElementor("<?php echo esc_attr($map_id); ?>", <?php echo json_encode($properties_data); ?>, <?php echo json_encode($map_options); ?>);
@@ -266,3 +274,13 @@
       </section>
       <!-- end:  Loaction  -->
 
+<style>
+  .ms-location__tab__contents:has(.ms-location__card) img {
+    width: auto;
+    border-radius: initial;
+    display: initial;
+  }
+  .ms-location__tab__contents:has(.ms-location__card) img:last-child {
+		display: initial;
+	}
+</style>

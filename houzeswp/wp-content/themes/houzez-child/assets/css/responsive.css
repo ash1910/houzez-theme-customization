@@ -1133,7 +1133,13 @@ START: New Project Details CSS
 		gap: 16px;
 		padding: 12px;
 	}
-
+	.ms-apartments-main__timeline__single:after {
+		left: 20px;
+		transform: rotate(90deg);
+		top: auto;
+		bottom: -9px;
+		width: 16px;
+	}
 	.ms-apartments-main__timeline__single svg {
 		height: 20px;
 		width: 20px;
@@ -1827,6 +1833,134 @@ START: Blog CSS
 	}
 	/**----------------------------------------
 END: Blog CSS
+----------------------------------------*/
+
+	/**----------------------------------------
+START: Blog Details CSS
+----------------------------------------*/
+	.ms-blog-details__thumbnail {
+		border-radius: 10px;
+		margin-bottom: 24px;
+	}
+	.ms-apartments-main__section--blog-details .ms-apartments-main__heading {
+		padding-bottom: 16px;
+		margin-bottom: 16px;
+	}
+	.ms-apartments-main__section--blog-details .ms-apartments-main__heading h4 {
+		margin-bottom: 10px;
+	}
+	.ms-blog-details__author img {
+		width: 32px;
+	}
+	.ms-blog-details__author__desc p {
+		font-size: 12px;
+		margin-bottom: 3px;
+	}
+	.ms-blog-details__author__desc h6 {
+		font-size: 14px;
+
+		margin-bottom: 0;
+	}
+
+	.ms-blog-details__author__share p {
+		font-size: 14px;
+	}
+	.ms-blog-details__author__share svg {
+		width: 18px;
+	}
+	.ms-blog-details__desc__single {
+		margin-top: 16px;
+	}
+	.ms-blog-details__desc__single {
+		margin-top: 16px;
+	}
+	.ms-blog-details__desc__single h6 {
+		font-size: 16px;
+	}
+	.ms-blog-details__grid {
+		margin: 24px 0;
+		gap: 16px;
+		grid-template-columns: 1fr 1fr;
+		grid-template-rows: 130px 130px 130px;
+	}
+	.ms-blog-details__grid__item img {
+		height: 100%;
+		object-fit: cover;
+		object-position: center;
+	}
+	.ms-blog-details__grid__item:nth-child(2) {
+		grid-column-start: 1;
+		grid-column-end: 3;
+		grid-row-start: 2;
+		grid-row-end: 2;
+		overflow: hidden;
+	}
+	.ms-blog-details__grid__item:nth-child(2) img {
+		width: 100%;
+	}
+	.ms-blog-details__grid__item:nth-child(3) {
+		grid-column-start: 1;
+		grid-row-start: 3;
+		grid-row-end: 4;
+	}
+	.ms-blog-details__grid__item:nth-child(4) {
+		grid-column-start: 2;
+		grid-row-start: 3;
+		grid-row-end: 4;
+	}
+	.ms-blog-details__comments__heading {
+		margin-top: 24px;
+		margin-bottom: 16px;
+	}
+	.ms-blog-details__comments__heading a {
+		font-size: 14px;
+		text-decoration: underline;
+	}
+	.ms-blog-details__comments__single .ms-blog-details__author img {
+		width: 40px;
+	}
+	.ms-blog-details__comments__single .ms-blog-details__author h6 {
+		font-size: 18px;
+		margin-bottom: 5px;
+	}
+	.ms-blog-details__comments__single .ms-blog-details__author p {
+		font-size: 16px;
+		color: var(--ms-color-link);
+	}
+	.ms-blog-details__comments__single .ms-blog-details__author {
+		margin-bottom: 12px;
+	}
+	.ms-blog-details__comments__single {
+		margin-bottom: 16px;
+	}
+	.ms-blog-details__comments__single:last-child {
+		margin-bottom: 0px;
+	}
+	.ms-blog-details__write-comment {
+		margin-top: 16px;
+		margin-bottom: 24px;
+	}
+	.ms-blog-details__write-comment .ms-input {
+		padding: 12px;
+
+		height: 87px;
+	}
+	.ms-blog-details__write-comment .ms-input--serach textarea {
+		padding-top: 20px;
+		font-size: 14px;
+	}
+	.ms-blog-details__write-comment .ms-input--serach textarea::placeholder {
+		font-size: 14px;
+	}
+	.ms-blog-details__write-comment .ms-input__submit .ms-btn {
+		height: 42px;
+		font-size: 14px;
+		width: 100%;
+		justify-content: center;
+	}
+
+	/**----------------------------------------
+END: Blog Details CSS
 ----------------------------------------*/
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {

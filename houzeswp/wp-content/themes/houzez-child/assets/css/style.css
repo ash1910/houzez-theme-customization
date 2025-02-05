@@ -3015,7 +3015,8 @@ button.ms-filter__modal__close i {
 .ms-report-modal .ms-filter__modal__form .ms-input--serach:has(textarea) {
 	height: auto;
 }
-.ms-report-modal .ms-filter__modal__form .ms-input--serach textarea {
+.ms-report-modal .ms-filter__modal__form .ms-input--serach textarea,
+.ms-blog-details__write-comment .ms-input--serach textarea {
 	width: 100%;
 	background: transparent;
 	border: 0;
@@ -3031,7 +3032,10 @@ button.ms-filter__modal__close i {
 }
 
 .ms-report-modal .ms-filter__modal__form .ms-input--serach:has(input:focus),
-.ms-report-modal .ms-filter__modal__form .ms-input--serach:has(textarea:focus) {
+.ms-report-modal .ms-filter__modal__form .ms-input--serach:has(textarea:focus),
+.ms-blog-details__write-comment
+	.ms-filter__modal__form
+	.ms-input--serach:has(textarea:focus) {
 	border-color: var(--ms-color-theme-primary);
 }
 .ms-filter__modal__form .ms-input--serach input::placeholder {
@@ -3039,6 +3043,10 @@ button.ms-filter__modal__close i {
 }
 .ms-report-modal .ms-filter__modal__form .ms-input--serach input::placeholder,
 .ms-report-modal
+	.ms-filter__modal__form
+	.ms-input--serach
+	textarea::placeholder,
+.ms-blog-details__write-comment
 	.ms-filter__modal__form
 	.ms-input--serach
 	textarea::placeholder {
@@ -3858,8 +3866,20 @@ START: New Project Details CSS
 	padding: 24px 20px;
 	border: 1px solid var(--ms-color-border);
 	border-radius: var(--ms-br-24);
+	position: relative;
 }
-
+.ms-apartments-main__timeline__single:after {
+	content: "";
+	height: 1px;
+	width: 24px;
+	background: var(--ms-color-border);
+	position: absolute;
+	top: 40px;
+	left: 100%;
+}
+.ms-apartments-main__timeline__single:last-child:after {
+	display: none;
+}
 .ms-apartments-main__timeline__single svg {
 	width: 27.5px;
 	height: 27.5px;
@@ -4830,18 +4850,188 @@ START: Blog CSS
 /**----------------------------------------
 START: Blog Details CSS
 ----------------------------------------*/
+.ms-blog-details__thumbnail {
+	border-radius: 16px;
+	overflow: hidden;
+	margin-bottom: 30px;
+}
 .ms-apartments-main__section--blog-details .ms-apartments-main__heading {
-	padding-bottom: 20px;
-	margin-bottom: 20px;
+	padding-bottom: 24px;
+	margin-bottom: 24px;
 	border-bottom: 1px solid var(--ms-color-border);
 	display: block;
 }
 .ms-apartments-main__section--blog-details .ms-apartments-main__heading h4 {
 	font-size: 42px;
+	margin-bottom: 16px;
 }
 .ms-apartments-main__section--blog-details .ms-apartments-main__heading p {
 	font-size: 20px;
 	color: var(--ms-color-link);
 	font-weight: var(--ms-fw-medium);
+	position: relative;
+	padding-left: 16px;
 }
+.ms-apartments-main__section--blog-details
+	.ms-apartments-main__heading
+	p::after {
+	content: "";
+	width: 6px;
+	height: 6px;
+	background-color: var(--ms-color-common-black);
+	border-radius: 100%;
+	position: absolute;
+	top: 50%;
+	left: 0;
+	transform: translateY(-50%);
+}
+.ms-blog-details__author__wrapper {
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	align-items: center;
+	grid-area: 20px;
+}
+.ms-blog-details__author {
+	display: flex;
+
+	align-items: center;
+	gap: 20px;
+}
+.ms-blog-details__author {
+	display: flex;
+
+	align-items: center;
+	gap: 16px;
+}
+.ms-blog-details__author img {
+	border-radius: 100%;
+}
+.ms-blog-details__author__desc p {
+	font-size: 14px;
+	margin-bottom: 5px;
+}
+.ms-blog-details__author__desc h6 {
+	font-size: 16px;
+	font-weight: var(--ms-fw-sbold);
+	margin-bottom: 0;
+}
+.ms-blog-details__author__share {
+	display: flex;
+	align-items: center;
+	gap: 40px;
+}
+.ms-blog-details__author__share p {
+	font-weight: var(--ms-fw-medium);
+	margin-bottom: 0;
+}
+.ms-blog-details__author__share a:hover svg path {
+	fill: var(--ms-color-theme-primary);
+}
+.ms-blog-details__desc__single {
+	margin-top: 30px;
+}
+.ms-blog-details__desc__single p {
+	font-weight: var(--ms-fw-medium);
+	margin-bottom: 0;
+}
+.ms-blog-details__desc__single h6 {
+	font-size: 20px;
+	font-weight: var(--ms-fw-sbold);
+	margin-bottom: 10px;
+}
+.ms-blog-details__grid {
+	display: grid;
+	grid-template-columns: 1fr calc(39.8% - 16px) 1fr;
+	grid-template-rows: 160px 160px;
+	align-content: start;
+	gap: 24px;
+	margin: 40px 0;
+}
+
+.ms-blog-details__grid__item:nth-child(2) {
+	grid-column-start: 2;
+	grid-row-start: 1;
+	grid-row-end: 2;
+}
+
+.ms-blog-details__grid__item:nth-child(4) {
+	grid-column-start: 3;
+	grid-row-start: 2;
+	grid-row-end: 2;
+}
+.ms-blog-details__grid__item img {
+	border-radius: 16px;
+}
+.ms-blog-details__comments__heading {
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	gap: 12px 16px;
+	align-items: center;
+	margin-bottom: 30px;
+	margin-top: 40px;
+}
+.ms-blog-details__comments__heading a {
+	font-size: 20px;
+	font-weight: var(--ms-fw-medium);
+	color: var(--ms-color-theme-primary);
+}
+.ms-blog-details__comments__heading a:hover {
+	color: var(--ms-color-link);
+}
+.ms-blog-details__comments__single {
+	margin-bottom: 40px;
+}
+.ms-blog-details__comments__single:last-child {
+	margin-bottom: 0;
+}
+.ms-blog-details__comments__single .ms-blog-details__author {
+	margin-bottom: 16px;
+}
+.ms-blog-details__comments__single .ms-blog-details__author img {
+	width: 80px;
+}
+.ms-blog-details__comments__single .ms-blog-details__author h6 {
+	font-size: 24px;
+	margin-bottom: 8px;
+}
+.ms-blog-details__comments__single .ms-blog-details__author p {
+	font-size: 20px;
+	margin-bottom: 0;
+}
+.ms-blog-details__comments__desc {
+	font-weight: var(--ms-fw-medium);
+	margin-bottom: 0;
+}
+.ms-blog-details__write-comment {
+	margin-top: 30px;
+}
+.ms-blog-details__write-comment .ms-filter__modal__form {
+	padding: 0;
+}
+.ms-blog-details__write-comment .ms-input {
+	height: 150px;
+	padding: 30px;
+	background: transparent;
+	border: 1px solid var(--ms-color-border);
+}
+.ms-blog-details__write-comment textarea {
+	font-size: 20px;
+}
+.ms-blog-details__write-comment textarea::placeholder {
+	font-size: 20px;
+}
+.ms-blog-details__write-comment textarea:focus::placeholder,
+.ms-blog-details__write-comment textarea:focus {
+	color: var(--ms-color-theme-primary);
+}
+.ms-blog-details__write-comment .ms-input__submit {
+	margin-top: 24px;
+}
+.ms-blog-details__write-comment .ms-input__submit .ms-btn {
+	height: 56px;
+	font-size: 16px;
+}
+
 /* !END: Blog Details  CSS */

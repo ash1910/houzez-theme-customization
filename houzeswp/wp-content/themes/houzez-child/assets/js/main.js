@@ -12,6 +12,7 @@ Mobile Menu Js
 	// nice select
 	$(".ms-nice-select").niceSelect();
 
+
 	// apartment
 	function useBlogSlider() {
 		const blogSlider = new Swiper(".ms-blog-slider", {
@@ -31,6 +32,7 @@ Mobile Menu Js
 		});
 	}
 	useBlogSlider();
+
 
 	// sticky header
 	// Sticky Js
@@ -60,6 +62,7 @@ Mobile Menu Js
 	/* ---------------------------------------------------------
             32. Price Slider
         --------------------------------------------------------- */
+
 
 
 	function formWizardController() {
