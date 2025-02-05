@@ -832,6 +832,13 @@ i.menu-icon {
 .initial-hide{
   display: none;
 }
+.ms-apartments-main__heading .ms-btn--bordered.save-search-btn:disabled {
+    color: #1b1b1b;
+    border-color: #1b1b1b;
+}
+.ms-apartments-main__heading .ms-btn--bordered.save-search-btn:disabled i {
+    color: #1b1b1b;
+}
 
 
 

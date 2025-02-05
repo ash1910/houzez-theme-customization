@@ -1,6 +1,12 @@
 <?php
 global $post, $paged, $listing_founds, $search_qry;
 
+$search_uri = '';
+$get_search_uri = $_SERVER['REQUEST_URI'];
+$get_search_uri = explode( '/?', $get_search_uri );
+if(isset($get_search_uri[1]) && $get_search_uri[1] != "") {
+    $search_uri = $get_search_uri[1];
+}
 $settings = get_query_var('settings', []);
 
 $search_num_posts = houzez_option('search_num_posts');
@@ -83,11 +89,6 @@ if( $total_records > 1 ) {
     $record_found_text = esc_html__('Results Found', 'houzez');
 }
 
-// Get the current URL path and extract 'new-projects'
-$current_url_path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-$path_parts = explode('/', trim($current_url_path, '/'));
-$page_type = $path_parts[0]; // This will get 'new-projects'
-
 ?>
 
 <!-- start: Apartments section  -->
@@ -100,42 +101,28 @@ $page_type = $path_parts[0]; // This will get 'new-projects'
                 <div class="ms-apartments-main__heading">
                     <h2>
                         <?php       
-                        if( isset($_GET["status"]) && !empty($_GET["status"]) && !empty($_GET["status"][0]) ){
-                            $statuses = [];
-                            foreach($_GET["status"] as $status){
-                                $term = get_term_by('slug', $status, 'property_status');
-                                $statuses[] = $term ? $term->name : $status; 
-                            }
-                            echo " ".implode(", ", $statuses);
+                        if( isset($_GET["status"]) && !empty($_GET["status"]) && in_array("rent", $_GET["status"]) ){
+                            echo "Properties for rent in UAE";
                         }
-                        else if( $page_type == "new-projects" ){
-                            echo "New Projects";
-                        }
-                        else if( $page_type == "" ){
-                            echo ucwords(str_replace('-', ' ', $page_type)) . ' ';
-                        }
-
-
-                        if( isset($_GET["location"]) && !empty($_GET["location"]) ){
-                            $locations = [];
-                            foreach($_GET["location"] as $location){
-                                $term = get_term_by('slug', $location, 'property_city');
-                                $locations[] = $term ? $term->name : $location; 
-                            }
-                            echo " in ".implode(", ", $locations);
-                        }
-                        else if( isset($_GET["keyword"]) && !empty($_GET["keyword"]) ){
-                            $keyword = $_GET["keyword"];
-                            echo " in ". $keyword;
+                        else if( isset($_GET["status"]) && !empty($_GET["status"]) && in_array("buy", $_GET["status"]) ){
+                            echo "Properties for buy in UAE";
                         }
                         else{
-                            echo " in UAE";
+                            echo "New Projects in UAE";
                         }
                         ?>
                     </h2>
-                    <button class="ms-btn ms-btn--bordered">
+                    <?php
+                    if( houzez_option('enable_disable_save_search', 0) ) {  ?> 
+                    <button class="ms-btn ms-btn--bordered save_search_click save-search-btn">
+                        <input type="hidden" name="search_args" value='<?php print base64_encode( serialize( $search_qry ) ); ?>'>
+                        <input type="hidden" name="search_URI" value="<?php echo esc_attr($search_uri); ?>">
+                        <input type="hidden" name="search_geolocation" value="<?php echo isset($_GET['search_location']) ? esc_attr($_GET['search_location']) : ''; ?>">
+                        <input type="hidden" name="houzez_save_search_ajax" value="<?php echo wp_create_nonce('houzez-save-search-nounce')?>">
+                        <?php get_template_part('template-parts/loader'); ?>
                         <i class="icon-notification"></i> Get Alert
                     </button>
+                    <?php }?> 
                 </div>
             </div>
         </div>
