@@ -3841,6 +3841,7 @@ if(!function_exists('get_chart_impressions')) {
     }
 }
 
+
 add_action( 'elementor/init', function() {
     if ( class_exists( '\Elementor\Widget_Base' ) ) {
 
