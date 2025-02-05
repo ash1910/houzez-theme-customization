@@ -7,7 +7,11 @@ $get_search_uri = explode( '/?', $get_search_uri );
 if(isset($get_search_uri[1]) && $get_search_uri[1] != "") {
     $search_uri = $get_search_uri[1];
 }
+
 $settings = get_query_var('settings', []);
+$status_data = $settings['status_data'];
+$sidebar_image = $settings['sidebar_image'];
+$sidebar_download_url = $settings['sidebar_download_url'];
 
 $search_num_posts = houzez_option('search_num_posts');
 $enable_save_search = houzez_option('enable_disable_save_search');
@@ -197,6 +201,7 @@ if( $total_records > 1 ) {
                         >
                     </li>
                     <li class="ms-dropdown">
+                        <?php get_template_part('template-parts/listing/listing-sort-by'); ?> 
                         <a href="#" class="ms-btn ms-btn--bordered">
                             <svg
                                 width="20"
@@ -302,13 +307,15 @@ if( $total_records > 1 ) {
             <!-- apartment sidebar -->
             <div class="col-12 col-md-7 col-xl-4 pl-3">
                 <!-- sidebar single -->
+                <?php if(!empty($sidebar_image)) { ?>
                 <div class="ms-apartments-main__sidebar__single">
-                    <a href="#"
-                        ><img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/sidebar/sidebar-banner.png" alt=""
+                    <a href="<?php echo !empty($sidebar_download_url) ? esc_url($sidebar_download_url['url']) : '#'; ?>"
+                        ><img src="<?php echo esc_url($sidebar_image['url']); ?>" alt="<?php echo esc_attr($sidebar_image['alt']); ?>"
                     /></a>
 
-                    <a href="#" class="ms-btn ms-btn--primary">Download Now</a>
+                    <a href="<?php echo !empty($sidebar_download_url) ? esc_url($sidebar_download_url['url']) : '#'; ?>" class="ms-btn ms-btn--primary">Download Now</a>
                 </div>
+                <?php }?>
             </div>
 
 

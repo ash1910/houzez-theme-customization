@@ -28,6 +28,43 @@ class MEstate_New_Project extends \Elementor\Widget_Base {
             ]
         );
 
+        $prop_status = array();
+        houzez_get_terms_array( 'property_status', $prop_status );
+
+        $this->add_control(
+            'status_data',
+            [
+                'label'     => esc_html__( 'Select Statuses', 'houzez' ),
+                'type'      => \Elementor\Controls_Manager::SELECT2,
+                'options'   => $prop_status,
+                'description' => '',
+                'multiple' => true,
+                'label_block' => true,
+                'default' => '',
+            ]
+        );
+
+        $this->add_control(
+            'sidebar_image',
+            [
+                'label' => __( 'Sidebar Image', 'houzez' ),
+                'type' => \Elementor\Controls_Manager::MEDIA,
+                'default' => [
+                    'url' => '',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'sidebar_download_url',
+            [
+                'label' => __( 'Sidebar Download URL', 'houzez' ),
+                'label_block' => true,
+                'type' => \Elementor\Controls_Manager::URL,
+                'default' => '',
+            ]
+        );
+
         $this->end_controls_section();
     }
 

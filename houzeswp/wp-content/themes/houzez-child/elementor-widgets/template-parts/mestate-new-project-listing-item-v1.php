@@ -1,5 +1,121 @@
+<?php
+global $post, $ele_thumbnail_size, $image_size, $listing_agent_info, $buttonsComposer; 
 
+$listing_agent_info = houzez20_property_contact_form();
 
+if( houzez_is_fullwidth_2cols_custom_width() ) {
+	$image_size = 'houzez-item-image-4';
+} else {
+	$image_size = 'houzez-item-image-1';
+}
+
+$images = houzez_get_property_gallery_v1($image_size);
+
+$address_composer = houzez_option('listing_address_composer');
+$enabled_data = isset($address_composer['enabled']) ? $address_composer['enabled'] : 0;
+$temp_array = array();
+
+if ($enabled_data) {
+	unset($enabled_data['placebo']);
+	foreach ($enabled_data as $key=>$value) {
+
+		
+		if( $key == 'address' ) {
+			$map_address = houzez_get_listing_data('property_map_address');
+
+			if( $map_address != '' ) {
+				$temp_array[] = $map_address;
+			}
+
+		} else if( $key == 'streat-address' ) {
+			$property_address = houzez_get_listing_data('property_address');
+
+			if( $property_address != '' ) {
+				$temp_array[] = $property_address;
+			}
+
+		} else if( $key == 'country' ) {
+			$country = houzez_taxonomy_simple('property_country');
+
+			if( $country != '' ) {
+				$temp_array[] = $country;
+			}
+
+		} else if( $key == 'state' ) {
+			$state = houzez_taxonomy_simple('property_state');
+
+			if( $state != '' ) {
+				$temp_array[] = $state;
+			}
+
+		} else if( $key == 'city' ) {
+			$city = houzez_taxonomy_simple('property_city');
+
+			if( $city != '' ) {
+				$temp_array[] = $city;
+			}
+
+		} else if( $key == 'area' ) {
+			$area = houzez_taxonomy_simple('property_area');
+
+			if( $area != '' ) {
+				$temp_array[] = $area;
+			}
+
+		}
+		
+
+	}
+
+	$address = join( ", ", $temp_array );
+}
+
+if(empty($listing_id)) {
+    $listing_id = get_the_ID();
+} 
+
+$output = '';
+$sale_price     = get_post_meta( $listing_id, 'fave_property_price', true );
+$second_price   = get_post_meta( $listing_id, 'fave_property_sec_price', true );
+$price_postfix  = get_post_meta( $listing_id, 'fave_property_price_postfix', true );
+$price_prefix   = get_post_meta( $listing_id, 'fave_property_price_prefix', true );
+$price_separator = houzez_option('currency_separator');
+
+$handover = get_post_meta( $listing_id, 'fave_handover', true );
+$completion = get_post_meta( $listing_id, 'fave_completion', true );
+
+$agent_whatsapp = $listing_agent_info['agent_whatsapp'] ?? '';
+if(!empty($agent_whatsapp)) {
+    $agent_whatsapp_call = $listing_agent_info['agent_whatsapp_call'];
+    $agent_whatsapp_link = "https://api.whatsapp.com/send?phone=".$agent_whatsapp_call."&text=".houzez_option('spl_con_interested', "Hello, I am interested in")." [".get_the_title()."] ".get_permalink();
+}
+
+// Agency Picture
+$agent_info = @$listing_agent_info['agent_info'];
+$agency_logo = '';
+if( !empty( $agent_info[0] )) {
+    if( $agent_agency_id = get_post_meta($agent_info[0]['agent_id'], 'fave_agent_agencies', true) ) {
+
+        $thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id( $agent_agency_id ), 'full' );
+        if( !empty($thumbnail_src) ) {
+            $agency_logo = esc_attr( $thumbnail_src[ 0 ] );
+        }
+    }
+}
+
+$key = '';
+$userID      =   get_current_user_id();
+$fav_option = 'houzez_favorites-'.$userID;
+$fav_option = get_option( $fav_option );
+if( !empty($fav_option) ) {
+    $key = array_search($post->ID, $fav_option);
+}
+
+$icon = '';
+if( $key != false || $key != '' ) {
+    $icon = 'text-danger';
+}
+?>
 
 
 <!-- card 1 -->
@@ -11,51 +127,50 @@
             class="ms-aparments-main__card__slider ms-aparments-maincardslider swiper"
         >
             <div class="swiper-wrapper">
+                <?php foreach ($images as $image) { ?>
                 <div class="swiper-slide">
-                    <a href="new-projects-details.html">
-                        <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/new-projects/1.png" alt="" />
+                    <a href="<?php echo esc_url(get_permalink()); ?>">
+                        <img src="<?php echo $image['image']; ?>" alt="<?php echo $image['alt']; ?>" />
                     </a>
                 </div>
-                <div class="swiper-slide">
-                    <a href="new-projects-details.html">
-                        <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/new-projects/2.png" alt="" />
-                    </a>
-                </div>
-                <div class="swiper-slide">
-                    <a href="new-projects-details.html">
-                        <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/new-projects/3.png" alt="" />
-                    </a>
-                </div>
+                <?php } ?>
             </div>
             <div class="swiper-pagination"></div>
         </div>
         <div class="ms-apartments-main__card__thumbnail__header">
+            <?php if(!empty($completion)) { ?>
             <div class="ms-apartments-main__card__thumbnail__status">
-                Upcoming
+                <?php echo $completion; ?>
             </div>
+            <?php } ?>
+            <?php if(houzez_option('disable_favorite', 1)) { ?>
             <a
-                href="#"
-                class="ms-apartments-main__card__thumbnail__heart"
-                ><i class="fa-solid fa-heart"></i>
-                <i class="fa-light fa-heart"></i
+                href="javascript:void(0)"
+                class="ms-apartments-main__card__thumbnail__heart add-favorite-js item-favorite" 
+                data-listid="<?php echo intval($post->ID)?>"
+                ><i class="fa-solid fa-heart <?php echo esc_attr($icon); ?>"></i>
+                <i class="fa-light fa-heart <?php echo esc_attr($icon); ?>"></i
             ></a>
+            <?php } ?>
         </div>
     </div>
     <div class="ms-apartments-main__card__content">
+        <?php if(!empty($agency_logo)) { ?>
         <div class="ms-apartments-main__card__logo">
-            <a href="#">
+            <a href="<?php echo esc_url(get_permalink()); ?>">
                 <img
-                    src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/new-projects/logo/logo-1.png"
+                    src="<?php echo $agency_logo; ?>"
                     alt=""
             /></a>
         </div>
+        <?php } ?>
         <div class="ms-apartments-main__card__heading">
             <h5>
-                <a href="new-projects-details.html">Verdant Haven</a>
+                <a href="<?php echo esc_url(get_permalink()); ?>"><?php the_title(); ?></a>
             </h5>
-            <a href="#">
+            <a href="<?php echo esc_url(get_permalink()); ?>">
                 <i class="icon-location_grey"></i>
-                Ajman, United Arab Emirates</a
+                <?php echo $address; ?></a
             >
         </div>
         <!-- price -->
@@ -63,17 +178,23 @@
         <!-- details list -->
         <ul class="ms-apartments-main____card__details-list">
             <li>
-                <div><i class="icon-building"> </i> Townhouses</div>
+                <?php $property_type = houzez_taxonomy_simple('property_type'); 
+                if(!empty($property_type)) {
+                    echo '<div><i class="icon-building"> </i> '.$property_type.'</div>';
+                }
+                ?>
+                <?php if(!empty($handover)) { ?>
                 <div>
-                    <i class="icon-calendar_balck_fill"> </i> Q4 2024
+                    <i class="icon-calendar_balck_fill"> </i> <?php echo $handover; ?>
                 </div>
+                <?php } ?>
             </li>
             <li>
                 <hr />
             </li>
             <li>
                 <div class="ms-apartments-main____card__price">
-                    <h6>AED 650.00</h6>
+                    <h6><?php echo $price_prefix. houzez_get_property_price($sale_price) . $price_postfix; ?></h6>
                 </div>
                 <p>Starting Price</p>
             </li>
@@ -83,9 +204,10 @@
             <li>
                 <!-- card action -->
                 <ul class="ms-apartments-main____card__button-list">
+                    <?php if(!empty($agent_whatsapp)) { ?>
                     <li>
                         <a
-                            href="https://wa.me/1234567890"
+                            href="<?php echo $agent_whatsapp_link; ?>"
                             class="ms-btn ms-btn--bordered"
                         >
                             <svg
@@ -128,6 +250,7 @@
                             WhatsApp</a
                         >
                     </li>
+                    <?php } ?>
                 </ul>
             </li>
         </ul>

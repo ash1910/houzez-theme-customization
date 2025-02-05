@@ -3841,6 +3841,58 @@ if(!function_exists('get_chart_impressions')) {
     }
 }
 
+if( !function_exists('houzez_get_property_gallery_v1') ) {
+    function houzez_get_property_gallery_v1($size = 'thumbnail') {
+        global $post;
+
+        if ( ! houzez_option('disable_property_gallery', 1) ) {
+            return;
+        }
+
+        $gallery_ids = get_post_meta( $post->ID, 'fave_property_images', false );
+
+        if ( has_post_thumbnail() || $gallery_ids ) {
+            $images = [];
+            $temp_array = [];
+            
+            if ( has_post_thumbnail() && houzez_option('featured_img_in_gallery', 0) != 1 ) {
+                $thumb_id = get_post_thumbnail_id($post);
+                $thumb_meta = wp_get_attachment_metadata($thumb_id);
+                $temp_array['image'] = get_the_post_thumbnail_url($post, $size);
+                $temp_array['alt'] = get_post_meta( $thumb_id, '_wp_attachment_image_alt', true );
+
+                if (isset($thumb_meta['sizes'][$size])) {
+                    $temp_array['width'] = $thumb_meta['sizes'][$size]['width'];
+                    $temp_array['height'] = $thumb_meta['sizes'][$size]['height'];
+                }
+
+                $images[] = $temp_array;
+            }
+
+            if ( empty($gallery_ids) ) {
+                return;
+            }
+            foreach ( $gallery_ids as $id ) {
+                $img = wp_get_attachment_image_url($id, $size);
+                $img_meta = wp_get_attachment_metadata($id);
+                $alt_text = get_post_meta( $id, '_wp_attachment_image_alt', true );
+                if ( $img ) {
+                    $temp_array['image'] = $img;
+                    $temp_array['alt'] = $alt_text;
+                    
+                    if (isset($img_meta['sizes'][$size])) {
+                        $temp_array['width'] = $img_meta['sizes'][$size]['width'];
+                        $temp_array['height'] = $img_meta['sizes'][$size]['height'];
+                    }
+                    $images[] = $temp_array;
+                }
+            }
+
+            return $images;
+        }
+    }
+}
+
 
 add_action( 'elementor/init', function() {
     if ( class_exists( '\Elementor\Widget_Base' ) ) {
