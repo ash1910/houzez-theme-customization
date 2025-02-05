@@ -182,7 +182,7 @@ if($adv_baths_list) {
                         <ul class="ms-input__list">
                           <li><button class="ms-bed-btn" data-value="any">Any</button></li>
                           <?php foreach($bed_list as $value): ?>
-                          <li><button class="ms-bed-btn" data-value="<?php echo $value; ?>"><?php echo $value; ?></button></li>
+                          <li><button class="ms-bed-btn <?php if ($value == 'Studio') echo 'w-auto'; ?>" data-value="<?php echo $value; ?>"><?php echo $value; ?></button></li>
                           <?php endforeach; ?>
                         </ul>
                       </div>

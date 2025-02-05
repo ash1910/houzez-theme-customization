@@ -158,11 +158,11 @@ if($adv_baths_list) {
                     <?php if(is_array($prop_type_commercial) && count($prop_type_commercial) > 0): ?>
                     <div class="ms-filter__modal__inputs ms-filter__modal__inputs--apartment commercial-tab initial-hide">
                       <h6>Property Type</h6>
-                      <ul class="ms-input__list ms-input__list--auto-width ms-input__list--rounded radio_btn_group" id="property-type-list-commercial">
+                      <ul class="ms-input__list ms-input__list--auto-width radio_btn_group" id="property-type-list-commercial">
                         <?php foreach($prop_type_commercial as $term): ?>
                         <li>
                           <button data-value="<?php echo $term->slug; ?>" class="filter-item">
-                            <?php echo $term->name; ?>
+                            <i class="icon-apartment icon-<?php echo $term->slug; ?>"></i> <?php echo $term->name; ?>
                           </button>
                         </li>
                         <?php endforeach; ?>
