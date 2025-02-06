@@ -13,6 +13,29 @@ $status_data = $settings['status_data'];
 $sidebar_image = $settings['sidebar_image'];
 $sidebar_download_url = $settings['sidebar_download_url'];
 
+if( isset($_GET["status"]) && !empty($_GET["status"]) ){
+    $status = $_GET["status"];
+}
+elseif( isset($status_data) && !empty($status_data) ){
+    $status = $status_data;
+}
+else{
+    $status = "";
+}
+$title = "";
+if( $status == "rent" ){
+    $title = "Properties for rent in UAE";
+}
+else if( $status == "buy" ){
+    $title = "Properties for buy in UAE";
+}
+else if( $status == "new-projects" ){
+    $title = "New Projects in UAE";
+}
+else{
+    $title = "Properties in UAE";
+}
+
 $search_num_posts = houzez_option('search_num_posts');
 $enable_save_search = houzez_option('enable_disable_save_search');
 
@@ -103,22 +126,7 @@ if( $total_records > 1 ) {
             <!-- heading -->
             <div class="col-12">
                 <div class="ms-apartments-main__heading">
-                    <h2>
-                        <?php       
-                        if( isset($_GET["status"]) && !empty($_GET["status"]) && in_array("rent", $_GET["status"]) ){
-                            echo "Properties for rent in UAE";
-                        }
-                        else if( isset($_GET["status"]) && !empty($_GET["status"]) && in_array("buy", $_GET["status"]) ){
-                            echo "Properties for buy in UAE";
-                        }
-                        else if( isset($_GET["status"]) && !empty($_GET["status"]) && in_array("new-projects", $_GET["status"]) ){
-                            echo "New Projects in UAE";
-                        }
-                        else{
-                            echo "Properties in UAE";
-                        }
-                        ?>
-                    </h2>
+                    <h2><?php echo $title; ?></h2>
                     <?php
                     if( houzez_option('enable_disable_save_search', 0) ) {  ?> 
                     <button class="ms-btn ms-btn--bordered save_search_click save-search-btn">
