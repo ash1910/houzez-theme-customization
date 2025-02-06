@@ -86,17 +86,19 @@ if($adv_baths_list) {
                   class="active"
                   data-target="#modalBuy"
                   data-toggle="tab"
+                  data-page-available="<?php echo get_page_by_path('buy') ? '1' : '0'; ?>"
                 >
                   Buy
                 </button>
-                <button id="rent-tab" data-target="#modalRent" data-toggle="tab">Rent</button>
-                <button id="new-project-tab" data-target="#modalNew_project" data-toggle="tab">
+                <button id="rent-tab" data-target="#modalRent" data-toggle="tab" data-page-available="<?php echo get_page_by_path('rent') ? '1' : '0'; ?>">Rent</button>
+                <button id="new-project-tab" data-target="#modalNew_project" data-toggle="tab" data-page-available="<?php echo get_page_by_path('new-projects') ? '1' : '0'; ?>">
                   New Project
                 </button>
                 <button
                   id="commercial-tab"
                   data-target="#modalCommercial"
                   data-toggle="tab"
+                  data-page-available="<?php echo get_page_by_path('commercial') ? '1' : '0'; ?>"
                 >
                   Commercial
                 </button>
@@ -444,8 +446,8 @@ if($adv_baths_list) {
 
       $form.find(".ms-input__content__value--min").html(currency_symb + thousandSeparator(min_price));
       $form.find(".ms-input__content__value--max").html(currency_symb + thousandSeparator(max_price));
-      $form.find(".ms-min-price-range-hidden").val(min_price);
-      $form.find(".ms-max-price-range-hidden").val(max_price);
+      $form.find(".ms-min-price-range-hidden").val("");
+      $form.find(".ms-max-price-range-hidden").val("");
     }
 
     function ms_advanced_filter_functionality(){
@@ -630,80 +632,67 @@ if($adv_baths_list) {
             const completion = $form.find('#completion-list .filter-item.active').data('value');
             const handover = $form.find('#handover-list .filter-item.active').data('value');
             
-            
+            const params = {
+              "type[]": property_type || '',
+              "min-price": min_price || '',
+              "max-price": max_price || '',
+              "min-area": min_area === '0' ? '' : (min_area || ''),
+              "max-area": max_area === 'Any' ? '' : (max_area || ''),
+              "furnish-status": furnish_status || '',
+              "parking": parking || '',
+              "tour-type": tour_type || '',
+              "floor-plan": floor_plan || '',
+              "bedrooms": beds === 'any' || beds === 'Any' ? '' : (beds || ''),
+              "bathrooms": baths === 'any' || baths === 'Any' ? '' : (baths || '')
+            };
 
-            const url = '<?php echo home_url(); ?>/search-results/';
-            const searchParams = new URLSearchParams();
+            if (locations.length) {
+                params['areas[]'] = params['areas[]'] || []; // Ensure it's an array
+                params['areas[]'].push(...locations); // Add all locations
+            }
 
             // Get status based on active tab
             const activeTab = jQuery('.ms-filter__modal__filte__controllers button.active').attr('id');
             let status = '';
             switch(activeTab) {
                 case 'buy-tab':
-                    status = 'for-sale';
+                    status = 'buy';
                     break;
                 case 'rent-tab':
-                    status = 'for-rent';
-                    searchParams.set("payment-plan", payment_plan || '');
+                    status = 'rent';
+                    params.payment_plan = payment_plan || '';
                     break;
                 case 'new-project-tab':
                     status = 'new-projects';
-                    searchParams.set("handover", handover || '');
-                    searchParams.set("completion", completion || '');
+                    params.handover = handover || '';
+                    params.completion = completion || '';
                     break;
                 case 'commercial-tab':
                     status = 'commercial';
                     break;
             }
 
-            // Add locations individually to generate separate parameters
-            if (locations.length) {
-                locations.forEach(location => {
-                    searchParams.append("areas[]", location);
-                });
+            params['status[]'] = status || '';
+
+            const page_available = jQuery('.ms-filter__modal__filte__controllers button.active').data('page-available');
+            let url = "<?php echo home_url(); ?>";
+            if(status && status !== '' && page_available == '1') {
+              url = url + '/' + status;
+            }
+            else {
+              url = url + '/search-results/';
             }
 
-            // Add other parameters
-            searchParams.append("type[]", property_type || '');
-            searchParams.append("status[]", status || '');
-            searchParams.set("min-price", min_price || '');
-            searchParams.set("max-price", max_price || '');
-            searchParams.set("min-area", min_area || '');
-            searchParams.set("max-area", max_area || '');
-            searchParams.set("furnish-status", furnish_status || '');
-            searchParams.set("bedrooms", beds || '');
-            searchParams.set("bathrooms", baths || '');
-            searchParams.set("parking", parking || '');
-            searchParams.set("tour-type", tour_type || '');
-            searchParams.set("floor-plan", floor_plan || '');
-            
+            // Filter out empty parameters and build the query string
+            const queryString = Object.entries(params)
+              .flatMap(([key, value]) => 
+                  Array.isArray(value) 
+                      ? value.map(v => `${encodeURIComponent(key)}=${encodeURIComponent(v)}`) // Handle arrays properly
+                      : value ? `${encodeURIComponent(key)}=${encodeURIComponent(value)}` : []
+              )
+              .join('&');
 
-            //console.log('Before cleanup:', [...searchParams.entries()]); // Log initial parameters
-
-            for (const [key, value] of searchParams.entries()) {
-                // Handle array parameters (like area[] and type[])
-                if (key.endsWith('[]')) {
-                    // Remove if array is empty or contains only empty/default values
-                    const arrayValues = searchParams.getAll(key);
-                    if (!arrayValues.length || arrayValues.every(v => !v || v === 'Any' || v === '0' || v === '')) {
-                        searchParams.delete(key);
-                    }
-                } else {
-                    // Handle regular parameters
-                    if (!value || value === 'Any' || value === '0' || value === '' || value === 'undefined' || value === null) {
-                        searchParams.delete(key);
-                    }
-                }
-            }
-
-            // Remove empty parameters
-            for (const [key, value] of searchParams.entries()) {
-                if (value === '' || value === 'Any' || !value) {
-                    searchParams.delete(key);
-                }
-            }
-
-            window.location.href = url + '?' + searchParams.toString();
+            window.location.href = url + (queryString ? '?' + queryString : '');
         });
 
         jQuery('.advanced-filter-reset').on('click', function(e) {

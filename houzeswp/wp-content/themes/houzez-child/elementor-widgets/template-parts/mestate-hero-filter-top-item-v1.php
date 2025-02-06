@@ -1,5 +1,13 @@
 <?php
 
+$keyword = isset($_GET['keyword']) ? $_GET['keyword'] : '';
+$status = isset($_GET['status']) ? $_GET['status'] : array();
+$type = isset($_GET['type']) ? $_GET['type'] : array();
+$min_price = isset($_GET['min_price']) ? $_GET['min_price'] : '';
+$max_price = isset($_GET['max_price']) ? $_GET['max_price'] : '';
+$bed = isset($_GET['bedrooms']) ? $_GET['bedrooms'] : '';
+$bath = isset($_GET['bathrooms']) ? $_GET['bathrooms'] : '';
+
 $default_currency = houzez_option('default_currency');
 if(empty($default_currency)) {
     $default_currency = 'USD';
@@ -19,11 +27,11 @@ if($adv_baths_list) {
 }
 ?>
 
-<form class="ms-hero__form">
-    <input type="hidden" name="ms-min-price" class="ms-min-price-range-hidden range-input" readonly >
-    <input type="hidden" name="ms-max-price" class="ms-max-price-range-hidden range-input" readonly >
-    <input type="hidden" name="ms-bed" class="ms-bed-hidden" readonly >
-    <input type="hidden" name="ms-bath" class="ms-bath-hidden" readonly >
+<form class="ms-hero__form" onsubmit="return false;">
+    <input type="hidden" name="ms-min-price" value="<?php echo $min_price; ?>" class="ms-min-price-range-hidden range-input" readonly >
+    <input type="hidden" name="ms-max-price" value="<?php echo $max_price; ?>" class="ms-max-price-range-hidden range-input" readonly >
+    <input type="hidden" name="ms-bed" value="<?php echo $bed; ?>" class="ms-bed-hidden" readonly >
+    <input type="hidden" name="ms-bath" value="<?php echo $bath; ?>" class="ms-bath-hidden" readonly >
     <div class="ms-input">
         <select class="ms-nice-select-property-status" style="visibility: hidden;">
             <option value="" selected disabled>Select</option>
@@ -32,8 +40,11 @@ if($adv_baths_list) {
                 'hide_empty' => false,
                 'parent' => 0,
             ));
-            foreach($tax_terms as $term): ?>
-                <option value="<?php echo $term->slug; ?>"><?php echo $term->name; ?></option>
+            foreach($tax_terms as $term): 
+                $page_path = get_page_by_path($term->slug);
+                $page_available = $page_path ? "1" : "0";
+            ?>
+                <option data-page-available="<?php echo $page_available; ?>" value="<?php echo $term->slug; ?>" <?php if(in_array($term->slug, $status)) echo 'selected'; ?>><?php echo $term->name; ?></option>
             <?php endforeach; ?>
         </select>
     </div>
@@ -45,6 +56,7 @@ if($adv_baths_list) {
             id="ms-hero__search-loaction"
             autofocus
             autocomplete="off"
+            value="<?php echo $keyword; ?>"
         />
         <div id="auto_complete_ajax" class="auto-complete" style="top: 100%;"></div>
         <label for="ms-hero__search-loaction"
@@ -60,7 +72,7 @@ if($adv_baths_list) {
                 'parent' => 0,
             ));
             foreach($tax_terms as $term): ?>
-                <option value="<?php echo $term->slug; ?>"><?php echo $term->name; ?></option>
+                <option value="<?php echo $term->slug; ?>" <?php if(in_array($term->slug, $type)) echo 'selected'; ?>><?php echo $term->name; ?></option>
             <?php endforeach; ?>
         </select>
     </div>
@@ -129,7 +141,7 @@ if($adv_baths_list) {
                 <ul class="ms-input__list">
                     <li><button class="ms-bed-btn" data-value="any">Any</button></li>
                     <?php foreach($bed_list as $value): ?>
-                    <li><button class="ms-bed-btn <?php if ($value == 'Studio') echo 'w-auto'; ?>" data-value="<?php echo $value; ?>"><?php echo $value; ?></button></li>
+                    <li><button class="ms-bed-btn <?php if ($value == 'Studio') echo 'w-auto'; ?> <?php if ($value == $bed) echo 'active'; ?>" data-value="<?php echo $value; ?>"><?php echo $value; ?></button></li>
                     <?php endforeach; ?>
                 </ul>
             </div>
@@ -138,7 +150,7 @@ if($adv_baths_list) {
                 <ul class="ms-input__list">
                     <li><button class="ms-bath-btn" data-value="any">Any</button></li>
                     <?php foreach($bath_list as $value): ?>
-                    <li><button class="ms-bath-btn" data-value="<?php echo $value; ?>"><?php echo $value; ?></button></li>
+                    <li><button class="ms-bath-btn <?php if ($value == $bath) echo 'active'; ?>" data-value="<?php echo $value; ?>"><?php echo $value; ?></button></li>
                     <?php endforeach; ?>
                 </ul>
             </div>

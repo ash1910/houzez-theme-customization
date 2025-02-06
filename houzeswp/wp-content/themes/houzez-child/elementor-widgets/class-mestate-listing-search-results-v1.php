@@ -1,14 +1,14 @@
 <?php
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
-class MEstate_New_Project extends \Elementor\Widget_Base { 
+class MEstate_Listing_Search_Results_V1 extends \Elementor\Widget_Base { 
 
     public function get_name() {
-        return 'mestate_new_project';
+        return 'mestate_listing_search_results_v1';
     }
 
     public function get_title() {
-        return __( 'MEstate New Project', 'houzez' );
+        return __( 'MEstate Listing Search Results V1', 'houzez' );
     }
 
     public function get_icon() {
@@ -34,13 +34,13 @@ class MEstate_New_Project extends \Elementor\Widget_Base {
         $this->add_control(
             'status_data',
             [
-                'label'     => esc_html__( 'Select Statuses', 'houzez' ),
+                'label'     => esc_html__( 'Select Status', 'houzez' ),
                 'type'      => \Elementor\Controls_Manager::SELECT2,
                 'options'   => $prop_status,
                 'description' => '',
-                'multiple' => true,
+                'multiple' => false,
                 'label_block' => true,
-                'default' => '',
+                'default' => 'new-projects',
             ]
         );
 
@@ -70,12 +70,16 @@ class MEstate_New_Project extends \Elementor\Widget_Base {
 
     protected function render() {
         $settings = $this->get_settings_for_display();
+        $status_data = $settings['status_data'] ?? 'new-projects';
 
         set_query_var('settings', $settings);
 
-        get_template_part('elementor-widgets/template-parts/mestate-hero-filter-top-v1'); 
-
-        get_template_part('elementor-widgets/template-parts/mestate-new-project-v1');     
+        if($status_data == 'new-projects') {
+            get_template_part('elementor-widgets/template-parts/mestate-new-project-v1');     
+        }
+        else {
+            get_template_part('elementor-widgets/template-parts/mestate-search-results-v1');     
+        }
 
     }
     

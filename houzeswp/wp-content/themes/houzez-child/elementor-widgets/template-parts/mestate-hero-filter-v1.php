@@ -69,8 +69,10 @@ if($adv_baths_list) {
             <?php if($status_data): ?>
               <?php $i = 0; foreach($status_data as $status): $i++; 
               $tabname = houzez_get_term_by( 'slug', $status, 'property_status' );
+              $page_path = get_page_by_path($status);
+              $page_available = $page_path ? "1" : "0";
               ?>
-                <button class="ms-property-status-btn <?php echo $i == 1 ? 'active' : ''; ?>" data-target="#<?php echo $status; ?>" data-toggle="tab">
+                <button class="ms-property-status-btn <?php echo $i == 1 ? 'active' : ''; ?>" data-target="#<?php echo $status; ?>" data-page-available="<?php echo $page_available; ?>" data-toggle="tab">
                   <?php echo $tabname->name; ?>
                 </button>
               <?php endforeach; ?>
@@ -276,8 +278,8 @@ if($adv_baths_list) {
 
       $form.find(".ms-input__content__value--min").html(currency_symb + thousandSeparator(min_price));
       $form.find(".ms-input__content__value--max").html(currency_symb + thousandSeparator(max_price));
-      $form.find(".ms-min-price-range-hidden").val(min_price);
-      $form.find(".ms-max-price-range-hidden").val(max_price);
+      $form.find(".ms-min-price-range-hidden").val("");
+      $form.find(".ms-max-price-range-hidden").val("");
 
       $form.find('.ms-reset-price-range').on('click', function() {
         // Reset slider values
@@ -408,20 +410,33 @@ if($adv_baths_list) {
             // Add null check for property status
             const activeStatusBtn = jQuery('.ms-hero__filter-tab .ms-property-status-btn.active');
             const property_status = activeStatusBtn.length ? activeStatusBtn.data('target').replace('#', '') : '';
-
-            console.log(keyword, property_type, property_status, min_price, max_price, bedrooms, bathrooms);
-
-            const url = '<?php echo home_url(); ?>/search-results/';
-            const searchParams = new URLSearchParams({
+            const page_available = activeStatusBtn.data('page-available');
+            
+            let url = "<?php echo home_url(); ?>";
+            if(property_status && property_status !== '' && page_available == '1') {
+              url = url + '/' + property_status;
+            }
+            else {
+              url = url + '/search-results/';
+            }
+            
+            const params = {
                 "keyword": keyword || '',
                 "type[]": property_type || '',
                 "status[]": property_status || '',
                 "min-price": min_price || '',
                 "max-price": max_price || '',
-                "bedrooms": bedrooms || '',
-                "bathrooms": bathrooms || ''
-            });
-            window.location.href = url + '?' + searchParams.toString();
+                "bedrooms": bedrooms === 'any' ? '' : (bedrooms || ''),
+                "bathrooms": bathrooms === 'any' ? '' : (bathrooms || '')
+            };
+
+            // Filter out empty parameters and build the query string
+            const queryString = Object.entries(params)
+                .filter(([_, value]) => value) // Remove empty values
+                .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+                .join('&');
+
+            window.location.href = url + (queryString ? '?' + queryString : '');
         });
     }
 

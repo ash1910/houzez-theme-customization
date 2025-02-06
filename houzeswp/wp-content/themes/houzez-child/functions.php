@@ -3941,9 +3941,15 @@ add_action( 'elementor/init', function() {
         } );
 
         add_action( 'elementor/widgets/widgets_registered', function() {
-            require_once get_stylesheet_directory() . '/elementor-widgets/class-mestate-new-project.php';
+            require_once get_stylesheet_directory() . '/elementor-widgets/class-mestate-filter-v1.php';
 
-            \Elementor\Plugin::instance()->widgets_manager->register( new MEstate_New_Project() );    
+            \Elementor\Plugin::instance()->widgets_manager->register( new MEstate_Filter_V1() );    
+        } );
+
+        add_action( 'elementor/widgets/widgets_registered', function() {
+            require_once get_stylesheet_directory() . '/elementor-widgets/class-mestate-listing-search-results-v1.php';
+
+            \Elementor\Plugin::instance()->widgets_manager->register( new MEstate_Listing_Search_Results_V1() );    
         } );
 
 
@@ -3978,6 +3984,39 @@ function get_Houzez_Fields_Builder_select_options($slug) {
     return array();
 }
 
+if(!function_exists('houzez_search_status_mestate')) {
+	function houzez_search_status_mestate($query_arg) {
+
+        $settings = get_query_var('settings', []);
+        $status_data = $settings['status_data'];
+
+		if (isset($_GET['status']) && !empty($_GET['status']) && !empty($_GET['status'][0]) && $_GET['status'] != 'all') {
+            // Already done in houzez_properties_search
+        }
+        elseif(isset($status_data) && !empty($status_data)) {
+            $query_arg[] = array(
+                'taxonomy' => 'property_status',
+                'field' => 'slug',
+                'terms' => array($status_data)
+            );
+        }
+
+        return $query_arg;
+	}
+
+	add_filter('houzez_taxonomy_search_filter', 'houzez_search_status_mestate');
+}
+
+// function redirect_if_missing_status() {
+//     if ( is_page( 'new-projects' ) && empty( $_GET['status'] ) ) {
+//         wp_redirect( add_query_arg( 'status[]', 'new-projects', home_url( $_SERVER['REQUEST_URI'] ) ) );
+//         exit;
+//     }
+// }
+// add_action( 'template_redirect', 'redirect_if_missing_status' );
+
 //$user_package_id = houzez_get_user_package_id($userID);
 //$package_images = get_post_meta( $user_package_id, 'fave_package_images', true );
+
+
 ?>
