@@ -264,7 +264,7 @@ if( $total_records > 1 ) {
                         foreach ($combined_posts as $post) {
                             
                             setup_postdata($post);
-                            get_template_part('elementor-widgets/template-parts/mestate-new-project-listing-item-v1', $item_layout);
+                            get_template_part('elementor-widgets/template-parts/mestate-listing-item-v1', $item_layout);
 
                         }
                     elseif ( $search_query->have_posts() ) :
