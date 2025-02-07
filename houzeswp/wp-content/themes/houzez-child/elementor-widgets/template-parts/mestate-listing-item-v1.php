@@ -169,15 +169,24 @@ if( $key != false || $key != '' ) {
         </div>
         <!-- details list -->
         <ul class="ms-apartments-main____card__details-list">
-            <li><i class="icon-bed"> </i>3 Beds</li>
+            <?php if(!empty(houzez_get_listing_data('property_bedrooms'))) { ?>
+            <li><i class="icon-bed"> </i> <?php echo houzez_get_listing_data('property_bedrooms'); ?> Beds</li>
             <li>
                 <hr />
             </li>
-            <li><i class="icon-bathtube"> </i>2 Bath</li>
+            <?php } ?>
+            <?php if(!empty(houzez_get_listing_data('property_bathrooms'))) { ?>
+            <li><i class="icon-bathtube"> </i> <?php echo houzez_get_listing_data('property_bathrooms'); ?> Bath</li>
             <li>
                 <hr />
             </li>
-            <li><i class="icon-scale"> </i> 1200 m2</li>
+            <?php } ?>
+            <?php 
+            $listing_area_size = houzez_get_listing_area_size( $listing_id );
+            $listing_size_unit = houzez_get_listing_size_unit( $listing_id );
+            if(!empty($listing_area_size)) { ?>
+            <li><i class="icon-scale"> </i> <?php echo $listing_area_size; ?> <?php echo $listing_size_unit; ?></li>
+            <?php } ?>
         </ul>
         <!-- card action -->
         <ul class="ms-apartments-main____card__button-list">
