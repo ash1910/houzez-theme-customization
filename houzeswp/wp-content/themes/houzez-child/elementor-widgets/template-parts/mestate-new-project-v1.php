@@ -1,6 +1,20 @@
 <?php
 global $post, $paged, $listing_founds, $search_qry;
 
+$sortby = '';
+
+if( houzez_is_half_map_search_result() ) {
+	$sortby = houzez_option('search_default_order');
+}
+
+if( isset( $_GET['sortby'] ) ) {
+    $sortby = $_GET['sortby'];
+}
+$sort_id = 'sort_properties';
+if(houzez_is_half_map()) {
+	$sort_id = 'ajax_sort_properties';
+}
+
 $search_uri = '';
 $get_search_uri = $_SERVER['REQUEST_URI'];
 $get_search_uri = explode( '/?', $get_search_uri );
@@ -13,8 +27,8 @@ $status_data = $settings['status_data'];
 $sidebar_image = $settings['sidebar_image'];
 $sidebar_download_url = $settings['sidebar_download_url'];
 
-if( isset($_GET["status"]) && !empty($_GET["status"]) ){
-    $status = $_GET["status"];
+if( isset($_GET["status"]) && !empty($_GET["status"]) && !empty($_GET["status"][0]) ){
+    $status = $_GET["status"][0];
 }
 elseif( isset($status_data) && !empty($status_data) ){
     $status = $status_data;
@@ -212,70 +226,21 @@ if( $total_records > 1 ) {
                         >
                     </li>
                     <li class="ms-dropdown">
-                        <?php get_template_part('template-parts/listing/listing-sort-by'); ?> 
-                        <!-- <a href="#" class="ms-btn ms-btn--bordered">
-                            <svg
-                                width="20"
-                                height="14"
-                                viewBox="0 0 20 14"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path
-                                    fill-rule="evenodd"
-                                    clip-rule="evenodd"
-                                    d="M0.0625 1C0.0625 0.482233 0.482233 0.0625 1 0.0625H19C19.5178 0.0625 19.9375 0.482233 19.9375 1C19.9375 1.51777 19.5178 1.9375 19 1.9375H1C0.482233 1.9375 0.0625 1.51777 0.0625 1Z"
-                                    fill="#868686"
-                                />
-                                <path
-                                    fill-rule="evenodd"
-                                    clip-rule="evenodd"
-                                    d="M0.0625 7C0.0625 6.48223 0.482233 6.0625 1 6.0625H19C19.5178 6.0625 19.9375 6.48223 19.9375 7C19.9375 7.51777 19.5178 7.9375 19 7.9375H1C0.482233 7.9375 0.0625 7.51777 0.0625 7Z"
-                                    fill="#868686"
-                                />
-                                <path
-                                    fill-rule="evenodd"
-                                    clip-rule="evenodd"
-                                    d="M0.0625 13C0.0625 12.4822 0.482233 12.0625 1 12.0625H19C19.5178 12.0625 19.9375 12.4822 19.9375 13C19.9375 13.5178 19.5178 13.9375 19 13.9375H1C0.482233 13.9375 0.0625 13.5178 0.0625 13Z"
-                                    fill="#868686"
-                                />
-                            </svg>
+                        <div class="ms-input">
+                            <select id="<?php echo esc_attr($sort_id); ?>" class="ms-nice-select form-control bs-select-hidden" title="<?php esc_html_e( 'Popular', 'houzez' ); ?>" data-live-search="false" data-dropdown-align-right="auto">
+                                <option value=""><?php esc_html_e( 'Popular', 'houzez' ); ?></option>
+                                <option <?php selected($sortby, 'a_price'); ?> value="a_price"><?php esc_html_e('Price - Low to High', 'houzez'); ?></option>
+                                <option <?php selected($sortby, 'd_price'); ?> value="d_price"><?php esc_html_e('Price - High to Low', 'houzez'); ?></option>
+                                
+                                <option <?php selected($sortby, 'featured_first'); ?> value="featured_first"><?php esc_html_e('Featured Listings First', 'houzez'); ?></option>
+                                
+                                <option <?php selected($sortby, 'a_date'); ?> value="a_date"><?php esc_html_e('Date - Old to New', 'houzez' ); ?></option>
+                                <option <?php selected($sortby, 'd_date'); ?> value="d_date"><?php esc_html_e('Date - New to Old', 'houzez' ); ?></option>
 
-                            Popular
-                            <svg
-                                width="12"
-                                height="7"
-                                viewBox="0 0 12 7"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path
-                                    fill-rule="evenodd"
-                                    clip-rule="evenodd"
-                                    d="M10.959 0.744078C11.2845 1.06951 11.2845 1.59715 10.959 1.92259L6.37571 6.50592C6.05028 6.83136 5.52264 6.83136 5.1972 6.50592L0.61387 1.92259C0.288432 1.59715 0.288432 1.06951 0.61387 0.744078C0.939306 0.418641 1.46694 0.418641 1.79238 0.744078L5.78646 4.73816L9.78054 0.744078C10.106 0.418641 10.6336 0.418641 10.959 0.744078Z"
-                                    fill="#868686"
-                                />
-                            </svg>
-                        </a> -->
-
-                        <!-- <div class="dropdown-menu">
-                            <div class="dropdown-menu__inner">
-                                <ul>
-                                    <li>
-                                        <a class="dropdown-item" href="#">Appartments</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="#">Vllies</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="#">House</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="#">Locations </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div> -->
+                                <option <?php selected($sortby, 'a_title'); ?> value="a_title"><?php esc_html_e('Title - ASC', 'houzez' ); ?></option>
+                                <option <?php selected($sortby, 'd_title'); ?> value="d_title"><?php esc_html_e('Title - DESC', 'houzez' ); ?></option>
+                            </select><!-- selectpicker -->
+                        </div>
                     </li>
                 </ul>
 

@@ -8,6 +8,16 @@ $max_price = isset($_GET['max_price']) ? $_GET['max_price'] : '';
 $bed = isset($_GET['bedrooms']) ? $_GET['bedrooms'] : '';
 $bath = isset($_GET['bathrooms']) ? $_GET['bathrooms'] : '';
 
+if( empty($_GET["status"]) ){
+    // Get current page slug from URL
+    $current_page = get_post(get_the_ID());
+    $page_slug = $current_page->post_name;
+    
+    if ($page_slug) {
+        $status = array($page_slug);
+    }
+}
+
 $default_currency = houzez_option('default_currency');
 if(empty($default_currency)) {
     $default_currency = 'USD';
