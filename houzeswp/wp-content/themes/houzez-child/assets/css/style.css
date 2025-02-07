@@ -513,7 +513,7 @@ START: Input Css
 ----------------------------------------*/
 .ms-hero__form {
 	display: flex;
-	flex-wrap: wrap;
+	flex-wrap: nowrap;
 	justify-content: center;
 	gap: 10px;
 }
@@ -698,6 +698,7 @@ START: Input Css
 	position: static;
 }
 .ms-input .nice-select .list {
+	min-width: 164px;
 	width: 100%;
 	border-radius: var(--ms-br-16);
 	padding: 5px 16px;
@@ -2004,9 +2005,15 @@ START: Apppartments CSS
 	font-size: 14px;
 	gap: 13px;
 }
+.ms-apartments-main__filter .ms-hero__form .ms-input__content__action .ms-btn {
+	height: 48px;
+}
 .ms-apartments-main__filter .ms-hero__form .ms-btn i {
 	transform: translate(0);
 	font-size: 16px;
+}
+.ms-apartments-main__filter .ms-hero__form .ms-btn--primary i {
+	font-size: 24px;
 }
 .ms-apartments-main__filter .ms-hero__form .ms-input i {
 	color: var(--ms-color-link);
@@ -2061,14 +2068,19 @@ START: Apppartments CSS
 }
 .ms-apartments-main__location {
 	display: flex;
-	gap: 16px;
+	gap: 30px;
 	align-items: center;
 	justify-content: space-between;
 	padding: 20px;
+	justify-content: flex-start;
 	margin-bottom: 20px;
 	border: 1px solid var(--ms-color-border);
 	border-radius: var(--ms-br-16);
 	overflow: auto;
+}
+.ms-apartments-main__location:has(li:nth-child(4)) {
+	gap: 16px;
+	justify-content: space-between;
 }
 .ms-apartments-main__location li {
 	height: 27px;
@@ -3614,7 +3626,7 @@ START: New Project Details CSS
 .ms-apartments-main__section:last-child {
 	margin-bottom: 0;
 }
-.ms-apartments-main__heading {
+.ms-apartments-main__heading:has(h4) {
 	padding: 0;
 	margin-bottom: 24px;
 }
@@ -5035,3 +5047,63 @@ START: Blog Details CSS
 }
 
 /* !END: Blog Details  CSS */
+/**----------------------------------------
+START: Paginations CSS
+----------------------------------------*/
+.pagination {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 20px;
+	flex-wrap: wrap;
+	margin-top: 30px;
+}
+.page-item {
+	margin: 0;
+}
+.page-item .page-link,
+.page-item.disabled .page-link {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 42px;
+	height: 42px;
+	border: 1px solid var(--ms-color-border);
+	border-radius: 100%;
+	font-size: var(--ms-ff-body);
+	color: var(--ms-color-link);
+	font-weight: var(--ms-fw-medium);
+	margin: 0;
+}
+.page-item .page-link[aria-label="Next"],
+.page-item .page-link[aria-label="Previous"] {
+	width: 53px;
+	border-radius: 50px;
+}
+.page-item .page-link:hover,
+.page-item.active .page-link {
+	background-color: var(--ms-color-theme-primary);
+	color: var(--ms-color-common-white);
+	border-color: var(--ms-color-theme-primary);
+}
+.page-item .page-link[aria-label="Next"] i::before,
+.page-item .page-link[aria-label="Previous"] i::before {
+	font-family: "icomoon" !important;
+}
+
+.page-item:has(.page-link[aria-label="Previous"]):nth-child(1)
+	.page-link
+	i::before {
+	content: "\e91f";
+}
+.page-item:nth-last-child(2) .page-link i::before {
+	content: "\e920";
+}
+.page-item:nth-last-child(1) .page-link i::before {
+	content: "\e930";
+}
+.page-item .page-link:hover i,
+.page-item.active .page-link:hover i {
+	color: var(--ms-color-common-white);
+}
+/* !END: Paginations */

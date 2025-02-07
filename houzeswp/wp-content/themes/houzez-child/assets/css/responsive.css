@@ -51,6 +51,9 @@ START: Theme Default CSS
 	.ms-btn {
 		padding: 15px 20px;
 	}
+	.ms-hero__form {
+		flex-wrap: wrap;
+	}
 	/**----------------------------------------
 !END: Theme Default CSS
 ----------------------------------------*/
@@ -197,6 +200,7 @@ START: Theme Default CSS
 		padding: 0px 16px;
 		margin-top: -30px;
 	}
+
 	/* Button CSS */
 	.ms-btn {
 		height: 42px;
@@ -263,9 +267,11 @@ START: Input CSS
 	.ms-hero__form .ms-btn span {
 		display: none;
 	}
-	.ms-hero__form .ms-btn i {
+	.ms-hero__form .ms-btn i,
+	.ms-apartments-main__filter .ms-hero__form .ms-btn--primary i {
 		font-size: var(--ms-fs-icon);
 	}
+
 	.form-check:has(.form-check-input) .form-check-label::before {
 		width: 16px;
 		height: 16px;
@@ -290,6 +296,9 @@ START: Input CSS
 	/**----------------------------------------
 START: Filter Modal CSS
 ----------------------------------------*/
+	.ms-hero__form {
+		flex-wrap: wrap;
+	}
 	.ms-input__list--rounded {
 		grid-template-columns: 1fr 1fr;
 	}
@@ -2039,7 +2048,9 @@ START: Portfolio CSS
 		justify-content: center;
 		margin-top: 25px;
 	}
-
+	.ms-hero__form {
+		flex-wrap: wrap;
+	}
 	.ms-offer__shape {
 		display: none;
 	}

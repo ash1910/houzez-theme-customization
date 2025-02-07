@@ -124,9 +124,9 @@ $author_id  = get_post_field ('post_author', $property_id);
 
 if ( houzez_is_developer($author_id ) ) {
 	$prop_payment_val = "";
-	$prop_payment_plan_down  = houzez_get_listing_data('prop_payment_plan_down');
-	$prop_payment_plan_during_construction  = houzez_get_listing_data('prop_payment_plan_during_construction');
-	$prop_payment_plan_on_handover  = houzez_get_listing_data('prop_payment_plan_on_handover');
+	$prop_payment_plan_down  = houzez_get_listing_data('down-payment');
+	$prop_payment_plan_during_construction  = houzez_get_listing_data('during-construction');
+	$prop_payment_plan_on_handover  = houzez_get_listing_data('on-handover');
 	if(!empty($prop_payment_plan_down)) {
 		$prop_payment_val = $prop_payment_plan_down;
 	}

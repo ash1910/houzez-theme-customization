@@ -40,17 +40,15 @@ if(empty($default_multi_currency)) {
 						<?php echo houzez_option('cl_con_st', 'Construction Status' ).houzez_required_field('cl_con_req'); ?>
 					</label>
 
-					<select name="prop_construction_status" id="prop_construction_status" <?php houzez_required_field_2('construction_status'); ?> class="selectpicker form-control bs-select-hidden" title="<?php echo houzez_option('cl_con_st_plac', 'Select'); ?>" data-live-search="false" data-selected-text-format="count" data-actions-box="true">
+					<select name="completion" id="completion" <?php houzez_required_field_2('completion'); ?> class="selectpicker form-control bs-select-hidden" title="<?php echo houzez_option('cl_con_st_plac', 'Select'); ?>" data-live-search="false" data-selected-text-format="count" data-actions-box="true">
 						<option value=""><?php echo houzez_option('cl_con_st_plac', 'Select Construction Status'); ?></option>
 						<?php
-						$construction_status_array = houzez_option('construction_status_data', 'Under Construction, Ready for Delivey'); 
-						$construction_status_array = explode(',', $construction_status_array);
+						$completion = get_Houzez_Fields_Builder_select_options('completion');
 
-						if( ! empty( $construction_status_array ) ) {
-							foreach ($construction_status_array as $e_class) { 
-								$e_class = trim($e_class);
+						if( ! empty( $completion ) ) {
+							foreach ($completion as $key => $value) { 
 								?>
-								<option <?php selected(houzez_get_field_meta('prop_construction_status'), esc_attr($e_class)); ?> value="<?php echo esc_attr($e_class);?>"><?php echo esc_attr($e_class);?></option>
+								<option <?php selected(houzez_get_field_meta('completion'), esc_attr($key)); ?> value="<?php echo esc_attr($key);?>"><?php echo esc_attr($value);?></option>
 							<?php
 							}
 						}
@@ -61,15 +59,15 @@ if(empty($default_multi_currency)) {
 
 			<div class="col-md-4 col-sm-12">
 				<div class="form-group">
-					<label for="prop_number_of_buildings">
-						<?php echo houzez_option('cl_no_buildings', 'Number of buildings').houzez_required_field('no_buildings'); ?>
+					<label for="number-of-buildings">
+						<?php echo houzez_option('cl_number-of-buildings', 'Number of buildings').houzez_required_field('number-of-buildings'); ?>
 					</label>
 
-					<input class="form-control" id="prop_number_of_buildings" <?php houzez_required_field_2('no_buildings'); ?> name="prop_number_of_buildings" value="<?php
+					<input class="form-control" id="number-of-buildings" <?php houzez_required_field_2('number-of-buildings'); ?> name="number-of-buildings" value="<?php
 					if (houzez_edit_property()) {
-						houzez_field_meta('prop_number_of_buildings');
+						houzez_field_meta('number-of-buildings');
 					}
-					?>" placeholder="<?php echo houzez_option('cl_no_buildings_plac', 'Enter number of buildings'); ?>" <?php houzez_input_attr_for_bbr(); ?>>
+					?>" placeholder="<?php echo houzez_option('cl_number-of-buildings_plac', 'Enter number of buildings'); ?>" <?php houzez_input_attr_for_bbr(); ?>>
 					<small class="form-text text-muted"><?php echo houzez_option('cl_only_digits', 'Only digits'); ?></small>
 				</div>
 			</div>
@@ -80,36 +78,15 @@ if(empty($default_multi_currency)) {
 						<?php echo houzez_option('cl_handover', 'Handover Date' ).houzez_required_field('cl_handover_req'); ?>
 					</label>
 					<div class="row">
-						<div class="col-md-6">
-							<select name="prop_handover_q" id="prop_handover_q" <?php houzez_required_field_2('prop_handover_q'); ?> class="selectpicker form-control bs-select-hidden" title="<?php echo houzez_option('cl_prop_handover_q_plac', 'Select'); ?>" data-live-search="false" data-selected-text-format="count" data-actions-box="true">
-								<option value=""><?php echo houzez_option('cl_prop_handover_q_plac', 'Select'); ?></option>
+						<div class="col-md-12">
+							<select name="handover" id="handover" <?php houzez_required_field_2('handover'); ?> class="selectpicker form-control bs-select-hidden" title="<?php echo houzez_option('cl_handover', 'Select'); ?>" data-live-search="false" data-selected-text-format="count" data-actions-box="true">
+								<option value=""><?php echo houzez_option('cl_handover_plac', 'Select'); ?></option>
 								<?php
-								$prop_handover_q_array = houzez_option('prop_handover_q_data', 'Q1, Q2, Q3, Q4'); 
-								$prop_handover_q_array = explode(',', $prop_handover_q_array);
+								$handover = get_Houzez_Fields_Builder_select_options('handover');
 
-								if( ! empty( $prop_handover_q_array ) ) {
-									foreach ($prop_handover_q_array as $e_class) { 
-										$e_class = trim($e_class);
-										?>
-										<option <?php selected(houzez_get_field_meta('prop_handover_q'), esc_attr($e_class)); ?> value="<?php echo esc_attr($e_class);?>"><?php echo esc_attr($e_class);?></option>
-									<?php
-									}
-								}
-								?>
-							</select><!-- selectpicker -->
-						</div>
-						<div class="col-md-6">
-							<select name="prop_handover_y" id="prop_handover_y" <?php houzez_required_field_2('prop_handover_y'); ?> class="selectpicker form-control bs-select-hidden" title="<?php echo houzez_option('cl_prop_handover_q_plac', 'Select'); ?>" data-live-search="false" data-selected-text-format="count" data-actions-box="true">
-								<option value=""><?php echo houzez_option('cl_prop_handover_q_plac', 'Select'); ?></option>
-								<?php
-								$prop_handover_y_array = houzez_option('prop_handover_y_data', '2024, 2025, 2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035'); 
-								$prop_handover_y_array = explode(',', $prop_handover_y_array);
-
-								if( ! empty( $prop_handover_y_array ) ) {
-									foreach ($prop_handover_y_array as $e_class) { 
-										$e_class = trim($e_class);
-										?>
-										<option <?php selected(houzez_get_field_meta('prop_handover_y'), esc_attr($e_class)); ?> value="<?php echo esc_attr($e_class);?>"><?php echo esc_attr($e_class);?></option>
+								if( ! empty( $handover ) ) {
+									foreach ($handover as $key => $value) { ?>
+										<option <?php selected(houzez_get_field_meta('handover'), esc_attr($key)); ?> value="<?php echo esc_attr($key);?>"><?php echo esc_attr($value);?></option>
 									<?php
 									}
 								}
@@ -133,9 +110,9 @@ if(empty($default_multi_currency)) {
 						<?php echo houzez_option('cl_payment_plan_down', 'Down Payment (%)').houzez_required_field('payment_plan_down'); ?>
 					</label>
 
-					<input class="form-control" id="prop_payment_plan_down" <?php houzez_required_field_2('payment_plan_down'); ?> name="prop_payment_plan_down" value="<?php
+					<input class="form-control" id="down-payment" <?php houzez_required_field_2('down-payment'); ?> name="down-payment" value="<?php
 					if (houzez_edit_property()) {
-						houzez_field_meta('prop_payment_plan_down');
+						houzez_field_meta('down-payment');
 					}
 					?>" placeholder="<?php echo houzez_option('cl_payment_plan_down', 'Enter Down Payment (%)'); ?>" <?php houzez_input_attr_for_bbr(); ?>>
 					<small class="form-text text-muted"><?php echo houzez_option('cl_only_digits', 'Only digits'); ?></small>
@@ -147,11 +124,11 @@ if(empty($default_multi_currency)) {
 						<?php echo houzez_option('cl_payment_plan_during_construction', 'During Construction (%)').houzez_required_field('payment_plan_during_construction'); ?>
 					</label>
 
-					<input class="form-control" id="prop_payment_plan_during_construction" <?php houzez_required_field_2('payment_plan_during_construction'); ?> name="prop_payment_plan_during_construction" value="<?php
+					<input class="form-control" id="during-construction" <?php houzez_required_field_2('during-construction'); ?> name="during-construction" value="<?php
 					if (houzez_edit_property()) {
-						houzez_field_meta('prop_payment_plan_during_construction');
+						houzez_field_meta('during-construction');
 					}
-					?>" placeholder="<?php echo houzez_option('cl_payment_plan_during_construction', 'Enter During Construction (%)'); ?>" <?php houzez_input_attr_for_bbr(); ?>>
+					?>" placeholder="<?php echo houzez_option('cl_during-construction', 'Enter During Construction (%)'); ?>" <?php houzez_input_attr_for_bbr(); ?>>
 					<small class="form-text text-muted"><?php echo houzez_option('cl_only_digits', 'Only digits'); ?></small>
 				</div>
 			</div>
@@ -161,11 +138,11 @@ if(empty($default_multi_currency)) {
 						<?php echo houzez_option('cl_payment_plan_on_handover', 'On Handover (%)').houzez_required_field('payment_plan_on_handover'); ?>
 					</label>
 
-					<input class="form-control" id="prop_payment_plan_on_handover" <?php houzez_required_field_2('payment_plan_on_handover'); ?> name="prop_payment_plan_on_handover" value="<?php
+					<input class="form-control" id="on-handover" <?php houzez_required_field_2('on-handover'); ?> name="on-handover" value="<?php
 					if (houzez_edit_property()) {
-						houzez_field_meta('prop_payment_plan_on_handover');
+						houzez_field_meta('on-handover');
 					}
-					?>" placeholder="<?php echo houzez_option('cl_payment_plan_on_handover', 'Enter On Handover (%)'); ?>" <?php houzez_input_attr_for_bbr(); ?>>
+					?>" placeholder="<?php echo houzez_option('cl_on-handover', 'Enter On Handover (%)'); ?>" <?php houzez_input_attr_for_bbr(); ?>>
 					<small class="form-text text-muted"><?php echo houzez_option('cl_only_digits', 'Only digits'); ?></small>
 				</div>
 			</div>

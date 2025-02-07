@@ -32,18 +32,18 @@ if ( houzez_is_developer($author_id ) ) {
 			</ul>';
 	}
 
-	$prop_construction_status  = houzez_get_listing_data('prop_construction_status');
-	if(!empty($prop_construction_status)) {
+	$completion  = houzez_get_listing_data('completion');
+	if(!empty($completion)) {
 		echo '<ul class="list-unstyled flex-fill">
-				<li class="property-overview-item"><strong>'.esc_attr( $prop_construction_status ).'</strong></li>
+				<li class="property-overview-item"><strong>'.esc_attr( $completion ).'</strong></li>
 				<li class="hz-meta-label property-overview-type">'.houzez_option('cl_con_st', 'Construction Status').'</li>
 			</ul>';
 	}
 
 	$prop_payment_val = "";
-	$prop_payment_plan_down  = houzez_get_listing_data('prop_payment_plan_down');
-	$prop_payment_plan_during_construction  = houzez_get_listing_data('prop_payment_plan_during_construction');
-	$prop_payment_plan_on_handover  = houzez_get_listing_data('prop_payment_plan_on_handover');
+	$prop_payment_plan_down  = houzez_get_listing_data('down-payment');
+	$prop_payment_plan_during_construction  = houzez_get_listing_data('during-construction');
+	$prop_payment_plan_on_handover  = houzez_get_listing_data('on-handover');
 	if(!empty($prop_payment_plan_down)) {
 		$prop_payment_val = $prop_payment_plan_down;
 	}
@@ -60,7 +60,7 @@ if ( houzez_is_developer($author_id ) ) {
 			</ul>';
 	}
 
-	$prop_number_of_buildings  = houzez_get_listing_data('prop_number_of_buildings');
+	$prop_number_of_buildings  = houzez_get_listing_data('number-of-buildings'); 
 	if(!empty($prop_number_of_buildings)) {
 		echo '<ul class="list-unstyled flex-fill">
 				<li class="property-overview-item"><strong style="margin:0 auto;">'.esc_attr( $prop_number_of_buildings ).'</strong></li>
@@ -68,18 +68,10 @@ if ( houzez_is_developer($author_id ) ) {
 			</ul>';
 	}
 
-	$prop_handover_val = "";
-	$prop_handover_q  = houzez_get_listing_data('prop_handover_q');
-	$prop_handover_y  = houzez_get_listing_data('prop_handover_y');
-	if(!empty($prop_handover_q)) {
-		$prop_handover_val = $prop_handover_q;
-	}
-	if(!empty($prop_handover_y)) {
-		$prop_handover_val .= " ".$prop_handover_y;
-	}
-	if(!empty($prop_handover_val)) {
+	$handover  = houzez_get_listing_data('handover');
+	if(!empty($handover)) {
 		echo '<ul class="list-unstyled flex-fill">
-				<li class="property-overview-item"><strong>'.esc_attr( $prop_handover_val ).'</strong></li>
+				<li class="property-overview-item"><strong>'.esc_attr( $handover ).'</strong></li>
 				<li class="hz-meta-label property-overview-type">'.houzez_option('cl_handover', 'Handover').'</li>
 			</ul>';
 	}
