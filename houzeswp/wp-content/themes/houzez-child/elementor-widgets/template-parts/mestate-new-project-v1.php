@@ -227,7 +227,7 @@ if( $total_records > 1 ) {
                     </li>
                     <li class="ms-dropdown">
                         <div class="ms-input">
-                            <select id="<?php echo esc_attr($sort_id); ?>" class="ms-nice-select form-control bs-select-hidden" title="<?php esc_html_e( 'Popular', 'houzez' ); ?>" data-live-search="false" data-dropdown-align-right="auto">
+                            <select id="<?php echo esc_attr($sort_id); ?>" class="ms-nice-select-popular form-control bs-select-hidden" title="<?php esc_html_e( 'Popular', 'houzez' ); ?>" data-live-search="false" data-dropdown-align-right="auto">
                                 <option value=""><?php esc_html_e( 'Popular', 'houzez' ); ?></option>
                                 <option <?php selected($sortby, 'a_price'); ?> value="a_price"><?php esc_html_e('Price - Low to High', 'houzez'); ?></option>
                                 <option <?php selected($sortby, 'd_price'); ?> value="d_price"><?php esc_html_e('Price - High to Low', 'houzez'); ?></option>
@@ -359,10 +359,12 @@ if( $total_records > 1 ) {
     
 
     <?php if (\Elementor\Plugin::$instance->editor->is_edit_mode()) {?>
+        jQuery(".ms-nice-select-popular").niceSelect();
         functionPropertyLocationShowMore();
         functionListingItemImageSlider();
     <?php } else { ?>
         jQuery(document).ready(function($) {
+            jQuery(".ms-nice-select-popular").niceSelect();
             functionPropertyLocationShowMore();
             functionListingItemImageSlider();
         });
