@@ -2125,26 +2125,85 @@ START: Apppartments CSS
 	flex-wrap: wrap;
 	margin-bottom: 30px;
 }
+
 .ms-dropdown {
 	position: relative;
 }
 .ms-apartments-main__button-list li:last-child {
 	margin-left: auto;
 }
+.ms-apartments-main__button-list li:has(.ms-btn--popular) {
+	height: 52px;
+	position: relative;
+	z-index: var(--ms-zi-xl);
+	border-radius: var(--ms-br-16);
+	border: 1px solid var(--ms-color-border);
+}
+
+.ms-apartments-main__button-list li:has(.ms-btn--popular):hover {
+	background: var(--ms-color-theme-primary);
+	border-color: var(--ms-color-theme-primary);
+}
 .ms-apartments-main__button-list .ms-btn {
 	font-size: 14px;
 	height: 52px;
 	padding: 0 20px;
 	gap: 10px;
-	line-height: 1;
+	line-height: 0;
 }
-.ms-apartments-main__button-list .ms-btn--popular svg:last-child {
+.ms-apartments-main__button-list li:has(.ms-btn--popular) .ms-btn {
+	padding: 0 46px 0 53px;
+	background: transparent;
+	border: 0;
+	height: 100%;
+}
+.ms-apartments-main__button-list li:has(.ms-btn--popular) .ms-btn:hover {
+	background: transparent;
+}
+
+.ms-apartments-main__button-list li:has(.ms-btn--popular) .nice-select .list {
+	top: 96%;
+	border-radius: var(--ms-br-16);
+	min-width: 150px;
+}
+.ms-apartments-main__button-list li:has(.ms-btn--popular) .nice-select::after {
+	height: 7px;
+	width: 7px;
+	border-color: var(--ms-color-text-body);
+	right: 25px;
+	margin-top: -3px;
+}
+.ms-apartments-main__button-list
+	li:has(.ms-btn--popular):hover
+	.nice-select::after {
+	border-color: var(--ms-color-common-white);
+}
+.ms-apartments-main__button-list li:has(.ms-btn--popular):hover svg path {
+	fill: var(--ms-color-common-white);
+}
+/* .ms-apartments-main__button-list .ms-btn--popular svg:last-child {
 	margin-left: 5px;
+} */
+.ms-apartments-main__button-list
+	li:has(.ms-btn--popular)
+	.ms-popular-select__svg {
+	margin: 0;
+	position: absolute;
+	left: 20px;
+	top: 50%;
+	transform: translateY(-50%);
+	z-index: -1;
 }
+
 .ms-apartments-main__button-list .ms-btn:hover,
 .ms-apartments-main__button-list .ms-btn.active {
 	color: var(--ms-color-common-white);
 	background-color: var(--ms-color-theme-primary);
+}
+.ms-apartments-main__button-list li:has(.ms-btn--popular):hover .list {
+	color: var(--ms-color-text-body);
+	background-color: var(--ms-color-common-white);
+	z-index: var(--ms-zi-md);
 }
 .ms-apartments-main__button-list .ms-btn:hover svg path,
 .ms-apartments-main__button-list .ms-btn.active svg path {
@@ -2478,6 +2537,12 @@ START: Apppartments CSS
 	display: flex;
 	gap: 8px;
 	align-items: center;
+}
+.ms-apartments-main____card__details-list--2 > li:first-child,
+.ms-apartments-main____card__details-list--2 > li:nth-child(3) {
+	max-width: 119px;
+	overflow: hidden;
+	white-space: nowrap;
 }
 .ms-apartments-main____card__details-list li:has(hr) {
 	height: 24px;
@@ -2863,7 +2928,7 @@ START: Filter Modal CSS
 .nav-tabs {
 	border: 0;
 }
-.modal {
+.ms-modal {
 	z-index: var(--ms-zi-xxl);
 }
 .modal-backdrop {
@@ -2874,16 +2939,16 @@ START: Filter Modal CSS
 .modal-backdrop.show {
 	opacity: 1;
 }
-.modal-dialog {
+.ms-modal .modal-dialog {
 	max-width: 600px;
 }
 .ms-report-modal .modal-dialog {
 	max-width: 560px;
 }
-.modal-body {
+.ms-modal .modal-body {
 	padding: 0;
 }
-.modal-content {
+.ms-modal .modal-content {
 	border-color: var(--ms-color-border);
 	border-radius: var(--ms-br-24);
 }
@@ -5074,6 +5139,10 @@ START: Paginations CSS
 	color: var(--ms-color-link);
 	font-weight: var(--ms-fw-medium);
 	margin: 0;
+}
+.page-item:last-child .page-link {
+	border-top-right-radius: 100%;
+	border-bottom-right-radius: 100%;
 }
 .page-item .page-link[aria-label="Next"],
 .page-item .page-link[aria-label="Previous"] {

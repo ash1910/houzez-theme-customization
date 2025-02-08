@@ -120,18 +120,24 @@ if( $key != false || $key != '' ) {
 }
 ?>
 
-
 <!-- card 1 -->
-<div class="ms-apartments-main__card ms-apartments-main__card--list">
-    <a href="<?php echo esc_url(get_permalink()); ?>" class="ms-apartments-main__card__link"></a>
+<div class="ms-apartments-main__card ms-apartments-main__card--2">
     <div class="ms-apartments-main__card__thumbnail">
-        <?php if(!empty($images)) { ?>
-        <div class="ms-apartments-main__card__thumbnail__img">
-            <img src="<?php echo $images[0]['image']; ?>" alt="<?php echo $images[0]['alt']; ?>" />
+        <div class="ms-aparments-main__card__slider ms-aparments-maincardslider swiper">
+            <div class="swiper-wrapper">
+                <?php foreach ($images as $image) { ?>
+                <div class="swiper-slide">
+                    <a href="<?php echo esc_url(get_permalink()); ?>">
+                        <img src="<?php echo $image['image']; ?>" alt="<?php echo $image['alt']; ?>" />
+                    </a>
+                </div>
+                <?php } ?>
+            </div>
+            <div class="swiper-pagination"></div>
         </div>
-        <?php } ?>
+
         <div class="ms-apartments-main__card__thumbnail__header">
-            <?php $prop_verified_badge = houzez_get_listing_data('verified_badge'); ?>
+        <?php $prop_verified_badge = houzez_get_listing_data('verified_badge'); ?>
             <?php if($prop_verified_badge == 1) { ?>
             <div class="ms-apartments-main__card__thumbnail__status">
                 <i class="icon-verified-1"></i> verified
@@ -153,13 +159,15 @@ if( $key != false || $key != '' ) {
         <?php } ?>
     </div>
     <div class="ms-apartments-main__card__content">
-        <h5><?php the_title(); ?></h5>
+        <h5>
+            <a href="<?php echo esc_url(get_permalink()); ?>"><?php the_title(); ?></a>
+        </h5>
         <a href="<?php echo esc_url(get_permalink()); ?>">
             <i class="icon-location_grey"></i>
-            <?php echo $address; ?></a>
+            <?php echo $address; ?></a></a>
         <!-- price -->
         <div class="ms-apartments-main____card__price">
-            <h6><?php echo $price_prefix. houzez_get_property_price($sale_price) . $price_postfix; ?> 
+            <h6><?php echo $price_prefix. houzez_get_property_price($sale_price); ?> 
                 <?php $property_type = houzez_taxonomy_simple('property_type'); 
                 if(!empty($property_type)) {
                     echo '<span>'.$property_type.'</span>';

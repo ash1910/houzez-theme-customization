@@ -133,7 +133,7 @@ if( $key != false || $key != '' ) {
             <div class="swiper-pagination"></div>
         </div>
         <div class="ms-apartments-main__card__thumbnail__header">
-        <?php if(!empty($completion)) { ?>
+            <?php if(!empty($completion)) { ?>
             <div class="ms-apartments-main__card__thumbnail__status">
                 <?php echo $completion; ?>
             </div>
@@ -162,7 +162,7 @@ if( $key != false || $key != '' ) {
         <!-- price -->
         <div class="ms-apartments-main____card__price">
             <p>Starting Price</p>
-            <h6><?php echo $price_prefix. houzez_get_property_price($sale_price) . $price_postfix; ?></h6>
+            <h6><?php echo $price_prefix. houzez_get_property_price($sale_price); ?></h6>
         </div>
         <!-- details list -->
         <ul class="ms-apartments-main____card__details-list">

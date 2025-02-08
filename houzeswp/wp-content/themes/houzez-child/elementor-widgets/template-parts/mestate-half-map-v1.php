@@ -1,6 +1,83 @@
 <?php
 global $post, $paged, $listing_founds, $search_qry;
 
+wp_enqueue_script('leaflet');
+wp_enqueue_style('leaflet');
+wp_enqueue_script('leafletMarkerCluster');
+wp_enqueue_style('leafletMarkerCluster');
+wp_enqueue_style('leafletMarkerClusterDefault');
+wp_enqueue_script('houzez-elementor-osm-scripts');
+
+function get_properties_data($post) {
+
+    $property_array_temp = array();
+
+    $property_array_temp[ 'title' ] = get_the_title();
+    $property_array_temp[ 'url' ] = get_permalink();
+    $property_array_temp['price'] = houzez_listing_price_v5();
+    $property_array_temp['property_id'] = get_the_ID();
+    $property_array_temp['pricePin'] = houzez_listing_price_map_pins();
+
+    $address = houzez_get_listing_data('property_map_address');
+    if(!empty($address)) {
+        $property_array_temp['address'] = $address;
+    }
+
+    //Property type
+    $property_array_temp['property_type'] = houzez_taxonomy_simple('property_type');
+
+    $property_location = houzez_get_listing_data('property_location');
+    if(!empty($property_location)){
+        $lat_lng = explode(',',$property_location);
+        $property_array_temp['lat'] = $lat_lng[0];
+        $property_array_temp['lng'] = $lat_lng[1];
+    }
+
+    //Get marker 
+    $property_type = get_the_terms( get_the_ID(), 'property_type' );
+    if ( $property_type && ! is_wp_error( $property_type ) ) {
+        foreach ( $property_type as $p_type ) {
+
+            $marker_id = get_term_meta( $p_type->term_id, 'fave_marker_icon', true );
+            $property_array_temp[ 'term_id' ] = $p_type->term_id;
+
+            if ( ! empty ( $marker_id ) ) {
+                $marker_url = wp_get_attachment_url( $marker_id );
+
+                if ( $marker_url ) {
+                    $property_array_temp[ 'marker' ] = esc_url( $marker_url );
+
+                    $retina_marker_id = get_term_meta( $p_type->term_id, 'fave_marker_retina_icon', true );
+                    if ( ! empty ( $retina_marker_id ) ) {
+                        $retina_marker_url = wp_get_attachment_url( $retina_marker_id );
+                        if ( $retina_marker_url ) {
+                            $property_array_temp[ 'retinaMarker' ] = esc_url( $retina_marker_url );
+                        }
+                    }
+                    break;
+                }
+            }
+        }
+    }
+
+    //Se default markers if property type has no marker uploaded
+    if ( ! isset( $property_array_temp[ 'marker' ] ) ) {
+        $property_array_temp[ 'marker' ]       = get_template_directory_uri() . '/img/map/pin-single-family.png';           
+        $property_array_temp[ 'retinaMarker' ] = get_template_directory_uri() . '/img/map/pin-single-family.png';  
+    }
+
+    //Featured image
+    if ( has_post_thumbnail() ) {
+        $thumbnail_id         = get_post_thumbnail_id();
+        $thumbnail_array = wp_get_attachment_image_src( $thumbnail_id, 'houzez-item-image-1' );
+        if ( ! empty( $thumbnail_array[ 0 ] ) ) {
+            $property_array_temp[ 'thumbnail' ] = $thumbnail_array[ 0 ];
+        }
+    }
+
+    return $property_array_temp;
+}
+
 $sortby = '';
 
 if( houzez_is_half_map_search_result() ) {
@@ -24,8 +101,8 @@ if(isset($get_search_uri[1]) && $get_search_uri[1] != "") {
 
 $settings = get_query_var('settings', []);
 $status_data = $settings['status_data'];
-$sidebar_image = $settings['sidebar_image'];
-$sidebar_download_url = $settings['sidebar_download_url'];
+$map_options = $settings['map_options'];
+$properties_data = array();
 
 if( isset($_GET["status"]) && !empty($_GET["status"]) && !empty($_GET["status"][0]) ){
     $status = $_GET["status"][0];
@@ -53,7 +130,7 @@ else{
 $search_num_posts = houzez_option('search_num_posts');
 $enable_save_search = houzez_option('enable_disable_save_search');
 
-$number_of_prop = $search_num_posts;
+$number_of_prop = 4; // $search_num_posts;
 if(!$number_of_prop){
     $number_of_prop = 9;
 }
@@ -133,8 +210,8 @@ if( $total_records > 1 ) {
 ?>
 
 <!-- start: Apartments section  -->
-<section class="ms-apartments-main">
-    <div class="container">
+<section class="ms-apartments-main ms-apartments-main--2 section--wrapper" style="margin-top: 0;">
+    <div class="container-fluid container-fluid--lg">
         <div class="row">
 
             <!-- heading -->
@@ -155,27 +232,28 @@ if( $total_records > 1 ) {
                 </div>
             </div>
 
+            <div class="col-12 col-md-6">
+                <div id="ms-half-map-v1" class="ms-apartments__map" style="height: 100%;">
+                </div>
+            </div>
 
             <!-- apartments content -->
-            <div class="col-12 col-xl-8 mb-2 mb-md-5 mb-xl-0">
-                <!-- locations -->
-                <?php 
-                if( $total_records > 1 ) {
-                    $locations_list = apply_filters("houzez_after_search__get_property_type_list", $search_qry);
-
-                    if( $locations_list !== "" ){ 
-                        echo $locations_list;
-                    }
-                }
-                ?>
-
+            <div class="col-12 col-md-6 d-none d-md-block">
                 <!-- button list -->
 
                 <ul class="ms-apartments-main__button-list">
                     <li>
                         <a
-                            href="javascript:void(0)"
-                            class="ms-btn ms-btn--bordered ms-btn--list active"
+                            href="<?php 
+                                $current_url = $_SERVER['REQUEST_URI'];
+                                $url_parts = explode('?', $current_url);
+                                $path = trim($url_parts[0], '/');
+                                $path = str_replace('-map', '', $path);
+                                $query = isset($url_parts[1]) ? '?' . $url_parts[1] : '';
+                                
+                                echo home_url($path . $query);
+                            ?>"
+                            class="ms-btn ms-btn--bordered ms-btn--list"
                         >
                             <svg
                                 width="22"
@@ -204,8 +282,8 @@ if( $total_records > 1 ) {
                     </li>
                     <li>
                         <a
-                            href="<?php echo home_url();?>/search-results-map"
-                            class="ms-btn ms-btn--bordered"
+                            href="javascript:void(0)"
+                            class="ms-btn ms-btn--bordered active"
                         >
                             <svg
                                 width="16"
@@ -225,53 +303,54 @@ if( $total_records > 1 ) {
                             Map</a
                         >
                     </li>
-                    <li class="d-none d-lg-block ms-dropdown">
-                        <div class="ms-input">
-                            <select id="<?php echo esc_attr($sort_id); ?>" class="ms-nice-select-popular form-control bs-select-hidden" title="<?php esc_html_e( 'Popular', 'houzez' ); ?>" data-live-search="false" data-dropdown-align-right="auto">
-                                <option value=""><?php esc_html_e( 'Popular', 'houzez' ); ?></option>
-                                <option <?php selected($sortby, 'a_price'); ?> value="a_price"><?php esc_html_e('Price - Low to High', 'houzez'); ?></option>
-                                <option <?php selected($sortby, 'd_price'); ?> value="d_price"><?php esc_html_e('Price - High to Low', 'houzez'); ?></option>
-                                
-                                <option <?php selected($sortby, 'featured_first'); ?> value="featured_first"><?php esc_html_e('Featured Listings First', 'houzez'); ?></option>
-                                
-                                <option <?php selected($sortby, 'a_date'); ?> value="a_date"><?php esc_html_e('Date - Old to New', 'houzez' ); ?></option>
-                                <option <?php selected($sortby, 'd_date'); ?> value="d_date"><?php esc_html_e('Date - New to Old', 'houzez' ); ?></option>
+                    <li class="d-none d-lg-block">
+                        <svg class="ms-popular-select__svg" width="20" height="14" viewBox="0 0 20 14" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M0.0625 1C0.0625 0.482233 0.482233 0.0625 1 0.0625H19C19.5178 0.0625 19.9375 0.482233 19.9375 1C19.9375 1.51777 19.5178 1.9375 19 1.9375H1C0.482233 1.9375 0.0625 1.51777 0.0625 1Z"
+                                fill="#868686" />
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M0.0625 7C0.0625 6.48223 0.482233 6.0625 1 6.0625H19C19.5178 6.0625 19.9375 6.48223 19.9375 7C19.9375 7.51777 19.5178 7.9375 19 7.9375H1C0.482233 7.9375 0.0625 7.51777 0.0625 7Z"
+                                fill="#868686" />
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M0.0625 13C0.0625 12.4822 0.482233 12.0625 1 12.0625H19C19.5178 12.0625 19.9375 12.4822 19.9375 13C19.9375 13.5178 19.5178 13.9375 19 13.9375H1C0.482233 13.9375 0.0625 13.5178 0.0625 13Z"
+                                fill="#868686" />
+                        </svg>
+                        <select id="<?php echo esc_attr($sort_id); ?>" class="ms-nice-select-popular ms-btn ms-btn--bordered ms-btn--popular" title="<?php esc_html_e( 'Popular', 'houzez' ); ?>" data-live-search="false" data-dropdown-align-right="auto">
+                            <option value=""><?php esc_html_e( 'Popular', 'houzez' ); ?></option>
+                            <option <?php selected($sortby, 'a_price'); ?> value="a_price"><?php esc_html_e('Price - Low to High', 'houzez'); ?></option>
+                            <option <?php selected($sortby, 'd_price'); ?> value="d_price"><?php esc_html_e('Price - High to Low', 'houzez'); ?></option>
+                            
+                            <option <?php selected($sortby, 'featured_first'); ?> value="featured_first"><?php esc_html_e('Featured Listings First', 'houzez'); ?></option>
+                            
+                            <option <?php selected($sortby, 'a_date'); ?> value="a_date"><?php esc_html_e('Date - Old to New', 'houzez' ); ?></option>
+                            <option <?php selected($sortby, 'd_date'); ?> value="d_date"><?php esc_html_e('Date - New to Old', 'houzez' ); ?></option>
 
-                                <option <?php selected($sortby, 'a_title'); ?> value="a_title"><?php esc_html_e('Title - ASC', 'houzez' ); ?></option>
-                                <option <?php selected($sortby, 'd_title'); ?> value="d_title"><?php esc_html_e('Title - DESC', 'houzez' ); ?></option>
-                            </select><!-- selectpicker -->
-                        </div>
-                    </li>
-                    <li class="ms-apartments-main__varify-switcher">
-                        <div class="form-check form-switch">
-                            <label class="form-check-label" for="msverify">Show Verified First
-                            </label>
-                            <?php 
-                                $is_verified_first = isset($_GET['sortby']) && $_GET['sortby'] === 'verified_first';
-                            ?>
-                            <input class="form-check-input" type="checkbox" id="msverify" 
-                                <?php echo $is_verified_first ? 'checked' : ''; ?>
-                            />
-                        </div>
+                            <option <?php selected($sortby, 'a_title'); ?> value="a_title"><?php esc_html_e('Title - ASC', 'houzez' ); ?></option>
+                            <option <?php selected($sortby, 'd_title'); ?> value="d_title"><?php esc_html_e('Title - DESC', 'houzez' ); ?></option>
+                        </select><!-- selectpicker -->
                     </li>
                 </ul>
 
                 <!-- apartments cards -->
-                <div class="ms-apartments-main__card__wrapper">
+                <div id="houzez_ajax_container" class="ms-apartments-main__card__wrapper ms-apartments-main__card__wrapper--2">
                 <?php
+                    $properties_data = array();
                     if ( 1 == $paged && !empty($combined_posts) ) :
                         //echo "<pre>";print_r($combined_posts);exit;
                         foreach ($combined_posts as $post) {
                             
                             setup_postdata($post);
-                            get_template_part('elementor-widgets/template-parts/mestate-listing-item-v1', $item_layout);
+                            get_template_part('elementor-widgets/template-parts/mestate-listing-item-half-map-v1');
 
+                            $properties_data[] = get_properties_data($post);
                         }
                     elseif ( $search_query->have_posts() ) :
                         while ( $search_query->have_posts() ) : $search_query->the_post();
 
-                        get_template_part('elementor-widgets/template-parts/mestate-new-project-listing-item-v1', $item_layout);
+                        get_template_part('elementor-widgets/template-parts/mestate-listing-item-half-map-v1');
 
+                        $properties_data[] = get_properties_data($post);
                         endwhile;
                     else:
                         
@@ -290,22 +369,6 @@ if( $total_records > 1 ) {
                 <?php houzez_pagination( $search_query->max_num_pages ); ?>
 
             </div>
-
-
-            <!-- apartment sidebar -->
-            <div class="col-12 col-md-7 col-xl-4 pl-3">
-                <!-- sidebar single -->
-                <?php if(!empty($sidebar_image)) { ?>
-                <div class="ms-apartments-main__sidebar__single">
-                    <a href="<?php echo !empty($sidebar_download_url) ? esc_url($sidebar_download_url['url']) : '#'; ?>"
-                        ><img src="<?php echo esc_url($sidebar_image['url']); ?>" alt="<?php echo esc_attr($sidebar_image['alt']); ?>"
-                    /></a>
-
-                    <a href="<?php echo !empty($sidebar_download_url) ? esc_url($sidebar_download_url['url']) : '#'; ?>" class="ms-btn ms-btn--primary">Download Now</a>
-                </div>
-                <?php }?>
-            </div>
-
 
         </div>
     </div>
@@ -368,36 +431,19 @@ if( $total_records > 1 ) {
             loop: true,
         });
     }
-    function functionVerifiedFirst(){
-        // Add checkbox change handler
-        jQuery('#msverify').on('change', function() {
-            //console.log('change');
-            if (this.checked) {
-                let currentUrl = new URL(window.location.href);
-                currentUrl.searchParams.set('sortby', 'verified_first');
-                window.location.href = currentUrl.toString();
-            } else {
-                // Remove verified_first from sortby parameter
-                let currentUrl = new URL(window.location.href);
-                currentUrl.searchParams.delete('sortby');
-                window.location.href = currentUrl.toString();
-            }
-        });
-    }
     
 
     <?php if (\Elementor\Plugin::$instance->editor->is_edit_mode()) {?>
-
         jQuery(".ms-nice-select-popular").niceSelect();
         functionPropertyLocationShowMore();
         functionListingItemImageSlider();
-        functionVerifiedFirst();
+        houzezOpenStreetMapElementor("ms-half-map-v1", <?php echo json_encode($properties_data); ?>, <?php echo json_encode($map_options); ?>);
     <?php } else { ?>
         jQuery(document).ready(function($) {
             jQuery(".ms-nice-select-popular").niceSelect();
             functionPropertyLocationShowMore();
             functionListingItemImageSlider();
-            functionVerifiedFirst();
+            houzezOpenStreetMapElementor("ms-half-map-v1", <?php echo json_encode($properties_data); ?>, <?php echo json_encode($map_options); ?>);
         });
     <?php } ?>
 </script>

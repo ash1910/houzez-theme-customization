@@ -839,6 +839,9 @@ i.menu-icon {
 .ms-apartments-main__heading .ms-btn--bordered.save-search-btn:disabled i {
     color: #1b1b1b;
 }
+.modal-open .modal {
+    z-index: 100000;
+}
 
 
 

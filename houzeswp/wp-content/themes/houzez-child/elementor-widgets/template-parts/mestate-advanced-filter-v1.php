@@ -52,7 +52,7 @@ if($adv_baths_list) {
     
     <!-- start: Advanced Filter Modal   -->
     <div
-      class="modal fade"
+      class="modal ms-modal fade"
       id="msFilterModal"
       tabindex="-1"
       role="dialog"

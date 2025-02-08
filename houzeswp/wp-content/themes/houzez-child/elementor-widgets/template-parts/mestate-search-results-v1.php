@@ -204,7 +204,14 @@ if( $total_records > 1 ) {
                     </li>
                     <li>
                         <a
-                            href="<?php echo home_url();?>/search-results-map"
+                            href="<?php 
+                                $current_url = $_SERVER['REQUEST_URI'];
+                                $url_parts = explode('?', $current_url);
+                                $path = trim($url_parts[0], '/');
+                                $query = isset($url_parts[1]) ? '?' . $url_parts[1] : '';
+                                
+                                echo home_url($path . '-map' . $query);
+                            ?>"
                             class="ms-btn ms-btn--bordered"
                         >
                             <svg
@@ -225,22 +232,32 @@ if( $total_records > 1 ) {
                             Map</a
                         >
                     </li>
-                    <li class="d-none d-lg-block ms-dropdown">
-                        <div class="ms-input">
-                            <select id="<?php echo esc_attr($sort_id); ?>" class="ms-nice-select-popular form-control bs-select-hidden" title="<?php esc_html_e( 'Popular', 'houzez' ); ?>" data-live-search="false" data-dropdown-align-right="auto">
-                                <option value=""><?php esc_html_e( 'Popular', 'houzez' ); ?></option>
-                                <option <?php selected($sortby, 'a_price'); ?> value="a_price"><?php esc_html_e('Price - Low to High', 'houzez'); ?></option>
-                                <option <?php selected($sortby, 'd_price'); ?> value="d_price"><?php esc_html_e('Price - High to Low', 'houzez'); ?></option>
-                                
-                                <option <?php selected($sortby, 'featured_first'); ?> value="featured_first"><?php esc_html_e('Featured Listings First', 'houzez'); ?></option>
-                                
-                                <option <?php selected($sortby, 'a_date'); ?> value="a_date"><?php esc_html_e('Date - Old to New', 'houzez' ); ?></option>
-                                <option <?php selected($sortby, 'd_date'); ?> value="d_date"><?php esc_html_e('Date - New to Old', 'houzez' ); ?></option>
+                    <li class="d-none d-lg-block">
+                        <svg class="ms-popular-select__svg" width="20" height="14" viewBox="0 0 20 14" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M0.0625 1C0.0625 0.482233 0.482233 0.0625 1 0.0625H19C19.5178 0.0625 19.9375 0.482233 19.9375 1C19.9375 1.51777 19.5178 1.9375 19 1.9375H1C0.482233 1.9375 0.0625 1.51777 0.0625 1Z"
+                                fill="#868686" />
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M0.0625 7C0.0625 6.48223 0.482233 6.0625 1 6.0625H19C19.5178 6.0625 19.9375 6.48223 19.9375 7C19.9375 7.51777 19.5178 7.9375 19 7.9375H1C0.482233 7.9375 0.0625 7.51777 0.0625 7Z"
+                                fill="#868686" />
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M0.0625 13C0.0625 12.4822 0.482233 12.0625 1 12.0625H19C19.5178 12.0625 19.9375 12.4822 19.9375 13C19.9375 13.5178 19.5178 13.9375 19 13.9375H1C0.482233 13.9375 0.0625 13.5178 0.0625 13Z"
+                                fill="#868686" />
+                        </svg>
+                        <select id="<?php echo esc_attr($sort_id); ?>" class="ms-nice-select-popular ms-btn ms-btn--bordered ms-btn--popular" title="<?php esc_html_e( 'Popular', 'houzez' ); ?>" data-live-search="false" data-dropdown-align-right="auto">
+                            <option value=""><?php esc_html_e( 'Popular', 'houzez' ); ?></option>
+                            <option <?php selected($sortby, 'a_price'); ?> value="a_price"><?php esc_html_e('Price - Low to High', 'houzez'); ?></option>
+                            <option <?php selected($sortby, 'd_price'); ?> value="d_price"><?php esc_html_e('Price - High to Low', 'houzez'); ?></option>
+                            
+                            <option <?php selected($sortby, 'featured_first'); ?> value="featured_first"><?php esc_html_e('Featured Listings First', 'houzez'); ?></option>
+                            
+                            <option <?php selected($sortby, 'a_date'); ?> value="a_date"><?php esc_html_e('Date - Old to New', 'houzez' ); ?></option>
+                            <option <?php selected($sortby, 'd_date'); ?> value="d_date"><?php esc_html_e('Date - New to Old', 'houzez' ); ?></option>
 
-                                <option <?php selected($sortby, 'a_title'); ?> value="a_title"><?php esc_html_e('Title - ASC', 'houzez' ); ?></option>
-                                <option <?php selected($sortby, 'd_title'); ?> value="d_title"><?php esc_html_e('Title - DESC', 'houzez' ); ?></option>
-                            </select><!-- selectpicker -->
-                        </div>
+                            <option <?php selected($sortby, 'a_title'); ?> value="a_title"><?php esc_html_e('Title - ASC', 'houzez' ); ?></option>
+                            <option <?php selected($sortby, 'd_title'); ?> value="d_title"><?php esc_html_e('Title - DESC', 'houzez' ); ?></option>
+                        </select><!-- selectpicker -->
                     </li>
                     <li class="ms-apartments-main__varify-switcher">
                         <div class="form-check form-switch">

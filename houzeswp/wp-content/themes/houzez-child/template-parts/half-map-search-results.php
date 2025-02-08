@@ -175,7 +175,7 @@ if($enable_search != 0 && $search_style != 'v4') {
         <div class="map-wrap">
             <?php get_template_part('template-parts/map-buttons'); ?>
             
-            <div id="houzez-properties-map"></div> 
+            <div id="houzez-properties-map"></div>
 
             <?php if(houzez_get_map_system() == 'google') { ?>
             <div id="houzez-map-loading" class="houzez-map-loading">

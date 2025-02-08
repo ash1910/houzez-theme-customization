@@ -820,6 +820,10 @@ START: apartment CSS
 		li {
 		width: 100%;
 	}
+	.ms-apartments-main____card__details-list--2 > li:first-child,
+	.ms-apartments-main____card__details-list--2 > li:nth-child(3) {
+		max-width: 90px;
+	}
 	.ms-apartments-main__card--3 li:has(hr) {
 		height: 45px;
 	}

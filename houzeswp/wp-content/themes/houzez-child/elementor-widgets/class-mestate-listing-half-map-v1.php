@@ -51,6 +51,25 @@ class MEstate_Listing_Half_Map_V1 extends \Elementor\Widget_Base {
         $settings = $this->get_settings_for_display();
         $status_data = $settings['status_data'] ?? 'new-projects';
 
+        $map_options = array();
+
+        $map_cluster = houzez_option( 'map_cluster', false, 'url' );
+        if($map_cluster != '') {
+            $map_options['clusterIcon'] = $map_cluster;
+        } else {
+            $map_options['clusterIcon'] = get_template_directory_uri() . '/img/map/cluster-icon.png';
+        }
+        $map_options['zoomControl'] = 'yes';
+        $map_options['mapCluster'] = 'yes';
+        $map_options['markerPricePins'] = houzez_option('markerPricePins');
+        $map_options['marker_spiderfier'] = houzez_option('marker_spiderfier');
+        $map_options[ 'link_target' ] = houzez_option('listing_link_target', '_self');
+        $map_options['closeIcon'] = get_template_directory_uri() . '/img/map/close.png';
+        $map_options['infoWindowPlac'] = get_template_directory_uri() . '/img/pixel.gif';
+        $map_options['mapbox_api_key'] = '';
+
+        $settings['map_options'] = $map_options;
+
         set_query_var('settings', $settings);
 
         if($status_data == 'new-projects') {
