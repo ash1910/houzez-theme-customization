@@ -4013,6 +4013,10 @@ if(!function_exists('houzez_search_status_mestate')) {
 	add_filter('houzez_taxonomy_search_filter', 'houzez_search_status_mestate');
 }
 
+function is_half_map_page() {
+    return in_array(get_post_field('post_name', get_post()), array('new-projects-map', 'buy-map', 'rent-map', 'search-results-map'));
+}
+
 // function redirect_if_missing_status() {
 //     if ( is_page( 'new-projects' ) && empty( $_GET['status'] ) ) {
 //         wp_redirect( add_query_arg( 'status[]', 'new-projects', home_url( $_SERVER['REQUEST_URI'] ) ) );

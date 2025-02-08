@@ -133,8 +133,8 @@ if( $total_records > 1 ) {
 ?>
 
 <!-- start: Apartments section  -->
-<section class="ms-apartments-main">
-    <div class="container">
+<section class="ms-apartments-main ms-apartments-main--2 section--wrapper" style="margin-top: 0;">
+    <div class="container-fluid container-fluid--lg">
         <div class="row">
 
             <!-- heading -->
@@ -155,27 +155,21 @@ if( $total_records > 1 ) {
                 </div>
             </div>
 
+            <div class="col-12 col-md-6">
+                <div class="ms-apartments__map">
+                    <a href="#"><img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/apartments/map.png" alt="" /></a>
+                </div>
+            </div>
 
             <!-- apartments content -->
-            <div class="col-12 col-xl-8 mb-2 mb-md-5 mb-xl-0">
-                <!-- locations -->
-                <?php 
-                if( $total_records > 1 ) {
-                    $locations_list = apply_filters("houzez_after_search__get_property_type_list", $search_qry);
-
-                    if( $locations_list !== "" ){ 
-                        echo $locations_list;
-                    }
-                }
-                ?>
-
+            <div class="col-12 col-md-6 d-none d-md-block">
                 <!-- button list -->
 
                 <ul class="ms-apartments-main__button-list">
                     <li>
                         <a
-                            href="javascript:void(0)"
-                            class="ms-btn ms-btn--bordered ms-btn--list active"
+                            href="<?php echo home_url();?>/new-projects"
+                            class="ms-btn ms-btn--bordered ms-btn--list"
                         >
                             <svg
                                 width="22"
@@ -204,8 +198,8 @@ if( $total_records > 1 ) {
                     </li>
                     <li>
                         <a
-                            href="<?php echo home_url();?>/new-projects-map"
-                            class="ms-btn ms-btn--bordered"
+                            href="javascript:void(0)"
+                            class="ms-btn ms-btn--bordered active"
                         >
                             <svg
                                 width="16"
@@ -225,7 +219,7 @@ if( $total_records > 1 ) {
                             Map</a
                         >
                     </li>
-                    <li class="ms-dropdown">
+                    <li class="d-none d-lg-block">
                         <div class="ms-input">
                             <select id="<?php echo esc_attr($sort_id); ?>" class="ms-nice-select-popular form-control bs-select-hidden" title="<?php esc_html_e( 'Popular', 'houzez' ); ?>" data-live-search="false" data-dropdown-align-right="auto">
                                 <option value=""><?php esc_html_e( 'Popular', 'houzez' ); ?></option>
@@ -245,20 +239,20 @@ if( $total_records > 1 ) {
                 </ul>
 
                 <!-- apartments cards -->
-                <div class="ms-apartments-main__card__wrapper">
+                <div id="houzez_ajax_container" class="ms-apartments-main__card__wrapper ms-apartments-main__card__wrapper--2">
                 <?php
                     if ( 1 == $paged && !empty($combined_posts) ) :
                         //echo "<pre>";print_r($combined_posts);exit;
                         foreach ($combined_posts as $post) {
                             
                             setup_postdata($post);
-                            get_template_part('elementor-widgets/template-parts/mestate-new-project-listing-item-v1', $item_layout);
+                            get_template_part('elementor-widgets/template-parts/mestate-new-project-listing-item--half-map-v1');
 
                         }
                     elseif ( $search_query->have_posts() ) :
                         while ( $search_query->have_posts() ) : $search_query->the_post();
 
-                        get_template_part('elementor-widgets/template-parts/mestate-new-project-listing-item-v1', $item_layout);
+                        get_template_part('elementor-widgets/template-parts/mestate-new-project-listing-item--half-map-v1');
 
                         endwhile;
                     else:
@@ -278,22 +272,6 @@ if( $total_records > 1 ) {
                 <?php houzez_pagination( $search_query->max_num_pages ); ?>
 
             </div>
-
-
-            <!-- apartment sidebar -->
-            <div class="col-12 col-md-7 col-xl-4 pl-3">
-                <!-- sidebar single -->
-                <?php if(!empty($sidebar_image)) { ?>
-                <div class="ms-apartments-main__sidebar__single">
-                    <a href="<?php echo !empty($sidebar_download_url) ? esc_url($sidebar_download_url['url']) : '#'; ?>"
-                        ><img src="<?php echo esc_url($sidebar_image['url']); ?>" alt="<?php echo esc_attr($sidebar_image['alt']); ?>"
-                    /></a>
-
-                    <a href="<?php echo !empty($sidebar_download_url) ? esc_url($sidebar_download_url['url']) : '#'; ?>" class="ms-btn ms-btn--primary">Download Now</a>
-                </div>
-                <?php }?>
-            </div>
-
 
         </div>
     </div>

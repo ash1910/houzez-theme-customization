@@ -677,10 +677,10 @@ if($adv_baths_list) {
             const page_available = jQuery('.ms-filter__modal__filte__controllers button.active').data('page-available');
             let url = "<?php echo home_url(); ?>";
             if(status && status !== '' && page_available == '1') {
-              url = url + '/' + status;
+              url = url + '/' + status + '<?php echo is_half_map_page() ? '-map' : ''; ?>/';
             }
             else {
-              url = url + '/search-results/';
+              url = url + '/search-results<?php echo is_half_map_page() ? '-map' : ''; ?>/';
             }
 
             // Filter out empty parameters and build the query string

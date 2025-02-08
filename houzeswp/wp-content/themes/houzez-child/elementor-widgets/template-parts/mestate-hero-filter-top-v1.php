@@ -10,7 +10,7 @@
 
 
 <section class="section--wrapper">
-    <div class="container">
+    <div class="<?php echo is_half_map_page() ? 'container-fluid container-fluid--lg' : 'container'; ?>">
         <div class="row">
             <!-- filter -->
             <div class="col-12">
@@ -19,7 +19,7 @@
                 </div>
                 <?php if($sticky_filter == 'yes') { ?>
                 <div
-                    class="ms-apartments-main__filter ms-apartments-main__filter--2 ms-header--sticky"
+                    class="ms-apartments-main__filter ms-header--sticky <?php echo is_half_map_page() ? '' : 'ms-apartments-main__filter--2'; ?>"
                 >
                         <?php get_template_part('elementor-widgets/template-parts/mestate-hero-filter-top-item-v1'); ?>
                     </div>
@@ -174,10 +174,10 @@
         const page_available = $form.find('.ms-nice-select-property-status option:selected').data('page-available');
         let url = "<?php echo home_url(); ?>";
         if(property_status && property_status !== '' && page_available == '1') {
-          url = url + '/' + property_status;
+          url = url + '/' + property_status + '<?php echo is_half_map_page() ? '-map' : ''; ?>/';
         }
         else {
-          url = url + '/search-results/';
+          url = url + '/search-results<?php echo is_half_map_page() ? '-map' : ''; ?>/';
         }
         
         const params = {
