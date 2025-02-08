@@ -3952,6 +3952,12 @@ add_action( 'elementor/init', function() {
             \Elementor\Plugin::instance()->widgets_manager->register( new MEstate_Listing_Search_Results_V1() );    
         } );
 
+        add_action( 'elementor/widgets/widgets_registered', function() {
+            require_once get_stylesheet_directory() . '/elementor-widgets/class-mestate-listing-half-map-v1.php';
+
+            \Elementor\Plugin::instance()->widgets_manager->register( new MEstate_Listing_Half_Map_V1() );    
+        } );
+
 
 
         // add_action('init', function() {
