@@ -31,18 +31,6 @@
             <!-- section heading -->
 
             <div class="col-12">
-
-
-
-
-
-
-
-            
-            
-
-
-
               <div class="ms-section-heading">
                 <?php if($section_heading): ?>
                 <h2><?php echo $section_heading; ?></h2>

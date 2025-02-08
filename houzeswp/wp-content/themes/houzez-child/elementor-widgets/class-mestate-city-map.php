@@ -195,12 +195,12 @@ class MEstate_City_Map extends \Elementor\Widget_Base {
         $city_list_rent = $settings['city_list_rent'];
 
         foreach ($city_list as $key => $city) {
-            $properties_data = $this->get_properties_data($city['city_slug'], 'for-sale');
+            $properties_data = $this->get_properties_data($city['city_slug'], 'buy');
             $city_list[$key]['properties_data'] = $properties_data;
         }
 
         foreach ($city_list_rent as $key => $city) {
-            $properties_data_rent = $this->get_properties_data($city['city_slug_rent'], 'for-rent');
+            $properties_data_rent = $this->get_properties_data($city['city_slug_rent'], 'rent');
             $city_list_rent[$key]['properties_data'] = $properties_data_rent;
         }
 
