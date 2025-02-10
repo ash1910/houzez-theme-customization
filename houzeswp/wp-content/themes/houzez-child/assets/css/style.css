@@ -2135,7 +2135,7 @@ START: Apppartments CSS
 .ms-apartments-main__button-list li:has(.ms-btn--popular) {
 	height: 52px;
 	position: relative;
-	z-index: var(--ms-zi-xl);
+	z-index: var(--ms-zi-md);
 	border-radius: var(--ms-br-16);
 	border: 1px solid var(--ms-color-border);
 }
