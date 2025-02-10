@@ -843,7 +843,10 @@ i.menu-icon {
     z-index: 100000;
 }
 
-
+#ms-half-map-v1 {
+    height: 100%;
+    min-height: 400px;
+}
 
 @media (max-width: 767.98px) {
     .list-view .item-wrap-v8 .item-header {
@@ -865,5 +868,8 @@ i.menu-icon {
     }
     .dashboard-content-block-ns.dashboard-statistic-block .views-data {
         font-size: 48px;
+    }
+    #ms-half-map-v1 {
+        height: 600px;
     }
 }

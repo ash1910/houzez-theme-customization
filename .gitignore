@@ -28,6 +28,8 @@ wp-config.php
 
 # Uploads
 /houzeswp/wp-content/uploads/
+/houzeswp/wp-content/wpvividbackups
+/houzeswp/wp-content/wpvivid_staging
 
 # Log files
 *.log

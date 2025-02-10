@@ -233,7 +233,7 @@ if( $total_records > 1 ) {
             </div>
 
             <div class="col-12 col-md-6">
-                <div id="ms-half-map-v1" class="ms-apartments__map" style="height: 100%;">
+                <div id="ms-half-map-v1" class="ms-apartments__map">
                 </div>
             </div>
 
