@@ -4,8 +4,8 @@
         <div class="ms-hero__wrapper">
             <!-- controller -->
             <div class="ms-hero__btn-list nav nav-tab ms-nav-tab" role="tablist">
-                <button class="ms-btn ms-btn--2 active d-none" data-target="#ms-gallery" data-toggle="tab">
-                    <i class="icon-location_fill"></i> Gallery
+                <button class="ms-btn ms-btn--gallery ms-btn--2 active " data-target="#ms-gallery" data-toggle="tab">
+                    <i class="fa-solid fa-image"></i> Gallery
                 </button>
                 <button class="ms-btn ms-btn--2" data-target="#ms-map" data-toggle="tab">
                     <i class="icon-location_fill"></i> Map

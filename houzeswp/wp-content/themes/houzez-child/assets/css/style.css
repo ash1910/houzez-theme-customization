@@ -2135,7 +2135,7 @@ START: Apppartments CSS
 .ms-apartments-main__button-list li:has(.ms-btn--popular) {
 	height: 52px;
 	position: relative;
-	z-index: var(--ms-zi-md);
+	z-index: var(--ms-zi-lg);
 	border-radius: var(--ms-br-16);
 	border: 1px solid var(--ms-color-border);
 }
@@ -2568,7 +2568,7 @@ START: Apppartments CSS
 	flex-wrap: nowrap;
 	align-items: center;
 	position: relative;
-	z-index: var(--ms-zi-lg);
+	z-index: var(--ms-zi-md);
 }
 
 .ms-apartments-main____card__button-list li {
@@ -3556,7 +3556,17 @@ START: New Project CSS
 	top: 0;
 	right: 0;
 }
+.ms-apartments-main__card--4 .ms-apartments-main__card__logo {
+	top: auto;
+	bottom: 0;
+	right: 8px;
+	border-radius: 0;
 
+	border-top-left-radius: 12px;
+	z-index: var(--ms-zi-md);
+	overflow: hidden;
+	background: var(--ms-color-common-white);
+}
 .ms-apartments-main__card--3 .ms-apartments-main__card__logo a {
 	height: 30px;
 	padding: 8px 14px 8px 12px;
@@ -3568,6 +3578,10 @@ START: New Project CSS
 	border: 1px solid var(--ms-color-border);
 	border-top: 0;
 	border-right: 0;
+}
+.ms-apartments-main__card--4 .ms-apartments-main__card__logo a {
+	border-bottom-left-radius: 0px;
+	border-bottom-right-radius: var(--ms-br-24);
 }
 .ms-apartments-main__card--3 .ms-apartments-main__card__logo img {
 	height: 100%;
@@ -3733,6 +3747,9 @@ START: New Project Details CSS
 	gap: 12px;
 	font-weight: var(--ms-fw-normal);
 }
+.ms-hero__btn-list .ms-btn--gallery.active {
+	display: none;
+}
 .ms-hero__btn-list .ms-btn:hover {
 	background-color: var(--ms-color-theme-primary);
 	color: var(--ms-color-common-white);
@@ -3740,6 +3757,9 @@ START: New Project Details CSS
 .ms-hero__btn-list .ms-btn i {
 	transform: rotate(0);
 	font-size: 24px;
+}
+.ms-hero__btn-list .ms-btn--gallery i {
+	font-size: 20px;
 }
 .ms-hero__btn-list .ms-btn:last-child {
 	margin-left: auto;
@@ -3882,7 +3902,6 @@ START: New Project Details CSS
 .ms-apartments-main__overview__item-list {
 	display: flex;
 	gap: 16px;
-	justify-content: stretch;
 }
 .ms-apartments-main__overview__item-list li {
 	flex: 1 1 calc(33% - 22px);

@@ -900,7 +900,11 @@ START: apartment CSS
 	.ms-apartments-main__sidebar__single .ms-btn {
 		height: 38px;
 	}
-
+	.ms-hero__360,
+	.ms-hero__map,
+	.ms-hero__video {
+		min-height: 415px;
+	}
 	/**----------------------------------------
 !END: apartment CSS
 ----------------------------------------*/
@@ -1039,8 +1043,10 @@ START: New Project Details CSS
 		min-height: 229px;
 	}
 	.ms-hero__wrapper:has(.ms-hero__slider__pagination-count-img-slide-arrow) {
-		margin-right: -16px;
 		overflow: visible;
+	}
+	.ms-hero__wrapper .ms-hero__slider__pagination-count-img-slide-arrow {
+		margin-right: -16px;
 	}
 	.ms-hero__btn-list {
 		position: absolute;

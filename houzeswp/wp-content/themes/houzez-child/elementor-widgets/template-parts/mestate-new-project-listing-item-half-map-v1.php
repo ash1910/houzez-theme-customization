@@ -148,6 +148,15 @@ if( $key != false || $key != '' ) {
             ></a>
             <?php } ?>
         </div>
+        <?php if(!empty($agency_logo)) { ?>
+        <div class="ms-apartments-main__card__logo">
+            <a href="<?php echo esc_url(get_permalink()); ?>">
+                <img
+                    src="<?php echo $agency_logo; ?>"
+                    alt=""
+            /></a>
+        </div>
+        <?php } ?>
     </div>
     <div class="ms-apartments-main__card__content">
         <div class="ms-apartments-main__card__heading">
@@ -165,7 +174,7 @@ if( $key != false || $key != '' ) {
             <h6><?php echo $price_prefix. houzez_get_property_price($sale_price); ?></h6>
         </div>
         <!-- details list -->
-        <ul class="ms-apartments-main____card__details-list">
+        <ul class="ms-apartments-main____card__details-list ms-apartments-main____card__details-list--2">
             <?php $property_type = houzez_taxonomy_simple('property_type'); 
             if(!empty($property_type)) { ?>
             <li>
