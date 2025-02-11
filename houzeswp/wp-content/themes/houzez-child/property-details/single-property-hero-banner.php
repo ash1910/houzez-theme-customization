@@ -1,11 +1,15 @@
+<?php
+$virtual_tour = houzez_get_listing_data('virtual_tour');
+?>
+
 <!-- start: Hero Banner -->
 <section>
     <div class="container-fluid container-fluid--lg">
         <div class="ms-hero__wrapper">
             <!-- controller -->
             <div class="ms-hero__btn-list nav nav-tab ms-nav-tab" role="tablist">
-                <button class="ms-btn ms-btn--2 active d-none" data-target="#ms-gallery" data-toggle="tab">
-                    <i class="icon-location_fill"></i> Gallery
+                <button class="ms-btn ms-btn--gallery ms-btn--2 active " data-target="#ms-gallery" data-toggle="tab">
+                    <i class="fa-solid fa-image"></i> Gallery
                 </button>
                 <button class="ms-btn ms-btn--2" data-target="#ms-map" data-toggle="tab">
                     <i class="icon-location_fill"></i> Map
@@ -14,6 +18,7 @@
                 <button class="ms-btn ms-btn--2" data-target="#ms-video" data-toggle="tab">
                     <i class="icon-playbutton_white"></i> Request Video
                 </button>
+                <?php if( !empty( $virtual_tour ) ) { ?>
                 <button class="ms-btn ms-btn--2" data-target="#ms-360" data-toggle="tab">
                     <svg width="48" height="26" viewBox="0 0 48 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
@@ -33,6 +38,7 @@
                             fill="white" />
                     </svg>
                 </button>
+                <?php } ?>
             </div>
             <!-- tab content -->
             <div class="tab-content">
@@ -135,10 +141,20 @@
                         referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                 </div>
                 <!-- content 4 -->
+                <?php if( !empty( $virtual_tour ) ) { ?>
                 <div class="tab-pane fade" id="ms-360">
-                    <iframe class="ms-hero__360" loading="lazy" src="https://my.matterport.com/show/?m=aSx1MpRRqif"
-                        allowfullscreen=""></iframe>
+                    <?php 
+                    // Check if the content contains either <iframe> or <embed> tags
+                    if (strpos($virtual_tour, '<iframe') !== false || strpos($virtual_tour, '<embed') !== false) {
+                        $virtual_tour = houzez_ensure_iframe_closing_tag($virtual_tour);
+                        echo $virtual_tour;
+                    } else { 
+                        $virtual_tour = '<iframe width="853" height="480" src="'.$virtual_tour.'" frameborder="0" allowfullscreen="allowfullscreen" class="ms-hero__360" loading="lazy"></iframe>';
+                        echo $virtual_tour;
+                    }
+                    ?>
                 </div>
+                <?php } ?>
             </div>
         </div>
     </div>
