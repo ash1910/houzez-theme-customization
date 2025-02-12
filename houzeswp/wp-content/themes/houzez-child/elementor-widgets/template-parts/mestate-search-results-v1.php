@@ -287,7 +287,7 @@ if( $total_records > 1 ) {
                     elseif ( $search_query->have_posts() ) :
                         while ( $search_query->have_posts() ) : $search_query->the_post();
 
-                        get_template_part('elementor-widgets/template-parts/mestate-new-project-listing-item-v1', $item_layout);
+                        get_template_part('elementor-widgets/template-parts/mestate-listing-item-v1', $item_layout);
 
                         endwhile;
                     else:
