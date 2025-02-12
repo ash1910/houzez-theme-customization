@@ -530,6 +530,7 @@ $hide_detail = houzez_option('hide_detail_prop_fields');
                     </div>
                 </div>
                 <!-- map -->
+                <?php if( $hide_fields['map'] != 1 ) { ?>
                 <div class="ms-apartments-main__section">
                     <div class="ms-apartments-main__heading">
                         <h4>Map</h4>
@@ -539,6 +540,7 @@ $hide_detail = houzez_option('hide_detail_prop_fields');
                         <div id="houzez-overview-listing-map" style="height: 350px;"></div>
                     </div>
                 </div>
+                <?php } ?>
                 <!-- features -->
                 <?php if(!empty($features) || !empty($additional_features)) { ?>
                 <div class="ms-apartments-main__section">

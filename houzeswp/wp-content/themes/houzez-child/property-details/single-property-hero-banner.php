@@ -1,4 +1,8 @@
 <?php
+global $post, $top_area;
+
+wp_enqueue_script('houzez-overview-listing-map-banner',  get_stylesheet_directory_uri().'/js/single-property-osm-overview-map-banner.js', array('jquery'), '1.0.0', true);
+
 $virtual_tour = houzez_get_listing_data('virtual_tour');
 $prop_video_img = '';
 $prop_video_url = houzez_get_listing_data('video_url');
@@ -10,6 +14,17 @@ if( !empty( $prop_video_url ) ) {
 
     endif;
 }
+
+
+if ( houzez_site_width() != '1210px' && $top_area != 'v3' ) {
+    $image_size = 'full';
+} else {
+    $image_size = 'houzez-gallery';
+}
+
+$properties_images = rwmb_meta( 'fave_property_images', 'type=plupload_image&size='.$image_size, $post->ID );
+$gallery_caption = houzez_option('gallery_caption', 0); 
+$property_gallery_popup_type = houzez_get_popup_gallery_type(); 
 ?>
 
 <!-- start: Hero Banner -->
@@ -21,9 +36,11 @@ if( !empty( $prop_video_url ) ) {
                 <button class="ms-btn ms-btn--gallery ms-btn--2 active " data-target="#ms-gallery" data-toggle="tab">
                     <i class="fa-solid fa-image"></i> Gallery
                 </button>
+                <?php if( $hide_fields['map'] != 1 ) { ?>
                 <button class="ms-btn ms-btn--2" data-target="#ms-map" data-toggle="tab">
                     <i class="icon-location_fill"></i> Map
                 </button>
+                <?php } ?>
                 <?php if( !empty( $prop_video_url ) ) { ?>
                 <button class="ms-btn ms-btn--2" data-target="#ms-video" data-toggle="tab">
                     <i class="icon-playbutton_white"></i> Request Video
@@ -57,76 +74,30 @@ if( !empty( $prop_video_url ) ) {
                 <div class="tab-pane fade show active" id="ms-gallery">
                     <!-- slider -->
                     <div class="ms-hero__slider">
-                        <div class="ms-hero ms-hero--2" style="
-                                    background-image: url('<?php echo get_stylesheet_directory_uri(); ?>/assets/img/hero-banner/slider/1.png');
+                        <?php if( !empty($properties_images) && count($properties_images) ) {
+                            foreach( $properties_images as $prop_image_id => $prop_image_meta ) {
+                                ?>
+                                <div class="ms-hero ms-hero--2" style="
+                                    background-image: url('<?php echo esc_url( $prop_image_meta['url'] ); ?>');
                                 "></div>
-                        <div class="ms-hero ms-hero--2" style="
-                                    background-image: url('<?php echo get_stylesheet_directory_uri(); ?>/assets/img/hero-banner/slider/2.png');
-                                "></div>
-                        <div class="ms-hero ms-hero--2" style="
-                                    background-image: url('<?php echo get_stylesheet_directory_uri(); ?>/assets/img/hero-banner/slider/3.jpg');
-                                "></div>
-                        <div class="ms-hero ms-hero--2" style="
-                                    background-image: url('<?php echo get_stylesheet_directory_uri(); ?>/assets/img/hero-banner/slider/2.png');
-                                "></div>
-                        <div class="ms-hero ms-hero--2" style="
-                                    background-image: url('<?php echo get_stylesheet_directory_uri(); ?>/assets/img/hero-banner/slider/1.png');
-                                "></div>
-                        <div class="ms-hero ms-hero--2" style="
-                                    background-image: url('<?php echo get_stylesheet_directory_uri(); ?>/assets/img/hero-banner/slider/2.png');
-                                "></div>
-                        <div class="ms-hero ms-hero--2" style="
-                                    background-image: url('<?php echo get_stylesheet_directory_uri(); ?>/assets/img/hero-banner/slider/3.jpg');
-                                "></div>
-                        <div class="ms-hero ms-hero--2" style="
-                                    background-image: url('<?php echo get_stylesheet_directory_uri(); ?>/assets/img/hero-banner/slider/2.png');
-                                "></div>
+                        <?php } 
+                                } ?>
                     </div>
 
                     <!-- thumbs slider -->
                     <div class="ms-hero__slider__pagination-count-img-slide-arrow">
                         <div class="ms-hero__slider__pagination-count-img-slide-arrow-inner">
                             <div class="ms-hero__slider__thumbs">
+                            <?php if( !empty($properties_images) && count($properties_images) ) {
+                                foreach( $properties_images as $prop_image_id => $prop_image_meta ) {
+                                $thumb = houzez_get_image_by_id($prop_image_id, 'houzez-item-image-1');
+                                ?>
                                 <div>
                                     <div class="image-slide-item">
-                                        <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/hero-banner/slider/1.png" alt="Flower Image" />
+                                        <img src="<?php echo esc_url( $thumb[0] ); ?>" alt="<?php echo esc_attr( $prop_image_meta['alt'] ); ?>" title="<?php echo esc_attr( $prop_image_meta['title'] ); ?>" />
                                     </div>
                                 </div>
-                                <div>
-                                    <div class="image-slide-item">
-                                        <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/hero-banner/slider/2.png" alt="Flower Image" />
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="image-slide-item">
-                                        <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/hero-banner/slider/3.jpg" alt="Flower Image" />
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="image-slide-item">
-                                        <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/hero-banner/slider/2.png" alt="Flower Image" />
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="image-slide-item">
-                                        <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/hero-banner/slider/1.png" alt="Flower Image" />
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="image-slide-item">
-                                        <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/hero-banner/slider/2.png" alt="Flower Image" />
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="image-slide-item">
-                                        <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/hero-banner/slider/3.jpg" alt="Flower Image" />
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="image-slide-item">
-                                        <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/hero-banner/slider/2.png" alt="Flower Image" />
-                                    </div>
-                                </div>
+                                <?php } }?>
                             </div>
                             <!-- slider-4-slide-item-count -->
                             <div class="ms-hero__slider__pagination-count-slide-item-count">
@@ -137,17 +108,18 @@ if( !empty( $prop_video_url ) ) {
                     </div>
                 </div>
                 <!-- content 2 -->
+                <?php if( $hide_fields['map'] != 1 ) { ?>
                 <div class="tab-pane fade" id="ms-map">
-                    <iframe class="ms-hero__map"
-                        src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d7299.6950045281155!2d90.41599993197018!3d23.824021228192933!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sbd!4v1737979313179!5m2!1sen!2sbd"
-                        width="600" height="450" style="border: 0" allowfullscreen="" loading="lazy"
-                        referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    <div id="houzez-overview-listing-map-banner" class="ms-hero__map"></div>
                 </div>
+                <?php } ?>
                 <!-- content 3 -->
-                <?php if( !empty( $prop_video_url ) ) { ?>
+                <?php if( !empty( $prop_video_url ) ) { 
+                    $embed_url = convertYoutubeUrl($prop_video_url);
+                ?>
                 <div class="tab-pane fade" id="ms-video">
                     <iframe class="ms-hero__video" width="560" height="315"
-                        src="$prop_video_url" title="YouTube video player"
+                        src="<?php echo esc_url($embed_url); ?>" title="YouTube video player"
                         frameborder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                         referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
@@ -166,6 +138,23 @@ if( !empty( $prop_video_url ) ) {
                         echo $virtual_tour;
                     }
                     ?>
+                    <script>
+                    jQuery(document).ready(function($) {
+                        var iframe360Loaded = false;
+                        $('button[data-target="#ms-360"]').on('click', function() {
+                            if (!iframe360Loaded) {
+                                var iframe = $('#ms-360 iframe');
+                                var currentSrc = iframe.attr('src');
+                                iframe.attr('src', 'about:blank').promise().done(function() {
+                                    setTimeout(function() {
+                                        iframe.attr('src', currentSrc);
+                                        iframe360Loaded = true;
+                                    }, 100);
+                                });
+                            }
+                        });
+                    });
+                    </script>
                 </div>
                 <?php } ?>
             </div>

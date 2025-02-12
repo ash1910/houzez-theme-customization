@@ -4023,6 +4023,26 @@ function is_normal_listing_page() {
     return in_array(get_post_field('post_name', get_post()), array('new-projects', 'buy', 'rent', 'commercial', 'search-results'));
 }
 
+// Function to convert YouTube URL to embed format
+function convertYoutubeUrl($url) {
+    $video_id = '';
+    
+    // Match YouTube watch URL format
+    if (preg_match('/youtube\.com\/watch\?v=([^\&\?\/]+)/', $url, $matches)) {
+        $video_id = $matches[1];
+    }
+    // Match YouTube shortened URL format
+    else if (preg_match('/youtu\.be\/([^\&\?\/]+)/', $url, $matches)) {
+        $video_id = $matches[1];
+    }
+    // Match YouTube embed URL format (already correct format)
+    else if (preg_match('/youtube\.com\/embed\/([^\&\?\/]+)/', $url, $matches)) {
+        $video_id = $matches[1];
+    }
+    
+    return !empty($video_id) ? "https://www.youtube.com/embed/" . $video_id : $url;
+}
+
 // function redirect_if_missing_status() {
 //     if ( is_page( 'new-projects' ) && empty( $_GET['status'] ) ) {
 //         wp_redirect( add_query_arg( 'status[]', 'new-projects', home_url( $_SERVER['REQUEST_URI'] ) ) );
