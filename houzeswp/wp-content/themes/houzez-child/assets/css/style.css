@@ -98,6 +98,7 @@ START: Theme Default CSS
 	--ms-zi-lg: 9999;
 	--ms-zi-xl: 99999;
 	--ms-zi-xxl: 999999;
+	--ms-zi-xxxl: 9999999;
 }
 
 * {
@@ -388,6 +389,8 @@ START: Buttons CSS
 	align-items: center;
 	white-space: nowrap;
 	font-weight: var(--ms-fw-medium);
+	cursor: pointer;
+	transition: all 0.3s;
 }
 .ms-btn--small {
 	font-size: var(--ms-fs-btn2);
@@ -557,7 +560,7 @@ START: Input Css
 	font-size: var(--ms-fs-icon);
 }
 
-.ms-input:has(input:not([type="checkbox"]):focus, .open) {
+.ms-input:has(input:not([type="checkbox"]):focus, > .open) {
 	background-color: var(--ms-color-theme-bg-3);
 	border: 1px solid var(--ms-color-theme-primary);
 }
@@ -787,7 +790,7 @@ START: Theme Header CSS
 .ms-header {
 	margin: 0 auto;
 	position: relative;
-	z-index: var(--ms-zi-sm);
+	z-index: var(--ms-zi-xl);
 	padding: 0 16px;
 	margin-bottom: -56px;
 }
@@ -1561,7 +1564,7 @@ START: Hero Banner CSS
 	transform: rotate(0eg);
 	transition: all 0.3s;
 }
-.ms-input--bed:has(.open) svg {
+.ms-input--bed:has(> .open) svg {
 	transform: rotate(-180deg);
 }
 .ms-input__content--bed h6 {
@@ -1579,10 +1582,19 @@ START: Hero Banner CSS
 	background-color: var(--ms-color-theme-primary);
 	color: var(--ms-color-common-white);
 }
-ms-input__list--rounded
+
 /**----------------------------------------
 START: Portfolio CSS
 ----------------------------------------*/
+.ms-body #lightcase-overlay {
+	z-index: var(--ms-zi-xxl);
+}
+.ms-body #lightcase-case {
+	z-index: var(--ms-zi-xxxl);
+}
+.ms-body a[class*="lightcase-icon-"] {
+	z-index: var(--ms-zi-xxxl);
+}
 .ms-new-projects .ms-section-heading {
 	margin-bottom: 48px;
 }
@@ -2600,6 +2612,12 @@ START: Apppartments CSS
 	fill: var(--ms-color-theme-primary);
 	stroke: var(--ms-color-common-white);
 }
+.ms-slidebar__wrapper {
+	position: sticky;
+	top: 100px;
+	left: 0;
+}
+
 .ms-apartments-main__sidebar__single {
 	padding: 16px;
 	border: 1px solid var(--ms-color-border);
@@ -4774,6 +4792,24 @@ START: Blog CSS
 ----------------------------------------*/
 .ms-hero--blog {
 	margin-bottom: 0;
+	backdrop-filter: blur(1px);
+}
+.ms-hero--blog:after {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: #00000016;
+	backdrop-filter: blur(10px);
+	border-radius: var(--ms-br-30);
+	overflow: hidden;
+	z-index: 1;
+}
+.ms-hero--blog .ms-hero__content {
+	position: relative;
+	z-index: 2;
 }
 .ms-apartments-main--blog {
 	margin-top: 40px;
