@@ -98,7 +98,13 @@ if( $show_similer ) {
         <!-- card 2 -->
         <?php
         while ($wp_query->have_posts()) : $wp_query->the_post();
+
+        if($status && count($status) > 0 && $status[0]->slug == 'new-projects' ) {
+            get_template_part('elementor-widgets/template-parts/mestate-new-project-listing-item-v1');
+        } else {
             get_template_part('elementor-widgets/template-parts/mestate-listing-item-v1');
+        }
+
         endwhile;
         ?>
     </div>
@@ -108,3 +114,21 @@ if( $show_similer ) {
 	endif;
 	wp_reset_query();
 }?>
+
+<script>
+    function functionListingItemImageSlider(){
+        // card slider
+        var formSlider = new Swiper(".ms-aparments-maincardslider", {
+            slidesPerView: 1,
+            spaceBetween: 0,
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+            loop: true,
+        });
+    }
+    jQuery(document).ready(function($) {
+        functionListingItemImageSlider();
+    });
+</script>
