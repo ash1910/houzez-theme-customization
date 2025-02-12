@@ -61,7 +61,7 @@ if(isset($args['sticky_header']) && $args['sticky_header'] == '1'){
 }
 ?>
 <!-- start: Header Area -->
-<header class="ms-header <?php if ( is_home() || is_front_page() ){}else{ echo 'ms-header--2'; } ?> <?php echo esc_attr($sticky_class); ?>">
+<header class="ms-header <?php if ( is_half_map_page() || is_normal_listing_page() ){ echo 'ms-header--2'; } ?> <?php echo esc_attr($sticky_class); ?>">
     <div class="<?php echo is_half_map_page() ? 'container-fluid container-fluid--lg' : 'container'; ?>">
 		<div class="ms-header__inner-wrapper">
 			<div class="ms-header__inner">

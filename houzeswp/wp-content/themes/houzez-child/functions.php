@@ -4019,6 +4019,10 @@ function is_half_map_page() {
     return in_array(get_post_field('post_name', get_post()), array('new-projects-map', 'buy-map', 'rent-map', 'commercial-map', 'search-results-map'));
 }
 
+function is_normal_listing_page() {
+    return in_array(get_post_field('post_name', get_post()), array('new-projects', 'buy', 'rent', 'commercial', 'search-results'));
+}
+
 // function redirect_if_missing_status() {
 //     if ( is_page( 'new-projects' ) && empty( $_GET['status'] ) ) {
 //         wp_redirect( add_query_arg( 'status[]', 'new-projects', home_url( $_SERVER['REQUEST_URI'] ) ) );

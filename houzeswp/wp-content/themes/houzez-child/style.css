@@ -888,6 +888,7 @@ i.menu-icon {
 #ms-360 iframe {
     width: 100%;
 	min-height: 857px;
+    height: auto;
 	border-radius: var(--ms-br-30);
 }
 

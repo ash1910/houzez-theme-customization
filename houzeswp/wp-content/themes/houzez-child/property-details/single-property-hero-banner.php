@@ -1,5 +1,15 @@
 <?php
 $virtual_tour = houzez_get_listing_data('virtual_tour');
+$prop_video_img = '';
+$prop_video_url = houzez_get_listing_data('video_url');
+if( !empty( $prop_video_url ) ) {
+
+    if ( empty( $prop_video_img ) ) :
+
+        $prop_video_img = wp_get_attachment_url( get_post_thumbnail_id( $post ) );
+
+    endif;
+}
 ?>
 
 <!-- start: Hero Banner -->
@@ -14,10 +24,11 @@ $virtual_tour = houzez_get_listing_data('virtual_tour');
                 <button class="ms-btn ms-btn--2" data-target="#ms-map" data-toggle="tab">
                     <i class="icon-location_fill"></i> Map
                 </button>
-
+                <?php if( !empty( $prop_video_url ) ) { ?>
                 <button class="ms-btn ms-btn--2" data-target="#ms-video" data-toggle="tab">
                     <i class="icon-playbutton_white"></i> Request Video
                 </button>
+                <?php } ?>
                 <?php if( !empty( $virtual_tour ) ) { ?>
                 <button class="ms-btn ms-btn--2" data-target="#ms-360" data-toggle="tab">
                     <svg width="48" height="26" viewBox="0 0 48 26" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -133,13 +144,15 @@ $virtual_tour = houzez_get_listing_data('virtual_tour');
                         referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
                 <!-- content 3 -->
+                <?php if( !empty( $prop_video_url ) ) { ?>
                 <div class="tab-pane fade" id="ms-video">
                     <iframe class="ms-hero__video" width="560" height="315"
-                        src="https://www.youtube.com/embed/u31qwQUeGuM?si=NaIB_fCukgaauGg1" title="YouTube video player"
+                        src="$prop_video_url" title="YouTube video player"
                         frameborder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                         referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                 </div>
+                <?php } ?>
                 <!-- content 4 -->
                 <?php if( !empty( $virtual_tour ) ) { ?>
                 <div class="tab-pane fade" id="ms-360">
