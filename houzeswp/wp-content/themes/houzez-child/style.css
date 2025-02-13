@@ -891,6 +891,12 @@ i.menu-icon {
     height: auto;
 	border-radius: var(--ms-br-30);
 }
+.ms-apartments-main__virtual-tour iframe {
+    width: 100%;
+    height: auto;
+    min-height: 447px;
+    border-radius: var(--ms-br-24);
+}
 
 @media (max-width: 767.98px) {
     .list-view .item-wrap-v8 .item-header {

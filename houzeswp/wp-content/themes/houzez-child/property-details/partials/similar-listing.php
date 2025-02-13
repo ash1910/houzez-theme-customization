@@ -116,6 +116,7 @@ if( $show_similer ) {
 }?>
 
 <script>
+    <?php if($status && count($status) > 0 && $status[0]->slug == 'new-projects' ) {?>
     function functionListingItemImageSlider(){
         // card slider
         var formSlider = new Swiper(".ms-aparments-maincardslider", {
@@ -131,4 +132,5 @@ if( $show_similer ) {
     jQuery(document).ready(function($) {
         functionListingItemImageSlider();
     });
+    <?php } ?>
 </script>

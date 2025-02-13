@@ -29,7 +29,7 @@ $completion = get_Houzez_Fields_Builder_select_options('completion');
 $handover = get_Houzez_Fields_Builder_select_options('handover');
 $furnish_status = get_Houzez_Fields_Builder_select_options('furnish-status');
 $floor_plan = get_Houzez_Fields_Builder_select_options('floor-plan');
-$parking = get_Houzez_Fields_Builder_select_options('parking');
+$parking = array('1','2','3','4+');
 $tour_type = get_Houzez_Fields_Builder_select_options('tour-type');
 
 $adv_beds_list = houzez_option('adv_beds_list');
@@ -305,7 +305,7 @@ if($adv_baths_list) {
                       <ul class="ms-input__list radio_btn_group" id="parking-list">
                         <li><button data-value="" class="filter-item">Any</button></li>
                         <?php foreach($parking as $key => $value): ?>
-                        <li><button data-value="<?php echo $key; ?>" class="filter-item"><?php echo $value; ?></button></li>
+                        <li><button data-value="<?php echo $value; ?>" class="filter-item"><?php echo $value; ?></button></li>
                         <?php endforeach; ?>
                       </ul>
                     </div>
@@ -639,7 +639,7 @@ if($adv_baths_list) {
               "min-area": min_area === '0' ? '' : (min_area || ''),
               "max-area": max_area === 'Any' ? '' : (max_area || ''),
               "furnish-status": furnish_status || '',
-              "parking": parking || '',
+              "garage": parking || '',
               "tour-type": tour_type || '',
               "floor-plan": floor_plan || '',
               "bedrooms": beds === 'any' || beds === 'Any' ? '' : (beds || ''),
