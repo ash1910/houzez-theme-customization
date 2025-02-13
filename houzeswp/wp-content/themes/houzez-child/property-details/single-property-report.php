@@ -93,7 +93,7 @@
                     <div class="ms-filter__modal__form">
                         <div class="ms-report-modal__content">
                             <div>
-                                <img src="./assets/img/apartments/sucess.png" alt="" />
+                                <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/apartments/sucess.png" alt="" />
                             </div>
                             <h6>Report sent successfully</h6>
                             <p>

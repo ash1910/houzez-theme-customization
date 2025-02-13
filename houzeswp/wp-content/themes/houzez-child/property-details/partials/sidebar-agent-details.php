@@ -20,6 +20,7 @@ $agent_total_listings = $the_query->found_posts;
 
 $agent_company = get_post_meta( $agent_array['agent_id'], 'fave_agent_company', true );
 $agent_agency_id = get_post_meta( $agent_array['agent_id'], 'fave_agent_agencies', true );
+$agent_is_top_broker = get_post_meta($agent_array['agent_id'], 'fave_agent_is_top_broker', true);
 
 $href = "";
 if( !empty($agent_agency_id) ) {
@@ -32,13 +33,24 @@ $total_ratings = get_post_meta($agent_array['agent_id'], 'houzez_total_rating', 
 if( empty( $total_ratings ) ) {
 	$total_ratings = 0;
 }
+
+$status = get_the_terms(get_the_ID(), 'property_status'); 
 ?>
 
 <div
-    class="ms-apartments-main__sidebar__single ms-apartments-main__sidebar__single--broker ms-apartments-main__sidebar__single--broker-2">
+    class="ms-apartments-main__sidebar__single ms-apartments-main__sidebar__single--broker <?php echo $status && count($status) > 0 && $status[0]->slug == 'new-projects' ? '' : 'ms-apartments-main__sidebar__single--broker-2'; ?> <?php echo isset($agent_is_top_broker) && $agent_is_top_broker == 1 ? 'ms-apartments-main__sidebar__single--broker-top' : ''; ?>">
+    
+    <?php if( isset($agent_is_top_broker) && $agent_is_top_broker == 1 ) { ?>
+    <!-- top broker batch -->
+    <div class="ms-apartments-main__sidebar__broker-batch">
+        <div class="ms-apartments-main____card__price">
+            <a href="javascript:void(0)"><span> TopBroker </span></a>
+        </div>
+    </div>
+    <?php } ?>
     <div class="ms-apartments-main__sidebar__broker-details">
         <div>
-            <a href="javascript:void(0)"><img src="<?php echo esc_url($agent_picture); ?>" alt="<?php echo esc_attr($agent_name); ?>" style="max-width: 90px;" /></a>
+            <a href="javascript:void(0)"><img src="<?php echo esc_url($agent_picture); ?>" alt="<?php echo esc_attr($agent_name); ?>" <?php if( isset($agent_is_top_broker) && $agent_is_top_broker == 1 ) { } else { ?>style="max-width: 90px;"<?php } ?> /></a>
         </div>
         <div class="ms-apartments-main__sidebar__broker-name">
             <h6><?php echo esc_attr($agent_name); ?></h6>
@@ -60,6 +72,31 @@ if( empty( $total_ratings ) ) {
             </ul>
         </div>
     </div>
+
+    <?php if($status && count($status) > 0 && $status[0]->slug == 'new-projects' ) { ?>
+        <?php if( !empty( $agent_whatsapp_call ) && houzez_option('agent_whatsapp_num', 1) ) { ?>
+        <div class="ms-apartments-main__sidebar__whatsapp">
+            <a target="_blank" href="https://api.whatsapp.com/send?phone=<?php echo esc_attr( $agent_whatsapp_call ); ?>&text=<?php echo houzez_option('spl_con_interested', "Hello, I am interested in").' ['.get_the_title().'] '.get_permalink(); ?> " class="ms-btn ms-btn--black">
+                <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <mask id="mask0_3124_517" style="mask-type: luminance" maskUnits="userSpaceOnUse" x="0" y="0"
+                        width="21" height="21">
+                        <path d="M0.5 0.500002H20.5V20.5H0.5V0.500002Z" fill="white"></path>
+                    </mask>
+                    <g mask="url(#mask0_3124_517)">
+                        <path
+                            d="M3.23145 14.5612C2.5567 13.3608 2.17188 11.9757 2.17188 10.5007C2.17188 5.91735 5.92194 2.16732 10.5052 2.16732C15.0885 2.16732 18.8385 5.91735 18.8385 10.5007C18.8385 15.0839 15.0885 18.834 10.5052 18.834C9.03017 18.834 7.64504 18.4491 6.4447 17.7744L2.17188 18.834L3.23145 14.5612Z"
+                            stroke="#1B1B1B" stroke-width="1.2" stroke-miterlimit="10" stroke-linecap="round"
+                            stroke-linejoin="round"></path>
+                        <path
+                            d="M9.77238 11.2335C9.52594 10.9862 8.53679 9.88854 8.89672 9.52861C8.99565 9.42968 9.39121 9.15948 9.54553 9.00516C10.0711 8.4796 9.46811 7.82891 9.08144 7.44224C9.04986 7.41065 8.45463 6.77004 7.6644 7.5603C6.2516 8.9731 8.2654 11.5064 8.87943 12.1264C9.49948 12.7405 12.0327 14.7543 13.4456 13.3415C14.2358 12.5512 13.5952 11.956 13.5636 11.9244C13.177 11.5378 12.5262 10.9348 12.0007 11.4603C11.8464 11.6147 11.5762 12.0102 11.4772 12.1091C11.1173 12.4691 10.0196 11.4799 9.77238 11.2335Z"
+                            fill="#1B1B1B"></path>
+                    </g>
+                </svg>
+
+                WhatsApp</a>
+        </div>
+        <?php } ?>
+    <?php } else { ?>
     <div class="ms-apartments-main__sidebar__whatsapp">
         <button data-toggle="modal" data-target="#msQualityListerModal" class="ms-btn ms-btn--black">
             <svg width="14" height="16" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -73,6 +110,22 @@ if( empty( $total_ratings ) ) {
 
             Quality Lister
         </button>
+        <?php if( isset($agent_is_top_broker) && $agent_is_top_broker == 1 ) { ?>
+        <!-- responsive broker -->
+        <button data-toggle="modal" data-target="#msResponsiveBrokerModal"
+            class="ms-btn ms-btn--black ms-btn--res-broker">
+            <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M11.1373 2.91978V4.41312H7.8929C7.08428 4.41312 6.30879 4.73434 5.73701 5.30612C5.16523 5.87789 4.84401 6.65339 4.84401 7.46201V9.81756L3.92845 10.4753C3.85306 10.5296 3.76399 10.5617 3.67131 10.568C3.57863 10.5743 3.48604 10.5545 3.40401 10.5109C3.32149 10.4691 3.25186 10.4057 3.20254 10.3274C3.15323 10.2491 3.12609 10.1589 3.12401 10.0665V9.30645C2.89505 9.30587 2.66846 9.26005 2.45726 9.17163C2.24607 9.0832 2.05443 8.95391 1.89336 8.79119C1.73228 8.62846 1.60496 8.43551 1.51869 8.22343C1.43242 8.01134 1.38892 7.78429 1.39068 7.55534V2.91978C1.39068 2.3811 1.60467 1.86448 1.98557 1.48357C2.36648 1.10266 2.8831 0.888672 3.42179 0.888672H9.10623C9.37296 0.888672 9.63708 0.941208 9.8835 1.04328C10.1299 1.14535 10.3538 1.29496 10.5424 1.48357C10.7311 1.67218 10.8807 1.89608 10.9827 2.14251C11.0848 2.38894 11.1373 2.65305 11.1373 2.91978Z"
+                    fill="white" />
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M13.5794 5.43164H7.89049C7.3518 5.43164 6.83518 5.64563 6.45427 6.02654C6.07337 6.40745 5.85938 6.92407 5.85938 7.46275V11.8139C5.85938 12.3525 6.07337 12.8692 6.45427 13.2501C6.83518 13.631 7.3518 13.845 7.89049 13.845H11.446L13.0816 15.0139C13.1575 15.0687 13.247 15.1015 13.3404 15.1086C13.4337 15.1157 13.5272 15.0967 13.6105 15.0539C13.6913 15.0104 13.7593 14.9464 13.8076 14.8684C13.856 14.7904 13.883 14.7011 13.886 14.6094V13.8539C14.345 13.8492 14.7836 13.6636 15.1065 13.3373C15.4294 13.0111 15.6105 12.5706 15.6105 12.1116V7.46275C15.6093 6.92443 15.3949 6.40849 15.0143 6.02784C14.6336 5.64718 14.1177 5.43281 13.5794 5.43164ZM10.5305 11.685V10.1605H9.00604L11.0372 7.62275V9.1472H12.5616L10.5305 11.685Z"
+                    fill="white" />
+            </svg>
+
+            Responsive Broker
+        </button>
+        <?php } ?>
     </div>
     <!-- button list -->
     <div class="ms-apartments-main__card--2">
@@ -137,6 +190,7 @@ if( empty( $total_ratings ) ) {
             <?php } ?>
         </ul>
     </div>
+    <?php } ?>
 
     <!-- bottom -->
     <ul class="ms-apartments-main__sidebar__bottom-list">

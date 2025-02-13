@@ -897,6 +897,14 @@ i.menu-icon {
     min-height: 447px;
     border-radius: var(--ms-br-24);
 }
+.ms-apartments-main--details.section--wrapper .widget-wrap {
+    padding: 0;
+    margin: 0;
+    border: 0;
+}
+#msQualityListerModal .modal-body.ms-filter__modal {
+    padding: 0;
+}
 
 @media (max-width: 767.98px) {
     .list-view .item-wrap-v8 .item-header {

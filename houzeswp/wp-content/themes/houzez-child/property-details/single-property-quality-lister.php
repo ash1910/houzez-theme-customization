@@ -37,3 +37,44 @@
 </div>
 
 <!-- end:  Quality Lister Modal  -->
+
+<!-- start: Responsive Broker Modal   -->
+
+<div class="modal ms-modal ms-quality-lister-modal ms-quality-lister-modal--res-broker fade"
+    id="msResponsiveBrokerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body ms-filter__modal">
+                <!-- modal heading -->
+                <div class="ms-filter__modal__heading">
+                    <h5>
+                        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M18.945 4.47435V7.27435H12.8617C11.3455 7.27435 9.89147 7.87664 8.81939 8.94872C7.74731 10.0208 7.14502 11.4749 7.14502 12.991V17.4077L5.42835 18.641C5.28699 18.7428 5.11998 18.8029 4.9462 18.8147C4.77242 18.8265 4.59882 18.7894 4.44502 18.7077C4.29029 18.6293 4.15973 18.5104 4.06727 18.3636C3.97481 18.2169 3.92392 18.0478 3.92002 17.8743V16.4494C3.49072 16.4483 3.06586 16.3624 2.66987 16.1966C2.27388 16.0308 1.91455 15.7883 1.61254 15.4832C1.31053 15.1781 1.07179 14.8163 0.910043 14.4187C0.748293 14.021 0.666723 13.5953 0.670018 13.166V4.47435C0.670018 3.46432 1.07125 2.49565 1.78545 1.78145C2.49965 1.06725 3.46832 0.666016 4.47835 0.666016H15.1367C15.6368 0.666016 16.132 0.764521 16.5941 0.955908C17.0561 1.14729 17.4759 1.42781 17.8296 1.78145C18.1832 2.13509 18.4637 2.55491 18.6551 3.01696C18.8465 3.47901 18.945 3.97423 18.945 4.47435Z"
+                                fill="white" />
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M23.5238 9.18359H12.8572C11.8471 9.18359 10.8785 9.58483 10.1643 10.299C9.45006 11.0132 9.04883 11.9819 9.04883 12.9919V21.1503C9.04883 22.1603 9.45006 23.129 10.1643 23.8432C10.8785 24.5574 11.8471 24.9586 12.8572 24.9586H19.5238L22.5905 27.1503C22.7327 27.2532 22.9007 27.3147 23.0757 27.3279C23.2508 27.3411 23.4261 27.3056 23.5822 27.2253C23.7337 27.1437 23.8611 27.0238 23.9518 26.8776C24.0424 26.7314 24.0931 26.5639 24.0988 26.3919V24.9753C24.9594 24.9665 25.7818 24.6184 26.3872 24.0068C26.9926 23.3951 27.3322 22.5692 27.3322 21.7086V12.9919C27.33 11.9826 26.928 11.0152 26.2143 10.3015C25.5006 9.58774 24.5332 9.1858 23.5238 9.18359ZM17.8072 20.9086V18.0503H14.9488L18.7572 13.2919V16.1503H21.6155L17.8072 20.9086Z"
+                                fill="white" />
+                        </svg>
+
+                        Responsive Broker
+                    </h5>
+                    <button class="ms-filter__modal__close close" data-dismiss="modal" aria-label="Close">
+                        <i class="fa-light fa-xmark"></i>
+                    </button>
+                </div>
+                <!-- modal content -->
+                <div class="ms-quality-lister-modal__content">
+                    <h6>Responsive Broker</h6>
+                    <p>
+                        Lorem Ipsum is simply dummy text of the printing and typesetting
+                        industry. Lorem Ipsum has been the industry's standard dummy
+                        text ever since the 1500s,
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- end:  Responsive Broker Modal  -->

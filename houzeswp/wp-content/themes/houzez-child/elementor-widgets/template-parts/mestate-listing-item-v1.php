@@ -104,6 +104,8 @@ if( !empty( $agent_info[0] )) {
             $agency_logo = esc_attr( $thumbnail_src[ 0 ] );
         }
     }
+
+    $agent_is_top_broker = get_post_meta($agent_info[0]['agent_id'], 'fave_agent_is_top_broker', true);
 }
 
 $key = '';
@@ -164,7 +166,7 @@ if( $key != false || $key != '' ) {
                 if(!empty($property_type)) {
                     echo '<span>'.$property_type.'</span>';
                 } ?></h6>
-            <?php if(!empty( $agent_info[0] )) { ?>
+            <?php if(!empty( $agent_info[0] ) && isset($agent_is_top_broker) && $agent_is_top_broker == 1) { ?>
             <a href="<?php echo esc_url(get_permalink()); ?>"><img src="<?php echo $agent_info[0]['picture']; ?>" alt="" />
                 <span>TopBroker</span></a>
             <?php } ?>

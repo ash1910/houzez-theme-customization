@@ -4043,6 +4043,8 @@ function convertYoutubeUrl($url) {
     return !empty($video_id) ? "https://www.youtube.com/embed/" . $video_id : $url;
 }
 
+
+
 // function redirect_if_missing_status() {
 //     if ( is_page( 'new-projects' ) && empty( $_GET['status'] ) ) {
 //         wp_redirect( add_query_arg( 'status[]', 'new-projects', home_url( $_SERVER['REQUEST_URI'] ) ) );
@@ -4053,6 +4055,146 @@ function convertYoutubeUrl($url) {
 
 //$user_package_id = houzez_get_user_package_id($userID);
 //$package_images = get_post_meta( $user_package_id, 'fave_package_images', true );
+
+/**
+ * Register Sidebar Banner Widget
+ */
+class Houzez_Sidebar_Banner_Widget extends WP_Widget {
+
+    public function __construct() {
+        parent::__construct(
+            'houzez_sidebar_banner', // Widget ID
+            esc_html__('Houzez Sidebar Banner', 'houzez-child'), // Widget name in admin
+            array('description' => esc_html__('Display a banner image with download button', 'houzez-child'))
+        );
+    }
+
+    // Widget Frontend Display
+    public function widget($args, $instance) {
+        $banner_image = !empty($instance['banner_image']) ? $instance['banner_image'] : '';
+        $download_url = !empty($instance['download_url']) ? $instance['download_url'] : '#';
+
+        echo $args['before_widget'];
+        ?>
+        <div class="ms-apartments-main__sidebar__single">
+            <?php if ($banner_image) : ?>
+                <a href="<?php echo esc_url($download_url); ?>">
+                    <img src="<?php echo esc_url($banner_image); ?>" alt="Sidebar Banner" />
+                </a>
+            <?php endif; ?>
+
+            <?php if ($download_url) : ?>
+                <a href="<?php echo esc_url($download_url); ?>" class="ms-btn ms-btn--primary">
+                    <?php esc_html_e('Download Now', 'houzez-child'); ?>
+                </a>
+            <?php endif; ?>
+        </div>
+        <?php
+        echo $args['after_widget'];
+    }
+
+    // Widget Backend Form
+    public function form($instance) {
+        $banner_image = !empty($instance['banner_image']) ? $instance['banner_image'] : '';
+        $download_url = !empty($instance['download_url']) ? $instance['download_url'] : '';
+        ?>
+        <p>
+            <label for="<?php echo esc_attr($this->get_field_id('banner_image')); ?>">
+                <?php esc_html_e('Banner Image URL:', 'houzez-child'); ?>
+            </label>
+            <input class="widefat" id="<?php echo esc_attr($this->get_field_id('banner_image')); ?>" 
+                   name="<?php echo esc_attr($this->get_field_name('banner_image')); ?>" 
+                   type="text" value="<?php echo esc_attr($banner_image); ?>" />
+            <button class="upload_image_button button button-secondary" style="margin-top:5px;">
+                <?php esc_html_e('Upload Image', 'houzez-child'); ?>
+            </button>
+        </p>
+        <p>
+            <label for="<?php echo esc_attr($this->get_field_id('download_url')); ?>">
+                <?php esc_html_e('Download URL:', 'houzez-child'); ?>
+            </label>
+            <input class="widefat" id="<?php echo esc_attr($this->get_field_id('download_url')); ?>" 
+                   name="<?php echo esc_attr($this->get_field_name('download_url')); ?>" 
+                   type="text" value="<?php echo esc_attr($download_url); ?>" />
+        </p>
+        <?php
+    }
+
+    // Update Widget Settings
+    public function update($new_instance, $old_instance) {
+        $instance = array();
+        $instance['banner_image'] = (!empty($new_instance['banner_image'])) ? strip_tags($new_instance['banner_image']) : '';
+        $instance['download_url'] = (!empty($new_instance['download_url'])) ? strip_tags($new_instance['download_url']) : '';
+        return $instance;
+    }
+}
+
+/**
+ * Register the widget and add media uploader script
+ */
+function register_houzez_sidebar_banner_widget() {
+    register_widget('Houzez_Sidebar_Banner_Widget');
+
+    // Add Media Uploader Script only on widgets page
+    if (is_admin() && 'widgets.php' === $GLOBALS['pagenow']) {
+        wp_enqueue_media();
+        add_action('admin_footer', 'add_media_uploader_script');
+    }
+}
+add_action('widgets_init', 'register_houzez_sidebar_banner_widget');
+
+/**
+ * Add Media Uploader Script
+ */
+function add_media_uploader_script() {
+    ?>
+    <script>
+        jQuery(document).ready(function($){
+            $(document).on('click', '.upload_image_button', function(e) {
+                e.preventDefault();
+                var button = $(this);
+                var imageInput = button.siblings('input');
+                var customUploader = wp.media({
+                    title: '<?php esc_html_e("Choose Image", "houzez-child"); ?>',
+                    library: {
+                        type: 'image'
+                    },
+                    button: {
+                        text: '<?php esc_html_e("Use this image", "houzez-child"); ?>'
+                    },
+                    multiple: false
+                }).on('select', function() {
+                    var attachment = customUploader.state().get('selection').first().toJSON();
+                    imageInput.val(attachment.url);
+                }).open();
+            });
+        });
+    </script>
+    <?php
+}
+
+
+function add_agent_top_broker_field($meta_boxes) {
+    $houzez_prefix = 'fave_';
+    
+    // Find the agent information meta box
+    foreach ($meta_boxes as $key => $meta_box) {
+        if (isset($meta_box['post_types']) && in_array('houzez_agent', $meta_box['post_types']) && $meta_box['title'] === esc_html__('Agent Information', 'houzez')) {
+            // Add the new field to the existing fields array
+            $meta_boxes[$key]['fields'][] = array(
+                'id' => "{$houzez_prefix}agent_is_top_broker",
+                'name' => esc_html__('Is Top Broker', 'houzez'),
+                'desc' => esc_html__('Mark this agent as a top broker', 'houzez'),
+                'type' => 'checkbox',
+                'std' => "",
+                'columns' => 6
+            );
+        }
+    }
+    
+    return $meta_boxes;
+}
+add_filter('houzez_agent_meta', 'add_agent_top_broker_field');
 
 
 ?>
