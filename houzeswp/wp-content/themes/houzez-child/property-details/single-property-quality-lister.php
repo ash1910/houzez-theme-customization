@@ -1,6 +1,6 @@
 <!-- start: Quality Lister Modal   -->
 
-<div class="modal ms-quality-lister-modal fade" id="msQualityListerModal" tabindex="-1" role="dialog"
+<div class="modal ms-modal ms-quality-lister-modal fade" id="msQualityListerModal" tabindex="-1" role="dialog"
     aria-labelledby="exampleModalLongTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">

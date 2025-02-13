@@ -1254,15 +1254,17 @@ $hide_detail = houzez_option('hide_detail_prop_fields');
             </div>
             <!-- apartment sidebar -->
             <div class="col-12 col-md-7 col-xl-4 pl-3">
-                <!-- sidebar single -->
-                <?php get_template_part('property-details/partials/sidebar-agent-details'); ?>
+                <div class="ms-slidebar__wrapper">
+                    <!-- sidebar single -->
+                    <?php get_template_part('property-details/partials/sidebar-agent-details'); ?>
 
-                <!-- sidebar single -->
-                <?php
-                if (is_active_sidebar('hz-custom-widget-area-1')) {
-                    dynamic_sidebar('hz-custom-widget-area-1');
-                }
-                ?>
+                    <!-- sidebar single -->
+                    <?php
+                    if (is_active_sidebar('hz-custom-widget-area-1')) {
+                        dynamic_sidebar('hz-custom-widget-area-1');
+                    }
+                    ?>
+                </div>
             </div>
         </div>
     </div>

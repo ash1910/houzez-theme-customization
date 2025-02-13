@@ -4197,4 +4197,16 @@ function add_agent_top_broker_field($meta_boxes) {
 add_filter('houzez_agent_meta', 'add_agent_top_broker_field');
 
 
+if( !function_exists( 'houzez_browser_body_class_mestate' ) ) {
+    function houzez_browser_body_class_mestate($classes) {
+        global $post;
+        
+        $classes[] = 'ms-body';
+            
+        return $classes;
+    }
+    add_filter('body_class', 'houzez_browser_body_class_mestate');
+}
+
+
 ?>
