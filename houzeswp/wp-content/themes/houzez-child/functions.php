@@ -3996,7 +3996,7 @@ if(!function_exists('houzez_search_status_mestate')) {
 	function houzez_search_status_mestate($query_arg) {
 
         $settings = get_query_var('settings', []);
-        $status_data = $settings['status_data'];
+        $status_data = $settings['status_data'] ?? '';
 
 		if (isset($_GET['status']) && !empty($_GET['status']) && !empty($_GET['status'][0]) && $_GET['status'] != 'all') {
             // Already done in houzez_properties_search

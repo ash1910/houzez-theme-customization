@@ -1,4 +1,6 @@
 <?php 
+global $hide_fields;
+
 if(houzez_get_map_system() == 'google') {
 	wp_enqueue_script('houzez-overview-listing-map', HOUZEZ_JS_DIR_URI. 'single-property-google-overview-map.js', array('jquery'), '1.0.0', true);
 } else {
@@ -115,7 +117,7 @@ $hide_detail = houzez_option('hide_detail_prop_fields');
                                 <li><span></span></li>
                                 <?php } ?>
                                 <?php $sale_price = get_post_meta(get_the_ID(), 'fave_property_price', true);
-                                if( $hide_fields['price'] != 1 && !empty($sale_price) ) { ?>
+                                if( @$hide_fields['price'] != 1 && !empty($sale_price) ) { ?>
                                 <li>
                                     <p>Starting From</p>
                                     <h6><?php echo $price_prefix. houzez_get_property_price($sale_price) . $price_postfix; ?></h6>
@@ -136,7 +138,7 @@ $hide_detail = houzez_option('hide_detail_prop_fields');
                                     <span></span>
                                 </li>
                                 <?php } ?>
-                                <?php if( $hide_fields['price'] != 1 && !empty($sale_price) ) { ?>
+                                <?php if( @$hide_fields['price'] != 1 && !empty($sale_price) ) { ?>
                                 <li><span></span></li>
                                 <?php } ?>
                                 <?php if(!empty($construction_status)) { ?>
@@ -197,7 +199,7 @@ $hide_detail = houzez_option('hide_detail_prop_fields');
                                 <li><span></span></li>
                                 <?php } ?>
                                 <?php 
-                                if( $hide_fields['price'] != 1 && !empty($sale_price) ) { ?>
+                                if( @$hide_fields['price'] != 1 && !empty($sale_price) ) { ?>
                                 <li>
                                     <p>Starting From</p>
                                     <h6><?php echo $price_prefix. houzez_get_property_price($sale_price) . $price_postfix; ?></h6>
@@ -210,7 +212,7 @@ $hide_detail = houzez_option('hide_detail_prop_fields');
                                     <span></span>
                                 </li>
                                 <?php } ?>
-                                <?php if( $hide_fields['price'] != 1 && !empty($sale_price) ) { ?>
+                                <?php if( @$hide_fields['price'] != 1 && !empty($sale_price) ) { ?>
                                 <li><span></span></li>
                                 <?php } ?>
                             </ul>
@@ -625,7 +627,7 @@ $hide_detail = houzez_option('hide_detail_prop_fields');
                         <ul class="ms-apartments-main__overview__item-list">
                             <?php 
                             $property_id = get_post_meta(get_the_ID(), 'fave_property_id', true);
-                            if( $hide_fields['property_id'] != 1 && !empty($property_id) ) { ?>
+                            if( $hide_fields['prop_id'] != 1 && !empty($property_id) ) { ?>
                             <li>
                                 <p>Property ID</p>
                                 <h6><?php echo $property_id; ?></h6>
@@ -634,7 +636,7 @@ $hide_detail = houzez_option('hide_detail_prop_fields');
                             <?php } ?>
                             <?php 
                             $sale_price = get_post_meta(get_the_ID(), 'fave_property_price', true);
-                            if( $hide_fields['price'] != 1 && !empty($sale_price) ) { ?>
+                            if( @$hide_fields['price'] != 1 && !empty($sale_price) ) { ?>
                             <li>
                                 <p>Price</p>
                                 <h6><small>Start from </small> <?php echo $price_prefix. houzez_get_property_price($sale_price) . $price_postfix; ?></h6>
@@ -643,7 +645,7 @@ $hide_detail = houzez_option('hide_detail_prop_fields');
                             <?php } ?>
                             <?php 
                             $sqft = get_post_meta(get_the_ID(), 'fave_property_size', true);
-                            if( $hide_fields['size'] != 1 && !empty($sqft) ) { ?>
+                            if( @$hide_fields['size'] != 1 && !empty($sqft) ) { ?>
                             <li>
                                 <p>Property Size</p>
                                 <h6><?php echo $sqft; ?> sqft</h6> 
@@ -651,15 +653,15 @@ $hide_detail = houzez_option('hide_detail_prop_fields');
                             <?php } ?>
                         </ul>
                         <ul class="ms-apartments-main__overview__line-list">
-                            <?php if( $hide_fields['property_id'] != 1 && !empty($property_id) ) { ?>
+                            <?php if( $hide_fields['prop_id'] != 1 && !empty($property_id) ) { ?>
                             <li>
                                 <span></span>
                             </li>
                             <?php } ?>
-                            <?php if( $hide_fields['price'] != 1 && !empty($sale_price) ) { ?>
+                            <?php if( @$hide_fields['price'] != 1 && !empty($sale_price) ) { ?>
                             <li><span></span></li>
                             <?php } ?>
-                            <?php if( $hide_fields['size'] != 1 && !empty($sqft) ) { ?>
+                            <?php if( @$hide_fields['size'] != 1 && !empty($sqft) ) { ?>
                             <li>
                                 <span></span>
                             </li>
@@ -721,7 +723,7 @@ $hide_detail = houzez_option('hide_detail_prop_fields');
                             <li><span></span></li>
                             <?php } ?>
                             <?php $garage_size = get_post_meta(get_the_ID(), 'fave_property_garage_size', true);
-                            if( $hide_fields['garage_size'] != 1 && !empty($garage_size) ) { ?>
+                            if( @$hide_fields['garage_size'] != 1 && !empty($garage_size) ) { ?>
                             <li>
                                 <p>Garage Size</p>
                                 <h6><?php echo $garage_size; ?></h6>
@@ -743,7 +745,7 @@ $hide_detail = houzez_option('hide_detail_prop_fields');
                                 <span></span>
                             </li>
                             <?php } ?>
-                            <?php if( $hide_fields['garage_size'] != 1 && !empty($garage_size) ) { ?>
+                            <?php if( @$hide_fields['garage_size'] != 1 && !empty($garage_size) ) { ?>
                             <li><span></span></li>
                             <?php } ?>
                             <?php if( $hide_fields['year_built'] != 1 && !empty($year_built) ) { ?>
@@ -755,7 +757,7 @@ $hide_detail = houzez_option('hide_detail_prop_fields');
 
                         <ul class="ms-apartments-main__overview__item-list">
                             <?php 
-                            if( $hide_fields['property_type'] != 1 && !empty($property_type) ) { ?>
+                            if( @$hide_fields['property_type'] != 1 && !empty($property_type) ) { ?>
                             <li>
                                 <p>Property Type</p>
                                 <h6><?php echo $property_type; ?></h6>
@@ -763,7 +765,7 @@ $hide_detail = houzez_option('hide_detail_prop_fields');
                             <li><span></span></li>
                             <?php } ?>
                             <?php $property_status = houzez_taxonomy_simple('property_status');
-                            if( $hide_fields['property_status'] != 1 && !empty($property_status) ) { ?>
+                            if( @$hide_fields['property_status'] != 1 && !empty($property_status) ) { ?>
                             <li>
                                 <p>Property Status</p>
                                 <h6><?php echo $property_status; ?></h6>
@@ -774,7 +776,7 @@ $hide_detail = houzez_option('hide_detail_prop_fields');
                     <!-- mobile -->
                     <div class="ms-apartments-main__overview ms-apartments-main__overview--2 d-flex d-md-none">
                         <ul class="ms-apartments-main__overview__item-list">
-                            <?php if( $hide_fields['property_id'] != 1 && !empty($property_id) ) { ?>
+                            <?php if( $hide_fields['prop_id'] != 1 && !empty($property_id) ) { ?>
                             <li>
                                 <p>Property ID</p>
                                 <h6><?php echo $property_id; ?></h6>
@@ -782,7 +784,7 @@ $hide_detail = houzez_option('hide_detail_prop_fields');
                             <li><span></span></li>
                             <?php } ?>
                             <?php 
-                            if( $hide_fields['price'] != 1 && !empty($sale_price) ) { ?>
+                            if( @$hide_fields['price'] != 1 && !empty($sale_price) ) { ?>
                             <li>
                                 <p>Price</p>
                                 <h6><small>Start from </small> <?php echo $price_prefix. houzez_get_property_price($sale_price) . $price_postfix; ?></h6>
@@ -790,18 +792,18 @@ $hide_detail = houzez_option('hide_detail_prop_fields');
                             <?php } ?>
                         </ul>
                         <ul class="ms-apartments-main__overview__line-list">
-                            <?php if( $hide_fields['property_id'] != 1 && !empty($property_id) ) { ?>
+                            <?php if( $hide_fields['prop_id'] != 1 && !empty($property_id) ) { ?>
                             <li>
                                 <span></span>
                             </li>
                             <?php } ?>
-                            <?php if( $hide_fields['price'] != 1 && !empty($sale_price) ) { ?>
+                            <?php if( @$hide_fields['price'] != 1 && !empty($sale_price) ) { ?>
                             <li><span></span></li>
                             <?php } ?>
                         </ul>
 
                         <ul class="ms-apartments-main__overview__item-list">
-                            <?php if( $hide_fields['size'] != 1 && !empty($sqft) ) { ?>
+                            <?php if( @$hide_fields['size'] != 1 && !empty($sqft) ) { ?>
                             <li>
                                 <p>Property Size</p>
                                 <h6><?php echo $sqft; ?> sqft</h6>
@@ -817,7 +819,7 @@ $hide_detail = houzez_option('hide_detail_prop_fields');
                             <?php } ?>
                         </ul>
                         <ul class="ms-apartments-main__overview__line-list">
-                            <?php if( $hide_fields['size'] != 1 && !empty($sqft) ) { ?>
+                            <?php if( @$hide_fields['size'] != 1 && !empty($sqft) ) { ?>
                             <li>
                                 <span></span>
                             </li>
@@ -862,7 +864,7 @@ $hide_detail = houzez_option('hide_detail_prop_fields');
                             <li><span></span></li>
                             <?php } ?>
                             <?php 
-                            if( $hide_fields['garage_size'] != 1 && !empty($garage_size) ) { ?>
+                            if( @$hide_fields['garage_size'] != 1 && !empty($garage_size) ) { ?>
                             <li>
                                 <p>Garage Size</p>
                                 <h6><?php echo $garage_size; ?></h6>
@@ -875,7 +877,7 @@ $hide_detail = houzez_option('hide_detail_prop_fields');
                                 <span></span>
                             </li>
                             <?php } ?>
-                            <?php if( $hide_fields['garage_size'] != 1 && !empty($garage_size) ) { ?>
+                            <?php if( @$hide_fields['garage_size'] != 1 && !empty($garage_size) ) { ?>
                             <li><span></span></li>
                             <?php } ?>
                         </ul>
@@ -889,7 +891,7 @@ $hide_detail = houzez_option('hide_detail_prop_fields');
                             <li><span></span></li>
                             <?php } ?>
                             <?php 
-                            if( $hide_fields['property_type'] != 1 && !empty($property_type) ) { ?>
+                            if( @$hide_fields['property_type'] != 1 && !empty($property_type) ) { ?>
                             <li>
                                 <p>Property Type</p>
                                 <h6><?php echo $property_type; ?></h6>
@@ -902,13 +904,13 @@ $hide_detail = houzez_option('hide_detail_prop_fields');
                                 <span></span>
                             </li>
                             <?php } ?>
-                            <?php if( $hide_fields['property_type'] != 1 && !empty($property_type) ) { ?>
+                            <?php if( @$hide_fields['property_type'] != 1 && !empty($property_type) ) { ?>
                             <li><span></span></li>
                             <?php } ?>
                         </ul>
                         <ul class="ms-apartments-main__overview__item-list">
                             <?php 
-                            if( $hide_fields['property_status'] != 1 && !empty($property_status) ) { ?>
+                            if( @$hide_fields['property_status'] != 1 && !empty($property_status) ) { ?>
                             <li>
                                 <p>Property Status</p>
                                 <h6><?php echo $property_status; ?></h6>
@@ -919,7 +921,6 @@ $hide_detail = houzez_option('hide_detail_prop_fields');
                     </div>
                 </div>
                 <!-- map -->
-                <?php if( $hide_fields['map'] != 1 ) { ?>
                 <div class="ms-apartments-main__section">
                     <div class="ms-apartments-main__heading">
                         <h4>Map</h4>
@@ -929,7 +930,6 @@ $hide_detail = houzez_option('hide_detail_prop_fields');
                         <div id="houzez-overview-listing-map" style="height: 350px;"></div>
                     </div>
                 </div>
-                <?php } ?>
                 <!-- features -->
                 <?php if(!empty($features) || !empty($additional_features)) { ?>
                 <div class="ms-apartments-main__section">
@@ -1052,6 +1052,8 @@ $hide_detail = houzez_option('hide_detail_prop_fields');
                                             <ul class="ms-apartments-main____card__details-list">
                                                 <?php if( isset($plan['fave_plan_size']) && !empty( $plan['fave_plan_size'] ) ) { ?>
                                                 <li><i class="icon-scale"> </i> <?php echo esc_attr( $plan['fave_plan_size'] ); ?> m2</li>
+                                                <?php } else {?>
+                                                <li></li>
                                                 <?php } ?>
                                                 <li><i class="icon-plus"> </i></li>
                                             </ul>
@@ -1067,10 +1069,12 @@ $hide_detail = houzez_option('hide_detail_prop_fields');
                                                 <h6>Layout type</h6>
                                                 <p><?php echo esc_attr( $plan_title ); ?></p>
                                             </li>
+                                            <?php if( isset($plan['fave_plan_size']) && !empty( $plan['fave_plan_size'] ) ) { ?>
                                             <li>
                                                 <h6>Size (sqft)</h6>
-                                                <p><?php echo esc_attr( $plan['fave_plan_size'] ); ?> m2</p>
+                                                <p><?php echo esc_attr( $plan['fave_plan_size'] ?? '' ); ?> m2</p>
                                             </li>
+                                            <?php } ?>
                                             <?php if( !empty( $plan_image ) ) { ?>
                                             <li>
                                                 <h6>Layout</h6>

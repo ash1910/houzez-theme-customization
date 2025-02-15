@@ -1,5 +1,5 @@
 <?php
-global $post, $top_area;
+global $post, $top_area, $hide_fields;
 
 wp_enqueue_script('houzez-overview-listing-map-banner',  get_stylesheet_directory_uri().'/js/single-property-osm-overview-map-banner.js', array('jquery'), '1.0.0', true);
 
@@ -36,11 +36,9 @@ $property_gallery_popup_type = houzez_get_popup_gallery_type();
                 <button class="ms-btn ms-btn--gallery ms-btn--2 active " data-target="#ms-gallery" data-toggle="tab">
                     <i class="fa-solid fa-image"></i> Gallery
                 </button>
-                <?php if( $hide_fields['map'] != 1 ) { ?>
                 <button class="ms-btn ms-btn--2" data-target="#ms-map" data-toggle="tab">
                     <i class="icon-location_fill"></i> Map
                 </button>
-                <?php } ?>
                 <?php if( !empty( $prop_video_url ) ) { ?>
                 <button class="ms-btn ms-btn--2" data-target="#ms-video" data-toggle="tab">
                     <i class="icon-playbutton_white"></i> Request Video
@@ -108,11 +106,9 @@ $property_gallery_popup_type = houzez_get_popup_gallery_type();
                     </div>
                 </div>
                 <!-- content 2 -->
-                <?php if( $hide_fields['map'] != 1 ) { ?>
                 <div class="tab-pane fade" id="ms-map">
                     <div id="houzez-overview-listing-map-banner" class="ms-hero__map"></div>
                 </div>
-                <?php } ?>
                 <!-- content 3 -->
                 <?php if( !empty( $prop_video_url ) ) { 
                     $embed_url = convertYoutubeUrl($prop_video_url);

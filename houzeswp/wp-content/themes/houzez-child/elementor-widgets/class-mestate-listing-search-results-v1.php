@@ -61,7 +61,9 @@ class MEstate_Listing_Search_Results_V1 extends \Elementor\Widget_Base {
                 'label' => __( 'Sidebar Download URL', 'houzez' ),
                 'label_block' => true,
                 'type' => \Elementor\Controls_Manager::URL,
-                'default' => '',
+                'default' => [
+                    'url' => '',
+                ],
             ]
         );
 
