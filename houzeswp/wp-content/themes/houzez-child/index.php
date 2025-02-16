@@ -1,0 +1,195 @@
+<?php
+get_header(); 
+
+$is_sticky = '';
+$sticky_sidebar = houzez_option('sticky_sidebar');
+if( $sticky_sidebar['default_sidebar'] != 0 ) { 
+    $is_sticky = 'houzez_sticky'; 
+}
+
+$blog_layout = houzez_option('blog_pages_s_layout');
+
+if( $blog_layout == 'no-sidebar' ) {
+    $content_classes = 'col-lg-12 col-md-12';
+} else if( $blog_layout == 'left-sidebar' ) {
+    $content_classes = 'col-lg-8 col-md-12 bt-content-wrap wrap-order-first';
+} else if( $blog_layout == 'right-sidebar' ) {
+    $content_classes = 'col-lg-8 col-md-12 bt-content-wrap';
+} else {
+    $content_classes = 'col-lg-8 col-md-12 bt-content-wrap';
+}
+
+if ( ! function_exists( 'elementor_theme_do_location' ) || ! elementor_theme_do_location( 'archive' ) ) { ?>
+
+<!-- start: Hero Banner -->
+<section>
+    <div class="container-fluid container-fluid--lg">
+        <div class="ms-hero__wrapper">
+            <div class="ms-hero ms-hero--blog" style="background-image: url('<?php echo get_stylesheet_directory_uri(); ?>/assets/img/blog/bnner.png')">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="ms-hero__content">
+                                <h1 class="ms-hero__title">Blog</h1>
+                                <div class="ms-apartments-main__breadcrumb ms-apartments-main__breadcrumb--hero">
+                                    <ul>
+                                        <li><a href="<?php echo home_url(); ?>">Home</a></li>
+                                        <li>></li>
+                                        <li>
+                                            <p>Blog</p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- end: Hero Banner -->
+
+		<!-- start: blogs  -->
+		<section class="ms-apartments-main ms-apartments-main--details ms-apartments-main--blog section--wrapper">
+			<div class="container">
+				<div class="row">
+					<!-- blog content -->
+					<div class="col-12 col-xl-8 mb-0 mb-md-5 mb-xl-0">
+						<!-- blog tab content -->
+						<div class="ms-apartments-main__section ms-apartments-main__section--blog">
+							<div class="ms-apartments-main__heading">
+								<h4>Blogs</h4>
+							</div>
+							<!-- tab controllers  -->
+							<div class="ms-blog-tab__controllers nav nav-tab ms-nav-tab" role="tablist ">
+								<button data-target="#ms-blog-grid" data-toggle="tab" class="ms-btn ms-btn-primary active">
+									<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+										<path
+											d="M22 8.52V3.98C22 2.57 21.36 2 19.77 2H15.73C14.14 2 13.5 2.57 13.5 3.98V8.51C13.5 9.93 14.14 10.49 15.73 10.49H19.77C21.36 10.5 22 9.93 22 8.52Z"
+											fill="white" />
+										<path
+											d="M22 19.77V15.73C22 14.14 21.36 13.5 19.77 13.5H15.73C14.14 13.5 13.5 14.14 13.5 15.73V19.77C13.5 21.36 14.14 22 15.73 22H19.77C21.36 22 22 21.36 22 19.77Z"
+											fill="white" />
+										<path
+											d="M10.5 8.52V3.98C10.5 2.57 9.86 2 8.27 2H4.23C2.64 2 2 2.57 2 3.98V8.51C2 9.93 2.64 10.49 4.23 10.49H8.27C9.86 10.5 10.5 9.93 10.5 8.52Z"
+											fill="white" />
+										<path
+											d="M10.5 19.77V15.73C10.5 14.14 9.86 13.5 8.27 13.5H4.23C2.64 13.5 2 14.14 2 15.73V19.77C2 21.36 2.64 22 4.23 22H8.27C9.86 22 10.5 21.36 10.5 19.77Z"
+											fill="white" />
+									</svg>
+								</button>
+								<button data-target="#ms-blog-list" data-toggle="tab" class="ms-btn ms-btn-primary">
+									<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+										<path
+											d="M10 6H16M10 14H16M10 10H22M10 18H22M4 10C2.89543 10 2 9.10457 2 8C2 6.89543 2.89543 6 4 6C5.10457 6 6 6.89543 6 8C6 9.10457 5.10457 10 4 10ZM4 18C2.89543 18 2 17.1046 2 16C2 14.8954 2.89543 14 4 14C5.10457 14 6 14.8954 6 16C6 17.1046 5.10457 18 4 18Z"
+											stroke="#1B1B1B" stroke-width="1.5" stroke-linecap="round" />
+									</svg>
+								</button>
+							</div>
+							<div class="tab-content">
+								<div id="ms-blog-grid" class="tab-pane fade show active">
+									<!-- apartments cards -->
+									<div class="ms-apartments-main__card__wrapper ms-apartments-main__card__wrapper--2">
+                                        <?php
+                                        if ( have_posts() ) :
+
+                                            while ( have_posts() ) : the_post();
+
+                                                get_template_part('template-parts/blog/blog-post');
+
+                                            endwhile;
+
+                                        else :
+                                            // If no content, include the "No posts found" template.
+                                            get_template_part( 'content', 'none' );
+
+                                        endif;
+                                        ?>
+									</div>
+
+									<!--start pagination-->
+                                    <?php houzez_pagination( $wp_query->max_num_pages ); ?>
+                                    <!--end pagination-->
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- apartment sidebar -->
+					<div class="col-12 col-md-7 col-xl-4 pl-3">
+						<div class="ms-slidebar__wrapper">
+							<!-- search -->
+							<div class="ms-apartments-main__sidebar__single__wrapper d-none d-md-block">
+								<h5>Search Blog</h5>
+								<form action="<?php echo home_url(); ?>" method="get" class="ms-filter__modal__form ms-filter__modal__form--search ms-apartments-main__sidebar__single">
+									<div class="ms-input__wrapper">
+										<div class="ms-input__wrapper__inner">
+											<div class="ms-input ms-input--serach">
+												<label for="ms-hero__search-loaction">
+													<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+														xmlns="http://www.w3.org/2000/svg">
+														<path
+															d="M21.53 20.47L17.689 16.629C18.973 15.106 19.75 13.143 19.75 11C19.75 6.175 15.825 2.25 11 2.25C6.175 2.25 2.25 6.175 2.25 11C2.25 15.825 6.175 19.75 11 19.75C13.143 19.75 15.106 18.973 16.629 17.689L20.47 21.53C20.616 21.676 20.808 21.75 21 21.75C21.192 21.75 21.384 21.677 21.53 21.53C21.823 21.238 21.823 20.763 21.53 20.47ZM3.75 11C3.75 7.002 7.002 3.75 11 3.75C14.998 3.75 18.25 7.002 18.25 11C18.25 14.998 14.998 18.25 11 18.25C7.002 18.25 3.75 14.998 3.75 11Z"
+															fill="#1B1B1B" />
+													</svg>
+												</label>
+												<input type="search" placeholder="Search Location" class="ms-hero__search-loaction"
+													name="s" id="ms-hero__search-loaction" />
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+							<!-- categories -->
+							<div class="ms-apartments-main__sidebar__single__wrapper">
+								<h5>Category</h5>
+								<div class="ms-apartments-main__sidebar__single ms-apartments-main__sidebar__single--lg">
+									<div class="sidebar-category-list">
+										<li>
+											<a href="#">Buying Tips</a>
+											<span>(01)</span>
+										</li>
+										<li>
+											<a href="#">BSelling Guides</a>
+											<span>(05)</span>
+										</li>
+										<li>
+											<a href="#">Market Trends</a>
+											<span>(03)</span>
+										</li>
+										<li>
+											<a href="#">Home Improvement</a>
+											<span>(01)</span>
+										</li>
+										<li>
+											<a href="#">Neighborhood Insights</a>
+											<span>(06)</span>
+										</li>
+										<li>
+											<a href="#">Investment Advice</a>
+											<span>(02)</span>
+										</li>
+									</div>
+								</div>
+							</div>
+
+							<!-- sidebar single -->
+							<div class="ms-apartments-main__sidebar__single__wrapper">
+								<div class="ms-apartments-main__sidebar__single">
+									<a href="javascript:void(0)"><img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/sidebar/sidebar-banner-2.png" alt="" /></a>
+
+									<a href="javascript:void(0)" class="ms-btn ms-btn--primary">Get Started with an Agent</a>
+								</div>
+							</div>
+
+                            <?php get_sidebar(); ?>
+                            
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+<?php
+}
+get_footer();
