@@ -110,42 +110,64 @@
         $form.find(".ms-input--price-btn").html('Select Price <i class="">' + currency_symb + '</i>');
       });
 
-      $form.find(".ms-btn--apply").on('click', function() {
-        //console.log('apply');
-        $form.find(".ms-input--price-btn").removeClass('open');
-      });
+      // $form.find(".ms-btn--apply").on('click', function() {
+      //   //console.log('apply');
+      //   $form.find(".ms-input--price-btn").removeClass('open');
+      // });
     }
 
     const filterBtns = function(){
-        // get all button in form
-        const forms = document.querySelectorAll(".ms-hero__form");
-        if (forms?.length) {
-          forms?.forEach((form, idx) => {
-            form.addEventListener("submit", function (e) {
-              e.preventDefault();
-            });
-            const buttonsInForm = form.querySelectorAll(
-              "button:not([data-toggle='modal'])"
-            );
-            if (buttonsInForm?.length) {
-              buttonsInForm?.forEach((button) => {
-                button.addEventListener("click", function (e) {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  this.classList.toggle("open");
+      // get all button in form
+      const forms = document.querySelectorAll(".ms-hero__form");
+      if (forms?.length) {
+        forms?.forEach((form, idx) => {
+          const buttonsInForm = form.querySelectorAll(
+            ".ms-btn__not-submit:not([data-toggle='modal'])"
+          );
+          if (buttonsInForm?.length) {
+            buttonsInForm?.forEach(button => {
+              button.addEventListener("click", function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                const priceRangeParent = jQuery(this).closest(".ms-input--price");
+
+                const isOpen = this.classList.contains("open");
+                const isApply = this.classList.contains("ms-btn--apply");
+
+                buttonsInForm?.forEach(button => {
+                  button.classList.remove("open");
                 });
 
-                document.body?.addEventListener(
-                  "click",
-                  function () {
-                    button.classList.remove("open");
-                  },
-                  false
-                );
+                if (!isOpen) {
+                  this.classList.add("open");
+                  jQuery(".ms-nice-select-property-type").removeClass("open");
+                  jQuery(".ms-nice-select-property-status").removeClass("open");
+                }
+                // apply price range input
+
+                if (isApply) {
+                  priceRangeParent.find(".open").removeClass("open");
+                }
               });
-            }
-          });
-        }
+
+              document?.body?.addEventListener(
+                "click",
+                function () {
+                  button.classList.remove("open");
+                },
+                false
+              );
+              button?.parentNode?.parentNode?.addEventListener(
+                "click",
+                function () {
+                  button.classList.remove("open");
+                },
+                false
+              );
+            });
+          }
+        });
+      }
     }
 
     function updateBedBathButtonText() {

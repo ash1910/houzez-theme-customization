@@ -87,7 +87,7 @@ if($adv_baths_list) {
         </select>
     </div>
     <div class="ms-input ms-input--price d-none d-md-block">
-        <button class="ms-btn ms-input--price-btn">
+        <button class="ms-btn ms-input--price-btn ms-btn__not-submit">
             Select Price <i class=""><?php echo houzez_option('currency_symbol'); ?></i>
         </button>
         <!--  -->
@@ -118,15 +118,15 @@ if($adv_baths_list) {
             </div>
 
             <div class="ms-input__content__action">
-                <button class="ms-btn ms-btn--transparent ms-reset-price-range">
+                <button class="ms-btn ms-btn--transparent ms-btn__not-submit ms-reset-price-range">
                     Reset All
                 </button>
-                <button class="ms-btn ms-btn--primary ms-btn--apply">Apply</button>
+                <button class="ms-btn ms-btn--primary ms-btn__not-submit ms-btn--apply">Apply</button>
             </div>
         </div>
     </div>
     <div class="ms-input ms-input--bed d-none d-md-block">
-        <button class="ms-btn">
+        <button class="ms-btn ms-btn__not-submit">
             <span class="ms-bed-btn-text">Select beds/baths</span>
             <svg
                 width="12"
@@ -149,18 +149,18 @@ if($adv_baths_list) {
             <div class="ms-input__content__beds mb-3">
                 <h6>Beds</h6>
                 <ul class="ms-input__list">
-                    <li><button class="ms-bed-btn" data-value="any">Any</button></li>
+                    <li><button class="ms-bed-btn ms-btn__not-submit" data-value="any">Any</button></li>
                     <?php foreach($bed_list as $value): ?>
-                    <li><button class="ms-bed-btn <?php if ($value == 'Studio') echo 'w-auto'; ?> <?php if ($value == $bed) echo 'active'; ?>" data-value="<?php echo $value; ?>"><?php echo $value; ?></button></li>
+                    <li><button class="ms-bed-btn ms-btn__not-submit <?php if ($value == 'Studio') echo 'w-auto'; ?> <?php if ($value == $bed) echo 'active'; ?>" data-value="<?php echo $value; ?>"><?php echo $value; ?></button></li>
                     <?php endforeach; ?>
                 </ul>
             </div>
             <div class="ms-input__content__beds">
                 <h6>Baths</h6>
                 <ul class="ms-input__list">
-                    <li><button class="ms-bath-btn" data-value="any">Any</button></li>
+                    <li><button class="ms-bath-btn ms-btn__not-submit" data-value="any">Any</button></li>
                     <?php foreach($bath_list as $value): ?>
-                    <li><button class="ms-bath-btn <?php if ($value == $bath) echo 'active'; ?>" data-value="<?php echo $value; ?>"><?php echo $value; ?></button></li>
+                    <li><button class="ms-bath-btn ms-btn__not-submit <?php if ($value == $bath) echo 'active'; ?>" data-value="<?php echo $value; ?>"><?php echo $value; ?></button></li>
                     <?php endforeach; ?>
                 </ul>
             </div>
@@ -168,7 +168,7 @@ if($adv_baths_list) {
     </div>
     <div>
         <button
-            class="ms-btn"
+            class="ms-btn ms-btn__not-submit"
             data-toggle="modal"
             data-target="#msFilterModal"
         >

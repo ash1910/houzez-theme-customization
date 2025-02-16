@@ -211,17 +211,4 @@ $status = get_the_terms(get_the_ID(), 'property_status');
     </ul>
 </div>
 
-<div class="modal fade mobile-property-form" id="mobile-property-form">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-				<span aria-hidden="true">&times;</span>
-			</button>
-			<div class="modal-body">
-				<?php get_template_part('property-details/agent-form'); ?>
-			</div>
-		</div>
-	</div>
-</div>
-
 <?php } ?>

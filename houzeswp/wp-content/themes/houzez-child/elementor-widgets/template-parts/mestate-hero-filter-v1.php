@@ -86,7 +86,7 @@ if($adv_baths_list) {
           <?php if($status_data): ?>
               <div class="ms-hero__tab-content tab-pane fade show active" id="">
               
-                <form class="ms-hero__form">
+                <form class="ms-hero__form" onsubmit="return false;">
                   <input type="hidden" name="ms-min-price" class="ms-min-price-range-hidden range-input" readonly >
                   <input type="hidden" name="ms-max-price" class="ms-max-price-range-hidden range-input" readonly >
                   <input type="hidden" name="ms-bed" class="ms-bed-hidden" readonly >
@@ -123,7 +123,7 @@ if($adv_baths_list) {
                     </select>
                   </div>
                   <div class="ms-input ms-input--price d-none d-md-block">
-                    <button class="ms-btn ms-input--price-btn">
+                    <button class="ms-btn ms-input--price-btn ms-btn__not-submit">
                       Select Price <i class=""><?php echo houzez_option('currency_symbol'); ?></i>
                     </button>
                     <!--  -->
@@ -151,15 +151,15 @@ if($adv_baths_list) {
                       </div>
 
                       <div class="ms-input__content__action">
-                        <button class="ms-btn ms-btn--transparent ms-reset-price-range">
+                        <button class="ms-btn ms-btn--transparent ms-btn__not-submit ms-reset-price-range">
                           Reset All
                         </button>
-                        <button class="ms-btn ms-btn--primary ms-btn--apply">Apply</button>
+                        <button class="ms-btn ms-btn--primary ms-btn__not-submit ms-btn--apply">Apply</button>
                       </div>
                     </div>
                   </div>
                   <div class="ms-input ms-input--bed d-none d-md-block">
-                    <button class="ms-btn">
+                    <button class="ms-btn ms-btn__not-submit">
                       <span class="ms-bed-btn-text">Select beds/baths</span>
                       <svg
                         width="12"
@@ -182,18 +182,18 @@ if($adv_baths_list) {
                       <div class="ms-input__content__beds mb-3">
                         <h6>Beds</h6>
                         <ul class="ms-input__list">
-                          <li><button class="ms-bed-btn" data-value="any">Any</button></li>
+                          <li><button class="ms-bed-btn ms-btn__not-submit" data-value="any">Any</button></li>
                           <?php foreach($bed_list as $value): ?>
-                          <li><button class="ms-bed-btn <?php if ($value == 'Studio') echo 'w-auto'; ?>" data-value="<?php echo $value; ?>"><?php echo $value; ?></button></li>
+                          <li><button class="ms-bed-btn ms-btn__not-submit <?php if ($value == 'Studio') echo 'w-auto'; ?>" data-value="<?php echo $value; ?>"><?php echo $value; ?></button></li>
                           <?php endforeach; ?>
                         </ul>
                       </div>
                       <div class="ms-input__content__beds">
                         <h6>Baths</h6>
                         <ul class="ms-input__list">
-                          <li><button class="ms-bath-btn" data-value="any">Any</button></li>
+                          <li><button class="ms-bath-btn ms-btn__not-submit" data-value="any">Any</button></li>
                           <?php foreach($bath_list as $value): ?>
-                          <li><button class="ms-bath-btn" data-value="<?php echo $value; ?>"><?php echo $value; ?></button></li>
+                          <li><button class="ms-bath-btn ms-btn__not-submit" data-value="<?php echo $value; ?>"><?php echo $value; ?></button></li>
                           <?php endforeach; ?>
                         </ul>
                       </div>
@@ -202,7 +202,7 @@ if($adv_baths_list) {
                   
                   <div>
                     <button
-                      class="ms-btn"
+                      class="ms-btn ms-btn__not-submit"
                       data-toggle="modal"
                       data-target="#msFilterModal"
                     >
@@ -297,42 +297,63 @@ if($adv_baths_list) {
         $form.find(".ms-input--price-btn").html('Select Price <i class="">' + currency_symb + '</i>');
       });
 
-      $form.find(".ms-btn--apply").on('click', function() {
-        console.log('apply');
-        jQuery(".ms-input--price-btn").removeClass('open');
-      });
+      // $form.find(".ms-btn--apply").on('click', function() {
+      //   console.log('apply');
+      //   jQuery(".ms-input--price-btn").removeClass('open');
+      // });
     }
 
     const filterBtns = function(){
-        // get all button in form
-        const forms = document.querySelectorAll(".ms-hero__form");
-        if (forms?.length) {
-          forms?.forEach((form, idx) => {
-            form.addEventListener("submit", function (e) {
-              e.preventDefault();
-            });
-            const buttonsInForm = form.querySelectorAll(
-              "button:not([data-toggle='modal'])"
-            );
-            if (buttonsInForm?.length) {
-              buttonsInForm?.forEach((button) => {
-                button.addEventListener("click", function (e) {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  this.classList.toggle("open");
+      // get all button in form
+      const forms = document.querySelectorAll(".ms-hero__form");
+      if (forms?.length) {
+        forms?.forEach((form, idx) => {
+          const buttonsInForm = form.querySelectorAll(
+            ".ms-btn__not-submit:not([data-toggle='modal'])"
+          );
+          if (buttonsInForm?.length) {
+            buttonsInForm?.forEach(button => {
+              button.addEventListener("click", function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                const priceRangeParent = jQuery(this).closest(".ms-input--price");
+
+                const isOpen = this.classList.contains("open");
+                const isApply = this.classList.contains("ms-btn--apply");
+
+                buttonsInForm?.forEach(button => {
+                  button.classList.remove("open");
                 });
 
-                document.body?.addEventListener(
-                  "click",
-                  function () {
-                    button.classList.remove("open");
-                  },
-                  false
-                );
+                if (!isOpen) {
+                  this.classList.add("open");
+                  jQuery(".ms-nice-select-property-type").removeClass("open");
+                }
+                // apply price range input
+
+                if (isApply) {
+                  priceRangeParent.find(".open").removeClass("open");
+                }
               });
-            }
-          });
-        }
+
+              document?.body?.addEventListener(
+                "click",
+                function () {
+                  button.classList.remove("open");
+                },
+                false
+              );
+              button?.parentNode?.parentNode?.addEventListener(
+                "click",
+                function () {
+                  button.classList.remove("open");
+                },
+                false
+              );
+            });
+          }
+        });
+      }
     }
 
     function updateBedBathButtonText() {

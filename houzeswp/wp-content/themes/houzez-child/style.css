@@ -842,6 +842,9 @@ i.menu-icon {
 .modal-open .modal {
     z-index: 100000;
 }
+.main-wrap.slideout-panel {
+    z-index: inherit;
+}
 
 #ms-half-map-v1 {
     height: 100%;
@@ -933,4 +936,10 @@ i.menu-icon {
     #ms-360 iframe {
 		min-height: 415px;
 	}
+    .ms-apartments-main__mortgage-calculator__outputs__list__item {
+        align-items: flex-start !important;
+        padding: 10px 0 !important;
+        padding-left: 25px !important;
+        line-height: 1 !important;
+    }
 }
