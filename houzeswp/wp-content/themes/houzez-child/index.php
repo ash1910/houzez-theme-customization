@@ -145,30 +145,15 @@ if ( ! function_exists( 'elementor_theme_do_location' ) || ! elementor_theme_do_
 								<h5>Category</h5>
 								<div class="ms-apartments-main__sidebar__single ms-apartments-main__sidebar__single--lg">
 									<div class="sidebar-category-list">
-										<li>
-											<a href="#">Buying Tips</a>
-											<span>(01)</span>
-										</li>
-										<li>
-											<a href="#">BSelling Guides</a>
-											<span>(05)</span>
-										</li>
-										<li>
-											<a href="#">Market Trends</a>
-											<span>(03)</span>
-										</li>
-										<li>
-											<a href="#">Home Improvement</a>
-											<span>(01)</span>
-										</li>
-										<li>
-											<a href="#">Neighborhood Insights</a>
-											<span>(06)</span>
-										</li>
-										<li>
-											<a href="#">Investment Advice</a>
-											<span>(02)</span>
-										</li>
+                                        <?php
+                                        $categories = get_categories();
+                                        foreach ($categories as $category) {
+                                            echo '<li>';
+                                            echo '<a href="' . get_category_link($category->term_id) . '">' . $category->name . '</a>';
+                                            echo '<span>(' . str_pad($category->count, 2, '0', STR_PAD_LEFT) . ')</span>';
+                                            echo '</li>';
+                                        }
+                                        ?>
 									</div>
 								</div>
 							</div>
@@ -183,7 +168,7 @@ if ( ! function_exists( 'elementor_theme_do_location' ) || ! elementor_theme_do_
 							</div>
 
                             <?php get_sidebar(); ?>
-                            
+
 						</div>
 					</div>
 				</div>
