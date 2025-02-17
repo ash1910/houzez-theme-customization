@@ -4208,5 +4208,114 @@ if( !function_exists( 'houzez_browser_body_class_mestate' ) ) {
     add_filter('body_class', 'houzez_browser_body_class_mestate');
 }
 
+// Calculate and save reading time when a post is saved
+function calculate_reading_time($post_id) {
+    if (wp_is_post_revision($post_id)) {
+        return;
+    }
+
+    $content = get_post_field('post_content', $post_id);
+    $word_count = str_word_count(strip_tags($content));
+    
+    // Assume average reading speed of 200 words per minute
+    $reading_time = ceil($word_count / 200);
+    
+    // Format the reading time string
+    $reading_time_string = $reading_time . ' min read';
+
+    return $reading_time_string;
+    
+    // Save reading time as post meta
+    //update_post_meta($post_id, 'post_reading_time', $reading_time_string);
+}
+
+function register_recent_blog_header_widget() {
+    register_sidebar( array(
+        'name'          => 'Recent Blog Header',
+        'id'            => 'recent-blog-header',
+        'description'   => 'Widget area for Recent Blog section header',
+        'before_widget' => '<div class="recent-blog-header-widget">',
+        'after_widget'  => '</div>',
+        'before_title'  => '<h2>',
+        'after_title'   => '</h2>'
+    ));
+}
+add_action( 'widgets_init', 'register_recent_blog_header_widget' );
+
+function register_quality_lister_widget() {
+    register_sidebar( array(
+        'name'          => 'Quality Lister Content',
+        'id'            => 'quality-lister-content',
+        'description'   => 'Widget area for Quality Lister modal content',
+        'before_widget' => '<div class="quality-lister-widget">',
+        'after_widget'  => '</div>',
+        'before_title'  => '<h2>',
+        'after_title'   => '</h2>'
+    ));
+}
+add_action( 'widgets_init', 'register_quality_lister_widget' ); 
+
+function register_responsive_broker_widget() {
+    register_sidebar( array(
+        'name'          => 'Responsive Broker Content',
+        'id'            => 'responsive-broker-content',
+        'description'   => 'Widget area for Responsive Broker modal content',
+        'before_widget' => '<div class="responsive-broker-widget">',
+        'after_widget'  => '</div>',
+        'before_title'  => '<h2>',
+        'after_title'   => '</h2>'
+    ));
+}
+add_action( 'widgets_init', 'register_responsive_broker_widget' );
+
+function getMapPageUrl() {
+    $current_url = $_SERVER['REQUEST_URI'];
+    $url_parts = explode('?', $current_url);
+    $path = trim($url_parts[0], '/');
+    
+    // Handle pagination in the URL
+    $path = preg_replace('/\/page\/(\d+)/', '', $path); // Remove existing pagination
+    $page_number = get_query_var('paged') ? get_query_var('paged') : 1;
+    $path_with_page = $path . '-map' . ($page_number > 1 ? '/page/' . $page_number : '');
+    
+    $query = isset($url_parts[1]) ? '?' . $url_parts[1] : '';
+    
+    return home_url($path_with_page . $query);
+}
+
+function getNormalListPageUrl() {
+    $current_url = $_SERVER['REQUEST_URI'];
+    $url_parts = explode('?', $current_url);
+    $path = trim($url_parts[0], '/');
+    $path = str_replace('-map', '', $path);
+    $query = isset($url_parts[1]) ? '?' . $url_parts[1] : '';
+
+    return home_url($path . $query);
+}
+
+
+
+// Include and register the sidebar banner widget
+require_once get_stylesheet_directory() . '/class-sidebar-banner-widget.php';
+
+function register_sidebar_banner_widget() {
+    register_widget('Sidebar_Banner_Widget');
+}
+add_action('widgets_init', 'register_sidebar_banner_widget');
+
+
+function register_blog_sidebar_banner() {
+    register_sidebar(array(
+        'name'          => 'Blog Sidebar Banner',
+        'id'            => 'blog-sidebar-banner',
+        'description'   => 'Add banner widgets here',
+        'before_widget' => '',
+        'after_widget'  => '',
+        'before_title'  => '<h5>',
+        'after_title'   => '</h5>',
+    ));
+}
+add_action('widgets_init', 'register_blog_sidebar_banner');
+
 
 ?>

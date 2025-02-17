@@ -102,6 +102,12 @@ if( !empty( $agent_info[0] )) {
         }
     }
 }
+elseif( houzez_is_developer($post->post_author) ){
+    $developer_logo = get_user_meta($post->post_author, 'fave_author_custom_picture', true);
+    if( !empty($developer_logo) ) {
+        $agency_logo = esc_attr( $developer_logo );
+    }
+}
 
 $key = '';
 $userID      =   get_current_user_id();

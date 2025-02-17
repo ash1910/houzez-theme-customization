@@ -61,6 +61,7 @@ START: Theme Default CSS
 	--ms-color-heading-primary: #1b1b1b;
 	--ms-color-link: #1b1b1b;
 	--ms-color-text-body: #868686;
+	--ms-color-text-body-2: #4e4b66;
 	--ms-color-theme-primary: #00a86b;
 	--ms-color-theme-secondary: #1b1b1b;
 	--ms-color-theme-bg: #f5f5f5;
@@ -491,11 +492,11 @@ END: Buttons CSS
 /**----------------------------------------
 START: Nice Select 
 ----------------------------------------*/
-.nice-select {
-	z-index: var(--ms-zi-lg);
+.ms-nice-select {
+	z-index: var(--ms-zi-xl);
 }
-.nice-select .list {
-	z-index: var(--ms-zi-lg);
+.ms-nice-select .nice-select .list {
+	z-index: var(--ms-zi-xl);
 }
 
 /**----------------------------------------
@@ -1414,7 +1415,7 @@ START: Hero Banner CSS
 	border-radius: var(--ms-br-16);
 	width: 400px;
 	transition: all 0.3s;
-	z-index: var(--ms-zi-lg);
+	z-index: var(--ms-zi-xl);
 }
 .ms-input--bed .ms-input__content {
 	width: 283px;
@@ -2273,7 +2274,7 @@ START: Apppartments CSS
 	display: block;
 	height: 100%;
 	width: 100%;
-	z-index: var(--ms-zi-md);
+	z-index: var(--ms-zi-sm);
 }
 .ms-apartments-main__card--2 {
 	flex-direction: column;
@@ -2285,8 +2286,6 @@ START: Apppartments CSS
 	border-radius: var(--ms-br-24);
 	overflow: hidden;
 	position: relative;
-
-	z-index: 2;
 }
 
 .ms-apartments-main__card__thumbnail__img {
@@ -2320,7 +2319,7 @@ START: Apppartments CSS
 	justify-content: space-between;
 
 	align-items: center;
-	z-index: var(--ms-zi-sm);
+	z-index: var(--ms-zi-md);
 }
 
 .ms-apartments-main__card__thumbnail__footer {
@@ -2387,7 +2386,7 @@ START: Apppartments CSS
 	align-items: center;
 	justify-content: center;
 	position: relative;
-	z-index: var(--ms-zi-lg);
+	z-index: var(--ms-zi-md);
 }
 .ms-apartments-main__card__thumbnail__header a i:first-child {
 	display: none;
@@ -2625,6 +2624,20 @@ START: Apppartments CSS
 }
 .ms-apartments-main__sidebar__single--lg {
 	padding: 18px;
+}
+.ms-apartments-main__sidebar__single:has(
+		.ms-apartments-main__sidebar__single__banner-title
+	) {
+	position: relative;
+}
+.ms-apartments-main__sidebar__single__banner-title {
+	padding: 37px;
+	color: var(--ms-color-common-white);
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 62px;
+	text-align: center;
 }
 .ms-apartments-main__sidebar__single img {
 	border-radius: var(--ms-br-16);
@@ -3569,21 +3582,22 @@ START: New Project CSS
 .ms-apartments-main__card--4 .ms-apartments-main__card__thumbnail__status {
 	left: 44px;
 }
-.ms-apartments-main__card--3 .ms-apartments-main__card__logo {
+.ms-apartments-main__card--3 .ms-apartments-main__card__logo,
+.ms-apartments-main__card--2 .ms-apartments-main__card__logo {
 	position: absolute;
 	top: 0;
 	right: 0;
 }
-.ms-apartments-main__card--4 .ms-apartments-main__card__logo {
-	top: auto;
-	bottom: 0;
-	right: 8px;
-	border-radius: 0;
 
-	border-top-left-radius: 12px;
-	z-index: var(--ms-zi-md);
-	overflow: hidden;
-	background: var(--ms-color-common-white);
+.ms-apartments-main__card--4 .ms-apartments-main__card__logo,
+.ms-apartments-main__card--2 .ms-apartments-main__card__logo {
+	top: 65px;
+	bottom: auto;
+	left: auto;
+	right: 16px;
+}
+.ms-apartments-main__card--2 .ms-apartments-main__card__logo {
+	top: 35px;
 }
 .ms-apartments-main__card--3 .ms-apartments-main__card__logo a {
 	height: 30px;
@@ -3597,15 +3611,34 @@ START: New Project CSS
 	border-top: 0;
 	border-right: 0;
 }
-.ms-apartments-main__card--4 .ms-apartments-main__card__logo a {
-	border-bottom-left-radius: 0px;
-	border-bottom-right-radius: var(--ms-br-24);
+.ms-apartments-main__card--4 .ms-apartments-main__card__logo a,
+.ms-apartments-main__card--2 .ms-apartments-main__card__logo a {
+	height: 30px;
+	width: 70px;
+	padding: 8px 10px;
+	background-color: var(--ms-color-theme-bg);
+	border-radius: 6px;
+	display: inline-flex;
+	line-height: 1;
+	align-items: center;
+	border: 1px solid var(--ms-color-border);
+	border-top: 0;
+	border-right: 0;
+	border-radius: 6px;
+	border: 1px solid var(--ms-color-border);
 }
+
 .ms-apartments-main__card--3 .ms-apartments-main__card__logo img {
 	height: 100%;
 	width: auto;
 	object-fit: cover;
 }
+.ms-apartments-main__card--4 .ms-apartments-main__card__logo img,
+.ms-apartments-main__card--2 .ms-apartments-main__card__logo img {
+	height: auto;
+	width: 100%;
+}
+
 .ms-apartments-main__card--3 .ms-apartments-main__card__heading {
 	padding-bottom: 12px;
 	border-bottom: 1px solid var(--ms-color-border);
@@ -3617,11 +3650,20 @@ START: New Project CSS
 	margin-bottom: 12px;
 }
 
+.ms-apartments-main__card--2 .ms-apartments-main__card__content h5 {
+	width: calc(100% - 80px);
+	display: flex;
+	overflow: hidden;
+	white-space: nowrap;
+}
 .ms-apartments-main__card--3 .ms-apartments-main__card__content h5 {
 	margin-bottom: 12px;
 }
 .ms-apartments-main__card--4 .ms-apartments-main__card__content h5 {
 	margin-bottom: 6px;
+	width: calc(100% - 80px);
+	overflow: hidden;
+	white-space: nowrap;
 }
 .ms-apartments-main__card--3 .ms-apartments-main____card__details-list {
 	margin-bottom: 0;
@@ -3793,6 +3835,10 @@ START: New Project Details CSS
 	border-radius: var(--ms-br-30);
 	overflow: hidden;
 	margin-bottom: 30px;
+	visibility: hidden;
+}
+.ms-hero__slider.slick-initialized {
+	visibility: visible;
 }
 .ms-hero__slider__pagination-count-img-slide-arrow-inner {
 	border-radius: var(--ms-br-24);
@@ -3802,6 +3848,10 @@ START: New Project Details CSS
 .ms-hero__slider__thumbs {
 	margin-left: -15px;
 	margin-right: -15px;
+	visibility: hidden;
+}
+.ms-hero__slider__thumbs.slick-initialized {
+	visibility: visible;
 }
 .ms-hero__slider__thumbs .slick-slide {
 	padding: 0 15px;
@@ -3919,10 +3969,12 @@ START: New Project Details CSS
 
 .ms-apartments-main__overview__item-list {
 	display: flex;
-	gap: 16px;
+	flex-wrap: wrap;
+	gap: 30px;
 }
+
 .ms-apartments-main__overview__item-list li {
-	flex: 1 1 calc(33% - 22px);
+	flex-basis: calc(33.3333333% - 21px);
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-start;
@@ -3930,29 +3982,37 @@ START: New Project Details CSS
 	gap: 6px;
 	padding: 12px 14px;
 	border-radius: 8px;
+
+	position: relative;
 }
-.ms-apartments-main__overview--4 ul:last-child li {
-	flex-grow: 0;
+.ms-apartments-main__overview__item-list li:before,
+.ms-apartments-main__overview__item-list li:after {
+	content: "";
+	width: 1px;
+	height: 100%;
+	background-color: var(--ms-color-border);
+	position: absolute;
+	top: 0;
+	right: -14.5px;
 }
-.ms-apartments-main__overview--3 ul:last-child li:first-child {
-	flex-grow: 0;
-}
-.ms-apartments-main__overview__item-list li:has(span) {
-	flex: 0 1 1px;
-	align-self: stretch;
-	background: var(--ms-color-border);
-	padding: 0;
+.ms-apartments-main__overview__item-list li:after {
+	width: 100%;
+	height: 1px;
+	bottom: -14.5px;
+	left: 0;
+	top: auto;
+	right: auto;
 }
 
-.ms-apartments-main__overview__line-list {
-	display: flex;
-	gap: 32px;
+.ms-apartments-main__overview__item-list li:nth-child(3n):before,
+.ms-apartments-main__overview__item-list li:nth-last-child(1):after,
+.ms-apartments-main__overview__item-list li:nth-last-child(2):after,
+.ms-apartments-main__overview__item-list li:nth-last-child(3):after,
+.ms-apartments-main__overview__item-list li:last-child:before,
+.ms-apartments-main__overview__item-list li:last-child:after {
+	display: none;
 }
-.ms-apartments-main__overview__line-list li {
-	flex-grow: 1;
-	height: 1px;
-	background: var(--ms-color-border);
-}
+
 .ms-apartments-main__overview__item-list li h6,
 .ms-apartments-main__overview__item-list li p {
 	margin-bottom: 0;
@@ -4470,10 +4530,42 @@ p.ms-apartments-main__timeline__single__title {
 	border: 0;
 	flex-grow: 1;
 }
+.ms-apartments-main__overview--small
+	.ms-apartments-main__overview__item-list
+	li {
+	flex-basis: calc(50% - 15.5px);
+}
+.ms-apartments-main__overview--small
+	.ms-apartments-main__overview__item-list
+	li:before,
+.ms-apartments-main__overview--small
+	.ms-apartments-main__overview__item-list
+	li:after {
+	display: block;
+}
+.ms-apartments-main__overview--small
+	.ms-apartments-main__overview__item-list
+	li:nth-child(2n):before,
+.ms-apartments-main__overview--small
+	.ms-apartments-main__overview__item-list
+	li:nth-last-child(1):after,
+.ms-apartments-main__overview--small
+	.ms-apartments-main__overview__item-list
+	li:nth-last-child(2):after,
+.ms-apartments-main__overview--small
+	.ms-apartments-main__overview__item-list
+	li:last-child:before,
+.ms-apartments-main__overview--small
+	.ms-apartments-main__overview__item-list
+	li:last-child:after {
+	display: none;
+}
+
 .ms-apartments-main__qr-code {
 	border-radius: var(--ms-br-12);
 	overflow: hidden;
 	align-self: flex-start;
+	flex-shrink: 0;
 }
 /* new projects */
 
@@ -5023,6 +5115,7 @@ START: Blog Details CSS
 	flex-wrap: wrap;
 	align-items: center;
 	grid-area: 20px;
+	margin-bottom: 30px;
 }
 .ms-blog-details__author {
 	display: flex;
@@ -5060,16 +5153,24 @@ START: Blog Details CSS
 .ms-blog-details__author__share a:hover svg path {
 	fill: var(--ms-color-theme-primary);
 }
-.ms-blog-details__desc__single {
-	margin-top: 30px;
+
+.ms-blog-details__desc__single ul,
+.ms-blog-details__desc__single ol,
+.ms-blog-details__desc__single ul ul,
+.ms-blog-details__desc__single ol ol {
+	list-style: inherit;
+	padding-left: 30px;
 }
-.ms-blog-details__desc__single p {
+
+.ms-blog-details__desc__single p,
+.ms-blog-details__desc__single li {
 	font-weight: var(--ms-fw-medium);
 	margin-bottom: 0;
 }
 .ms-blog-details__desc__single h6 {
 	font-size: 20px;
 	font-weight: var(--ms-fw-sbold);
+	margin-top: 30px;
 	margin-bottom: 10px;
 }
 .ms-blog-details__grid {
@@ -5130,6 +5231,7 @@ START: Blog Details CSS
 }
 .ms-blog-details__comments__single .ms-blog-details__author p {
 	font-size: 20px;
+	color: var(--ms-color-text-body-2);
 	margin-bottom: 0;
 }
 .ms-blog-details__comments__desc {
@@ -5230,4 +5332,5 @@ START: Paginations CSS
 .page-item.active .page-link:hover i {
 	color: var(--ms-color-common-white);
 }
+
 /* !END: Paginations */

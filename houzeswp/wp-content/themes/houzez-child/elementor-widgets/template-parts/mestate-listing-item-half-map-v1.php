@@ -95,6 +95,7 @@ if(!empty($agent_whatsapp)) {
 
 // Agency Picture
 $agent_info = @$listing_agent_info['agent_info'];
+
 $agency_logo = '';
 if( !empty( $agent_info[0] )) {
     if( $agent_agency_id = get_post_meta($agent_info[0]['agent_id'], 'fave_agent_agencies', true) ) {
@@ -147,9 +148,9 @@ if( $key != false || $key != '' ) {
             <div></div>
             <?php } ?>
             <?php if(houzez_option('disable_favorite', 1)) { ?>
-            <a href="javascript:void(0)" class="<?php if(esc_attr($icon) == 'text-danger') { echo 'added-wishlist'; } ?> add-favorite-js item-favorite" data-listid="<?php echo intval($post->ID)?>">
-                <i class="fa-solid fa-heart"></i>
-                <i class="fa-light fa-heart"></i>
+            <a href="javascript:void(0)" class="add-favorite-js item-favorite" data-listid="<?php echo intval($post->ID)?>">
+                <i class="fa-solid fa-heart <?php echo esc_attr($icon); ?>"></i>
+                <i class="fa-light fa-heart <?php echo esc_attr($icon); ?>"></i>
             </a>
             <?php } ?>
         </div>
@@ -160,6 +161,15 @@ if( $key != false || $key != '' ) {
         <?php } ?>
     </div>
     <div class="ms-apartments-main__card__content">
+        <?php if(!empty($agency_logo)) { ?>
+        <div class="ms-apartments-main__card__logo">
+            <a href="<?php echo esc_url(get_permalink()); ?>">
+                <img
+                    src="<?php echo $agency_logo; ?>"
+                    alt=""
+            /></a>
+        </div>
+        <?php } ?>
         <h5>
             <a href="<?php echo esc_url(get_permalink()); ?>"><?php the_title(); ?></a>
         </h5>

@@ -142,9 +142,9 @@ if( $key != false || $key != '' ) {
             <div></div>
             <?php } ?>
             <?php if(houzez_option('disable_favorite', 1)) { ?>
-            <a href="javascript:void(0)" class="<?php if(esc_attr($icon) == 'text-danger') { echo 'added-wishlist'; } ?> add-favorite-js item-favorite" data-listid="<?php echo intval($post->ID)?>">
-                <i class="fa-solid fa-heart"></i>
-                <i class="fa-light fa-heart"></i>
+            <a href="javascript:void(0)" class="add-favorite-js item-favorite" data-listid="<?php echo intval($post->ID)?>">
+                <i class="fa-solid fa-heart <?php echo esc_attr($icon); ?>"></i>
+                <i class="fa-light fa-heart <?php echo esc_attr($icon); ?>"></i>
             </a>
             <?php } ?>
         </div>

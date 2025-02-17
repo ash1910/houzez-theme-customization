@@ -102,6 +102,12 @@ if( !empty( $agent_info[0] )) {
         }
     }
 }
+elseif( houzez_is_developer($post->post_author) ){
+    $developer_logo = get_user_meta($post->post_author, 'fave_author_custom_picture', true);
+    if( !empty($developer_logo) ) {
+        $agency_logo = esc_attr( $developer_logo );
+    }
+}
 
 $key = '';
 $userID      =   get_current_user_id();
@@ -148,6 +154,8 @@ if( $key != false || $key != '' ) {
             ></a>
             <?php } ?>
         </div>
+    </div>
+    <div class="ms-apartments-main__card__content">
         <?php if(!empty($agency_logo)) { ?>
         <div class="ms-apartments-main__card__logo">
             <a href="<?php echo esc_url(get_permalink()); ?>">
@@ -157,8 +165,6 @@ if( $key != false || $key != '' ) {
             /></a>
         </div>
         <?php } ?>
-    </div>
-    <div class="ms-apartments-main__card__content">
         <div class="ms-apartments-main__card__heading">
             <h5>
                 <a href="<?php echo esc_url(get_permalink()); ?>"><?php the_title(); ?></a>

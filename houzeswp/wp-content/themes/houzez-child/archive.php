@@ -1,22 +1,9 @@
 <?php
-get_header(); 
-
+get_header();
 $is_sticky = '';
 $sticky_sidebar = houzez_option('sticky_sidebar');
 if( $sticky_sidebar['default_sidebar'] != 0 ) { 
     $is_sticky = 'houzez_sticky'; 
-}
-
-$blog_layout = houzez_option('blog_pages_s_layout');
-
-if( $blog_layout == 'no-sidebar' ) {
-    $content_classes = 'col-lg-12 col-md-12';
-} else if( $blog_layout == 'left-sidebar' ) {
-    $content_classes = 'col-lg-8 col-md-12 bt-content-wrap wrap-order-first';
-} else if( $blog_layout == 'right-sidebar' ) {
-    $content_classes = 'col-lg-8 col-md-12 bt-content-wrap';
-} else {
-    $content_classes = 'col-lg-8 col-md-12 bt-content-wrap';
 }
 
 if ( ! function_exists( 'elementor_theme_do_location' ) || ! elementor_theme_do_location( 'archive' ) ) { ?>
@@ -30,13 +17,67 @@ if ( ! function_exists( 'elementor_theme_do_location' ) || ! elementor_theme_do_
                     <div class="row">
                         <div class="col-12">
                             <div class="ms-hero__content">
-                                <h1 class="ms-hero__title">Blog</h1>
+                                <h1 class="ms-hero__title">
+                                    <?php
+                                    if (is_category()) {
+                                        single_cat_title();
+
+                                    } elseif(is_tag()) {
+                                        single_tag_title();
+
+                                    } elseif ( is_post_type_archive( 'houzez_agent' ) || is_post_type_archive( 'houzez_agency' ) ) {
+                                        
+                                    } elseif (is_day()) {
+
+                                        printf( esc_html__( '%s', 'houzez' ), get_the_date() );
+
+                                    } elseif (is_month()) {
+                                        printf( esc_html__( '%s', 'houzez' ), get_the_date( _x( 'F Y', 'monthly archives date format', 'houzez' ) ) );
+
+                                    } elseif (is_year()) {
+                                        printf( esc_html__( '%s', 'houzez' ), get_the_date( _x( 'Y', 'yearly archives date format', 'houzez' ) ) );
+
+                                    } elseif ( get_post_format() ) {
+                                        echo get_post_format();
+
+                                    }
+                                    ?>
+                                </h1>
                                 <div class="ms-apartments-main__breadcrumb ms-apartments-main__breadcrumb--hero">
                                     <ul>
                                         <li><a href="<?php echo home_url(); ?>">Home</a></li>
                                         <li>></li>
                                         <li>
-                                            <p>Blog</p>
+                                            <a href="<?php echo home_url(); ?>/blog">Blog</a>
+                                        </li>
+                                        <li>></li>
+                                        <li>
+                                            <p>
+                                                <?php
+                                                if (is_category()) {
+                                                    single_cat_title();
+
+                                                } elseif(is_tag()) {
+                                                    single_tag_title();
+
+                                                } elseif ( is_post_type_archive( 'houzez_agent' ) || is_post_type_archive( 'houzez_agency' ) ) {
+                                                    
+                                                } elseif (is_day()) {
+
+                                                    printf( esc_html__( '%s', 'houzez' ), get_the_date() );
+
+                                                } elseif (is_month()) {
+                                                    printf( esc_html__( '%s', 'houzez' ), get_the_date( _x( 'F Y', 'monthly archives date format', 'houzez' ) ) );
+
+                                                } elseif (is_year()) {
+                                                    printf( esc_html__( '%s', 'houzez' ), get_the_date( _x( 'Y', 'yearly archives date format', 'houzez' ) ) );
+
+                                                } elseif ( get_post_format() ) {
+                                                    echo get_post_format();
+
+                                                }
+                                                ?>
+                                            </p>
                                         </li>
                                     </ul>
                                 </div>
@@ -59,7 +100,32 @@ if ( ! function_exists( 'elementor_theme_do_location' ) || ! elementor_theme_do_
 				<!-- blog tab content -->
 				<div class="ms-apartments-main__section ms-apartments-main__section--blog">
 					<div class="ms-apartments-main__heading">
-						<h4>Blogs</h4>
+						<h4>
+                        <?php
+                            if (is_category()) {
+                                single_cat_title();
+
+                            } elseif(is_tag()) {
+                                single_tag_title();
+
+                            } elseif ( is_post_type_archive( 'houzez_agent' ) || is_post_type_archive( 'houzez_agency' ) ) {
+                                
+                            } elseif (is_day()) {
+
+                                printf( esc_html__( '%s', 'houzez' ), get_the_date() );
+
+                            } elseif (is_month()) {
+                                printf( esc_html__( '%s', 'houzez' ), get_the_date( _x( 'F Y', 'monthly archives date format', 'houzez' ) ) );
+
+                            } elseif (is_year()) {
+                                printf( esc_html__( '%s', 'houzez' ), get_the_date( _x( 'Y', 'yearly archives date format', 'houzez' ) ) );
+
+                            } elseif ( get_post_format() ) {
+                                echo get_post_format();
+
+                            }
+                            ?>
+                        </h4>
 					</div>
 					<!-- tab controllers  -->
 					<div class="ms-blog-tab__controllers nav nav-tab ms-nav-tab" role="tablist ">
@@ -115,11 +181,11 @@ if ( ! function_exists( 'elementor_theme_do_location' ) || ! elementor_theme_do_
 					</div>
 				</div>
 			</div>
-
-			<!-- apartment sidebar -->
+            <!-- apartment sidebar -->
             <div class="col-12 col-md-7 col-xl-4 pl-3">
                 <?php get_template_part('template-parts/blog/blog-sidebar'); ?>
             </div>
+			
 		</div>
 	</div>
 </section>

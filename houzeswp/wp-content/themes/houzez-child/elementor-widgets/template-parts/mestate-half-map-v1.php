@@ -130,7 +130,7 @@ else{
 $search_num_posts = houzez_option('search_num_posts');
 $enable_save_search = houzez_option('enable_disable_save_search');
 
-$number_of_prop = 4; // $search_num_posts;
+$number_of_prop = $search_num_posts;
 if(!$number_of_prop){
     $number_of_prop = 9;
 }
@@ -244,15 +244,7 @@ if( $total_records > 1 ) {
                 <ul class="ms-apartments-main__button-list">
                     <li>
                         <a
-                            href="<?php 
-                                $current_url = $_SERVER['REQUEST_URI'];
-                                $url_parts = explode('?', $current_url);
-                                $path = trim($url_parts[0], '/');
-                                $path = str_replace('-map', '', $path);
-                                $query = isset($url_parts[1]) ? '?' . $url_parts[1] : '';
-                                
-                                echo home_url($path . $query);
-                            ?>"
+                            href="<?php echo getNormalListPageUrl(); ?>"
                             class="ms-btn ms-btn--bordered ms-btn--list"
                         >
                             <svg

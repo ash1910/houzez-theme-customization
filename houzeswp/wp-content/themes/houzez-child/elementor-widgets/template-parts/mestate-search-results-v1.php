@@ -208,9 +208,15 @@ if( $total_records > 1 ) {
                                 $current_url = $_SERVER['REQUEST_URI'];
                                 $url_parts = explode('?', $current_url);
                                 $path = trim($url_parts[0], '/');
+                                
+                                // Handle pagination in the URL
+                                $path = preg_replace('/\/page\/(\d+)/', '', $path); // Remove existing pagination
+                                $page_number = get_query_var('paged') ? get_query_var('paged') : 1;
+                                $path_with_page = $path . '-map' . ($page_number > 1 ? '/page/' . $page_number : '');
+                                
                                 $query = isset($url_parts[1]) ? '?' . $url_parts[1] : '';
                                 
-                                echo home_url($path . '-map' . $query);
+                                echo home_url($path_with_page . $query);
                             ?>"
                             class="ms-btn ms-btn--bordered"
                         >

@@ -849,6 +849,10 @@ i.menu-icon {
 #ms-half-map-v1 {
     height: 100%;
     min-height: 400px;
+    max-height: 800px;
+    position: sticky !important;
+    top: 120px;
+    left: 0;
 }
 
 .ms-apartments-main__desc ul {
@@ -908,6 +912,67 @@ i.menu-icon {
 #msQualityListerModal .modal-body.ms-filter__modal {
     padding: 0;
 }
+.ms-blog-details__write-comment .ms-input.ms-comment-author {
+    height: 50px;
+    margin: 30px 0;
+    padding: 0 30px;
+}
+.ms-blog-details__author__share .share-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.ms-blog-details__author__share .share-dropdown-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.ms-blog-details__author__share .share-dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: #fff;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+    z-index: 1;
+    border-radius: 8px;
+    padding: 8px 0;
+}
+
+.ms-blog-details__author__share .share-dropdown:hover .share-dropdown-content {
+    display: block;
+}
+
+.ms-blog-details__author__share .social-share-link {
+    color: #1B1B1B;
+    padding: 8px 16px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.ms-blog-details__author__share .social-share-link:hover {
+    background-color: #f5f5f5;
+}
+
+.ms-blog-details__author__share .social-share-link span {
+    font-size: 14px;
+}
+.ms-quality-lister-modal .ms-quality-lister-modal__content h2 {
+    font-weight: var(--ms-fw-medium);
+    margin-bottom: 12px;
+    font-size: var(--ms-fs-h6);
+}
+.ms-header:not(.ms-header--sticky) {
+    z-index: 9999;
+}
+.ms-apartments-main__card--2 .ms-apartments-main__card__content h5 {
+    white-space: inherit !important;
+    width: calc(100% - 70px) !important;
+}
 
 @media (max-width: 767.98px) {
     .list-view .item-wrap-v8 .item-header {
@@ -941,5 +1006,9 @@ i.menu-icon {
         padding: 10px 0 !important;
         padding-left: 25px !important;
         line-height: 1 !important;
+    }
+    .ms-blog-details__comments__single .ms-blog-details__author img {
+        width: 40px;
+        height: 40px;
     }
 }

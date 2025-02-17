@@ -24,12 +24,16 @@
                 </div>
                 <!-- modal content -->
                 <div class="ms-quality-lister-modal__content">
-                    <h6>Quality Lister</h6>
-                    <p>
-                        Lorem Ipsum is simply dummy text of the printing and typesetting
-                        industry. Lorem Ipsum has been the industry's standard dummy
-                        text ever since the 1500s,
-                    </p>
+                    <?php if ( is_active_sidebar( 'quality-lister-content' ) ) : ?>
+                        <?php dynamic_sidebar( 'quality-lister-content' ); ?>
+                    <?php else : ?>
+                        <h2>Quality Lister</h2>
+                        <p>
+                            Lorem Ipsum is simply dummy text of the printing and typesetting
+                            industry. Lorem Ipsum has been the industry's standard dummy
+                            text ever since the 1500s,
+                        </p>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
@@ -65,12 +69,16 @@
                 </div>
                 <!-- modal content -->
                 <div class="ms-quality-lister-modal__content">
-                    <h6>Responsive Broker</h6>
-                    <p>
-                        Lorem Ipsum is simply dummy text of the printing and typesetting
-                        industry. Lorem Ipsum has been the industry's standard dummy
-                        text ever since the 1500s,
-                    </p>
+                    <?php if ( is_active_sidebar( 'responsive-broker-content' ) ) : ?>
+                        <?php dynamic_sidebar( 'responsive-broker-content' ); ?>
+                    <?php else : ?>
+                        <h2>Responsive Broker</h2>
+                        <p>
+                            Lorem Ipsum is simply dummy text of the printing and typesetting
+                            industry. Lorem Ipsum has been the industry's standard dummy
+                            text ever since the 1500s,
+                        </p>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
