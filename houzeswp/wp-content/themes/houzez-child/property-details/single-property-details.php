@@ -106,7 +106,7 @@ $hide_detail = houzez_option('hide_detail_prop_fields');
                         <h4>Overview</h4>
                     </div>
                     <?php if($status && count($status) > 0 && $status[0]->slug == 'new-projects' ) { ?>
-                        <div class="ms-apartments-main__overview d-none d-md-flex">
+                        <div class="ms-apartments-main__overview ms-apartments-main__overview--2 ms-apartments-main__overview--3">
                             <ul class="ms-apartments-main__overview__item-list">
                                 <?php $property_type = houzez_taxonomy_simple('property_type');
                                 if(!empty($property_type)) { ?>
@@ -114,7 +114,6 @@ $hide_detail = houzez_option('hide_detail_prop_fields');
                                     <p>Property Type</p>
                                     <h6><?php echo $property_type; ?></h6>
                                 </li>
-                                <li><span></span></li>
                                 <?php } ?>
                                 <?php $sale_price = get_post_meta(get_the_ID(), 'fave_property_price', true);
                                 if( @$hide_fields['price'] != 1 && !empty($sale_price) ) { ?>
@@ -122,7 +121,6 @@ $hide_detail = houzez_option('hide_detail_prop_fields');
                                     <p>Starting From</p>
                                     <h6><?php echo $price_prefix. houzez_get_property_price($sale_price) . $price_postfix; ?></h6>
                                 </li>
-                                <li><span></span></li>
                                 <?php } ?>
                                 <?php $construction_status = houzez_get_listing_data('completion');
                                 if(!empty($construction_status)) { ?>
@@ -131,24 +129,6 @@ $hide_detail = houzez_option('hide_detail_prop_fields');
                                     <h6><?php echo $construction_status; ?></h6>
                                 </li>
                                 <?php } ?>
-                            </ul>
-                            <ul class="ms-apartments-main__overview__line-list">
-                                <?php if(!empty($property_type)) { ?>
-                                <li>
-                                    <span></span>
-                                </li>
-                                <?php } ?>
-                                <?php if( @$hide_fields['price'] != 1 && !empty($sale_price) ) { ?>
-                                <li><span></span></li>
-                                <?php } ?>
-                                <?php if(!empty($construction_status)) { ?>
-                                <li>
-                                    <span></span>
-                                </li>
-                                <?php } ?>
-                            </ul>
-
-                            <ul class="ms-apartments-main__overview__item-list">
                                 <?php 
                                 $prop_payment_val = "";
                                 $prop_payment_plan_down  = houzez_get_listing_data('down-payment');
@@ -168,7 +148,6 @@ $hide_detail = houzez_option('hide_detail_prop_fields');
                                     <p>Payment Plan</p>
                                     <h6><?php echo $prop_payment_val; ?></h6>
                                 </li>
-                                <li><span></span></li>
                                 <?php } ?>
                                 <?php $number_of_buildings = houzez_get_listing_data('number-of-buildings');
                                 if(!empty($number_of_buildings)) { ?>
@@ -176,7 +155,6 @@ $hide_detail = houzez_option('hide_detail_prop_fields');
                                     <p>Number of buildings</p>
                                     <h6><?php echo $number_of_buildings; ?></h6>
                                 </li>
-                                <li><span></span></li>
                                 <?php } ?>
                                 <?php $handover = houzez_get_listing_data('handover');
                                 if(!empty($handover)) { ?>
@@ -187,84 +165,9 @@ $hide_detail = houzez_option('hide_detail_prop_fields');
                                 <?php } ?>
                             </ul>
                         </div>
-                        <!-- mobile -->
-                        <div class="ms-apartments-main__overview d-flex d-md-none">
-                            <ul class="ms-apartments-main__overview__item-list">
-                                <?php 
-                                if(!empty($property_type)) { ?>
-                                <li>
-                                    <p>Property Type</p>
-                                    <h6><?php echo $property_type; ?></h6>
-                                </li>
-                                <li><span></span></li>
-                                <?php } ?>
-                                <?php 
-                                if( @$hide_fields['price'] != 1 && !empty($sale_price) ) { ?>
-                                <li>
-                                    <p>Starting From</p>
-                                    <h6><?php echo $price_prefix. houzez_get_property_price($sale_price) . $price_postfix; ?></h6>
-                                </li>
-                                <?php } ?>
-                            </ul>
-                            <ul class="ms-apartments-main__overview__line-list">
-                                <?php if(!empty($property_type)) { ?>
-                                <li>
-                                    <span></span>
-                                </li>
-                                <?php } ?>
-                                <?php if( @$hide_fields['price'] != 1 && !empty($sale_price) ) { ?>
-                                <li><span></span></li>
-                                <?php } ?>
-                            </ul>
-
-                            <ul class="ms-apartments-main__overview__item-list">
-                                <?php 
-                                if(!empty($construction_status)) { ?>
-                                <li>
-                                    <p>Construction Status</p>
-                                    <h6><?php echo $construction_status; ?></h6>
-                                </li>
-                                <li><span></span></li>
-                                <?php } ?>
-                                <?php 
-                                if(!empty($prop_payment_val)) { ?>
-                                <li>
-                                    <p>Payment Plan</p>
-                                    <h6><?php echo $prop_payment_val; ?></h6>
-                                </li>
-                                <?php } ?>
-                            </ul>
-                            <ul class="ms-apartments-main__overview__line-list">
-                                <?php if(!empty($construction_status)) { ?>
-                                <li>
-                                    <span></span>
-                                </li>
-                                <?php } ?>
-                                <?php if(!empty($prop_payment_val)) { ?>
-                                <li><span></span></li>
-                                <?php } ?>
-                            </ul>
-                            <ul class="ms-apartments-main__overview__item-list">
-                                <?php
-                                if(!empty($number_of_buildings)) { ?>
-                                <li>
-                                    <p>Number of buildings</p>
-                                    <h6><?php echo $number_of_buildings; ?></h6>
-                                </li>
-                                <li><span></span></li>
-                                <?php } ?>
-                                <?php
-                                if(!empty($handover)) { ?>
-                                <li>
-                                    <p>Handover</p>
-                                    <h6><?php echo $handover; ?></h6>
-                                </li>
-                                <?php } ?>
-                            </ul>
-                        </div>
                     <?php } else { ?>
                     <div
-                        class="ms-apartments-main__overview ms-apartments-main__overview--2 ms-apartments-main__overview--3 d-none d-md-flex">
+                        class="ms-apartments-main__overview ms-apartments-main__overview--2 ms-apartments-main__overview--3">
                         <ul class="ms-apartments-main__overview__item-list">
                             <?php $property_type = houzez_taxonomy_simple('property_type');
                             if(!empty($property_type)) { ?>
@@ -272,91 +175,6 @@ $hide_detail = houzez_option('hide_detail_prop_fields');
                                 <p>Property Type</p>
                                 <h6><?php echo $property_type; ?></h6>
                             </li>
-                            <li><span></span></li>
-                            <?php } ?>
-                            <?php $bedrooms = get_post_meta(get_the_ID(), 'fave_property_bedrooms', true);
-                            if(!empty($bedrooms)) { ?>
-                            <li>
-                                <p>Bedrooms</p>
-                                <h6><?php echo $bedrooms; ?></h6>
-                            </li>
-                            <li><span></span></li>
-                            <?php } ?>
-                            <?php $bathrooms = get_post_meta(get_the_ID(), 'fave_property_bathrooms', true);
-                            if(!empty($bathrooms)) { ?>
-                            <li>
-                                <p>Bathrooms</p>
-                                <h6><?php echo $bathrooms; ?></h6>
-                            </li>
-                            <?php } ?>
-                        </ul>
-                        <ul class="ms-apartments-main__overview__line-list">
-                            <li>
-                                <span></span>
-                            </li>
-                            <li><span></span></li>
-                            <li>
-                                <span></span>
-                            </li>
-                        </ul>
-
-                        <ul class="ms-apartments-main__overview__item-list">
-                            <?php $garages = get_post_meta(get_the_ID(), 'fave_property_garage', true);
-                            if(!empty($garages)) { ?>
-                            <li>
-                                <p>Garages</p>
-                                <h6><?php echo $garages; ?></h6>
-                            </li>
-                            <li><span></span></li>
-                            <?php } ?>
-                            <?php $sqft = get_post_meta(get_the_ID(), 'fave_property_size', true);
-                            if(!empty($sqft)) { ?>
-                            <li>
-                                <p>sqft</p>
-                                <h6><?php echo $sqft; ?></h6>
-                            </li>
-                            <li><span></span></li>
-                            <?php } ?>
-                            <?php $property_id = get_post_meta(get_the_ID(), 'fave_property_id', true);
-                            if(!empty($property_id)) { ?>
-                            <li>
-                                <p>Property ID</p>
-                                <h6><?php echo $property_id; ?></h6>
-                            </li>
-                            <?php } ?>
-                        </ul>
-                        <ul class="ms-apartments-main__overview__line-list">
-                            <li>
-                                <span></span>
-                            </li>
-                            <li><span></span></li>
-                            <li>
-                                <span></span>
-                            </li>
-                        </ul>
-
-                        <ul class="ms-apartments-main__overview__item-list">
-                            <?php $year_built = get_post_meta(get_the_ID(), 'fave_property_year', true);
-                            if(!empty($year_built)) { ?>
-                            <li>
-                                <p>Year Built</p>
-                                <h6><?php echo $year_built; ?></h6>
-                            </li>
-                            <li><span></span></li>
-                            <?php } ?>
-                        </ul>
-                    </div>
-                    <!-- mobile -->
-                    <div
-                        class="ms-apartments-main__overview ms-apartments-main__overview--2 ms-apartments-main__overview--3 d-flex d-md-none">
-                        <ul class="ms-apartments-main__overview__item-list">
-                            <?php $property_type = houzez_taxonomy_simple('property_type');
-                            if(!empty($property_type)) { ?>
-                            <li>
-                                <p>Property Type</p>
-                                <h6><?php echo $property_type; ?></h6>
-                            </li>
-                            <li><span></span></li>
                             <?php } ?>
                             <?php $bedrooms = get_post_meta(get_the_ID(), 'fave_property_bedrooms', true);
                             if(!empty($bedrooms)) { ?>
@@ -365,22 +183,12 @@ $hide_detail = houzez_option('hide_detail_prop_fields');
                                 <h6><?php echo $bedrooms; ?></h6>
                             </li>
                             <?php } ?>
-                        </ul>
-                        <ul class="ms-apartments-main__overview__line-list">
-                            <li>
-                                <span></span>
-                            </li>
-                            <li><span></span></li>
-                        </ul>
-
-                        <ul class="ms-apartments-main__overview__item-list">
                             <?php $bathrooms = get_post_meta(get_the_ID(), 'fave_property_bathrooms', true);
                             if(!empty($bathrooms)) { ?>
                             <li>
                                 <p>Bathrooms</p>
                                 <h6><?php echo $bathrooms; ?></h6>
                             </li>
-                            <li><span></span></li>
                             <?php } ?>
                             <?php $garages = get_post_meta(get_the_ID(), 'fave_property_garage', true);
                             if(!empty($garages)) { ?>
@@ -389,21 +197,12 @@ $hide_detail = houzez_option('hide_detail_prop_fields');
                                 <h6><?php echo $garages; ?></h6>
                             </li>
                             <?php } ?>
-                        </ul>
-                        <ul class="ms-apartments-main__overview__line-list">
-                            <li>
-                                <span></span>
-                            </li>
-                            <li><span></span></li>
-                        </ul>
-                        <ul class="ms-apartments-main__overview__item-list">
                             <?php $sqft = get_post_meta(get_the_ID(), 'fave_property_size', true);
                             if(!empty($sqft)) { ?>
                             <li>
                                 <p>sqft</p>
                                 <h6><?php echo $sqft; ?></h6>
                             </li>
-                            <li><span></span></li>
                             <?php } ?>
                             <?php $property_id = get_post_meta(get_the_ID(), 'fave_property_id', true);
                             if(!empty($property_id)) { ?>
@@ -412,21 +211,12 @@ $hide_detail = houzez_option('hide_detail_prop_fields');
                                 <h6><?php echo $property_id; ?></h6>
                             </li>
                             <?php } ?>
-                        </ul>
-                        <ul class="ms-apartments-main__overview__line-list">
-                            <li>
-                                <span></span>
-                            </li>
-                            <li><span></span></li>
-                        </ul>
-                        <ul class="ms-apartments-main__overview__item-list">
                             <?php $year_built = get_post_meta(get_the_ID(), 'fave_property_year', true);
                             if(!empty($year_built)) { ?>
                             <li>
                                 <p>Year Built</p>
                                 <h6><?php echo $year_built; ?></h6>
                             </li>
-                            <li><span></span></li>
                             <?php } ?>
                         </ul>
                     </div>
@@ -442,6 +232,11 @@ $hide_detail = houzez_option('hide_detail_prop_fields');
                     $expected_booking_date = get_post_meta($listing_id, 'fave_expected-booking-date', true);
                     $construction_started_date = get_post_meta($listing_id, 'fave_construction-started-date', true);
                     $expected_completion_date = get_post_meta($listing_id, 'fave_expected-completion-date', true);
+
+                    if( !empty($project_announcement) || !empty($project_announcement_date) || 
+                    !empty($expected_booking) || !empty($expected_booking_date) ||
+                    !empty($construction_started) || !empty($construction_started_date) ||
+                    !empty($expected_completion) || !empty($expected_completion_date) ){
                 ?>
                 <!-- timeline -->
                 <div class="ms-apartments-main__section">
@@ -529,7 +324,7 @@ $hide_detail = houzez_option('hide_detail_prop_fields');
 
                     </div>
                 </div>
-                <?php } ?>
+                <?php } }?>
 
                 <!-- description -->
                 <div class="ms-apartments-main__section">
@@ -623,7 +418,7 @@ $hide_detail = houzez_option('hide_detail_prop_fields');
                         <?php } ?>
                     </div>
 
-                    <div class="ms-apartments-main__overview ms-apartments-main__overview--4 d-none d-md-flex">
+                    <div class="ms-apartments-main__overview ms-apartments-main__overview--4 ">
                         <ul class="ms-apartments-main__overview__item-list">
                             <?php 
                             $property_id = get_post_meta(get_the_ID(), 'fave_property_id', true);
@@ -632,16 +427,14 @@ $hide_detail = houzez_option('hide_detail_prop_fields');
                                 <p>Property ID</p>
                                 <h6><?php echo $property_id; ?></h6>
                             </li>
-                            <li><span></span></li>
                             <?php } ?>
                             <?php 
                             $sale_price = get_post_meta(get_the_ID(), 'fave_property_price', true);
                             if( @$hide_fields['price'] != 1 && !empty($sale_price) ) { ?>
                             <li>
                                 <p>Price</p>
-                                <h6><small>Start from </small> <?php echo $price_prefix. houzez_get_property_price($sale_price) . $price_postfix; ?></h6>
+                                <h6><small>Start from </small> <span class="ms-apartments-main__price-value"><?php echo $price_prefix. houzez_get_property_price($sale_price) . $price_postfix; ?></span></h6>
                             </li>
-                            <li><span></span></li>
                             <?php } ?>
                             <?php 
                             $sqft = get_post_meta(get_the_ID(), 'fave_property_size', true);
@@ -651,31 +444,12 @@ $hide_detail = houzez_option('hide_detail_prop_fields');
                                 <h6><?php echo $sqft; ?> sqft</h6> 
                             </li>
                             <?php } ?>
-                        </ul>
-                        <ul class="ms-apartments-main__overview__line-list">
-                            <?php if( $hide_fields['prop_id'] != 1 && !empty($property_id) ) { ?>
-                            <li>
-                                <span></span>
-                            </li>
-                            <?php } ?>
-                            <?php if( @$hide_fields['price'] != 1 && !empty($sale_price) ) { ?>
-                            <li><span></span></li>
-                            <?php } ?>
-                            <?php if( @$hide_fields['size'] != 1 && !empty($sqft) ) { ?>
-                            <li>
-                                <span></span>
-                            </li>
-                            <?php } ?>
-                        </ul>
-
-                        <ul class="ms-apartments-main__overview__item-list ms-apartments-main__overview__item-list--2">
                             <?php $land_area = get_post_meta(get_the_ID(), 'fave_property_land', true);
                             if( $hide_fields['land_area'] != 1 && !empty($land_area) ) { ?>
                             <li>
                                 <p>Land Area</p>
                                 <h6><?php echo $land_area; ?> sqft</h6>
                             </li>
-                            <li><span></span></li>
                             <?php } ?>
                             <?php 
                             $bedrooms = get_post_meta(get_the_ID(), 'fave_property_bedrooms', true);
@@ -684,7 +458,6 @@ $hide_detail = houzez_option('hide_detail_prop_fields');
                                 <p>Bedrooms</p>
                                 <h6><?php echo $bedrooms; ?></h6>
                             </li>
-                            <li><span></span></li>
                             <?php } ?>
                             <?php 
                             $bathrooms = get_post_meta(get_the_ID(), 'fave_property_bathrooms', true);
@@ -694,25 +467,6 @@ $hide_detail = houzez_option('hide_detail_prop_fields');
                                 <h6><?php echo $bathrooms; ?></h6>
                             </li>
                             <?php } ?>
-                        </ul>
-                        <ul class="ms-apartments-main__overview__line-list">
-                            <?php
-                            if( $hide_fields['land_area'] != 1 && !empty($land_area) ) { ?>
-                            <li>
-                                <span></span>
-                            </li>
-                            <?php } ?>
-                            <?php if( $hide_fields['bedrooms'] != 1 && !empty($bedrooms) ) { ?>
-                            <li><span></span></li>
-                            <?php } ?>
-                            <?php if( $hide_fields['bathrooms'] != 1 && !empty($bathrooms) ) { ?>
-                            <li>
-                                <span></span>
-                            </li>
-                            <?php } ?>
-                        </ul>
-
-                        <ul class="ms-apartments-main__overview__item-list">
                             <?php 
                             $garages = get_post_meta(get_the_ID(), 'fave_property_garage', true);
                             if( $hide_fields['garages'] != 1 && !empty($garages) ) { ?>
@@ -720,7 +474,6 @@ $hide_detail = houzez_option('hide_detail_prop_fields');
                                 <p>Garages</p>
                                 <h6><?php echo $garages; ?></h6>
                             </li>
-                            <li><span></span></li>
                             <?php } ?>
                             <?php $garage_size = get_post_meta(get_the_ID(), 'fave_property_garage_size', true);
                             if( @$hide_fields['garage_size'] != 1 && !empty($garage_size) ) { ?>
@@ -728,7 +481,6 @@ $hide_detail = houzez_option('hide_detail_prop_fields');
                                 <p>Garage Size</p>
                                 <h6><?php echo $garage_size; ?></h6>
                             </li>
-                            <li><span></span></li>
                             <?php } ?>
                             <?php 
                             $year_built = get_post_meta(get_the_ID(), 'fave_property_year', true);
@@ -738,31 +490,12 @@ $hide_detail = houzez_option('hide_detail_prop_fields');
                                 <h6><?php echo $year_built; ?></h6>
                             </li>
                             <?php } ?>
-                        </ul>
-                        <ul class="ms-apartments-main__overview__line-list">
-                            <?php if( $hide_fields['garages'] != 1 && !empty($garages) ) { ?>
-                            <li>
-                                <span></span>
-                            </li>
-                            <?php } ?>
-                            <?php if( @$hide_fields['garage_size'] != 1 && !empty($garage_size) ) { ?>
-                            <li><span></span></li>
-                            <?php } ?>
-                            <?php if( $hide_fields['year_built'] != 1 && !empty($year_built) ) { ?>
-                            <li>
-                                <span></span>
-                            </li>
-                            <?php } ?>
-                        </ul>
-
-                        <ul class="ms-apartments-main__overview__item-list">
                             <?php 
                             if( @$hide_fields['property_type'] != 1 && !empty($property_type) ) { ?>
                             <li>
                                 <p>Property Type</p>
                                 <h6><?php echo $property_type; ?></h6>
                             </li>
-                            <li><span></span></li>
                             <?php } ?>
                             <?php $property_status = houzez_taxonomy_simple('property_status');
                             if( @$hide_fields['property_status'] != 1 && !empty($property_status) ) { ?>
@@ -770,152 +503,6 @@ $hide_detail = houzez_option('hide_detail_prop_fields');
                                 <p>Property Status</p>
                                 <h6><?php echo $property_status; ?></h6>
                             </li>
-                            <?php } ?>
-                        </ul>
-                    </div>
-                    <!-- mobile -->
-                    <div class="ms-apartments-main__overview ms-apartments-main__overview--2 d-flex d-md-none">
-                        <ul class="ms-apartments-main__overview__item-list">
-                            <?php if( $hide_fields['prop_id'] != 1 && !empty($property_id) ) { ?>
-                            <li>
-                                <p>Property ID</p>
-                                <h6><?php echo $property_id; ?></h6>
-                            </li>
-                            <li><span></span></li>
-                            <?php } ?>
-                            <?php 
-                            if( @$hide_fields['price'] != 1 && !empty($sale_price) ) { ?>
-                            <li>
-                                <p>Price</p>
-                                <h6><small>Start from </small> <?php echo $price_prefix. houzez_get_property_price($sale_price) . $price_postfix; ?></h6>
-                            </li>
-                            <?php } ?>
-                        </ul>
-                        <ul class="ms-apartments-main__overview__line-list">
-                            <?php if( $hide_fields['prop_id'] != 1 && !empty($property_id) ) { ?>
-                            <li>
-                                <span></span>
-                            </li>
-                            <?php } ?>
-                            <?php if( @$hide_fields['price'] != 1 && !empty($sale_price) ) { ?>
-                            <li><span></span></li>
-                            <?php } ?>
-                        </ul>
-
-                        <ul class="ms-apartments-main__overview__item-list">
-                            <?php if( @$hide_fields['size'] != 1 && !empty($sqft) ) { ?>
-                            <li>
-                                <p>Property Size</p>
-                                <h6><?php echo $sqft; ?> sqft</h6>
-                            </li>
-                            <li><span></span></li>
-                            <?php } ?>
-                            <?php 
-                            if( $hide_fields['land_area'] != 1 && !empty($land_area) ) { ?>
-                            <li>
-                                <p>Land Area</p>
-                                <h6><?php echo $land_area; ?> sqft</h6>
-                            </li>
-                            <?php } ?>
-                        </ul>
-                        <ul class="ms-apartments-main__overview__line-list">
-                            <?php if( @$hide_fields['size'] != 1 && !empty($sqft) ) { ?>
-                            <li>
-                                <span></span>
-                            </li>
-                            <?php } ?>
-                            <?php if( $hide_fields['land_area'] != 1 && !empty($land_area) ) { ?>
-                            <li><span></span></li>
-                            <?php } ?>
-                        </ul>
-                        <ul class="ms-apartments-main__overview__item-list">
-                            <?php if( $hide_fields['bedrooms'] != 1 && !empty($bedrooms) ) { ?>
-                            <li>
-                                <p>Bedrooms</p>
-                                <h6><?php echo $bedrooms; ?></h6>
-                            </li>
-                            <li><span></span></li>
-                            <?php } ?>
-                            <?php 
-                            if( $hide_fields['bathrooms'] != 1 && !empty($bathrooms) ) { ?>
-                            <li>
-                                <p>Bathrooms</p>
-                                <h6><?php echo $bathrooms; ?></h6>
-                            </li>
-                            <?php } ?>
-                        </ul>
-                        <ul class="ms-apartments-main__overview__line-list">
-                            <?php if( $hide_fields['bedrooms'] != 1 && !empty($bedrooms) ) { ?>
-                            <li>
-                                <span></span>
-                            </li>
-                            <?php } ?>
-                            <?php if( $hide_fields['bathrooms'] != 1 && !empty($bathrooms) ) { ?>
-                            <li><span></span></li>
-                            <?php } ?>
-                        </ul>
-
-                        <ul class="ms-apartments-main__overview__item-list">
-                            <?php if( $hide_fields['garages'] != 1 && !empty($garages) ) { ?>
-                            <li>
-                                <p>Garages</p>
-                                <h6><?php echo $garages; ?></h6>
-                            </li>
-                            <li><span></span></li>
-                            <?php } ?>
-                            <?php 
-                            if( @$hide_fields['garage_size'] != 1 && !empty($garage_size) ) { ?>
-                            <li>
-                                <p>Garage Size</p>
-                                <h6><?php echo $garage_size; ?></h6>
-                            </li>
-                            <?php } ?>
-                        </ul>
-                        <ul class="ms-apartments-main__overview__line-list">
-                            <?php if( $hide_fields['garages'] != 1 && !empty($garages) ) { ?>
-                            <li>
-                                <span></span>
-                            </li>
-                            <?php } ?>
-                            <?php if( @$hide_fields['garage_size'] != 1 && !empty($garage_size) ) { ?>
-                            <li><span></span></li>
-                            <?php } ?>
-                        </ul>
-                        <ul class="ms-apartments-main__overview__item-list">
-                            <?php 
-                            if( $hide_fields['year_built'] != 1 && !empty($year_built) ) { ?>
-                            <li>
-                                <p>Year Built</p>
-                                <h6><?php echo $year_built; ?></h6>
-                            </li>
-                            <li><span></span></li>
-                            <?php } ?>
-                            <?php 
-                            if( @$hide_fields['property_type'] != 1 && !empty($property_type) ) { ?>
-                            <li>
-                                <p>Property Type</p>
-                                <h6><?php echo $property_type; ?></h6>
-                            </li>
-                            <?php } ?>
-                        </ul>
-                        <ul class="ms-apartments-main__overview__line-list">
-                            <?php if( $hide_fields['year_built'] != 1 && !empty($year_built) ) { ?>
-                            <li>
-                                <span></span>
-                            </li>
-                            <?php } ?>
-                            <?php if( @$hide_fields['property_type'] != 1 && !empty($property_type) ) { ?>
-                            <li><span></span></li>
-                            <?php } ?>
-                        </ul>
-                        <ul class="ms-apartments-main__overview__item-list">
-                            <?php 
-                            if( @$hide_fields['property_status'] != 1 && !empty($property_status) ) { ?>
-                            <li>
-                                <p>Property Status</p>
-                                <h6><?php echo $property_status; ?></h6>
-                            </li>
-                            <li><span></span></li>
                             <?php } ?>
                         </ul>
                     </div>

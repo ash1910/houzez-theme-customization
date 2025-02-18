@@ -974,6 +974,12 @@ i.menu-icon {
     width: calc(100% - 70px) !important;
 }
 
+@media (min-width: 1400px) {
+    .ms-apartments-main__price-value {
+        font-size: 16px;
+    }
+}
+
 @media (max-width: 767.98px) {
     .list-view .item-wrap-v8 .item-header {
         width: 100%;
