@@ -3652,9 +3652,6 @@ START: New Project CSS
 
 .ms-apartments-main__card--2 .ms-apartments-main__card__content h5 {
 	width: calc(100% - 80px);
-	display: flex;
-	overflow: hidden;
-	white-space: nowrap;
 }
 .ms-apartments-main__card--3 .ms-apartments-main__card__content h5 {
 	margin-bottom: 12px;
@@ -3662,8 +3659,6 @@ START: New Project CSS
 .ms-apartments-main__card--4 .ms-apartments-main__card__content h5 {
 	margin-bottom: 6px;
 	width: calc(100% - 80px);
-	overflow: hidden;
-	white-space: nowrap;
 }
 .ms-apartments-main__card--3 .ms-apartments-main____card__details-list {
 	margin-bottom: 0;
@@ -5154,24 +5149,63 @@ START: Blog Details CSS
 	fill: var(--ms-color-theme-primary);
 }
 
+.ms-blog-details__desc__single p,
+.ms-blog-details__desc__single ul,
+.ms-blog-details__desc__single ol,
+.ms-blog-details__desc__single blockquote {
+	margin-bottom: 30px;
+}
+.ms-blog-details__desc__single ul ul,
+.ms-blog-details__desc__single ol ol,
+.ms-blog-details__desc__single ul ol,
+.ms-blog-details__desc__single ol ul {
+	margin-bottom: 0;
+}
 .ms-blog-details__desc__single ul,
 .ms-blog-details__desc__single ol,
 .ms-blog-details__desc__single ul ul,
+.ms-blog-details__desc__single ol ol,
 .ms-blog-details__desc__single ol ol {
 	list-style: inherit;
-	padding-left: 30px;
+	padding-left: 24px;
 }
-
+.ms-blog-details__desc__single ol {
+	list-style-type: decimal;
+}
+.ms-blog-details__desc__single ul li,
+.ms-blog-details__desc__single ol li {
+	line-height: 2;
+}
 .ms-blog-details__desc__single p,
 .ms-blog-details__desc__single li {
 	font-weight: var(--ms-fw-medium);
-	margin-bottom: 0;
+}
+.ms-blog-details__desc__single ul li,
+.ms-blog-details__desc__single ol li {
+	line-height: 2;
+}
+.ms-blog-details__desc__single h1,
+.ms-blog-details__desc__single h2,
+.ms-blog-details__desc__single h3,
+.ms-blog-details__desc__single h4,
+.ms-blog-details__desc__single h5,
+.ms-blog-details__desc__single h6 {
+	margin-bottom: 10px;
+}
+.ms-blog-details__desc__single blockquote {
+	padding: 16px 20px;
+	background-color: var(--ms-color-theme-bg);
+
+	border-radius: var(--ms-br-16);
+}
+.ms-blog-details__desc__single blockquote p {
+	font-style: italic;
+	margin: 0;
+	font-size: 20px;
 }
 .ms-blog-details__desc__single h6 {
 	font-size: 20px;
 	font-weight: var(--ms-fw-sbold);
-	margin-top: 30px;
-	margin-bottom: 10px;
 }
 .ms-blog-details__grid {
 	display: grid;

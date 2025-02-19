@@ -30,6 +30,7 @@ START: Cta CSS
 	.ms-cta__img {
 		width: 620px;
 	}
+
 	/**----------------------------------------
 !END: Cta CSS CSS
 ----------------------------------------*/
@@ -40,7 +41,9 @@ START: Overview CSS
 	.ms-apartments-main__overview {
 		padding: 16px;
 	}
-
+	.ms-apartments-main__card__wrapper--2:has(.ms-apartments-main__card--2) {
+		grid-template-columns: 1fr;
+	}
 	.ms-apartments-main__overview__item-list {
 		gap: 21px;
 	}
@@ -937,9 +940,7 @@ START: apartment CSS
 	.ms-apartments-main__sidebar__single {
 		border-radius: 16px;
 	}
-	.ms-apartments-main__sidebar__single .ms-btn {
-		height: 38px;
-	}
+
 	.ms-hero__360,
 	.ms-hero__map,
 	.ms-hero__video {
@@ -1636,6 +1637,10 @@ START: New Project Details CSS
 		border-radius: 10px;
 		gap: 8px;
 	}
+	.ms-apartments-main__sidebar__single .ms-btn--primary {
+		height: 38px;
+		font-size: 12px;
+	}
 	.ms-apartments-main__sidebar__single--broker-2
 		.ms-apartments-main__sidebar__whatsapp
 		.ms-btn
@@ -1972,14 +1977,32 @@ START: Blog Details CSS
 	.ms-blog-details__desc__single {
 		margin-top: 16px;
 	}
+	.ms-blog-details__desc__single p,
+	.ms-blog-details__desc__single ul,
+	.ms-blog-details__desc__single ol,
+	.ms-blog-details__desc__single blockquote {
+		margin-bottom: 16px;
+	}
+	.ms-blog-details__desc__single ul ul,
+	.ms-blog-details__desc__single ol ol {
+		margin-bottom: 0;
+	}
 	.ms-blog-details__desc__single ul,
 	.ms-blog-details__desc__single ol,
 	.ms-blog-details__desc__single ul ul,
 	.ms-blog-details__desc__single ol ol {
 		padding-left: 16px;
 	}
+	.ms-blog-details__desc__single ol {
+		list-style-type: decimal;
+	}
+	.ms-blog-details__desc__single blockquote {
+		padding: 12px 16px;
+	}
+	.ms-blog-details__desc__single blockquote p {
+		font-size: 16px;
+	}
 	.ms-blog-details__desc__single h6 {
-		margin-top: 16px;
 		font-size: 16px;
 	}
 	.ms-blog-details__grid {
@@ -2063,7 +2086,9 @@ START: Blog Details CSS
 		width: 100%;
 		justify-content: center;
 	}
-
+	.ms-apartments-main__sidebar__single__banner-title {
+		padding-bottom: 30px;
+	}
 	/**----------------------------------------
 END: Blog Details CSS
 ----------------------------------------*/
