@@ -167,8 +167,9 @@ Mobile Menu Js
 	if (heroSlider?.length) {
 		console.log(heroSlider, "hi");
 		heroSlider.slick({
-			dots: false /* slider left or right side pagination count with line */,
-			arrows: false /* slider arrow  */,
+			rtl: $('html').attr('dir') === 'rtl',
+			dots: false,
+			arrows: false,
 			appendDots: ".ms-hero__slider__pagination-count-pagination-count",
 			infinite: true,
 			autoplay: false,
@@ -224,19 +225,16 @@ Mobile Menu Js
 	const thumbsSlider = $(".ms-hero__slider__thumbs");
 	if (thumbsSlider?.length) {
 		thumbsSlider.slick({
+			rtl: $('html').attr('dir') === 'rtl',
 			slidesToShow: 4,
 			slidesToScroll: 1,
 			initialSlide: 0,
 			asNavFor: ".ms-hero__slider",
-			dots: false /* image slide dots */,
-			arrows: false /* image slide arrow */,
+			dots: false,
+			arrows: false,
 			centerMode: false,
 			focusOnSelect: true,
 			centerPadding: "30px",
-			// prevArrow:
-			//   '<a class="slick-prev"><i class="fas fa-arrow-left" alt="Arrow Icon"></i></a>',
-			// nextArrow:
-			//   '<a class="slick-next"><i class="fas fa-arrow-right" alt="Arrow Icon"></i></a>',
 			responsive: [
 				{
 					breakpoint: 1600,
@@ -274,19 +272,16 @@ Mobile Menu Js
 	const videoSlider = $(".ms-apartments-main__videos--slider");
 	if (videoSlider?.length) {
 		videoSlider.slick({
+			rtl: $('html').attr('dir') === 'rtl',
 			slidesToShow: 2,
 			slidesToScroll: 1,
 			initialSlide: 0,
 
-			dots: false /* image slide dots */,
-			arrows: false /* image slide arrow */,
+			dots: false,
+			arrows: false,
 			centerMode: false,
 			focusOnSelect: true,
 			centerPadding: "30px",
-			// prevArrow:
-			//   '<a class="slick-prev"><i class="fas fa-arrow-left" alt="Arrow Icon"></i></a>',
-			// nextArrow:
-			//   '<a class="slick-next"><i class="fas fa-arrow-right" alt="Arrow Icon"></i></a>',
 			responsive: [
 				{
 					breakpoint: 1600,

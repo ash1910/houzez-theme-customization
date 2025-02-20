@@ -2267,6 +2267,9 @@ START: Apppartments CSS
 	box-sizing: border-box;
 	position: relative;
 }
+.ms-apartments-main__card--2 {
+	flex-wrap: nowrap;
+}
 .ms-apartments-main__card__link {
 	position: absolute;
 	top: 0;
@@ -3314,13 +3317,18 @@ START: Hero CSS
 	width: 100%;
 	height: 56px;
 }
+.ms-form .ms-nice-select {
+	width: 100%;
+}
 .ms-form .ms-input--agree {
 	height: auto;
 	background-color: transparent;
 	font-size: var(--ms-fs-body);
 	padding: 0;
 }
-
+.ms-form .ms-input:has(input:focus) svg path {
+	stroke: var(--ms-color-theme-primary);
+}
 .ms-form .ms-btn {
 	width: 100%;
 	justify-content: space-between;
@@ -3388,9 +3396,14 @@ START: Hero CSS
 	margin-right: 0;
 
 	border-radius: var(--ms-br-30);
+
 	overflow: hidden;
 }
+.ms-form__slider .swiper-wrapper {
+	border-radius: var(--ms-br-30);
+}
 .ms-form__slide {
+	border-radius: var(--ms-br-30);
 	overflow: hidden;
 }
 .ms-form__slider .swiper-pagination {
@@ -3816,7 +3829,7 @@ START: New Project Details CSS
 .ms-hero__btn-list .ms-btn--gallery i {
 	font-size: 20px;
 }
-.ms-hero__btn-list .ms-btn:last-child {
+.ms-hero__btn-list .ms-btn[data-target="#ms-360"] {
 	margin-left: auto;
 	height: 74px;
 	padding: 0 16px;
@@ -4377,6 +4390,7 @@ p.ms-apartments-main__timeline__single__title {
 .ms-apartments-main__mortgage-calculator__outputs__list__item:last-child {
 	border-bottom: 0;
 }
+
 .ms-apartments-main__mortgage-calculator__outputs__list__item p {
 	font-size: 12px;
 	margin-bottom: 0;
@@ -4393,6 +4407,9 @@ p.ms-apartments-main__timeline__single__title {
 	top: 50%;
 	left: -10px;
 	transform: translateY(-50%);
+}
+.ms-apartments-main__mortgage-calculator__outputs__list__item--hoa-fees::before {
+	top: 74%;
 }
 .ms-apartments-main__mortgage-calculator__outputs__list__item--mor-payment::before {
 	border-color: var(--ms-color-bullet-1);

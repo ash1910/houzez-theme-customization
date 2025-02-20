@@ -772,7 +772,7 @@ START: apartment CSS
 		padding: 16px;
 		padding-top: 25px;
 		border-top: 0;
-		border-left: 2px solid var(--ms-color-border);
+		border-left: 1px solid var(--ms-color-border);
 		margin-left: 0;
 		margin-top: -10px;
 		border-radius: 0;
@@ -973,6 +973,20 @@ START: Login CSS
 	.ms-form__main {
 		gap: 16px;
 	}
+	.ms-form .ms-input {
+		height: 42px;
+		padding: 0 16px;
+	}
+	.ms-form .ms-input svg {
+		width: 16px;
+	}
+	.ms-form .ms-input:has(.nice-select) {
+		display: flex;
+	}
+	.ms-form .ms-nice-select .option {
+		line-height: 30px;
+		min-height: 30px;
+	}
 	.ms-form .ms-btn {
 		height: 42px;
 		margin-top: 5px;
@@ -1104,7 +1118,7 @@ START: New Project Details CSS
 		border-radius: 10px;
 		gap: 5px;
 	}
-	.ms-hero__btn-list .ms-btn:last-child {
+	.ms-hero__btn-list .ms-btn[data-target="#ms-360"] {
 		height: 24px;
 		width: 24px;
 		padding: 0;

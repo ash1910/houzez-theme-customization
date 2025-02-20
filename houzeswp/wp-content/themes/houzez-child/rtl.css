@@ -64,11 +64,15 @@ START: Buttons CSS
 .ms-btn:hover i {
 	transform: rotate(-180deg);
 }
+.ms-hero__btn-list .ms-btn i {
+	transform: rotate(0);
+}
 .ms-hero__filter-tab .ms-btn:hover i {
 	transform: rotate(0);
 }
+
 /**----------------------------------------
-!END: Header CSS
+!END: Buttons CSS
 /**----------------------------------------
 START: Header CSS
 ----------------------------------------*/
@@ -107,8 +111,13 @@ START: Header CSS
 .ms-mobile-menu__profile-button .ms-btn span svg {
 	transform: rotate(180deg);
 }
+.ms-header__heart span {
+	right: auto;
+	left: 0;
+	transform: translate(-20%, -25%);
+}
 /**----------------------------------------
-!END: Buttons CSS
+!END: Header CSS
 ----------------------------------------*/
 /**----------------------------------------
 START: Portfolio CSS
@@ -122,6 +131,14 @@ START: Portfolio CSS
 	padding-right: 0;
 	border-left: 1px solid var(--ms-color-border);
 	border-right: 0;
+}
+.ms-location__card {
+	left: auto;
+	right: 16px;
+}
+.ms-location__card-action {
+	right: auto;
+	left: 8%;
 }
 /**----------------------------------------
 !END: Portfolio CSS
@@ -187,6 +204,124 @@ START: Apppartments CSS
 	margin-left: 0;
 	margin-right: -20px;
 }
+.ms-apartments-main__card--2 .ms-apartments-main__card__content {
+	margin-right: 0;
+	border-right: 1px solid var(--ms-color-border);
+	border-bottom-left-radius: var(--ms-br-24);
+	border-bottom-right-radius: var(--ms-br-24);
+}
+.ms-apartments-main__card--4 .ms-apartments-main__card__logo,
+.ms-apartments-main__card--2 .ms-apartments-main__card__logo {
+	left: 16px;
+	right: auto;
+}
+.page-item a i {
+	transform: rotate(180deg);
+}
+.ms-apartments-main__card--4 .ms-apartments-main__card__content {
+	margin-right: 0;
+}
+.ms-apartments-main__card--3 .ms-apartments-main__card__logo {
+	right: auto;
+	left: 0;
+}
+.ms-apartments-main__card--3 .ms-apartments-main__card__logo a {
+	padding: 8px 12px 8px 14px;
+	border: 1px solid var(--ms-color-border);
+	border-top: 0;
+	border-left: 0;
+	border-bottom-right-radius: 12px;
+	border-bottom-left-radius: 0;
+}
+.ms-apartments-main__card--3 .ms-apartments-main__card__thumbnail__header {
+	left: 11px;
+	right: 0;
+}
+.ms-apartments-main__card--3 .ms-apartments-main__card__thumbnail__status {
+	left: auto;
+	right: 34px;
+}
+.ms-apartments-main__card--3 .ms-apartments-main__card__content {
+	padding-left: 20px;
+	padding-right: 25px;
+	margin-left: 0;
+	margin-right: 0;
+}
+.ms-filter__modal__filter .ms-input__content__action {
+	padding-left: 20px;
+}
+.ms-total-filter-item {
+	right: auto;
+	left: 0;
+
+	transform: translate(-20%, -25%);
+}
+/* overview */
+.ms-apartments-main__overview__item-list li::before {
+	right: auto;
+	left: -14.5px;
+}
+.ms-hero__btn-list .ms-btn[data-target="#ms-360"] {
+	margin-left: 0;
+	margin-right: auto;
+}
+.ms-apartments-main__timeline__single::after {
+	left: auto;
+	right: 100%;
+}
+.ms-apartments-main__doc-list a {
+	padding: 12px 10px 12px 20px;
+}
+.ms-apartments-main__floor-plan__accordion__control
+	.ms-apartments-main____card__details-list:first-child
+	li {
+	border-right: 0;
+	border-left: 1px solid var(--ms-color-border);
+}
+.ms-apartments-main__payment-plan__single::after {
+	right: auto;
+	left: -40px;
+	transform: translateY(-50%) scale(-1);
+}
+.ms-apartments-main__mortgage-calculator__inputs input:not([type="checkbox"]) {
+	padding-left: 0;
+	padding-right: 10px;
+	border-left: 0;
+	border-right: 1px solid var(--ms-color-border);
+}
+.ms-apartments-main__mortgage-calculator__outputs__list__item {
+	padding: 18px 0;
+
+	padding-right: 12px;
+}
+.ms-apartments-main__mortgage-calculator__outputs__list__item::before {
+	left: auto;
+	right: -10px;
+}
+.ms-apartments-main__desc__list h6 {
+	padding-left: 0;
+	padding-right: 20px;
+}
+.ms-apartments-main__desc__list h6::after {
+	left: auto;
+	right: 0;
+}
+.ms-apartments-main__sidebar__single--broker-top
+	.ms-apartments-main__sidebar__broker-batch {
+	right: auto;
+	left: 24px;
+}
+.ms-apartments-main__card--blog .ms-apartments-main__card__reademore a svg {
+	transform: scaleX(-1);
+}
+.ms-apartments-main__card--blog .ms-apartments-main__card__content {
+	border: 0;
+
+	padding: 12px;
+	padding-top: 24px;
+	margin-top: 0;
+}
+
 /**----------------------------------------
 !END:  Apppartments CSS
 ----------------------------------------*/
@@ -212,15 +347,26 @@ START: Footer CSS
 	padding-left: 54px;
 	padding-right: 0;
 }
+
+.ms-blog-tab__controllers {
+    left: 0;
+    right: auto;
+}
 /**----------------------------------------
 !END:   Footer CSS
 ----------------------------------------*/
 /**----------------------------------------
 START: Responsive CSS
 ----------------------------------------*/
+@media only screen and (min-width: 1400px) {
+	/* overview */
+	.ms-apartments-main__overview__item-list li::before {
+		left: -10px;
+	}
+}
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 767px) {
 	.ms-header__avater__inner {
 		padding: 3px 12px 5px 5px;
 	}
@@ -229,6 +375,120 @@ START: Responsive CSS
 	}
 	.ms-new-projects__list__item:first-child {
 		padding-left: 19px;
+	}
+
+	.ms-apartments-main__card__content {
+		padding: 16px;
+		padding-top: 16px;
+		padding-top: 25px;
+		border-top: 0;
+		border-right: 1px solid var(--ms-color-border);
+		margin-right: 0;
+		margin-top: -10px;
+		border-radius: 0;
+		border-bottom-right-radius: 0px;
+		border-bottom-left-radius: 0px;
+		border-bottom-right-radius: 16px;
+		border-bottom-left-radius: 16px;
+	}
+	.ms-apartments-main__card--3 .ms-apartments-main__card__content {
+		padding: 16px;
+
+		padding-top: 28px;
+	}
+	.ms-apartments-main__card--3 .ms-apartments-main__card__logo {
+		right: auto;
+		left: 14px;
+	}
+	.ms-apartments-main__card--3 .ms-apartments-main__card__logo a {
+		border-radius: 6px;
+
+		padding: 4px 8px;
+
+		padding-right: 5px;
+		padding-bottom: 5px;
+	}
+	.ms-apartments-main__card--3 .ms-apartments-main__card__thumbnail__status {
+		left: auto;
+		right: 30px;
+	}
+	.ms-filter__modal__filter .ms-input__content__action {
+		padding-left: 16px;
+	}
+	.ms-apartments-main__overview__item-list li::before {
+		left: -7.5px;
+	}
+	.ms-hero__wrapper .ms-hero__slider__pagination-count-img-slide-arrow {
+		margin-right: 0;
+		margin-left: -16px;
+	}
+	.ms-hero__slider__pagination-count-img-slide-arrow-inner {
+		border-radius: var(--ms-br-24);
+		border-top-left-radius: 0;
+		border-bottom-left-radius: 0;
+	}
+	.ms-apartments-main__timeline__single::after {
+		left: auto;
+		right: 20px;
+	}
+	.ms-apartments-main__doc-list a {
+		padding: 10px 12px;
+	}
+	.ms-apartments-main__floor-plan__accordion__control
+		.ms-apartments-main____card__details-list:first-child
+		li:last-child {
+		padding-right: 0;
+		padding-left: 15px;
+	}
+	.ms-apartments-main__payment-plan__single::after {
+		top: 103%;
+		right: 50%;
+		transform: translateX(50%) rotate(90deg);
+		font-size: 15px;
+	}
+	.ms-apartments-main__mortgage-calculator__outputs__list__item:nth-child(odd) {
+		border-left: 1px solid var(--ms-color-border);
+		border-right: 0;
+		padding-right: 25px;
+	}
+	.ms-apartments-main__mortgage-calculator__outputs__list__item::before {
+		right: 6px;
+		left: 0;
+	}
+	.ms-apartments-main__mortgage-calculator__outputs__list__item:nth-child(
+			even
+		) {
+		padding-left: 0;
+		padding-right: 35px;
+	}
+	.ms-apartments-main__mortgage-calculator__outputs__list__item:nth-child(
+			even
+		)::before {
+		left: 0;
+		right: 16px;
+	}
+	.ms-apartments-main__mortgage-calculator__outputs__list__item:last-child {
+		border-left: 0;
+	}
+	.ms-apartments-main__videos {
+		border-radius: var(--ms-br-24);
+		border-top-left-radius: 0;
+		border-bottom-left-radius: 0;
+		margin-right: 0;
+		margin-left: -16px;
+	}
+	.ms-apartments-main__videos__play-btn {
+		left: auto;
+		right: 44%;
+	}
+	.ms-apartments-main__card--blog .ms-apartments-main__card__content {
+		margin-top: 0;
+		padding: 10px;
+		padding-top: 16px;
+	}
+	.ms-location__card-action {
+		right: auto;
+		left: 2px;
 	}
 }
 /**----------------------------------------
