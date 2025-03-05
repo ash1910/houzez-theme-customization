@@ -310,16 +310,9 @@ if( $total_records > 1 ) {
                         </svg>
                         <select id="<?php echo esc_attr($sort_id); ?>" class="ms-nice-select-popular ms-btn ms-btn--bordered ms-btn--popular" title="<?php esc_html_e( 'Popular', 'houzez' ); ?>" data-live-search="false" data-dropdown-align-right="auto">
                             <option value=""><?php esc_html_e( 'Popular', 'houzez' ); ?></option>
-                            <option <?php selected($sortby, 'a_price'); ?> value="a_price"><?php esc_html_e('Price - Low to High', 'houzez'); ?></option>
-                            <option <?php selected($sortby, 'd_price'); ?> value="d_price"><?php esc_html_e('Price - High to Low', 'houzez'); ?></option>
-                            
-                            <option <?php selected($sortby, 'featured_first'); ?> value="featured_first"><?php esc_html_e('Featured Listings First', 'houzez'); ?></option>
-                            
-                            <option <?php selected($sortby, 'a_date'); ?> value="a_date"><?php esc_html_e('Date - Old to New', 'houzez' ); ?></option>
-                            <option <?php selected($sortby, 'd_date'); ?> value="d_date"><?php esc_html_e('Date - New to Old', 'houzez' ); ?></option>
-
-                            <option <?php selected($sortby, 'a_title'); ?> value="a_title"><?php esc_html_e('Title - ASC', 'houzez' ); ?></option>
-                            <option <?php selected($sortby, 'd_title'); ?> value="d_title"><?php esc_html_e('Title - DESC', 'houzez' ); ?></option>
+                            <option <?php selected($sortby, 'd_date'); ?> value="d_date"><?php esc_html_e('Newest', 'houzez' ); ?></option>
+                            <option <?php selected($sortby, 'a_price'); ?> value="a_price"><?php esc_html_e('Lowest Price', 'houzez'); ?></option>
+                            <option <?php selected($sortby, 'd_price'); ?> value="d_price"><?php esc_html_e('Highest Price', 'houzez'); ?></option>
                         </select><!-- selectpicker -->
                     </li>
                 </ul>

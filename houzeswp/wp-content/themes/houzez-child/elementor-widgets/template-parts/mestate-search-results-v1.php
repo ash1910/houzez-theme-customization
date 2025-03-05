@@ -204,20 +204,7 @@ if( $total_records > 1 ) {
                     </li>
                     <li>
                         <a
-                            href="<?php 
-                                $current_url = $_SERVER['REQUEST_URI'];
-                                $url_parts = explode('?', $current_url);
-                                $path = trim($url_parts[0], '/');
-                                
-                                // Handle pagination in the URL
-                                $path = preg_replace('/\/page\/(\d+)/', '', $path); // Remove existing pagination
-                                $page_number = get_query_var('paged') ? get_query_var('paged') : 1;
-                                $path_with_page = $path . '-map' . ($page_number > 1 ? '/page/' . $page_number : '');
-                                
-                                $query = isset($url_parts[1]) ? '?' . $url_parts[1] : '';
-                                
-                                echo home_url($path_with_page . $query);
-                            ?>"
+                            href="<?php echo getMapPageUrl(); ?>"
                             class="ms-btn ms-btn--bordered"
                         >
                             <svg
@@ -252,17 +239,11 @@ if( $total_records > 1 ) {
                                 fill="#868686" />
                         </svg>
                         <select id="<?php echo esc_attr($sort_id); ?>" class="ms-nice-select-popular ms-btn ms-btn--bordered ms-btn--popular" title="<?php esc_html_e( 'Popular', 'houzez' ); ?>" data-live-search="false" data-dropdown-align-right="auto">
-                            <option value=""><?php esc_html_e( 'Popular', 'houzez' ); ?></option>
-                            <option <?php selected($sortby, 'a_price'); ?> value="a_price"><?php esc_html_e('Price - Low to High', 'houzez'); ?></option>
-                            <option <?php selected($sortby, 'd_price'); ?> value="d_price"><?php esc_html_e('Price - High to Low', 'houzez'); ?></option>
-                            
-                            <option <?php selected($sortby, 'featured_first'); ?> value="featured_first"><?php esc_html_e('Featured Listings First', 'houzez'); ?></option>
-                            
-                            <option <?php selected($sortby, 'a_date'); ?> value="a_date"><?php esc_html_e('Date - Old to New', 'houzez' ); ?></option>
-                            <option <?php selected($sortby, 'd_date'); ?> value="d_date"><?php esc_html_e('Date - New to Old', 'houzez' ); ?></option>
+                            <option value=""><?php esc_html_e( 'Popular', 'houzez' ); ?></option>                            
+                            <option <?php selected($sortby, 'd_date'); ?> value="d_date"><?php esc_html_e('Newest', 'houzez' ); ?></option>
+                            <option <?php selected($sortby, 'a_price'); ?> value="a_price"><?php esc_html_e('Lowest Price', 'houzez'); ?></option>
+                            <option <?php selected($sortby, 'd_price'); ?> value="d_price"><?php esc_html_e('Highest Price', 'houzez'); ?></option>
 
-                            <option <?php selected($sortby, 'a_title'); ?> value="a_title"><?php esc_html_e('Title - ASC', 'houzez' ); ?></option>
-                            <option <?php selected($sortby, 'd_title'); ?> value="d_title"><?php esc_html_e('Title - DESC', 'houzez' ); ?></option>
                         </select><!-- selectpicker -->
                     </li>
                     <li class="ms-apartments-main__varify-switcher">

@@ -83,19 +83,34 @@ if($adv_baths_list) {
               >
                 <button
                   id="buy-tab"
-                  class="active"
+                  class="<?php echo (isset($_GET['status']) && in_array('buy', $_GET['status'])) ? 'active' : ''; ?>"
                   data-target="#modalBuy"
                   data-toggle="tab"
                   data-page-available="<?php echo get_page_by_path('buy') ? '1' : '0'; ?>"
                 >
                   Buy
                 </button>
-                <button id="rent-tab" data-target="#modalRent" data-toggle="tab" data-page-available="<?php echo get_page_by_path('rent') ? '1' : '0'; ?>">Rent</button>
-                <button id="new-project-tab" data-target="#modalNew_project" data-toggle="tab" data-page-available="<?php echo get_page_by_path('new-projects') ? '1' : '0'; ?>">
+                <button 
+                  id="rent-tab" 
+                  class="<?php echo (isset($_GET['status']) && in_array('rent', $_GET['status'])) ? 'active' : ''; ?>"
+                  data-target="#modalRent" 
+                  data-toggle="tab" 
+                  data-page-available="<?php echo get_page_by_path('rent') ? '1' : '0'; ?>"
+                >
+                  Rent
+                </button>
+                <button 
+                  id="new-project-tab" 
+                  class="<?php echo (isset($_GET['status']) && in_array('new-projects', $_GET['status'])) ? 'active' : ''; ?>"
+                  data-target="#modalNew_project" 
+                  data-toggle="tab" 
+                  data-page-available="<?php echo get_page_by_path('new-projects') ? '1' : '0'; ?>"
+                >
                   New Project
                 </button>
                 <button
                   id="commercial-tab"
+                  class="<?php echo (isset($_GET['status']) && in_array('commercial', $_GET['status'])) ? 'active' : ''; ?>"
                   data-target="#modalCommercial"
                   data-toggle="tab"
                   data-page-available="<?php echo get_page_by_path('commercial') ? '1' : '0'; ?>"
@@ -134,7 +149,23 @@ if($adv_baths_list) {
                         </button>
                       </div>
                       <ul class="ms-input__list ms-input__list--search ms-input__list--search-container">
-                        <!-- Locations will be added here -->
+                        <?php 
+                        // Get areas from URL parameters
+                        $selected_areas = isset($_GET['areas']) ? $_GET['areas'] : array();
+                        
+                        // If areas exist in URL, add them to the list
+                        if(!empty($selected_areas)) {
+                          foreach($selected_areas as $area_slug) {
+                            if(isset($prop_area[$area_slug])) {
+                              echo '<li>
+                                      <button class="location-item" data-area="'.$area_slug.'">
+                                        '.$prop_area[$area_slug].' <i class="fa-light fa-xmark"></i>
+                                      </button>
+                                    </li>';
+                            }
+                          }
+                        }
+                        ?>
                       </ul>
                     </div>
                     <?php endif; ?>
@@ -143,9 +174,9 @@ if($adv_baths_list) {
                     <div class="ms-filter__modal__inputs ms-filter__modal__inputs--apartment buy-tab rent-tab new-project-tab">
                       <h6>Property Type</h6>
                       <ul class="ms-input__list ms-input__list--auto-width radio_btn_group" id="property-type-list-residential">
-                        <?php foreach($prop_type_residential as $term): ?>
+                        <?php foreach($prop_type_residential as $term): $active = in_array($term->slug, $_GET['type']) ? 'active' : ''; ?>
                         <li>
-                          <button data-value="<?php echo $term->slug; ?>" class="filter-item">
+                          <button data-value="<?php echo $term->slug; ?>" class="filter-item <?php echo $active; ?>">
                             <i class="icon-apartment icon-<?php echo $term->slug; ?>"></i> <?php echo $term->name; ?>
                           </button>
                         </li>
@@ -161,9 +192,9 @@ if($adv_baths_list) {
                     <div class="ms-filter__modal__inputs ms-filter__modal__inputs--apartment commercial-tab initial-hide">
                       <h6>Property Type</h6>
                       <ul class="ms-input__list ms-input__list--auto-width radio_btn_group" id="property-type-list-commercial">
-                        <?php foreach($prop_type_commercial as $term): ?>
+                        <?php foreach($prop_type_commercial as $term): $active = in_array($term->slug, $_GET['type']) ? 'active' : ''; ?>
                         <li>
-                          <button data-value="<?php echo $term->slug; ?>" class="filter-item">
+                          <button data-value="<?php echo $term->slug; ?>" class="filter-item <?php echo $active; ?>">
                             <i class="icon-apartment icon-<?php echo $term->slug; ?>"></i> <?php echo $term->name; ?>
                           </button>
                         </li>
@@ -176,8 +207,8 @@ if($adv_baths_list) {
                     <div class="ms-input__content__beds rent-tab initial-hide">
                       <h6>Payment Plan</h6>
                       <ul class="ms-input__list ms-input__list--auto-width radio_btn_group" id="payment-plan-list">
-                        <?php foreach($payment_plan as $key => $value): ?>
-                        <li><button data-value="<?php echo $key; ?>" class="filter-item"><?php echo $value; ?></button></li>
+                        <?php foreach($payment_plan as $key => $value): $active = $_GET['payment_plan'] == $value ? 'active' : ''; ?>
+                        <li><button data-value="<?php echo $key; ?>" class="filter-item <?php echo $active; ?>"><?php echo $value; ?></button></li>
                         <?php endforeach; ?>
                       </ul>
                     </div>
@@ -187,8 +218,8 @@ if($adv_baths_list) {
                     <div class="ms-input__content__beds new-project-tab initial-hide">
                       <h6>Completion</h6>
                       <ul class="ms-input__list ms-input__list--auto-width radio_btn_group" id="completion-list">
-                        <?php foreach($completion as $key => $value): ?>
-                        <li><button data-value="<?php echo $key; ?>" class="filter-item"><?php echo $value; ?></button></li>
+                        <?php foreach($completion as $key => $value): $active = $_GET['completion'] == $value ? 'active' : ''; ?>
+                        <li><button data-value="<?php echo $key; ?>" class="filter-item <?php echo $active; ?>"><?php echo $value; ?></button></li>
                         <?php endforeach; ?>
                       </ul>
                     </div>
@@ -198,8 +229,8 @@ if($adv_baths_list) {
                     <div class="ms-input__content__beds new-project-tab initial-hide">
                       <h6>Handover</h6>
                       <ul class="ms-input__list ms-input__list--auto-width radio_btn_group" id="handover-list">
-                        <?php foreach($handover as $key => $value): ?>
-                        <li><button data-value="<?php echo $key; ?>" class="filter-item"><?php echo $value; ?></button></li>
+                        <?php foreach($handover as $key => $value): $active = $_GET['handover'] == $value ? 'active' : ''; ?>
+                        <li><button data-value="<?php echo $key; ?>" class="filter-item <?php echo $active; ?>"><?php echo $value; ?></button></li>
                         <?php endforeach; ?>
                       </ul>
                     </div>
@@ -210,19 +241,35 @@ if($adv_baths_list) {
                         <div class="price_slider_amount">
                           <div class="ms-input__content__value__wrapper">
                             <span>min</span>
-                            <span
-                              class="ms-input__content__value ms-input__content__value--min"
-                            >
-                              $200
-                            </span>
+                            <div class="ms-input ms-input--serach" style="width: auto;">
+                              <span class="currency-symbol"></span>
+                              <input
+                                type="text"
+                                class="ms-input__content__value ms-input__content__value--min"
+                                value="1"
+                                pattern="[0-9]*"
+                                inputmode="numeric"
+                                onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+                                oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                style="max-width: 120px;"
+                              />
+                            </div>
                           </div>
                           <div class="ms-input__content__value__wrapper">
                             <span>Max</span>
-                            <span
-                              class="ms-input__content__value ms-input__content__value--max"
-                            >
-                              $1500
-                            </span>
+                            <div class="ms-input ms-input--serach" style="width: auto;">
+                              <span class="currency-symbol"></span>
+                              <input
+                                type="text" 
+                                class="ms-input__content__value ms-input__content__value--max"
+                                value="1000000"
+                                pattern="[0-9]*"
+                                inputmode="numeric"
+                                onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+                                oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                style="max-width: 120px;"
+                              />
+                            </div>
                           </div>
                         </div>
                         <input type="hidden" name="ms-min-price" class="ms-min-price-range-hidden range-input" readonly >
@@ -240,11 +287,16 @@ if($adv_baths_list) {
                           <label for="ms-hero__search-loaction3">Minimum</label>
                           <div class="ms-input ms-input--serach">
                             <input
-                              type="search"
-                              value="0"
+                              type="text"
+                              value="<?php echo @$_GET['min-area'];?>"
+                              placeholder="0"
                               class="ms-hero__search-loaction"
                               id="ms-hero__search-loaction3"
                               name="ms-min-area"
+                              pattern="[0-9]*"
+                              inputmode="numeric"
+                              onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+                              oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                             />
                           </div>
                         </div>
@@ -252,11 +304,16 @@ if($adv_baths_list) {
                           <label for="ms-hero__search-loaction4">Maximum</label>
                           <div class="ms-input ms-input--serach">
                             <input
-                              type="search"
-                              value="Any"
+                              type="text"
+                              value="<?php echo @$_GET['max-area'];?>"
+                              placeholder=""
                               class="ms-hero__search-loaction"
                               id="ms-hero__search-loaction4"
                               name="ms-max-area"
+                              pattern="[0-9]*"
+                              inputmode="numeric"
+                              onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+                              oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                             />
                           </div>
                         </div>
@@ -268,8 +325,8 @@ if($adv_baths_list) {
                       <h6>Furnish Status</h6>
                       <ul class="ms-input__list ms-input__list--auto-width radio_btn_group" id="furnish-status-list">
                         <li><button data-value="" class="filter-item">All</button></li>
-                        <?php foreach($furnish_status as $key => $value): ?>
-                        <li><button data-value="<?php echo $key; ?>" class="filter-item"><?php echo $value; ?></button></li>
+                        <?php foreach($furnish_status as $key => $value): $active = $_GET['furnish-status'] == $value ? 'active' : ''; ?>
+                        <li><button data-value="<?php echo $key; ?>" class="filter-item <?php echo $active; ?>"><?php echo $value; ?></button></li>
                         <?php endforeach; ?>
                       </ul>
                     </div>
@@ -280,8 +337,8 @@ if($adv_baths_list) {
                       <h6>Beds</h6>
                       <ul class="ms-input__list radio_btn_group" id="beds-list">
                         <li><button data-value="" class="w-auto filter-item">Any</button></li>
-                        <?php foreach($bed_list as $value): ?>    
-                        <li><button data-value="<?php echo $value; ?>" class="w-auto filter-item"><?php echo $value; ?></button></li>
+                        <?php foreach($bed_list as $value): $active = $_GET['bedrooms'] == $value ? 'active' : ''; ?>    
+                        <li><button data-value="<?php echo $value; ?>" class="w-auto filter-item <?php echo $active; ?>"><?php echo $value; ?></button></li>
                         <?php endforeach; ?>
                 
                       </ul>
@@ -293,8 +350,8 @@ if($adv_baths_list) {
                       <h6>Baths</h6>
                       <ul class="ms-input__list radio_btn_group" id="baths-list">
                         <li><button data-value="" class="w-auto filter-item">Any</button></li>
-                        <?php foreach($bed_list as $value): ?>
-                        <li><button data-value="<?php echo $value; ?>" class="w-auto filter-item"><?php echo $value; ?></button></li>
+                        <?php foreach($bath_list as $value): $active = $_GET['bathrooms'] == $value ? 'active' : ''; ?>
+                        <li><button data-value="<?php echo $value; ?>" class="w-auto filter-item <?php echo $active; ?>"><?php echo $value; ?></button></li>
                         <?php endforeach; ?>
                       </ul>
                     </div>
@@ -304,8 +361,8 @@ if($adv_baths_list) {
                       <h6>Parking</h6>
                       <ul class="ms-input__list radio_btn_group" id="parking-list">
                         <li><button data-value="" class="filter-item">Any</button></li>
-                        <?php foreach($parking as $key => $value): ?>
-                        <li><button data-value="<?php echo $value; ?>" class="filter-item"><?php echo $value; ?></button></li>
+                        <?php foreach($parking as $key => $value): $active = $_GET['garage'] == $value ? 'active' : ''; ?>
+                        <li><button data-value="<?php echo $value; ?>" class="filter-item <?php echo $active; ?>"><?php echo $value; ?></button></li>
                         <?php endforeach; ?>
                       </ul>
                     </div>
@@ -315,10 +372,10 @@ if($adv_baths_list) {
                     <div class="ms-input__content__beds">
                       <h6>Tour Type</h6>
                       <ul class="ms-input__list radio_btn_group" id="tour-type-list">
-                        <?php foreach($tour_type as $key => $value): ?>
+                        <?php foreach($tour_type as $key => $value): $active = $_GET['tour-type'] == $value ? 'active' : ''; ?>
                         <?php if($value == '360 Degree'): ?>
                         <li>
-                          <button class="w-auto filter-item" data-value="<?php echo $key; ?>">
+                          <button class="w-auto filter-item <?php echo $active; ?>" data-value="<?php echo $key; ?>">
                             <svg
                               width="24"
                               height="24"
@@ -361,7 +418,7 @@ if($adv_baths_list) {
                           </button>
                         </li>
                         <?php else: ?>
-                        <li><button data-value="<?php echo $key; ?>" class="w-auto filter-item"><?php echo $value; ?></button></li>
+                        <li><button data-value="<?php echo $key; ?>" class="w-auto filter-item <?php echo $active; ?>"><?php echo $value; ?></button></li>
                         <?php endif; ?>
                         <?php endforeach; ?>
                       </ul>
@@ -372,8 +429,8 @@ if($adv_baths_list) {
                     <div class="ms-input__content__beds">
                       <h6>Floor Plan</h6>
                       <ul class="ms-input__list radio_btn_group" id="floor-plan-list">
-                        <?php foreach($floor_plan as $key => $value): ?>
-                        <li><button data-value="<?php echo $key; ?>" class="w-auto filter-item"><?php echo $value; ?></button></li>
+                        <?php foreach($floor_plan as $key => $value): $active = $_GET['floor-plan'] == $value ? 'active' : ''; ?>
+                        <li><button data-value="<?php echo $key; ?>" class="w-auto filter-item <?php echo $active; ?>"><?php echo $value; ?></button></li>
                         <?php endforeach; ?>
                       </ul>
                     </div>
@@ -426,7 +483,13 @@ if($adv_baths_list) {
     function ms_advanced_filter_price_range(price_range_slider) {
       let $form = price_range_slider.closest('form');
       var currency_symb = houzez_vars.currency_symbol;
+      // Update all currency symbols in the form
+      $form.find('.currency-symbol').each(function() {
+        jQuery(this).html(currency_symb);
+      });
       var currency_position = houzez_vars.currency_position;
+      var min_price_selected = "<?php echo @$_GET['min-price']; ?>";
+      var max_price_selected = "<?php echo @$_GET['max-price']; ?>";
       var min_price = <?php echo houzez_option('advanced_search_widget_min_price', 0); ?>;
       var max_price = <?php echo houzez_option('advanced_search_widget_max_price', 2500000); ?>;
       
@@ -436,18 +499,44 @@ if($adv_baths_list) {
         max: max_price,
         values: [min_price, max_price],
         slide: function (event, ui) {
-          $form.find(".ms-input__content__value--min").html(currency_symb + thousandSeparator(ui.values[0]));
-          $form.find(".ms-input__content__value--max").html(currency_symb + thousandSeparator(ui.values[1]));
+          $form.find(".ms-input__content__value--min").val(thousandSeparator(ui.values[0]));
+          $form.find(".ms-input__content__value--max").val(thousandSeparator(ui.values[1]));
 
-          $form.find(".ms-min-price-range-hidden").val( ui.values[0] );
-          $form.find(".ms-max-price-range-hidden").val( ui.values[1] );
+          $form.find(".ms-min-price-range-hidden").val(ui.values[0]);
+          $form.find(".ms-max-price-range-hidden").val(ui.values[1]);
         },
       });
 
-      $form.find(".ms-input__content__value--min").html(currency_symb + thousandSeparator(min_price));
-      $form.find(".ms-input__content__value--max").html(currency_symb + thousandSeparator(max_price));
-      $form.find(".ms-min-price-range-hidden").val("");
-      $form.find(".ms-max-price-range-hidden").val("");
+      // Handle manual input for min price
+      $form.find(".ms-input__content__value--min").on('change', function() {
+        let value = parseInt(jQuery(this).val().replace(/[^0-9]/g, ''));
+        if (isNaN(value)) value = min_price;
+        if (value > slider.slider("values", 1)) value = slider.slider("values", 1);
+        if (value < min_price) value = min_price;
+        
+        slider.slider("values", 0, value);
+        jQuery(this).val(thousandSeparator(value));
+        $form.find(".ms-min-price-range-hidden").val(value);
+      });
+
+      // Handle manual input for max price
+      $form.find(".ms-input__content__value--max").on('change', function() {
+        let value = parseInt(jQuery(this).val().replace(/[^0-9]/g, ''));
+        if (isNaN(value)) value = max_price;
+        if (value < slider.slider("values", 0)) value = slider.slider("values", 0);
+        if (value > max_price) value = max_price;
+        
+        slider.slider("values", 1, value);
+        jQuery(this).val(thousandSeparator(value));
+        $form.find(".ms-max-price-range-hidden").val(value);
+      });
+
+      $form.find(".ms-input__content__value--min").val(thousandSeparator(min_price_selected != "" ? min_price_selected : min_price));
+      $form.find(".ms-input__content__value--max").val(thousandSeparator(max_price_selected != "" ? max_price_selected : max_price));
+      $form.find(".ms-min-price-range-hidden").val(min_price_selected || "");
+      $form.find(".ms-max-price-range-hidden").val(max_price_selected || "");
+      slider.slider("values", 0, min_price_selected != "" ? min_price_selected : min_price);
+      slider.slider("values", 1, max_price_selected != "" ? max_price_selected : max_price);
     }
 
     function ms_advanced_filter_functionality(){
@@ -640,8 +729,8 @@ if($adv_baths_list) {
               "max-area": max_area === 'Any' ? '' : (max_area || ''),
               "furnish-status": furnish_status || '',
               "garage": parking || '',
-              "tour-type": tour_type || '',
-              "floor-plan": floor_plan || '',
+              "tour-type": tour_type === 'any' || tour_type === 'Any' ? '' : (tour_type || ''),
+              "floor-plan": floor_plan === 'any' || floor_plan === 'Any' ? '' : (floor_plan || ''),
               "bedrooms": beds === 'any' || beds === 'Any' ? '' : (beds || ''),
               "bathrooms": baths === 'any' || baths === 'Any' ? '' : (baths || '')
             };
@@ -666,6 +755,7 @@ if($adv_baths_list) {
                     status = 'new-projects';
                     params.handover = handover || '';
                     params.completion = completion || '';
+                    params['furnish-status'] = '';
                     break;
                 case 'commercial-tab':
                     status = 'commercial';
@@ -712,14 +802,14 @@ if($adv_baths_list) {
             const max_price = <?php echo houzez_option('advanced_search_widget_max_price', 2500000); ?>;
             
             price_range_slider.slider('values', [min_price, max_price]);
-            $form.find(".ms-input__content__value--min").html(houzez_vars.currency_symbol + thousandSeparator(min_price));
-            $form.find(".ms-input__content__value--max").html(houzez_vars.currency_symbol + thousandSeparator(max_price));
+            $form.find(".ms-input__content__value--min").val(thousandSeparator(min_price));
+            $form.find(".ms-input__content__value--max").val(thousandSeparator(max_price));
             $form.find(".ms-min-price-range-hidden").val(min_price);
             $form.find(".ms-max-price-range-hidden").val(max_price);
             
             // Reset area inputs
             $form.find('input[name="ms-min-area"]').val('0');
-            $form.find('input[name="ms-max-area"]').val('Any');
+            $form.find('input[name="ms-max-area"]').val('');
         });
     }
     
@@ -728,6 +818,30 @@ if($adv_baths_list) {
     <?php } else { ?> 
     jQuery(document).ready(function($) {
       ms_advanced_filter_functionality();
+      
+      // Show/hide sections based on active tab on page load
+      const activeTab = $('.ms-filter__modal__filte__controllers button.active').attr('id');
+      if (activeTab) {
+        $('.buy-tab, .rent-tab, .new-project-tab, .commercial-tab').hide();
+        switch(activeTab) {
+          case 'buy-tab':
+            $('.buy-tab').show();
+            break;
+          case 'rent-tab':
+            $('.rent-tab').show();
+            break;
+          case 'new-project-tab':
+            $('.new-project-tab').show();
+            break;
+          case 'commercial-tab':
+            $('.commercial-tab').show();
+            break;
+        }
+      } else {
+        // If no tab is active, default to buy tab
+        $('#buy-tab').addClass('active');
+        $('.buy-tab').show();
+      }
     });
     <?php } ?>
     </script>
