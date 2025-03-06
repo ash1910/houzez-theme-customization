@@ -3997,6 +3997,7 @@ if(!function_exists('houzez_search_status_mestate')) {
 
         $settings = get_query_var('settings', []);
         $status_data = $settings['status_data'] ?? '';
+        $type_data = $settings['type_data'] ?? '';
 
 		if (isset($_GET['status']) && !empty($_GET['status']) && !empty($_GET['status'][0]) && $_GET['status'] != 'all') {
             // Already done in houzez_properties_search
@@ -4006,6 +4007,13 @@ if(!function_exists('houzez_search_status_mestate')) {
                 'taxonomy' => 'property_status',
                 'field' => 'slug',
                 'terms' => array($status_data)
+            );
+        }
+        elseif(isset($type_data) && !empty($type_data)) {
+            $query_arg[] = array(
+                'taxonomy' => 'property_type',
+                'field' => 'slug',
+                'terms' => array($type_data)
             );
         }
 

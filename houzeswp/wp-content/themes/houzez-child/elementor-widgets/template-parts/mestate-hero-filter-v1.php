@@ -5,6 +5,7 @@
   $description = $settings['description'];
   $filter_button_text = $settings['filter_button_text']; 
   $status_data = $settings['status_data'];
+  $type_data = $settings['type_data'];
   $image = $settings['image'];
 
   $background_url = "";
@@ -67,12 +68,23 @@ if($adv_baths_list) {
             role="tablist"
           >
             <?php if($status_data): ?>
-              <?php $i = 0; foreach($status_data as $status): $i++; 
+              <?php $i = 0; foreach($status_data as $status): $i++;
               $tabname = houzez_get_term_by( 'slug', $status, 'property_status' );
               $page_path = get_page_by_path($status);
               $page_available = $page_path ? "1" : "0";
               ?>
-                <button class="ms-property-status-btn <?php echo $i == 1 ? 'active' : ''; ?>" data-target="#<?php echo $status; ?>" data-page-available="<?php echo $page_available; ?>" data-toggle="tab">
+                <button class="ms-property-status-btn <?php echo $i == 1 ? 'active' : ''; ?>" data-target="#<?php echo $status; ?>" data-page-available="<?php echo $page_available; ?>" data-toggle="tab" data-type="0">
+                  <?php echo $tabname->name; ?>
+                </button>
+              <?php endforeach; ?>
+            <?php endif; ?>
+            <?php if($type_data): ?>
+              <?php $i = 0; foreach($type_data as $type): $i++;
+              $tabname = houzez_get_term_by( 'slug', $type, 'property_type' );
+              $page_path = get_page_by_path($type);
+              $page_available = $page_path ? "1" : "0";
+              ?>
+                <button class="ms-property-status-btn" data-target="#<?php echo $type; ?>" data-page-available="<?php echo $page_available; ?>" data-toggle="tab" data-type="1">
                   <?php echo $tabname->name; ?>
                 </button>
               <?php endforeach; ?>
@@ -83,7 +95,7 @@ if($adv_baths_list) {
 
         <div class="tab-content ms-hero__filter-tab__content">
           <!-- content 1 -->
-          <?php if($status_data): ?>
+          <?php if($status_data || $type_data): ?>
               <div class="ms-hero__tab-content tab-pane fade show active" id="">
               
                 <form class="ms-hero__form" onsubmit="return false;">
@@ -109,7 +121,7 @@ if($adv_baths_list) {
                       ><i class="icon-search_black"></i
                     ></label>
                   </div>
-                  <div class="ms-input">
+                  <div class="ms-input type-tab">
                     <select class="ms-nice-select-property-type" name="property_type" style="visibility: hidden;">
                       <option value="" selected disabled>Property type</option>
                       <?php
@@ -147,7 +159,7 @@ if($adv_baths_list) {
                             </span>
                           </div>
                         </div>
-                        <div class="slider-range ms-price-slider-range"></div>
+                        <div class="slider-range ms-slider-range ms-price-slider-range"></div>
                       </div>
 
                       <div class="ms-input__content__action">
@@ -420,6 +432,13 @@ if($adv_baths_list) {
             updateBedBathButtonText();
         });
 
+        jQuery('.ms-hero__tab-controllers [data-toggle="tab"]').on('click', function() {
+            jQuery('.type-tab').show();
+            if (jQuery(this).data('type') == '1') {
+                jQuery('.type-tab').hide();
+            }
+        });
+
         jQuery('.ms-btn--search').on('click', function() {
             const keyword = jQuery('.ms-hero__form .houzez-keyword-autocomplete').val();
             const property_type = jQuery('.ms-hero__form .ms-nice-select-property-type').val();
@@ -432,6 +451,7 @@ if($adv_baths_list) {
             const activeStatusBtn = jQuery('.ms-hero__filter-tab .ms-property-status-btn.active');
             const property_status = activeStatusBtn.length ? activeStatusBtn.data('target').replace('#', '') : '';
             const page_available = activeStatusBtn.data('page-available');
+            const tab_type = activeStatusBtn.data('type');
             
             let url = "<?php echo home_url(); ?>";
             if(property_status && property_status !== '' && page_available == '1') {
@@ -450,6 +470,11 @@ if($adv_baths_list) {
                 "bedrooms": bedrooms === 'any' ? '' : (bedrooms || ''),
                 "bathrooms": bathrooms === 'any' ? '' : (bathrooms || '')
             };
+
+            if(tab_type == '1'){
+              params["type[]"] = property_status || '';
+              delete params["status[]"];
+            }
 
             // Filter out empty parameters and build the query string
             const queryString = Object.entries(params)

@@ -42,7 +42,7 @@ if($adv_baths_list) {
     <input type="hidden" name="ms-max-price" value="<?php echo $max_price; ?>" class="ms-max-price-range-hidden range-input" readonly >
     <input type="hidden" name="ms-bed" value="<?php echo $bed; ?>" class="ms-bed-hidden" readonly >
     <input type="hidden" name="ms-bath" value="<?php echo $bath; ?>" class="ms-bath-hidden" readonly >
-    <div class="ms-input">
+    <div class="ms-input" <?php if(in_array("new-projects", $type)) echo 'style="display: none;"'; ?>>
         <select class="ms-nice-select-property-status" style="visibility: hidden;">
             <option value="" selected disabled>Select</option>
             <?php
@@ -81,8 +81,11 @@ if($adv_baths_list) {
                 'hide_empty' => false,
                 'parent' => 0,
             ));
-            foreach($tax_terms as $term): ?>
-                <option value="<?php echo $term->slug; ?>" <?php if(in_array($term->slug, $type)) echo 'selected'; ?>><?php echo $term->name; ?></option>
+            foreach($tax_terms as $term): 
+            $page_path = get_page_by_path($term->slug);
+            $page_available = $page_path ? "1" : "0";
+            ?>
+                <option data-page-available="<?php echo $page_available; ?>" value="<?php echo $term->slug; ?>" <?php if(in_array($term->slug, $type)) echo 'selected'; ?>><?php echo $term->name; ?></option>
             <?php endforeach; ?>
         </select>
     </div>
@@ -114,7 +117,7 @@ if($adv_baths_list) {
                         </span>
                     </div>
                 </div>
-                <div class="slider-range ms-price-slider-range"></div>
+                <div class="slider-range ms-slider-range ms-price-slider-range"></div>
             </div>
 
             <div class="ms-input__content__action">

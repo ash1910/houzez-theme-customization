@@ -24,6 +24,7 @@ if(isset($get_search_uri[1]) && $get_search_uri[1] != "") {
 
 $settings = get_query_var('settings', []);
 $status_data = $settings['status_data'];
+$type_data = $settings['type_data'];
 $sidebar_image = $settings['sidebar_image'];
 $sidebar_download_url = $settings['sidebar_download_url'];
 
@@ -32,6 +33,9 @@ if( isset($_GET["status"]) && !empty($_GET["status"]) && !empty($_GET["status"][
 }
 elseif( isset($status_data) && !empty($status_data) ){
     $status = $status_data;
+}
+elseif( isset($type_data) && !empty($type_data) ){
+    $status = $type_data;
 }
 else{
     $status = "";

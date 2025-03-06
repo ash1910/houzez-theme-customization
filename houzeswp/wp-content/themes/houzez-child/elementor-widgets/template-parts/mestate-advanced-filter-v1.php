@@ -274,7 +274,7 @@ if($adv_baths_list) {
                         </div>
                         <input type="hidden" name="ms-min-price" class="ms-min-price-range-hidden range-input" readonly >
                         <input type="hidden" name="ms-max-price" class="ms-max-price-range-hidden range-input" readonly >
-                        <div class="slider-range ms-price-slider-range-advanced-filter"></div>
+                        <div class="slider-range ms-slider-range ms-price-slider-range-advanced-filter"></div>
                       </div>
                     </div>
 
@@ -722,7 +722,7 @@ if($adv_baths_list) {
             const handover = $form.find('#handover-list .filter-item.active').data('value');
             
             const params = {
-              "type[]": property_type || '',
+              "type[]": property_type ? [property_type] : [],
               "min-price": min_price || '',
               "max-price": max_price || '',
               "min-area": min_area === '0' ? '' : (min_area || ''),
@@ -743,6 +743,7 @@ if($adv_baths_list) {
             // Get status based on active tab
             const activeTab = jQuery('.ms-filter__modal__filte__controllers button.active').attr('id');
             let status = '';
+            let type = '';
             switch(activeTab) {
                 case 'buy-tab':
                     status = 'buy';
@@ -752,13 +753,21 @@ if($adv_baths_list) {
                     params.payment_plan = payment_plan || '';
                     break;
                 case 'new-project-tab':
-                    status = 'new-projects';
+                    type = 'new-projects';
+                    params['type[]'] = ['new-projects'];
+                    if (property_type) {
+                        params['type[]'].push(property_type);
+                    }
                     params.handover = handover || '';
                     params.completion = completion || '';
                     params['furnish-status'] = '';
                     break;
                 case 'commercial-tab':
-                    status = 'commercial';
+                    type = 'commercial';
+                    params['type[]'] = ['commercial'];
+                    if (property_type) {
+                        params['type[]'].push(property_type);
+                    }
                     break;
             }
 
@@ -768,6 +777,9 @@ if($adv_baths_list) {
             let url = "<?php echo home_url(); ?>";
             if(status && status !== '' && page_available == '1') {
               url = url + '/' + status + '<?php echo is_half_map_page() ? '-map' : ''; ?>/';
+            }
+            else if(type && type !== '' && page_available == '1') {
+              url = url + '/' + type + '<?php echo is_half_map_page() ? '-map' : ''; ?>/';
             }
             else {
               url = url + '/search-results<?php echo is_half_map_page() ? '-map' : ''; ?>/';

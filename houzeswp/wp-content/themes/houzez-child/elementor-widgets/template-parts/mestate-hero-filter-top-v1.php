@@ -194,9 +194,14 @@
         const bathrooms = $form.find('.ms-bath-hidden').val();
         const property_status = $form.find('.ms-nice-select-property-status').val();
         const page_available = $form.find('.ms-nice-select-property-status option:selected').data('page-available');
+        const page_available_type = $form.find('.ms-nice-select-property-type option:selected').data('page-available');
+
         let url = "<?php echo home_url(); ?>";
         if(property_status && property_status !== '' && page_available == '1') {
           url = url + '/' + property_status + '<?php echo is_half_map_page() ? '-map' : ''; ?>/';
+        }
+        else if(property_type && property_type !== '' && page_available_type == '1') {
+          url = url + '/' + property_type + '<?php echo is_half_map_page() ? '-map' : ''; ?>/';
         }
         else {
           url = url + '/search-results<?php echo is_half_map_page() ? '-map' : ''; ?>/';
@@ -278,6 +283,7 @@
             const $form = jQuery(this).closest('form');
             submitFilterForm($form);
         });
+
     }
 
 

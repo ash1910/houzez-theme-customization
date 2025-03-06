@@ -85,6 +85,21 @@ class MEstate_Hero_Filter extends \Elementor\Widget_Base {
             ]
         );
 
+        $prop_type = array();
+        houzez_get_terms_array( 'property_type', $prop_type );
+
+        $this->add_control(
+            'type_data',
+            [
+                'label' => __( 'Select Property Type', 'houzez' ), 
+                'type' => \Elementor\Controls_Manager::SELECT2,
+                'options' => $prop_type, // Fetch options dynamically
+                'multiple' => true, // Change to true if you want to allow multiple types
+                'label_block' => true,
+                'description' => '',
+            ]
+        );
+
         $this->end_controls_section();
     }
 

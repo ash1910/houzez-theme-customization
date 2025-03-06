@@ -47,14 +47,14 @@ class MEstate_Property_Carousel extends \Elementor\Widget_Base {
         );
 
         $this->add_control(
-            'property_status',
+            'property_type',
             [
-                'label' => __( 'Property Status', 'houzez' ), 
+                'label' => __( 'Property Type', 'houzez' ), 
                 'type' => \Elementor\Controls_Manager::SELECT2,
-                'options' => $this->get_property_status_options(), // Fetch options dynamically
+                'options' => $this->get_property_type_options(), // Fetch options dynamically
                 'multiple' => false, // Change to true if you want to allow multiple types
                 'label_block' => true,
-                'description' => __( 'Select a property status to filter the carousel.', 'houzez' ),
+                'description' => __( 'Select a property type to filter the carousel.', 'houzez' ),
             ]
         );
 
@@ -67,7 +67,7 @@ class MEstate_Property_Carousel extends \Elementor\Widget_Base {
         $section_heading = $settings['section_heading'];
 
         $atts = array(
-            'property_status' => $settings['property_status'],
+            'property_type' => $settings['property_type'],
             'posts_limit' => $settings['posts_per_page'],
         );
         $query = houzez_data_source::get_wp_query($atts);
@@ -180,9 +180,9 @@ class MEstate_Property_Carousel extends \Elementor\Widget_Base {
     }
     
 
-    private function get_property_status_options() {
+    private function get_property_type_options() {
         $terms = get_terms([
-            'taxonomy' => 'property_status',
+            'taxonomy' => 'property_type',
             'hide_empty' => true,
         ]);
         

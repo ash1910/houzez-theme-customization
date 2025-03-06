@@ -40,7 +40,23 @@ class MEstate_Listing_Search_Results_V1 extends \Elementor\Widget_Base {
                 'description' => '',
                 'multiple' => false,
                 'label_block' => true,
-                'default' => 'new-projects',
+                'default' => '',
+            ]
+        );
+
+        $prop_type = array();
+        houzez_get_terms_array( 'property_type', $prop_type );
+
+        $this->add_control(
+            'type_data',
+            [
+                'label'     => esc_html__( 'Select Type', 'houzez' ),
+                'type'      => \Elementor\Controls_Manager::SELECT2,
+                'options'   => $prop_type,
+                'description' => '',
+                'multiple' => false,
+                'label_block' => true,
+                'default' => '',
             ]
         );
 
@@ -73,10 +89,13 @@ class MEstate_Listing_Search_Results_V1 extends \Elementor\Widget_Base {
     protected function render() {
         $settings = $this->get_settings_for_display();
         $status_data = $settings['status_data'] ?? 'new-projects';
-
+        $type_data = $settings['type_data'] ?? 'new-projects';
         set_query_var('settings', $settings);
 
         if($status_data == 'new-projects') {
+            get_template_part('elementor-widgets/template-parts/mestate-new-project-v1');     
+        }
+        elseif($type_data == 'new-projects') {
             get_template_part('elementor-widgets/template-parts/mestate-new-project-v1');     
         }
         else {

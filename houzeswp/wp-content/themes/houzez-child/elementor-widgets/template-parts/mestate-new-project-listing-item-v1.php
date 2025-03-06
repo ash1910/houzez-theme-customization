@@ -182,7 +182,7 @@ if( $key != false || $key != '' ) {
         <!-- price -->
 
         <!-- details list -->
-        <ul class="ms-apartments-main____card__details-list">
+        <ul class="ms-apartments-main____card__details-list ms-apartments-main____card__details-list--2">
             <li>
                 <?php $property_type = houzez_taxonomy_simple('property_type'); 
                 if(!empty($property_type)) {
