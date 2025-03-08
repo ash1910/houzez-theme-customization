@@ -44,16 +44,16 @@ $status = get_the_terms(get_the_ID(), 'property_status');
     <!-- top broker batch -->
     <div class="ms-apartments-main__sidebar__broker-batch">
         <div class="ms-apartments-main____card__price">
-            <a href="javascript:void(0)"><span> TopBroker </span></a>
+            <a href="<?php echo esc_url($agent_array[ 'link' ]); ?>" target="_blank"><span> TopBroker </span></a>
         </div>
     </div>
     <?php } ?>
     <div class="ms-apartments-main__sidebar__broker-details">
         <div>
-            <a href="javascript:void(0)"><img src="<?php echo esc_url($agent_picture); ?>" alt="<?php echo esc_attr($agent_name); ?>" <?php if( isset($agent_is_top_broker) && $agent_is_top_broker == 1 ) { } else { ?>style="max-width: 90px;"<?php } ?> /></a>
+            <a href="<?php echo esc_url($agent_array[ 'link' ]); ?>" target="_blank"><img src="<?php echo esc_url($agent_picture); ?>" alt="<?php echo esc_attr($agent_name); ?>" <?php if( isset($agent_is_top_broker) && $agent_is_top_broker == 1 ) { } else { ?>style="max-width: 90px;"<?php } ?> /></a>
         </div>
         <div class="ms-apartments-main__sidebar__broker-name">
-            <h6><?php echo esc_attr($agent_name); ?></h6>
+            <h6><a href="<?php echo esc_url($agent_array[ 'link' ]); ?>" target="_blank"><?php echo esc_attr($agent_name); ?></a></h6>
             <!-- list -->
             <ul class="ms-apartments-main__sidebar__broker-details__list">
                 <li>

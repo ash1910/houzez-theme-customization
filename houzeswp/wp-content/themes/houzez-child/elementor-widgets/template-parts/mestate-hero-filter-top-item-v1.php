@@ -8,11 +8,10 @@ $max_price = isset($_GET['max_price']) ? $_GET['max_price'] : '';
 $bed = isset($_GET['bedrooms']) ? $_GET['bedrooms'] : '';
 $bath = isset($_GET['bathrooms']) ? $_GET['bathrooms'] : '';
 
+// Get current page slug from URL
+$current_page = get_post(get_the_ID());
+$page_slug = $current_page->post_name;
 if( empty($_GET["status"]) ){
-    // Get current page slug from URL
-    $current_page = get_post(get_the_ID());
-    $page_slug = $current_page->post_name;
-    
     if ($page_slug) {
         $status = array($page_slug);
     }
@@ -42,7 +41,7 @@ if($adv_baths_list) {
     <input type="hidden" name="ms-max-price" value="<?php echo $max_price; ?>" class="ms-max-price-range-hidden range-input" readonly >
     <input type="hidden" name="ms-bed" value="<?php echo $bed; ?>" class="ms-bed-hidden" readonly >
     <input type="hidden" name="ms-bath" value="<?php echo $bath; ?>" class="ms-bath-hidden" readonly >
-    <div class="ms-input" <?php if(in_array("new-projects", $type)) echo 'style="display: none;"'; ?>>
+    <div class="ms-input" <?php if(in_array("new-projects", $type) || $page_slug == 'new-projects') echo 'style="display: none;"'; ?>>
         <select class="ms-nice-select-property-status" style="visibility: hidden;">
             <option value="" selected disabled>Select</option>
             <?php
@@ -84,8 +83,10 @@ if($adv_baths_list) {
             foreach($tax_terms as $term): 
             $page_path = get_page_by_path($term->slug);
             $page_available = $page_path ? "1" : "0";
+            $selected = in_array($term->slug, $type) ? 'selected' : '';
+            $active = in_array($term->slug, $status) ? 'selected' : ''; // here page slug is in status array
             ?>
-                <option data-page-available="<?php echo $page_available; ?>" value="<?php echo $term->slug; ?>" <?php if(in_array($term->slug, $type)) echo 'selected'; ?>><?php echo $term->name; ?></option>
+                <option data-page-available="<?php echo $page_available; ?>" value="<?php echo $term->slug; ?>" <?php echo $selected; ?> <?php echo $active; ?>><?php echo $term->name; ?></option>
             <?php endforeach; ?>
         </select>
     </div>

@@ -42,19 +42,19 @@ class MEstate_Property_Carousel extends \Elementor\Widget_Base {
             [
                 'label' => __( 'Number of Properties', 'houzez' ),
                 'type' => \Elementor\Controls_Manager::NUMBER,
-                'default' => 5,
+                'default' => 6,
             ]
         );
 
         $this->add_control(
-            'property_type',
+            'property',
             [
-                'label' => __( 'Property Type', 'houzez' ), 
+                'label' => __( 'Property', 'houzez' ), 
                 'type' => \Elementor\Controls_Manager::SELECT2,
-                'options' => $this->get_property_type_options(), // Fetch options dynamically
-                'multiple' => false, // Change to true if you want to allow multiple types
+                'options' => $this->get_property_options(), // Fetch options dynamically
+                'multiple' => true, // Change to true if you want to allow multiple types
                 'label_block' => true,
-                'description' => __( 'Select a property type to filter the carousel.', 'houzez' ),
+                'description' => __( 'Select property to display in the carousel.', 'houzez' ),
             ]
         );
 
@@ -63,14 +63,23 @@ class MEstate_Property_Carousel extends \Elementor\Widget_Base {
 
     protected function render() {
         $settings = $this->get_settings_for_display();
-
         $section_heading = $settings['section_heading'];
 
-        $atts = array(
-            'property_type' => $settings['property_type'],
-            'posts_limit' => $settings['posts_per_page'],
+        $search_qry = array(
+            'post_type' => 'property',
+            'post_status' => 'publish',
         );
-        $query = houzez_data_source::get_wp_query($atts);
+
+        // Add post__in parameter if specific properties are selected
+        if (!empty($settings['property']) && is_array($settings['property'])) {
+            $search_qry['post__in'] = $settings['property'];
+        }
+        else{
+            $search_qry['posts_per_page'] = $settings['posts_per_page'] !== "" ? $settings['posts_per_page'] : 6;
+        }
+        // Always create a WP_Query object
+        $query = new WP_Query($search_qry);
+        
 
         //<!-- start: New Projects  -->
         echo '<section class="ms-new-projects section--wrapper">';
@@ -178,21 +187,27 @@ class MEstate_Property_Carousel extends \Elementor\Widget_Base {
     
         wp_reset_postdata();
     }
-    
 
-    private function get_property_type_options() {
-        $terms = get_terms([
-            'taxonomy' => 'property_type',
-            'hide_empty' => true,
-        ]);
-        
+    private function get_property_options() {
+        // Advertise
+        $advertise_qry = array(
+            'post_type' => 'property',
+            'posts_per_page' => 100,
+            'orderby' => 'rand',
+        );
+        //$advertise_qry = apply_filters( 'houzez20_search_filters_advertise', $advertise_qry );
+        $advertise_qry = apply_filters( 'houzez_sold_status_filter', $advertise_qry );
+        $advertise_query = new WP_Query( $advertise_qry );
+
         $options = [];
-        if (!empty($terms) && !is_wp_error($terms)) {
-            foreach ($terms as $term) {
-                $options[$term->slug] = $term->name;
+        if ($advertise_query->have_posts()) {
+            while ($advertise_query->have_posts()) {
+                $advertise_query->the_post();
+                $options[get_the_ID()] = get_the_title();
             }
+            wp_reset_postdata();
         }
-    
+
         return $options;
     }
     

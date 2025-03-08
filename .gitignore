@@ -33,11 +33,12 @@ wp-config.php
 
 # Log files
 *.log
-*.DS_Store
+# System files
+.DS_Store
+**/.DS_Store
 
 # htaccess
 /.htaccess
-.DS_Store
 
 # All plugins
 #

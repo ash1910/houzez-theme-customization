@@ -2,8 +2,10 @@
 $prop_area = array();
 houzez_get_terms_array( 'property_area', $prop_area );
 
-$parent_term = get_term_by('slug', 'residential', 'property_type');
+$current_page = get_post(get_the_ID());
+$page_slug = $current_page->post_name;
 
+$parent_term = get_term_by('slug', 'residential', 'property_type');
 $prop_type_residential = array();
 if ($parent_term && !is_wp_error($parent_term)) {
     $prop_type_residential = get_terms(array(
@@ -14,10 +16,19 @@ if ($parent_term && !is_wp_error($parent_term)) {
 }
 
 $parent_term = get_term_by('slug', 'commercial', 'property_type');
-
 $prop_type_commercial = array();
 if ($parent_term && !is_wp_error($parent_term)) {
     $prop_type_commercial = get_terms(array(
+        'taxonomy' => 'property_type',
+        'hide_empty' => false,
+        'parent' => $parent_term->term_id
+    ));
+}
+
+$parent_term = get_term_by('slug', 'new-projects', 'property_type');
+$prop_type_new_projects = array();
+if ($parent_term && !is_wp_error($parent_term)) {
+    $prop_type_new_projects = get_terms(array(
         'taxonomy' => 'property_type',
         'hide_empty' => false,
         'parent' => $parent_term->term_id
@@ -31,6 +42,9 @@ $furnish_status = get_Houzez_Fields_Builder_select_options('furnish-status');
 $floor_plan = get_Houzez_Fields_Builder_select_options('floor-plan');
 $parking = array('1','2','3','4+');
 $tour_type = get_Houzez_Fields_Builder_select_options('tour-type');
+if (is_string($tour_type)) {
+    $tour_type = explode(',', $tour_type);
+}
 
 $adv_beds_list = houzez_option('adv_beds_list');
 $adv_baths_list = houzez_option('adv_baths_list');
@@ -83,7 +97,7 @@ if($adv_baths_list) {
               >
                 <button
                   id="buy-tab"
-                  class="<?php echo (isset($_GET['status']) && in_array('buy', $_GET['status'])) ? 'active' : ''; ?>"
+                  class="<?php echo (isset($_GET['status']) && in_array('buy', $_GET['status']) || $page_slug == 'buy') ? 'active' : ''; ?>"
                   data-target="#modalBuy"
                   data-toggle="tab"
                   data-page-available="<?php echo get_page_by_path('buy') ? '1' : '0'; ?>"
@@ -92,7 +106,7 @@ if($adv_baths_list) {
                 </button>
                 <button 
                   id="rent-tab" 
-                  class="<?php echo (isset($_GET['status']) && in_array('rent', $_GET['status'])) ? 'active' : ''; ?>"
+                  class="<?php echo (isset($_GET['status']) && in_array('rent', $_GET['status']) || $page_slug == 'rent') ? 'active' : ''; ?>"
                   data-target="#modalRent" 
                   data-toggle="tab" 
                   data-page-available="<?php echo get_page_by_path('rent') ? '1' : '0'; ?>"
@@ -101,7 +115,7 @@ if($adv_baths_list) {
                 </button>
                 <button 
                   id="new-project-tab" 
-                  class="<?php echo (isset($_GET['status']) && in_array('new-projects', $_GET['status'])) ? 'active' : ''; ?>"
+                  class="<?php echo (isset($_GET['type']) && in_array('new-projects', $_GET['type']) || $page_slug == 'new-projects') ? 'active' : ''; ?>"
                   data-target="#modalNew_project" 
                   data-toggle="tab" 
                   data-page-available="<?php echo get_page_by_path('new-projects') ? '1' : '0'; ?>"
@@ -110,7 +124,7 @@ if($adv_baths_list) {
                 </button>
                 <button
                   id="commercial-tab"
-                  class="<?php echo (isset($_GET['status']) && in_array('commercial', $_GET['status'])) ? 'active' : ''; ?>"
+                  class="<?php echo (isset($_GET['type']) && in_array('commercial', $_GET['type']) || $page_slug == 'commercial') ? 'active' : ''; ?>"
                   data-target="#modalCommercial"
                   data-toggle="tab"
                   data-page-available="<?php echo get_page_by_path('commercial') ? '1' : '0'; ?>"
@@ -171,10 +185,10 @@ if($adv_baths_list) {
                     <?php endif; ?>
 
                     <?php if(is_array($prop_type_residential) && count($prop_type_residential) > 0): ?>
-                    <div class="ms-filter__modal__inputs ms-filter__modal__inputs--apartment buy-tab rent-tab new-project-tab">
+                    <div class="ms-filter__modal__inputs ms-filter__modal__inputs--apartment buy-tab rent-tab">
                       <h6>Property Type</h6>
                       <ul class="ms-input__list ms-input__list--auto-width radio_btn_group" id="property-type-list-residential">
-                        <?php foreach($prop_type_residential as $term): $active = in_array($term->slug, $_GET['type']) ? 'active' : ''; ?>
+                        <?php foreach($prop_type_residential as $term): $active = isset($_GET['type']) && in_array($term->slug, $_GET['type']) ? 'active' : ''; ?>
                         <li>
                           <button data-value="<?php echo $term->slug; ?>" class="filter-item <?php echo $active; ?>">
                             <i class="icon-apartment icon-<?php echo $term->slug; ?>"></i> <?php echo $term->name; ?>
@@ -192,7 +206,22 @@ if($adv_baths_list) {
                     <div class="ms-filter__modal__inputs ms-filter__modal__inputs--apartment commercial-tab initial-hide">
                       <h6>Property Type</h6>
                       <ul class="ms-input__list ms-input__list--auto-width radio_btn_group" id="property-type-list-commercial">
-                        <?php foreach($prop_type_commercial as $term): $active = in_array($term->slug, $_GET['type']) ? 'active' : ''; ?>
+                        <?php foreach($prop_type_commercial as $term): $active = isset($_GET['type']) && in_array($term->slug, $_GET['type']) ? 'active' : ''; ?>
+                        <li>
+                          <button data-value="<?php echo $term->slug; ?>" class="filter-item <?php echo $active; ?>">
+                            <i class="icon-apartment icon-<?php echo $term->slug; ?>"></i> <?php echo $term->name; ?>
+                          </button>
+                        </li>
+                        <?php endforeach; ?>
+                      </ul>
+                    </div>
+                    <?php endif; ?>
+
+                    <?php if(is_array($prop_type_new_projects) && count($prop_type_new_projects) > 0): ?>
+                    <div class="ms-filter__modal__inputs ms-filter__modal__inputs--apartment new-project-tab initial-hide">
+                      <h6>Property Type</h6>
+                      <ul class="ms-input__list ms-input__list--auto-width radio_btn_group" id="property-type-list-new-projects">
+                        <?php foreach($prop_type_new_projects as $term): $active = isset($_GET['type']) && in_array($term->slug, $_GET['type']) ? 'active' : ''; ?>
                         <li>
                           <button data-value="<?php echo $term->slug; ?>" class="filter-item <?php echo $active; ?>">
                             <i class="icon-apartment icon-<?php echo $term->slug; ?>"></i> <?php echo $term->name; ?>
@@ -207,7 +236,7 @@ if($adv_baths_list) {
                     <div class="ms-input__content__beds rent-tab initial-hide">
                       <h6>Payment Plan</h6>
                       <ul class="ms-input__list ms-input__list--auto-width radio_btn_group" id="payment-plan-list">
-                        <?php foreach($payment_plan as $key => $value): $active = $_GET['payment_plan'] == $value ? 'active' : ''; ?>
+                        <?php foreach($payment_plan as $key => $value): $active = isset($_GET['payment_plan']) && $_GET['payment_plan'] == $value ? 'active' : ''; ?>
                         <li><button data-value="<?php echo $key; ?>" class="filter-item <?php echo $active; ?>"><?php echo $value; ?></button></li>
                         <?php endforeach; ?>
                       </ul>
@@ -218,7 +247,7 @@ if($adv_baths_list) {
                     <div class="ms-input__content__beds new-project-tab initial-hide">
                       <h6>Completion</h6>
                       <ul class="ms-input__list ms-input__list--auto-width radio_btn_group" id="completion-list">
-                        <?php foreach($completion as $key => $value): $active = $_GET['completion'] == $value ? 'active' : ''; ?>
+                        <?php foreach($completion as $key => $value): $active = isset($_GET['completion']) && $_GET['completion'] == $value ? 'active' : ''; ?>
                         <li><button data-value="<?php echo $key; ?>" class="filter-item <?php echo $active; ?>"><?php echo $value; ?></button></li>
                         <?php endforeach; ?>
                       </ul>
@@ -229,7 +258,7 @@ if($adv_baths_list) {
                     <div class="ms-input__content__beds new-project-tab initial-hide">
                       <h6>Handover</h6>
                       <ul class="ms-input__list ms-input__list--auto-width radio_btn_group" id="handover-list">
-                        <?php foreach($handover as $key => $value): $active = $_GET['handover'] == $value ? 'active' : ''; ?>
+                        <?php foreach($handover as $key => $value): $active = isset($_GET['handover']) && $_GET['handover'] == $value ? 'active' : ''; ?>
                         <li><button data-value="<?php echo $key; ?>" class="filter-item <?php echo $active; ?>"><?php echo $value; ?></button></li>
                         <?php endforeach; ?>
                       </ul>
@@ -324,8 +353,7 @@ if($adv_baths_list) {
                     <div class="ms-input__content__beds buy-tab rent-tab commercial-tab">
                       <h6>Furnish Status</h6>
                       <ul class="ms-input__list ms-input__list--auto-width radio_btn_group" id="furnish-status-list">
-                        <li><button data-value="" class="filter-item">All</button></li>
-                        <?php foreach($furnish_status as $key => $value): $active = $_GET['furnish-status'] == $value ? 'active' : ''; ?>
+                        <?php foreach($furnish_status as $key => $value): $active = isset($_GET['furnish-status']) && $_GET['furnish-status'] == $value ? 'active' : ''; ?>
                         <li><button data-value="<?php echo $key; ?>" class="filter-item <?php echo $active; ?>"><?php echo $value; ?></button></li>
                         <?php endforeach; ?>
                       </ul>
@@ -337,7 +365,7 @@ if($adv_baths_list) {
                       <h6>Beds</h6>
                       <ul class="ms-input__list radio_btn_group" id="beds-list">
                         <li><button data-value="" class="w-auto filter-item">Any</button></li>
-                        <?php foreach($bed_list as $value): $active = $_GET['bedrooms'] == $value ? 'active' : ''; ?>    
+                        <?php foreach($bed_list as $value): $active = isset($_GET['bedrooms']) && $_GET['bedrooms'] == $value ? 'active' : ''; ?>    
                         <li><button data-value="<?php echo $value; ?>" class="w-auto filter-item <?php echo $active; ?>"><?php echo $value; ?></button></li>
                         <?php endforeach; ?>
                 
@@ -350,7 +378,7 @@ if($adv_baths_list) {
                       <h6>Baths</h6>
                       <ul class="ms-input__list radio_btn_group" id="baths-list">
                         <li><button data-value="" class="w-auto filter-item">Any</button></li>
-                        <?php foreach($bath_list as $value): $active = $_GET['bathrooms'] == $value ? 'active' : ''; ?>
+                        <?php foreach($bath_list as $value): $active = isset($_GET['bathrooms']) && $_GET['bathrooms'] == $value ? 'active' : ''; ?>
                         <li><button data-value="<?php echo $value; ?>" class="w-auto filter-item <?php echo $active; ?>"><?php echo $value; ?></button></li>
                         <?php endforeach; ?>
                       </ul>
@@ -361,7 +389,7 @@ if($adv_baths_list) {
                       <h6>Parking</h6>
                       <ul class="ms-input__list radio_btn_group" id="parking-list">
                         <li><button data-value="" class="filter-item">Any</button></li>
-                        <?php foreach($parking as $key => $value): $active = $_GET['garage'] == $value ? 'active' : ''; ?>
+                        <?php foreach($parking as $key => $value): $active = isset($_GET['garage']) && $_GET['garage'] == $value ? 'active' : ''; ?>
                         <li><button data-value="<?php echo $value; ?>" class="filter-item <?php echo $active; ?>"><?php echo $value; ?></button></li>
                         <?php endforeach; ?>
                       </ul>
@@ -372,10 +400,10 @@ if($adv_baths_list) {
                     <div class="ms-input__content__beds">
                       <h6>Tour Type</h6>
                       <ul class="ms-input__list radio_btn_group" id="tour-type-list">
-                        <?php foreach($tour_type as $key => $value): $active = $_GET['tour-type'] == $value ? 'active' : ''; ?>
+                        <?php foreach($tour_type as $key => $value): $active = isset($_GET['tour-type']) && $_GET['tour-type'] == $value ? 'active' : ''; ?>
                         <?php if($value == '360 Degree'): ?>
                         <li>
-                          <button class="w-auto filter-item <?php echo $active; ?>" data-value="<?php echo $key; ?>">
+                          <button class="w-auto filter-item <?php echo $active; ?>" data-value="<?php echo $value; ?>">
                             <svg
                               width="24"
                               height="24"
@@ -418,7 +446,7 @@ if($adv_baths_list) {
                           </button>
                         </li>
                         <?php else: ?>
-                        <li><button data-value="<?php echo $key; ?>" class="w-auto filter-item <?php echo $active; ?>"><?php echo $value; ?></button></li>
+                        <li><button data-value="<?php echo $value; ?>" class="w-auto filter-item <?php echo $active; ?>"><?php echo $value; ?></button></li>
                         <?php endif; ?>
                         <?php endforeach; ?>
                       </ul>
@@ -429,7 +457,7 @@ if($adv_baths_list) {
                     <div class="ms-input__content__beds">
                       <h6>Floor Plan</h6>
                       <ul class="ms-input__list radio_btn_group" id="floor-plan-list">
-                        <?php foreach($floor_plan as $key => $value): $active = $_GET['floor-plan'] == $value ? 'active' : ''; ?>
+                        <?php foreach($floor_plan as $key => $value): $active = isset($_GET['floor-plan']) && $_GET['floor-plan'] == $value ? 'active' : ''; ?>
                         <li><button data-value="<?php echo $key; ?>" class="w-auto filter-item <?php echo $active; ?>"><?php echo $value; ?></button></li>
                         <?php endforeach; ?>
                       </ul>
@@ -445,9 +473,6 @@ if($adv_baths_list) {
                   </form>
                   
                 </div>
-                <!-- content 2 -->
-                <!-- content 3 -->
-                <!-- content 4 -->
               </div>
             </div>
           </div>
@@ -698,6 +723,8 @@ if($adv_baths_list) {
             let property_type = '';
             if (jQuery('#commercial-tab').hasClass('active')) {
                 property_type = $form.find('#property-type-list-commercial .filter-item.active').data('value');
+            }else if (jQuery('#new-project-tab').hasClass('active')) {
+                property_type = $form.find('#property-type-list-new-projects .filter-item.active').data('value');
             } else {
                 property_type = $form.find('#property-type-list-residential .filter-item.active').data('value');
             }
@@ -727,7 +754,7 @@ if($adv_baths_list) {
               "max-price": max_price || '',
               "min-area": min_area === '0' ? '' : (min_area || ''),
               "max-area": max_area === 'Any' ? '' : (max_area || ''),
-              "furnish-status": furnish_status || '',
+              "furnish-status": furnish_status === 'Any' ? '' : (furnish_status || ''),
               "garage": parking || '',
               "tour-type": tour_type === 'any' || tour_type === 'Any' ? '' : (tour_type || ''),
               "floor-plan": floor_plan === 'any' || floor_plan === 'Any' ? '' : (floor_plan || ''),
@@ -754,20 +781,20 @@ if($adv_baths_list) {
                     break;
                 case 'new-project-tab':
                     type = 'new-projects';
-                    params['type[]'] = ['new-projects'];
-                    if (property_type) {
-                        params['type[]'].push(property_type);
-                    }
+                    // params['type[]'] = ['new-projects'];
+                    // if (property_type) {
+                    //     params['type[]'].push(property_type);
+                    // }
                     params.handover = handover || '';
                     params.completion = completion || '';
                     params['furnish-status'] = '';
                     break;
                 case 'commercial-tab':
                     type = 'commercial';
-                    params['type[]'] = ['commercial'];
-                    if (property_type) {
-                        params['type[]'].push(property_type);
-                    }
+                    // params['type[]'] = ['commercial'];
+                    // if (property_type) {
+                    //     params['type[]'].push(property_type);
+                    // }
                     break;
             }
 
@@ -816,8 +843,8 @@ if($adv_baths_list) {
             price_range_slider.slider('values', [min_price, max_price]);
             $form.find(".ms-input__content__value--min").val(thousandSeparator(min_price));
             $form.find(".ms-input__content__value--max").val(thousandSeparator(max_price));
-            $form.find(".ms-min-price-range-hidden").val(min_price);
-            $form.find(".ms-max-price-range-hidden").val(max_price);
+            $form.find(".ms-min-price-range-hidden").val("");
+            $form.find(".ms-max-price-range-hidden").val("");
             
             // Reset area inputs
             $form.find('input[name="ms-min-area"]').val('0');
