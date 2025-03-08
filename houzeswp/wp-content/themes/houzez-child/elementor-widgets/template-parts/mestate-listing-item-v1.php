@@ -167,7 +167,7 @@ if( $key != false || $key != '' ) {
                     echo '<span>'.$property_type.'</span>';
                 } ?></h6>
             <?php if(!empty( $agent_info[0] ) && isset($agent_is_top_broker) && $agent_is_top_broker == 1) { ?>
-            <a href="javascript:void(0)" class="hz-email-popup-js" data-model-id="email-popup-<?php echo esc_attr($post->ID).'-'.$random_token; ?>"><img src="<?php echo $agent_info[0]['picture']; ?>" alt="" />
+            <a href="<?php echo esc_url($agent_info[0]['link']); ?>" target="_blank"><img src="<?php echo $agent_info[0]['picture']; ?>" alt="" />
                 <span>TopBroker</span></a>
             <?php } ?>
         </div>

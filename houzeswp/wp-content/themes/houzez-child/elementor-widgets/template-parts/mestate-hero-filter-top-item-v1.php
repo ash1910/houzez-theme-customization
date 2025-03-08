@@ -100,26 +100,41 @@ if($adv_baths_list) {
             <h6>Price Range</h6>
             <div class="price_filter">
                 <div class="price_slider_amount">
-                    
                     <div class="ms-input__content__value__wrapper">
-                        <span>min</span>
-                        <span
-                            class="ms-input__content__value ms-input__content__value--min"
-                        >
-                            $200
-                        </span>
+                    <span>min</span>
+                    <div class="ms-input ms-input--serach" style="width: auto; gap: 10px; padding: 0 10px;">
+                        <span class="currency-symbol"></span>
+                        <input
+                        type="text"
+                        class="ms-input__content__value ms-input__content__value--min ms-btn ms-btn__not-submit"
+                        value="1"
+                        pattern="[0-9]*"
+                        inputmode="numeric"
+                        onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                        style="max-width: 140px;"
+                        />
+                    </div>
                     </div>
                     <div class="ms-input__content__value__wrapper">
-                        <span>Max</span>
-                        <span
-                            class="ms-input__content__value ms-input__content__value--max"
-                        >
-                            $1500
-                        </span>
+                    <span>Max</span>
+                    <div class="ms-input ms-input--serach" style="width: auto; gap: 10px; padding: 0 10px;">
+                        <span class="currency-symbol"></span>
+                        <input
+                        type="text" 
+                        class="ms-input__content__value ms-input__content__value--max ms-btn ms-btn__not-submit"
+                        value="1000000"
+                        pattern="[0-9]*"
+                        inputmode="numeric"
+                        onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                        style="max-width: 140px;"
+                        />
+                    </div>
                     </div>
                 </div>
                 <div class="slider-range ms-slider-range ms-price-slider-range"></div>
-            </div>
+            </div> 
 
             <div class="ms-input__content__action">
                 <button class="ms-btn ms-btn--transparent ms-btn__not-submit ms-reset-price-range">

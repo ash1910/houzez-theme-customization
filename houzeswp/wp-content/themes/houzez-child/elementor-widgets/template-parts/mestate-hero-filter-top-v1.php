@@ -58,22 +58,24 @@
     function ms_hero_filter_price_range(price_range_slider) {
       let $form = price_range_slider.closest('form');
       var currency_symb = houzez_vars.currency_symbol;
+      // Update all currency symbols in the form
+      $form.find('.currency-symbol').each(function() {
+        jQuery(this).html(currency_symb);
+      });
       var currency_position = houzez_vars.currency_position;
+      var min_price_selected = "<?php echo @$_GET['min-price']; ?>";
+      var max_price_selected = "<?php echo @$_GET['max-price']; ?>";
       var min_price = <?php echo houzez_option('advanced_search_widget_min_price', 0); ?>;
       var max_price = <?php echo houzez_option('advanced_search_widget_max_price', 2500000); ?>;
-      
-      // Get URL parameters for min and max price
-      var min_price_selected_value = <?php echo isset($_GET['min-price']) && $_GET['min-price'] !== '' ? $_GET['min-price'] : 'min_price'; ?>;
-      var max_price_selected_value = <?php echo isset($_GET['max-price']) && $_GET['max-price'] !== '' ? $_GET['max-price'] : 'max_price'; ?>;
       
       var slider = price_range_slider.slider({
         range: true,
         min: min_price,
         max: max_price,
-        values: [min_price_selected_value, max_price_selected_value],
+        values: [min_price, max_price],
         slide: function (event, ui) {
-          $form.find(".ms-input__content__value--min").html(currency_symb + thousandSeparator(ui.values[0]));
-          $form.find(".ms-input__content__value--max").html(currency_symb + thousandSeparator(ui.values[1]));
+          $form.find(".ms-input__content__value--min").val(thousandSeparator(ui.values[0]));
+          $form.find(".ms-input__content__value--max").val(thousandSeparator(ui.values[1]));
 
           $form.find(".ms-min-price-range-hidden").val( ui.values[0] );
           $form.find(".ms-max-price-range-hidden").val( ui.values[1] );
@@ -82,16 +84,40 @@
         },
       });
 
+      // Handle manual input for min price
+      $form.find(".ms-input__content__value--min").on('change', function() {
+        let value = parseInt(jQuery(this).val().replace(/[^0-9]/g, ''));
+        if (isNaN(value)) value = min_price;
+        if (value > slider.slider("values", 1)) value = slider.slider("values", 1);
+        if (value < min_price) value = min_price;
+        
+        slider.slider("values", 0, value);
+        jQuery(this).val(thousandSeparator(value));
+        $form.find(".ms-min-price-range-hidden").val(value);
+      });
+
+      // Handle manual input for max price
+      $form.find(".ms-input__content__value--max").on('change', function() {
+        let value = parseInt(jQuery(this).val().replace(/[^0-9]/g, ''));
+        if (isNaN(value)) value = max_price;
+        if (value < slider.slider("values", 0)) value = slider.slider("values", 0);
+        if (value > max_price) value = max_price;
+        
+        slider.slider("values", 1, value);
+        jQuery(this).val(thousandSeparator(value));
+        $form.find(".ms-max-price-range-hidden").val(value);
+        $form.find(".ms-input--price-btn").html('Up to ' + formatPrice(value) + ' ' + currency_symb);
+      });
+
       // Update initial display values based on URL parameters
-      $form.find(".ms-input__content__value--min").html(currency_symb + thousandSeparator(min_price_selected_value));
-      $form.find(".ms-input__content__value--max").html(currency_symb + thousandSeparator(max_price_selected_value));
-      
-      
-      // Update the price button text if URL parameters exist
-      if (min_price_selected_value !== min_price || max_price_selected_value !== max_price) {
-        $form.find(".ms-min-price-range-hidden").val(min_price_selected_value);
-        $form.find(".ms-max-price-range-hidden").val(max_price_selected_value);
-        $form.find(".ms-input--price-btn").html('Up to ' + formatPrice(max_price_selected_value) + ' ' + currency_symb);
+      $form.find(".ms-input__content__value--min").val(thousandSeparator(min_price_selected != "" ? min_price_selected : min_price));
+      $form.find(".ms-input__content__value--max").val(thousandSeparator(max_price_selected != "" ? max_price_selected : max_price));
+      $form.find(".ms-min-price-range-hidden").val(min_price_selected || "");
+      $form.find(".ms-max-price-range-hidden").val(max_price_selected || "");
+      slider.slider("values", 0, min_price_selected != "" ? min_price_selected : min_price);
+      slider.slider("values", 1, max_price_selected != "" ? max_price_selected : max_price);
+      if(min_price_selected != "" || max_price_selected != "") {
+        $form.find(".ms-input--price-btn").html('Up to ' + formatPrice(max_price_selected) + ' ' + currency_symb);
       }
 
       $form.find('.ms-reset-price-range').on('click', function() {
@@ -99,8 +125,8 @@
         slider.slider('values', [min_price, max_price]);
         
         // Reset displayed values
-        $form.find(".ms-input__content__value--min").html(currency_symb + thousandSeparator(min_price));
-        $form.find(".ms-input__content__value--max").html(currency_symb + thousandSeparator(max_price));
+        $form.find(".ms-input__content__value--min").val(thousandSeparator(min_price));
+        $form.find(".ms-input__content__value--max").val(thousandSeparator(max_price));
         
         // Reset hidden inputs
         $form.find(".ms-min-price-range-hidden").val(min_price);
@@ -109,11 +135,6 @@
         // Reset button text
         $form.find(".ms-input--price-btn").html('Select Price <i class="">' + currency_symb + '</i>');
       });
-
-      // $form.find(".ms-btn--apply").on('click', function() {
-      //   //console.log('apply');
-      //   $form.find(".ms-input--price-btn").removeClass('open');
-      // });
     }
 
     const filterBtns = function(){
@@ -133,6 +154,8 @@
 
                 const isOpen = this.classList.contains("open");
                 const isApply = this.classList.contains("ms-btn--apply");
+                const isInputMin = this.classList.contains("ms-input__content__value--min");
+                const isInputMax = this.classList.contains("ms-input__content__value--max");
 
                 buttonsInForm?.forEach(button => {
                   button.classList.remove("open");
@@ -147,6 +170,10 @@
 
                 if (isApply) {
                   priceRangeParent.find(".open").removeClass("open");
+                }
+
+                if (isInputMin || isInputMax) {
+                  this.classList.add("open");
                 }
               });
 
