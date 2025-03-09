@@ -163,7 +163,7 @@ if( $key != false || $key != '' ) {
     <div class="ms-apartments-main__card__content">
         <?php if(!empty($agency_logo)) { ?>
         <div class="ms-apartments-main__card__logo">
-            <a href="<?php echo esc_url(get_permalink()); ?>">
+            <a href="<?php echo esc_url(@$agent_info[0]['link']); ?>" target="_blank">
                 <img
                     src="<?php echo $agency_logo; ?>"
                     alt=""

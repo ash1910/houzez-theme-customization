@@ -4301,29 +4301,30 @@ function getNormalListPageUrl() {
     return home_url($path . $query);
 }
 
-
-
 // Include and register the sidebar banner widget
 require_once get_stylesheet_directory() . '/class-sidebar-banner-widget.php';
+require_once get_stylesheet_directory() . '/class-sidebar-category-widget.php';
+require_once get_stylesheet_directory() . '/class-sidebar-search-widget.php';
 
-function register_sidebar_banner_widget() {
+function register_blog_sidebar_widget() {
     register_widget('Sidebar_Banner_Widget');
+    register_widget('MS_Category_Widget');
+    register_widget('MS_Search_Widget');
 }
-add_action('widgets_init', 'register_sidebar_banner_widget');
+add_action('widgets_init', 'register_blog_sidebar_widget');
 
 
-function register_blog_sidebar_banner() {
+function register_blog_sidebar() {
     register_sidebar(array(
-        'name'          => 'Blog Sidebar Banner',
-        'id'            => 'blog-sidebar-banner',
-        'description'   => 'Add banner widgets here',
+        'name'          => 'Blog Sidebar',
+        'id'            => 'blog-sidebar',
+        'description'   => 'Add widgets here',
         'before_widget' => '',
         'after_widget'  => '',
         'before_title'  => '<h5>',
         'after_title'   => '</h5>',
     ));
 }
-add_action('widgets_init', 'register_blog_sidebar_banner');
-
+add_action('widgets_init', 'register_blog_sidebar');
 
 ?>

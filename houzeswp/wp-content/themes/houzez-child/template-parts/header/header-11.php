@@ -153,7 +153,15 @@ if(isset($args['sticky_header']) && $args['sticky_header'] == '1'){
 					<?php if( !empty( $dashboard_favorites ) ) { ?>
 					<li class="d-none d-lg-block">
 						<a href="<?php echo esc_url( $dashboard_favorites ); ?>" class="ms-header__heart">
-						<i class="fa-light fa-heart"></i>
+							<i class="fa-light fa-heart"></i>
+							<span><?php 
+								if(is_user_logged_in()) {
+									$favorite_ids = get_user_meta( $userID, 'houzez_favorites', true );
+									echo str_pad(count($favorite_ids), 2, '0', STR_PAD_LEFT);
+								} else {
+									echo '00';
+								}
+							?></span>
 						</a>
 					</li>
 					<?php } ?>

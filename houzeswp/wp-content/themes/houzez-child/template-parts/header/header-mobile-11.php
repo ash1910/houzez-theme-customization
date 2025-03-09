@@ -130,9 +130,14 @@ add_filter('nav_menu_link_attributes', function($atts) {
             <li>
               <a class="dropdown-item dropdown-item--heart" href="<?php echo esc_url( $dashboard_favorites ); ?>"
                 ><i class="fa-light fa-heart"></i> Favorite
-                <span class="dropdown-item__status">
-                  <?php echo empty($fav_ids) ? 0 : count($fav_ids); ?>
-                </span>
+                <span class="dropdown-item__status"><?php 
+								if(is_user_logged_in()) {
+									$favorite_ids = get_user_meta( $userID, 'houzez_favorites', true );
+									echo str_pad(count($favorite_ids), 2, '0', STR_PAD_LEFT);
+								} else {
+									echo '00';
+								}
+							?></span>
               </a>
             </li>
             <?php } ?>
