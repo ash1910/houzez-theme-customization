@@ -154,14 +154,12 @@ if(isset($args['sticky_header']) && $args['sticky_header'] == '1'){
 					<li class="d-none d-lg-block">
 						<a href="<?php echo esc_url( $dashboard_favorites ); ?>" class="ms-header__heart">
 							<i class="fa-light fa-heart"></i>
-							<span><?php 
+							<?php 
 								if(is_user_logged_in()) {
 									$favorite_ids = get_user_meta( $userID, 'houzez_favorites', true );
-									echo str_pad(count($favorite_ids), 2, '0', STR_PAD_LEFT);
-								} else {
-									echo '00';
+									echo count($favorite_ids) > 0 ? "<span class='ms-header__heart-count' data-count='" . count($favorite_ids) . "'>" . count($favorite_ids) . "</span>" : "";
 								}
-							?></span>
+							?>
 						</a>
 					</li>
 					<?php } ?>

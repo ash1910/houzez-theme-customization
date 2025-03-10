@@ -15,16 +15,12 @@ $second_price   = get_post_meta( $listing_id, 'fave_property_sec_price', true );
 $price_postfix  = get_post_meta( $listing_id, 'fave_property_price_postfix', true );
 $price_prefix   = get_post_meta( $listing_id, 'fave_property_price_prefix', true );
 
-$key = '';
-$userID      =   get_current_user_id();
-$fav_option = 'houzez_favorites-'.$userID;
-$fav_option = get_option( $fav_option );
-if( !empty($fav_option) ) {
-    $key = array_search($listing_id, $fav_option);
-}
-
+$added_wishlist = '';
 $icon = '';
-if( $key != false || $key != '' ) {
+$userID = get_current_user_id();
+$favorite_ids = get_user_meta( $userID, 'houzez_favorites', true );
+if( !empty($favorite_ids) && in_array($listing_id, $favorite_ids) ) {
+    $added_wishlist = 'added-wishlist';
     $icon = 'text-danger';
 }
 
@@ -73,7 +69,7 @@ $hide_detail = houzez_option('hide_detail_prop_fields');
                         <ul class="ms-apartments-main____card__button-list">
                             <?php if( houzez_option('prop_detail_favorite') != 0 ) { ?>
                             <li>
-                                <a href="javascript:void(0)" class="ms-btn ms-btn--primary add-favorite-js" data-listid="<?php echo intval($listing_id)?>">
+                                <a href="javascript:void(0)" class="ms-btn ms-btn--primary add-favorite-js <?php echo $added_wishlist; ?>" data-listid="<?php echo intval($listing_id)?>">
                                     <i class="icon-heart_fill <?php echo $icon; ?>"></i>
                                     Save</a>
                             </li>

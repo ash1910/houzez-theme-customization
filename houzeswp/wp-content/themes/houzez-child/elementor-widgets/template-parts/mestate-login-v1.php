@@ -105,7 +105,8 @@
                         </label>
                       </div>
 
-                      <a href="#" class="ms-form__forgot-pass"
+                      <a class="ms-form__forgot-pass"
+                        href="#" data-toggle="modal" data-target="#reset-password-form" data-dismiss="modal"
                         >Forgot Password?</a
                       >
                     </div>
@@ -234,6 +235,8 @@
         </div>
       </section>
       <!-- end:  Login  -->
+
+      <?php get_template_part('template-parts/login-register/modal-reset-password-form'); ?>
 
       <script>
         // form slider

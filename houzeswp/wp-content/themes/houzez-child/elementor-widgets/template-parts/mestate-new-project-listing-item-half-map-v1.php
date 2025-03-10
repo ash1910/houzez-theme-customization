@@ -80,6 +80,7 @@ $second_price   = get_post_meta( $listing_id, 'fave_property_sec_price', true );
 $price_postfix  = get_post_meta( $listing_id, 'fave_property_price_postfix', true );
 $price_prefix   = get_post_meta( $listing_id, 'fave_property_price_prefix', true );
 $price_separator = houzez_option('currency_separator');
+$currency_symbol = houzez_get_currency();
 
 $handover = get_post_meta( $listing_id, 'fave_handover', true );
 $completion = get_post_meta( $listing_id, 'fave_completion', true );
@@ -100,6 +101,7 @@ if( !empty( $agent_info[0] )) {
         if( !empty($thumbnail_src) ) {
             $agency_logo = esc_attr( $thumbnail_src[ 0 ] );
         }
+        $agent_agency_link = esc_url(get_permalink($agent_agency_id));
     }
 }
 elseif( houzez_is_developer($post->post_author) ){
@@ -109,17 +111,11 @@ elseif( houzez_is_developer($post->post_author) ){
     }
 }
 
-$key = '';
-$userID      =   get_current_user_id();
-$fav_option = 'houzez_favorites-'.$userID;
-$fav_option = get_option( $fav_option );
-if( !empty($fav_option) ) {
-    $key = array_search($post->ID, $fav_option);
-}
-
-$icon = '';
-if( $key != false || $key != '' ) {
-    $icon = 'text-danger';
+$added_wishlist = '';
+$userID = get_current_user_id();
+$favorite_ids = get_user_meta( $userID, 'houzez_favorites', true );
+if( !empty($favorite_ids) && in_array($listing_id, $favorite_ids) ) {
+    $added_wishlist = 'added-wishlist';
 }
 ?>
 
@@ -147,10 +143,10 @@ if( $key != false || $key != '' ) {
             <?php if(houzez_option('disable_favorite', 1)) { ?>
             <a
                 href="javascript:void(0)"
-                class="ms-apartments-main__card__thumbnail__heart add-favorite-js item-favorite" 
+                class="ms-apartments-main__card__thumbnail__heart add-favorite-js item-favorite <?php echo esc_attr($added_wishlist); ?>" 
                 data-listid="<?php echo intval($post->ID)?>"
-                ><i class="fa-solid fa-heart <?php echo esc_attr($icon); ?>"></i>
-                <i class="fa-light fa-heart <?php echo esc_attr($icon); ?>"></i
+                ><i class="fa-solid fa-heart"></i>
+                <i class="fa-light fa-heart"></i
             ></a>
             <?php } ?>
         </div>
@@ -158,7 +154,7 @@ if( $key != false || $key != '' ) {
     <div class="ms-apartments-main__card__content">
         <?php if(!empty($agency_logo)) { ?>
         <div class="ms-apartments-main__card__logo">
-            <a href="<?php echo esc_url(@$agent_info[0]['link']); ?>" target="_blank">
+            <a href="<?php echo $agent_agency_link ?? '#'; ?>" target="_blank">
                 <img
                     src="<?php echo $agency_logo; ?>"
                     alt=""
@@ -175,22 +171,30 @@ if( $key != false || $key != '' ) {
             >
         </div>
         <!-- price -->
-        <div class="ms-apartments-main____card__price">
+        <div class="ms-apartments-main____card__price" style="max-width: 215px;">
             <p>Starting Price</p>
-            <h6><?php echo $price_prefix. houzez_get_property_price($sale_price); ?></h6>
+            <h6><?php 
+            // Convert to millions if price is larger than a million
+            if(is_numeric($sale_price) && $sale_price >= 1000000) {
+                $price_in_millions = number_format($sale_price / 1000000, 2);
+                echo $currency_symbol . $price_in_millions . ' M';
+            } else {
+                echo $price_prefix . houzez_get_property_price($sale_price);
+            }
+            ?></h6>
         </div>
         <!-- details list -->
         <ul class="ms-apartments-main____card__details-list ms-apartments-main____card__details-list--2">
             <?php $property_type = houzez_taxonomy_simple('property_type'); 
             if(!empty($property_type)) { ?>
-            <li>
+            <li style="white-space: normal; <?php echo !empty($handover) ? 'max-width: 140px;' : 'max-width: 100%;'; ?>"> 
                 <div><i class="icon-building"> </i> <?php echo $property_type; ?></div>
-            </li>
-            <li>
-                <hr />
             </li>
             <?php } ?>
             <?php if(!empty($handover)) { ?>
+            <li>
+                <hr />
+            </li>
             <li>
                 <div>
                     <i class="icon-calendar_balck_fill"> </i> <?php echo $handover; ?>

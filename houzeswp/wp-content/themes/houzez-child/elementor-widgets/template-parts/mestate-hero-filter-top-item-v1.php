@@ -99,10 +99,10 @@ if($adv_baths_list) {
         <div class="ms-input__content">
             <h6>Price Range</h6>
             <div class="price_filter">
-                <div class="price_slider_amount">
+                <div class="price_slider_amount" style="gap: 10px;padding: 0;">
                     <div class="ms-input__content__value__wrapper">
                     <span>min</span>
-                    <div class="ms-input ms-input--serach" style="width: auto; gap: 10px; padding: 0 10px;">
+                    <div class="ms-input ms-input--serach" style="width: auto; gap: 10px; padding: 0 10px; background-color:#f5fcf9; border: 1px solid #00a86b;">
                         <span class="currency-symbol"></span>
                         <input
                         type="text"
@@ -118,7 +118,7 @@ if($adv_baths_list) {
                     </div>
                     <div class="ms-input__content__value__wrapper">
                     <span>Max</span>
-                    <div class="ms-input ms-input--serach" style="width: auto; gap: 10px; padding: 0 10px;">
+                    <div class="ms-input ms-input--serach" style="width: auto; gap: 10px; padding: 0 10px; background-color:#f5fcf9; border: 1px solid #00a86b;">
                         <span class="currency-symbol"></span>
                         <input
                         type="text" 

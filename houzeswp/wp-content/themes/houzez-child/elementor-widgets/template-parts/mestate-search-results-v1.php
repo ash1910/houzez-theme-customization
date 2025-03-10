@@ -26,6 +26,7 @@ $settings = get_query_var('settings', []);
 $status_data = $settings['status_data'];
 $sidebar_image = $settings['sidebar_image'];
 $sidebar_download_url = $settings['sidebar_download_url'];
+$sidebar_download_text = $settings['sidebar_download_text'];
 
 if( isset($_GET["status"]) && !empty($_GET["status"]) && !empty($_GET["status"][0]) ){
     $status = $_GET["status"][0];
@@ -305,7 +306,7 @@ if( $total_records > 1 ) {
                         ><img src="<?php echo esc_url($sidebar_image['url']); ?>" alt="<?php echo esc_attr($sidebar_image['alt']); ?>"
                     /></a>
 
-                    <a href="<?php echo !empty($sidebar_download_url) ? esc_url($sidebar_download_url['url']) : '#'; ?>" class="ms-btn ms-btn--primary">Download Now</a>
+                    <a href="<?php echo !empty($sidebar_download_url) ? esc_url($sidebar_download_url['url']) : '#'; ?>" class="ms-btn ms-btn--primary"><?php echo $sidebar_download_text; ?></a>
                 </div>
                 <?php }?>
             </div>

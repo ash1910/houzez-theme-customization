@@ -108,17 +108,11 @@ if( !empty( $agent_info[0] )) {
     $agent_is_top_broker = get_post_meta($agent_info[0]['agent_id'], 'fave_agent_is_top_broker', true);
 }
 
-$key = '';
-$userID      =   get_current_user_id();
-$fav_option = 'houzez_favorites-'.$userID;
-$fav_option = get_option( $fav_option );
-if( !empty($fav_option) ) {
-    $key = array_search($post->ID, $fav_option);
-}
-
-$icon = '';
-if( $key != false || $key != '' ) {
-    $icon = 'text-danger';
+$added_wishlist = '';
+$userID = get_current_user_id();
+$favorite_ids = get_user_meta( $userID, 'houzez_favorites', true );
+if( !empty($favorite_ids) && in_array($listing_id, $favorite_ids) ) {
+    $added_wishlist = 'added-wishlist';
 }
 ?>
 
@@ -142,9 +136,9 @@ if( $key != false || $key != '' ) {
             <div></div>
             <?php } ?>
             <?php if(houzez_option('disable_favorite', 1)) { ?>
-            <a href="javascript:void(0)" class="add-favorite-js item-favorite" data-listid="<?php echo intval($post->ID)?>">
-                <i class="fa-solid fa-heart <?php echo esc_attr($icon); ?>"></i>
-                <i class="fa-light fa-heart <?php echo esc_attr($icon); ?>"></i>
+            <a href="javascript:void(0)" class="add-favorite-js item-favorite <?php echo esc_attr($added_wishlist); ?>" data-listid="<?php echo intval($post->ID)?>">
+                <i class="fa-solid fa-heart"></i>
+                <i class="fa-light fa-heart"></i>
             </a>
             <?php } ?>
         </div>

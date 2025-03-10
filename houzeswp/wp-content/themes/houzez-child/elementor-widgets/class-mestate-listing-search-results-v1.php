@@ -72,6 +72,16 @@ class MEstate_Listing_Search_Results_V1 extends \Elementor\Widget_Base {
         );
 
         $this->add_control(
+            'sidebar_download_text',
+            [
+                'label' => __( 'Sidebar Download Button Text', 'houzez' ),
+                'type' => \Elementor\Controls_Manager::TEXT,
+                'default' => __( 'Download Now', 'houzez' ),
+                'label_block' => true,
+            ]
+        );
+
+        $this->add_control(
             'sidebar_download_url',
             [
                 'label' => __( 'Sidebar Download URL', 'houzez' ),
