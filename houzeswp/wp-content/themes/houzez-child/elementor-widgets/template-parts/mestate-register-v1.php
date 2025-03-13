@@ -67,120 +67,82 @@
                     </div>
                     <?php } ?>
                     <?php if( houzez_option('enable_password') == 'yes' ) { ?>
-                    <div class="ms-input ms-input--serach password-field">
-                      <input name="register_pass" placeholder="<?php esc_html_e('Password','houzez'); ?>" type="password" />
+                      <div class="ms-input ms-input--search">
+                        <input type="password" class="ms-input__password" name="register_pass" placeholder="<?php esc_html_e('Password','houzez'); ?>" />
 
-                      <svg
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M14.5319 9.46992L9.47188 14.5299C8.82188 13.8799 8.42188 12.9899 8.42188 11.9999C8.42188 10.0199 10.0219 8.41992 12.0019 8.41992C12.9919 8.41992 13.8819 8.81992 14.5319 9.46992Z"
-                          stroke="#8B8B8B"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                        <path
-                          d="M17.8198 5.76998C16.0698 4.44998 14.0698 3.72998 11.9998 3.72998C8.46984 3.72998 5.17984 5.80998 2.88984 9.40998C1.98984 10.82 1.98984 13.19 2.88984 14.6C3.67984 15.84 4.59984 16.91 5.59984 17.77"
-                          stroke="#8B8B8B"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                        <path
-                          d="M8.42188 19.5299C9.56187 20.0099 10.7719 20.2699 12.0019 20.2699C15.5319 20.2699 18.8219 18.1899 21.1119 14.5899C22.0119 13.1799 22.0119 10.8099 21.1119 9.39993C20.7819 8.87993 20.4219 8.38993 20.0519 7.92993"
-                          stroke="#8B8B8B"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                        <path
-                          d="M15.5114 12.7C15.2514 14.11 14.1014 15.26 12.6914 15.52"
-                          stroke="#8B8B8B"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                        <path
-                          d="M9.47 14.53L2 22"
-                          stroke="#8B8B8B"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                        <path
-                          d="M22.0013 2L14.5312 9.47"
-                          stroke="#8B8B8B"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                      </svg>
-                    </div>
-                    
-                    <div class="ms-input ms-input--serach">
-                      <input name="register_pass_retype" placeholder="<?php esc_html_e('Retype Password','houzez'); ?>" type="password" />
+                        <span class="ms-input__password-toggler">
+                          <!-- Eye Open (Show Password) -->
+                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" height="24" width="24"
+                            class="ms-show-icon">
+                            <path stroke-linejoin="round" stroke-linecap="round" stroke-width="1.5" stroke="#8B8B8B"
+                              d="M12 4C7 4 3 8 1.5 12C3 16 7 20 12 20C17 20 21 16 22.5 12C21 8 17 4 12 4Z"></path>
+                            <path stroke-linejoin="round" stroke-linecap="round" stroke-width="1.5" stroke="#8B8B8B"
+                              d="M12 16C14.21 16 16 14.21 16 12C16 9.79 14.21 8 12 8C9.79 8 8 9.79 8 12C8 14.21 9.79 16 12 16Z">
+                            </path>
+                          </svg>
 
-                      <svg
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M14.5319 9.46992L9.47188 14.5299C8.82188 13.8799 8.42188 12.9899 8.42188 11.9999C8.42188 10.0199 10.0219 8.41992 12.0019 8.41992C12.9919 8.41992 13.8819 8.81992 14.5319 9.46992Z"
-                          stroke="#8B8B8B"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                        <path
-                          d="M17.8198 5.76998C16.0698 4.44998 14.0698 3.72998 11.9998 3.72998C8.46984 3.72998 5.17984 5.80998 2.88984 9.40998C1.98984 10.82 1.98984 13.19 2.88984 14.6C3.67984 15.84 4.59984 16.91 5.59984 17.77"
-                          stroke="#8B8B8B"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                        <path
-                          d="M8.42188 19.5299C9.56187 20.0099 10.7719 20.2699 12.0019 20.2699C15.5319 20.2699 18.8219 18.1899 21.1119 14.5899C22.0119 13.1799 22.0119 10.8099 21.1119 9.39993C20.7819 8.87993 20.4219 8.38993 20.0519 7.92993"
-                          stroke="#8B8B8B"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                        <path
-                          d="M15.5114 12.7C15.2514 14.11 14.1014 15.26 12.6914 15.52"
-                          stroke="#8B8B8B"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                        <path
-                          d="M9.47 14.53L2 22"
-                          stroke="#8B8B8B"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                        <path
-                          d="M22.0013 2L14.5312 9.47"
-                          stroke="#8B8B8B"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                      </svg>
-                    </div>
+                          <!-- Eye Slash (Hide Password) -->
+                          <svg class="ms-hide-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                            <path
+                              d="M14.5319 9.46992L9.47188 14.5299C8.82188 13.8799 8.42188 12.9899 8.42188 11.9999C8.42188 10.0199 10.0219 8.41992 12.0019 8.41992C12.9919 8.41992 13.8819 8.81992 14.5319 9.46992Z"
+                              stroke="#8B8B8B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            <path
+                              d="M17.8198 5.76998C16.0698 4.44998 14.0698 3.72998 11.9998 3.72998C8.46984 3.72998 5.17984 5.80998 2.88984 9.40998C1.98984 10.82 1.98984 13.19 2.88984 14.6C3.67984 15.84 4.59984 16.91 5.59984 17.77"
+                              stroke="#8B8B8B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            <path
+                              d="M8.42188 19.5299C9.56187 20.0099 10.7719 20.2699 12.0019 20.2699C15.5319 20.2699 18.8219 18.1899 21.1119 14.5899C22.0119 13.1799 22.0119 10.8099 21.1119 9.39993C20.7819 8.87993 20.4219 8.38993 20.0519 7.92993"
+                              stroke="#8B8B8B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M15.5114 12.7C15.2514 14.11 14.1014 15.26 12.6914 15.52" stroke="#8B8B8B"
+                              stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M9.47 14.53L2 22" stroke="#8B8B8B" stroke-width="1.5" stroke-linecap="round"
+                              stroke-linejoin="round" />
+                            <path d="M22.0013 2L14.5312 9.47" stroke="#8B8B8B" stroke-width="1.5" stroke-linecap="round"
+                              stroke-linejoin="round" />
+                          </svg>
+                        </span>
+                      </div>
+
+                      <div class="ms-input ms-input--serach">
+                        <input type="password" name="register_pass_retype" placeholder="<?php esc_html_e('Retype Password','houzez'); ?>" class="ms-input__password" />
+
+                        <span class="ms-input__password-toggler">
+                          <!-- Eye Open (Show Password) -->
+                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" height="24" width="24"
+                            class="ms-show-icon">
+                            <path stroke-linejoin="round" stroke-linecap="round" stroke-width="1.5" stroke="#8B8B8B"
+                              d="M12 4C7 4 3 8 1.5 12C3 16 7 20 12 20C17 20 21 16 22.5 12C21 8 17 4 12 4Z"></path>
+                            <path stroke-linejoin="round" stroke-linecap="round" stroke-width="1.5" stroke="#8B8B8B"
+                              d="M12 16C14.21 16 16 14.21 16 12C16 9.79 14.21 8 12 8C9.79 8 8 9.79 8 12C8 14.21 9.79 16 12 16Z">
+                            </path>
+                          </svg>
+
+                          <!-- Eye Slash (Hide Password) -->
+                          <svg class="ms-hide-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                            <path
+                              d="M14.5319 9.46992L9.47188 14.5299C8.82188 13.8799 8.42188 12.9899 8.42188 11.9999C8.42188 10.0199 10.0219 8.41992 12.0019 8.41992C12.9919 8.41992 13.8819 8.81992 14.5319 9.46992Z"
+                              stroke="#8B8B8B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            <path
+                              d="M17.8198 5.76998C16.0698 4.44998 14.0698 3.72998 11.9998 3.72998C8.46984 3.72998 5.17984 5.80998 2.88984 9.40998C1.98984 10.82 1.98984 13.19 2.88984 14.6C3.67984 15.84 4.59984 16.91 5.59984 17.77"
+                              stroke="#8B8B8B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            <path
+                              d="M8.42188 19.5299C9.56187 20.0099 10.7719 20.2699 12.0019 20.2699C15.5319 20.2699 18.8219 18.1899 21.1119 14.5899C22.0119 13.1799 22.0119 10.8099 21.1119 9.39993C20.7819 8.87993 20.4219 8.38993 20.0519 7.92993"
+                              stroke="#8B8B8B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M15.5114 12.7C15.2514 14.11 14.1014 15.26 12.6914 15.52" stroke="#8B8B8B"
+                              stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M9.47 14.53L2 22" stroke="#8B8B8B" stroke-width="1.5" stroke-linecap="round"
+                              stroke-linejoin="round" />
+                            <path d="M22.0013 2L14.5312 9.47" stroke="#8B8B8B" stroke-width="1.5" stroke-linecap="round"
+                              stroke-linejoin="round" />
+                          </svg>
+                        </span>
+                      </div>
                     <?php } ?>
 
                     <?php if($user_show_roles != 0) { ?>
                     <div class="ms-input ms-input--serach">
-                        <select required="required" name="role" class="selectpicker form-control bs-select-hidden" data-live-search="false" data-live-search-style="begins">
+                        <select required="required" name="role" class=" ms-nice-select" style="visibility: hidden;">
                             <option value=""> <?php esc_html_e('Select your account type', 'houzez'); ?> </option>
                             <?php
                             if( isset($show_hide_roles['agent']) && $show_hide_roles['agent'] != 1 ) {

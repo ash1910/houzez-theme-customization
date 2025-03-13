@@ -79,6 +79,15 @@ if( $show_similer ) {
 	$wp_query = new WP_Query($properties_args);
 
     if ($wp_query->have_posts()) :
+
+        $status = get_the_terms(get_the_ID(), 'property_status'); 
+        $types = get_the_terms(get_the_ID(), 'property_type'); 
+        $newprojects = 0;
+        foreach ($types as $type) {
+            if($type->slug == "new-projects") {
+                $newprojects = 1;
+            }
+        }
 ?>
 
 
@@ -86,7 +95,7 @@ if( $show_similer ) {
 <div class="ms-apartments-main__section">
     <div class="ms-apartments-main__heading ms-apartments-main__heading--2">
         <h4><?php echo houzez_option('sps_similar_listings', 'Similar Listings'); ?></h4>
-        <?php $status = get_the_terms(get_the_ID(), 'property_status'); 
+        <?php 
         if($status && count($status) > 0 ) {
             $page_url = get_page_by_path($status[0]->slug) ? home_url() . '/' . $status[0]->slug : home_url() . '/search-results?status%5B%5D=' . $status[0]->slug;
         ?>
@@ -99,7 +108,7 @@ if( $show_similer ) {
         <?php
         while ($wp_query->have_posts()) : $wp_query->the_post();
 
-        if($status && count($status) > 0 && $status[0]->slug == 'new-projects' ) {
+        if($newprojects == 1) {
             get_template_part('elementor-widgets/template-parts/mestate-new-project-listing-item-v1');
         } else {
             get_template_part('elementor-widgets/template-parts/mestate-listing-item-v1');
@@ -116,7 +125,7 @@ if( $show_similer ) {
 }?>
 
 <script>
-    <?php if($status && count($status) > 0 && $status[0]->slug == 'new-projects' ) {?>
+    <?php if($newprojects == 1) {?>
     function functionListingItemImageSlider(){
         // card slider
         var formSlider = new Swiper(".ms-aparments-maincardslider", {

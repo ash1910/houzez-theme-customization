@@ -41,8 +41,8 @@ if($adv_baths_list) {
     <input type="hidden" name="ms-max-price" value="<?php echo $max_price; ?>" class="ms-max-price-range-hidden range-input" readonly >
     <input type="hidden" name="ms-bed" value="<?php echo $bed; ?>" class="ms-bed-hidden" readonly >
     <input type="hidden" name="ms-bath" value="<?php echo $bath; ?>" class="ms-bath-hidden" readonly >
-    <div class="ms-input" <?php if(in_array("new-projects", $type) || $page_slug == 'new-projects') echo 'style="display: none;"'; ?>>
-        <select class="ms-nice-select-property-status" style="visibility: hidden;">
+    <div class="ms-input ms-nice-select-filter-container" <?php if(in_array("new-projects", $type) || $page_slug == 'new-projects') echo 'style="display: none;"'; ?>>
+        <select class="ms-nice-select-filter ms-nice-select-property-status" style="visibility: hidden;">
             <option value="" selected disabled>Select</option>
             <?php
             $tax_terms = get_terms('property_status', array(
@@ -56,10 +56,13 @@ if($adv_baths_list) {
                 <option data-page-available="<?php echo $page_available; ?>" value="<?php echo $term->slug; ?>" <?php if(in_array($term->slug, $status)) echo 'selected'; ?>><?php echo $term->name; ?></option>
             <?php endforeach; ?>
         </select>
+        <button class="ms-input__deselect  ms-btn__not-submit">
+            <i class="fa-light fa-xmark"></i>
+        </button>
     </div>
     <div class="ms-input ms-input--serach" style="width: 280px;">
         <input
-            type="search"
+            type="text"
             placeholder="Search Location"
             class="ms-hero__search-loaction houzez-keyword-autocomplete"
             id="ms-hero__search-loaction"
@@ -71,9 +74,12 @@ if($adv_baths_list) {
         <label for="ms-hero__search-loaction"
             ><i class="icon-search_black"></i
         ></label>
+        <button class="ms-input__deselect  ms-btn__not-submit">
+            <i class="fa-light fa-xmark"></i>
+        </button>
     </div>
-    <div class="ms-input">
-        <select class="ms-nice-select-property-type" style="visibility: hidden;">
+    <div class="ms-input ms-nice-select-filter-container">
+        <select class="ms-nice-select-filter ms-nice-select-property-type" style="visibility: hidden;">
             <option value="" selected disabled>Property type</option>
             <?php
             $tax_terms = get_terms('property_type', array(
@@ -89,6 +95,9 @@ if($adv_baths_list) {
                 <option data-page-available="<?php echo $page_available; ?>" value="<?php echo $term->slug; ?>" <?php echo $selected; ?> <?php echo $active; ?>><?php echo $term->name; ?></option>
             <?php endforeach; ?>
         </select>
+        <button class="ms-input__deselect  ms-btn__not-submit">
+            <i class="fa-light fa-xmark"></i>
+        </button>
     </div>
     <div class="ms-input ms-input--price d-none d-md-block">
         <button class="ms-btn ms-input--price-btn ms-btn__not-submit">
@@ -106,7 +115,7 @@ if($adv_baths_list) {
                         <span class="currency-symbol"></span>
                         <input
                         type="text"
-                        class="ms-input__content__value ms-input__content__value--min ms-btn ms-btn__not-submit"
+                        class="ms-input__content__value ms-input__content__value--min ms-btn "
                         value="1"
                         pattern="[0-9]*"
                         inputmode="numeric"
@@ -122,7 +131,7 @@ if($adv_baths_list) {
                         <span class="currency-symbol"></span>
                         <input
                         type="text" 
-                        class="ms-input__content__value ms-input__content__value--max ms-btn ms-btn__not-submit"
+                        class="ms-input__content__value ms-input__content__value--max ms-btn "
                         value="1000000"
                         pattern="[0-9]*"
                         inputmode="numeric"
@@ -137,12 +146,15 @@ if($adv_baths_list) {
             </div> 
 
             <div class="ms-input__content__action">
-                <button class="ms-btn ms-btn--transparent ms-btn__not-submit ms-reset-price-range">
+                <button class="ms-btn ms-btn--transparent ms-btn__not-submit ms-btn__reset__price">
                     Reset All
                 </button>
-                <button class="ms-btn ms-btn--primary ms-btn__not-submit ms-btn--apply">Apply</button>
+                <button class="ms-btn ms-btn--primary ms-btn__not-submit ms-btn__apply__price">Apply</button>
             </div>
         </div>
+        <button class="ms-input__deselect  ms-btn__not-submit">
+            <i class="fa-light fa-xmark"></i>
+        </button>
     </div>
     <div class="ms-input ms-input--bed d-none d-md-block">
         <button class="ms-btn ms-btn__not-submit">
@@ -184,6 +196,9 @@ if($adv_baths_list) {
                 </ul>
             </div>
         </div>
+        <button class="ms-input__deselect  ms-btn__not-submit">
+            <i class="fa-light fa-xmark"></i>
+        </button>
     </div>
     <div>
         <button
@@ -194,6 +209,17 @@ if($adv_baths_list) {
             <i class="fa-regular fa-bars-filter"></i>
             <span> Filter</span>
             <!-- <span class="ms-total-filter-item">05</span> -->
+            <span class="ms-total-filter-item">
+                <?php
+                $total_params = 0;
+                foreach($_GET as $param => $value) {
+                    if (!empty($value)) {
+                        $total_params++;
+                    }
+                }
+                echo sprintf("%02d", max(1, $total_params));
+                ?>
+            </span>
         </button>
     </div>
     <div>

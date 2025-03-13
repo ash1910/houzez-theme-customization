@@ -979,6 +979,9 @@ i.menu-icon {
 #houzez-overview-listing-map-banner .leaflet-top .leaflet-control {
     margin-top: 50px;
 }
+.ms-apartments-main__videos .slick-track {
+    margin-left: 0;
+}
 
 @media (min-width: 1400px) {
     .ms-apartments-main__price-value {

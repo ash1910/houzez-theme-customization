@@ -28,6 +28,15 @@ $features = wp_get_post_terms( get_the_ID(), 'property_feature', array("fields" 
 $features_icons = houzez_option('features_icons');
 $additional_features = get_post_meta( get_the_ID(), 'additional_features', true );
 $hide_detail = houzez_option('hide_detail_prop_fields');
+
+$status = get_the_terms(get_the_ID(), 'property_status'); 
+$types = get_the_terms(get_the_ID(), 'property_type'); 
+$newprojects = 0;
+foreach ($types as $type) {
+    if($type->slug == "new-projects") {
+        $newprojects = 1;
+    }
+}
 ?>
 
 <!-- start: New Project Details  -->
@@ -41,8 +50,16 @@ $hide_detail = houzez_option('hide_detail_prop_fields');
                     <ul>
                         <li><a href="<?php echo home_url(); ?>">Home</a></li>
                         <li>></li>
-                        <?php $status = get_the_terms(get_the_ID(), 'property_status'); 
-                        if($status && count($status) > 0 ) {
+                        <?php
+                        if($newprojects == 1) {
+                            $page_url = get_page_by_path("new-projects") ? home_url() . '/new-projects' : home_url() . '/search-results?type%5B%5D=new-projects';
+                        ?>
+                        <li><a href="<?php echo $page_url; ?>">
+                            New Projects
+                        </a></li>
+                        <li>></li>
+                        <?php }
+                        elseif($status && count($status) > 0 ) {
                             $page_url = get_page_by_path($status[0]->slug) ? home_url() . '/' . $status[0]->slug : home_url() . '/search-results?status%5B%5D=' . $status[0]->slug;
                         ?>
                         <li><a href="<?php echo $page_url; ?>">
@@ -85,7 +102,7 @@ $hide_detail = houzez_option('hide_detail_prop_fields');
                                 </div>
                             </li>
                             <?php } ?>
-                            <?php if($status && count($status) > 0 && $status[0]->slug != 'new-projects' ) { ?>
+                            <?php if($newprojects != 1) { ?>
                             <li>
                                 <button data-toggle="modal" data-target="#msReportModal" class="ms-btn ms-btn--primary">
                                     <i class="icon-report"></i>
@@ -101,7 +118,7 @@ $hide_detail = houzez_option('hide_detail_prop_fields');
                     <div class="ms-apartments-main__heading">
                         <h4>Overview</h4>
                     </div>
-                    <?php if($status && count($status) > 0 && $status[0]->slug == 'new-projects' ) { ?>
+                    <?php if($newprojects == 1) { ?>
                         <div class="ms-apartments-main__overview ms-apartments-main__overview--2 ms-apartments-main__overview--3">
                             <ul class="ms-apartments-main__overview__item-list">
                                 <?php $property_type = houzez_taxonomy_simple('property_type');
@@ -219,7 +236,7 @@ $hide_detail = houzez_option('hide_detail_prop_fields');
                     <?php } ?>
                 </div>
                 <?php 
-                if($status && count($status) > 0 && $status[0]->slug == 'new-projects' ) {
+                if($newprojects == 1) {
                     $project_announcement = get_post_meta($listing_id, 'fave_project-announcement', true);
                     $expected_booking = get_post_meta($listing_id, 'fave_expected-booking', true);
                     $construction_started = get_post_meta($listing_id, 'fave_construction-started', true);
@@ -332,7 +349,7 @@ $hide_detail = houzez_option('hide_detail_prop_fields');
                         <?php the_content(); ?>
 
                         <?php 
-                        if($status && count($status) > 0 && $status[0]->slug == 'new-projects' ) {
+                        if($newprojects == 1) {
                         $attachments = get_post_meta(get_the_ID(), 'fave_attachments', false);
                         $documents_download = houzez_option('documents_download');
                         if(!empty($attachments) && $attachments[0] != "" ) { ?>
@@ -591,7 +608,7 @@ $hide_detail = houzez_option('hide_detail_prop_fields');
 
                 <!-- floor plan -->
                 <?php 
-                if($status && count($status) > 0 && $status[0]->slug == 'new-projects' ) {
+                if($newprojects == 1) {
                 $floor_plans = get_post_meta($listing_id, 'floor_plans', true);
                 if( isset($floor_plans[0]['fave_plan_title']) && !empty( $floor_plans[0]['fave_plan_title'] ) ) { ?>
                 <div class="ms-apartments-main__section">
@@ -662,7 +679,7 @@ $hide_detail = houzez_option('hide_detail_prop_fields');
                                             <li>
                                                 <h6>Layout</h6>
                                                 <?php if($filetype['ext'] != 'pdf' ) {?>
-                                                <a target="_blank" href="<?php echo esc_url( $plan['fave_plan_image'] ); ?>" data-lightbox="roadtrip">
+                                                <a target="_blank" href="<?php echo esc_url( $plan['fave_plan_image'] ); ?>" data-rel="lightcase:myCollection3">
                                                     <img style="max-width: 220px;" src="<?php echo esc_url( $plan['fave_plan_image'] ); ?>" alt="image">
                                                 </a>
                                                 <?php } else { 
@@ -688,7 +705,7 @@ $hide_detail = houzez_option('hide_detail_prop_fields');
 
                 <!-- payment plan -->
                 <?php 
-                if($status && count($status) > 0 && $status[0]->slug == 'new-projects' ) {
+                if($newprojects == 1) {
                     $prop_payment_plan_down = get_post_meta($listing_id, 'fave_down-payment', true);
                     $prop_payment_plan_during_construction = get_post_meta($listing_id, 'fave_during-construction', true);
                     $prop_payment_plan_on_handover = get_post_meta($listing_id, 'fave_on-handover', true);
@@ -729,7 +746,7 @@ $hide_detail = houzez_option('hide_detail_prop_fields');
 
                 <!-- virtual tour -->
                 <?php 
-                if($status && count($status) > 0 && $status[0]->slug == 'new-projects' ) {
+                if($newprojects == 1) {
                 $virtual_tour = houzez_get_listing_data('virtual_tour');
                 if( !empty($virtual_tour) ) { ?>
                 <div class="ms-apartments-main__section">

@@ -1,5 +1,5 @@
 <?php
-global $post, $ele_thumbnail_size, $image_size, $listing_agent_info, $buttonsComposer; 
+global $post, $ele_thumbnail_size, $image_size, $listing_agent_info, $buttonsComposer, $random_token; 
 
 $listing_agent_info = houzez20_property_contact_form();
 
@@ -217,11 +217,7 @@ if( !empty($favorite_ids) && in_array($listing_id, $favorite_ids) ) {
                 <ul class="ms-apartments-main____card__button-list">
                     <?php if(!empty($agent_whatsapp)) { ?>
                     <li>
-                        <a
-                            href="<?php echo $agent_whatsapp_link; ?>"
-                            class="ms-btn ms-btn--bordered"
-                            target="_blank"
-                        >
+                        <a href="javascript:void(0)" data-link="<?php echo esc_url($agent_whatsapp_link); ?>" class="ms-btn ms-btn--bordered hz-call-popup-js tracking_view" data-type="w" data-prop_id="<?php echo esc_attr($post->ID);?>" data-model-id="email-popup-<?php echo esc_attr($post->ID).'-'.$random_token; ?>"> 
                             <svg
                                 width="21"
                                 height="21"
@@ -267,4 +263,5 @@ if( !empty($favorite_ids) && in_array($listing_id, $favorite_ids) ) {
             </li>
         </ul>
     </div>
+    <?php get_template_part('template-parts/listing/partials/modal-agent-contact-form'); ?>
 </div>

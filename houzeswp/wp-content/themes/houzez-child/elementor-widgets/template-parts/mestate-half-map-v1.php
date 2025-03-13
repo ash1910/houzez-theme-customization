@@ -417,18 +417,60 @@ if( $total_records > 1 ) {
         });
     }
     
+    function callBtnFunc(){
+        // Handle both call and email popup buttons
+        jQuery('.hz-call-popup-js, .hz-email-popup-js, .hz-whatsapp-popup-js').on('click', function() {
+            var dataType = jQuery(this).data('type') || '';
+            var dataLink = jQuery(this).data('link') || '';
+            var modalId = jQuery(this).data('model-id');
+            var $modal = jQuery('#' + modalId);
+            
+            $modal.find('.form-data-type').val(dataType);
+            $modal.find('.form-link').val(dataLink);
+            $modal.find('.form_messages').html("");
+            
+            if(dataType === 'c') {
+                $modal.find('.email-field-wrapper').show();
+                $modal.find('.phone-field-wrapper').show();
+                $modal.find('.message-field-wrapper').hide();
+                $modal.find('.ms-filter__modal__heading h5').text('Call Agency');
+                $modal.find('.accept_text').text('call');
+                $modal.find('.phone-field-label').text('Phone Number');
+                $modal.find('.phone-field').attr('placeholder', 'Enter Phone Number');
+                $modal.find('.submit_btn_text').text('Call');
+            } else if(dataType === 'w') {
+                $modal.find('.email-field-wrapper').hide();
+                $modal.find('.phone-field-wrapper').show();
+                $modal.find('.message-field-wrapper').hide();
+                $modal.find('.ms-filter__modal__heading h5').text('Whatsapp Agency');
+                $modal.find('.accept_text').text('whatsapp');
+                $modal.find('.phone-field-label').text('Whatsapp Number');
+                $modal.find('.phone-field').attr('placeholder', 'Enter Whatsapp Number');
+                $modal.find('.submit_btn_text').text('Start Chat');
+            } else {
+                $modal.find('.email-field-wrapper').show();
+                $modal.find('.phone-field-wrapper').hide();
+                $modal.find('.message-field-wrapper').show();
+                $modal.find('.ms-filter__modal__heading h5').text('Email Agency');
+                $modal.find('.accept_text').text('submit');
+                $modal.find('.submit_btn_text').text('Submit');
+            }
+        });
+    }
 
     <?php if (\Elementor\Plugin::$instance->editor->is_edit_mode()) {?>
         jQuery(".ms-nice-select-popular").niceSelect();
         functionPropertyLocationShowMore();
         functionListingItemImageSlider();
         houzezOpenStreetMapElementor("ms-half-map-v1", <?php echo json_encode($properties_data); ?>, <?php echo json_encode($map_options); ?>);
+        callBtnFunc();
     <?php } else { ?>
         jQuery(document).ready(function($) {
             jQuery(".ms-nice-select-popular").niceSelect();
             functionPropertyLocationShowMore();
             functionListingItemImageSlider();
             houzezOpenStreetMapElementor("ms-half-map-v1", <?php echo json_encode($properties_data); ?>, <?php echo json_encode($map_options); ?>);
+            callBtnFunc();
         });
     <?php } ?>
 </script>

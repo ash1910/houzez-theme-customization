@@ -825,10 +825,12 @@ START: apartment CSS
 		.ms-apartments-main__card__thumbnail__status::after {
 		border-left: 4px solid var(--ms-color-common-black);
 	}
+	.ms-apartments-main__card--list .ms-apartments-main__card__logo,
 	.ms-apartments-main__card--3 .ms-apartments-main__card__logo {
 		top: 25px;
 		right: 14px;
 	}
+	.ms-apartments-main__card--list .ms-apartments-main__card__logo a,
 	.ms-apartments-main__card--3 .ms-apartments-main__card__logo a {
 		border: 1px solid var(--ms-color-border);
 		border-radius: 6px;
@@ -836,6 +838,10 @@ START: apartment CSS
 		padding: 4px 8px;
 		padding-right: 5px;
 		padding-bottom: 5px;
+	}
+	.ms-apartments-main__card--list .ms-apartments-main__card__logo a {
+		height: 24px;
+		padding-right: 8px;
 	}
 	.ms-apartments-main__card--3 .ms-apartments-main__card__content {
 		padding: 16px;
@@ -946,6 +952,79 @@ START: apartment CSS
 	.ms-hero__video {
 		min-height: 415px;
 	}
+
+	.ms-mobile-property-contact {
+		padding: 16px;
+		box-shadow: 0px 20px 65px 0px #0000000d;
+		border: 0;
+		z-index: var(--ms-zi-lg);
+	}
+	.ms-mobile-property-contact--2::after {
+		content: "";
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: auto;
+		width: 56px;
+		height: 100%;
+		background: url("../img/new-projects/mobile-contact-bg.png") top left
+			no-repeat;
+		z-index: -1;
+	}
+	.ms-mobile-property-contact__inner {
+		gap: 6px;
+		align-items: center;
+	}
+	.ms-mobile-property-contact__author {
+		gap: 12px;
+	}
+	.ms-mobile-property-contact__author__img {
+		width: 60px !important;
+		flex-shrink: 0;
+	}
+	.ms-mobile-property-contact__author__img img {
+		border-radius: 11px !important;
+		width: 60px !important;
+	}
+	.ms-mobile-property-contact__author__info {
+		padding: 0 !important;
+	}
+	.ms-mobile-property-contact__author__name {
+		font-size: 14px;
+		font-weight: var(--ms-fw-sbold);
+		color: var(--ms-color-heading-primary);
+	}
+	.ms-mobile-property-contact__author__rating {
+		font-size: 10px;
+		display: flex;
+		gap: 5px;
+		align-items: center;
+		color: var(--ms-color-heading-primary);
+	}
+	.ms-mobile-property-contact__author__rating svg {
+		width: 13px;
+		height: 13px;
+	}
+	.ms-mobile-property-contact .ms-btn {
+		height: 40px;
+		font-size: 10px;
+		padding-left: 11px;
+		padding-right: 11px;
+		background-color: var(--ms-color-theme-bg);
+	}
+	.ms-mobile-property-contact .ms-btn svg {
+		width: 16px;
+		height: 16px;
+	}
+	.ms-mobile-property-contact--2 .ms-btn {
+		background-color: var(--ms-color-heading-primary);
+		color: var(--ms-color-common-white);
+		border: 0;
+		gap: 8px;
+	}
+	.ms-mobile-property-contact--2 .ms-btn svg path {
+		stroke: var(--ms-color-common-white);
+	}
 	/**----------------------------------------
 !END: apartment CSS
 ----------------------------------------*/
@@ -1013,6 +1092,17 @@ START: Login CSS
 	}
 	.ms-form .ms-btn {
 		font-size: 14px;
+	}
+	.ms-input__deselect {
+		width: 15px;
+		height: 15px;
+		line-height: 1;
+		right: 10px;
+	}
+
+	.ms-input__deselect i {
+		font-size: 10px;
+		margin-bottom: 1px;
 	}
 	/**----------------------------------------
 !END: Login CSS
@@ -1523,7 +1613,7 @@ START: New Project Details CSS
 		font-size: 16px;
 	}
 	/* videos */
-	.ms-apartments-main__videos {
+	.ms-apartments-main__videos:has(.slick-slide:nth-child(2)) {
 		border-top-right-radius: 0;
 		border-bottom-right-radius: 0;
 		margin-right: -16px;
@@ -1538,6 +1628,9 @@ START: New Project Details CSS
 	.ms-apartments-main__videos__play-btn {
 		height: 42px;
 		width: 42px;
+	}
+	.ms-apartments-main__videos:has(.slick-slide:nth-child(2))
+		.ms-apartments-main__videos__play-btn {
 		left: 57%;
 	}
 	.ms-apartments-main__videos__play-btn i {
@@ -1832,6 +1925,56 @@ START: New Project Details CSS
 	.ms-apartments-main__sidebar__bottom-list li a span {
 		font-size: 12px;
 	}
+
+	.ms-report-modal--2 .ms-filter__modal {
+		padding: 16px 20px 20px;
+	}
+	.ms-report-modal--2 .ms-filter__modal .ms-filter__modal__heading {
+		padding: 0;
+		padding-bottom: 8px;
+		margin-bottom: 16px;
+	}
+	.ms-report-modal--2 .ms-form__main {
+		gap: 12px;
+	}
+	.ms-report-modal--2 .ms-input__label {
+		margin-bottom: 8px;
+	}
+	.ms-report-modal--2
+		.form-check:has(.form-check-input:checked)
+		.form-check-label::before {
+		flex-shrink: 0;
+	}
+	.ms-report-modal--2 .ms-input__content__action {
+		padding: 0;
+		margin-top: 12px;
+		border: 0;
+	}
+	.ms-report-modal--2 textarea {
+		padding-top: 8px;
+		min-height: 70px;
+	}
+	.ms-report-modal--2 .form-check:has(.form-check-input) .form-check-label {
+		font-size: 12px;
+	}
+	.ms-report-modal--2 .ms-input:has(.form-check-input) {
+		padding: 0;
+	}
+	.ms-report-modal--2 .form-check:has(.form-check-input) .form-check-label a {
+		font-size: 12px;
+	}
+
+	.ms-report-modal--2 .ms-nice-select--phone {
+		padding-right: 10px;
+	}
+	.ms-report-modal--2 .ms-nice-select--phone .list {
+		min-width: 0;
+	}
+	.ms-report-modal--2
+		.ms-input:has(.ms-nice-select--phone)
+		.ms-nice-select__index {
+		width: 6px;
+	}
 	/**----------------------------------------
 END: New Project Details CSS
 ----------------------------------------*/
@@ -2106,6 +2249,16 @@ START: Blog Details CSS
 	/**----------------------------------------
 END: Blog Details CSS
 ----------------------------------------*/
+
+	/* lightcase */
+	.ms-body [class*="lightcase-icon-"] {
+		font-size: 28px;
+	}
+	/* .ms-body [class*="lightcase-icon-"]::before {
+		width: 1.28em;
+		height: 1.28em;
+		line-height: 1.28em;
+	} */
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
 	:root {

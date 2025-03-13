@@ -75,9 +75,9 @@ $property_gallery_popup_type = houzez_get_popup_gallery_type();
                         <?php if( !empty($properties_images) && count($properties_images) ) {
                             foreach( $properties_images as $prop_image_id => $prop_image_meta ) {
                                 ?>
-                                <div class="ms-hero ms-hero--2" style="
+                                <a class="ms-hero ms-hero--2 ms-lightcase-gallery" style="
                                     background-image: url('<?php echo esc_url( $prop_image_meta['url'] ); ?>');
-                                "></div>
+                                " data-rel="lightcase:myCollection2" href="<?php echo esc_url( $prop_image_meta['url'] ); ?>"></a>
                         <?php } 
                                 } ?>
                     </div>

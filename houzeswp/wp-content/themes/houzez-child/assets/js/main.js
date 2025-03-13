@@ -10,7 +10,34 @@ Mobile Menu Js
 	"use strict";
 
 	// nice select
-	$(".ms-nice-select").niceSelect();
+	$(".ms-nice-select:not(.ms-nice-select__country-code)").niceSelect();
+	// nice select for country code
+	if ($(".ms-nice-select__country-code")?.length) {
+		fetch("https://restcountries.com/v3.1/all")
+			.then(response => response.json())
+			.then(data => {
+				let select = $(".ms-nice-select__country-code");
+
+				let countryCodes = new Set(); // To avoid duplicates
+
+				data.forEach(country => {
+					if (country.idd?.root) {
+						let fullCode =
+							country.idd.root +
+							(country.idd.suffixes ? country.idd.suffixes[0] : "");
+						countryCodes.add(fullCode);
+					}
+				});
+
+				// Sort and add unique country codes to the dropdown
+				[...countryCodes].sort().forEach(code => {
+					select.append(`<option value="${code}">${code}</option>`);
+				});
+
+				select.niceSelect(); // Initialize Nice Select
+			})
+			.catch(error => console.error("Error fetching country codes:", error));
+	}
 
 
 	// apartment
@@ -160,169 +187,221 @@ Mobile Menu Js
 	}
 	formWizardController();
 
-	/*----------------------
+		/*----------------------
             hero slider
         -----------------------*/
-	const heroSlider = $(".ms-hero__slider");
-	if (heroSlider?.length) {
-		console.log(heroSlider, "hi");
-		heroSlider.slick({
-			rtl: $('html').attr('dir') === 'rtl',
-			dots: false,
-			arrows: false,
-			appendDots: ".ms-hero__slider__pagination-count-pagination-count",
-			infinite: true,
-			autoplay: false,
-			autoplaySpeed: 10000,
-			speed: 500,
-			asNavFor: ".ms-hero__slider__thumbs",
-			slidesToShow: 1,
-			slidesToScroll: 1,
-			prevArrow:
-				'<a class="slick-prev"><i class="fas fa-arrow-left" alt="Arrow Icon"></i></a>',
-			nextArrow:
-				'<a class="slick-next"><i class="fas fa-arrow-right" alt="Arrow Icon"></i></a>',
-			responsive: [
-				{
-					breakpoint: 1600,
-					settings: {
-						slidesToShow: 1,
-						slidesToScroll: 1,
-						arrows: false,
-						dots: false,
+		const heroSlider = $(".ms-hero__slider");
+		if (heroSlider?.length) {
+			heroSlider.slick({
+				dots: false /* slider left or right side pagination count with line */,
+				arrows: false /* slider arrow  */,
+				appendDots: ".ms-hero__slider__pagination-count-pagination-count",
+				infinite: true,
+				autoplay: false,
+				autoplaySpeed: 10000,
+				speed: 500,
+				asNavFor: ".ms-hero__slider__thumbs",
+				slidesToShow: 1,
+				slidesToScroll: 1,
+	
+				prevArrow:
+					'<a class="slick-prev"><i class="fas fa-arrow-left" alt="Arrow Icon"></i></a>',
+				nextArrow:
+					'<a class="slick-next"><i class="fas fa-arrow-right" alt="Arrow Icon"></i></a>',
+				responsive: [
+					{
+						breakpoint: 1600,
+						settings: {
+							slidesToShow: 1,
+							slidesToScroll: 1,
+							arrows: false,
+							dots: false,
+						},
 					},
-				},
-				{
-					breakpoint: 992,
-					settings: {
-						slidesToShow: 1,
-						slidesToScroll: 1,
-						arrows: false,
-						dots: false,
+					{
+						breakpoint: 992,
+						settings: {
+							slidesToShow: 1,
+							slidesToScroll: 1,
+							arrows: false,
+							dots: false,
+						},
 					},
-				},
-				{
-					breakpoint: 768,
-					settings: {
-						slidesToShow: 1,
-						slidesToScroll: 1,
-						arrows: false,
-						dots: false,
+					{
+						breakpoint: 768,
+						settings: {
+							slidesToShow: 1,
+							slidesToScroll: 1,
+							arrows: false,
+							dots: false,
+						},
 					},
-				},
-				{
-					breakpoint: 575,
-					settings: {
-						arrows: false,
-						dots: false,
-						slidesToShow: 1,
-						slidesToScroll: 1,
+					{
+						breakpoint: 575,
+						settings: {
+							arrows: false,
+							dots: false,
+							slidesToShow: 1,
+							slidesToScroll: 1,
+						},
 					},
-				},
-			],
-		});
-	}
-	const thumbsSlider = $(".ms-hero__slider__thumbs");
-	if (thumbsSlider?.length) {
-		thumbsSlider.slick({
-			rtl: $('html').attr('dir') === 'rtl',
-			slidesToShow: 4,
-			slidesToScroll: 1,
-			initialSlide: 0,
-			asNavFor: ".ms-hero__slider",
-			dots: false,
-			arrows: false,
-			centerMode: false,
-			focusOnSelect: true,
-			centerPadding: "30px",
-			responsive: [
-				{
-					breakpoint: 1600,
-					settings: {
-						arrows: false,
-						dots: false,
+				],
+			});
+		}
+		const thumbsSlider = $(".ms-hero__slider__thumbs");
+		if (thumbsSlider?.length) {
+			thumbsSlider.slick({
+				slidesToShow: 4,
+				slidesToScroll: 1,
+				initialSlide: 0,
+				asNavFor: ".ms-hero__slider",
+				dots: false /* image slide dots */,
+				arrows: false /* image slide arrow */,
+				centerMode: false,
+				focusOnSelect: true,
+				centerPadding: "30px",
+	
+				// prevArrow:
+				//   '<a class="slick-prev"><i class="fas fa-arrow-left" alt="Arrow Icon"></i></a>',
+				// nextArrow:
+				//   '<a class="slick-next"><i class="fas fa-arrow-right" alt="Arrow Icon"></i></a>',
+				responsive: [
+					{
+						breakpoint: 1600,
+						settings: {
+							arrows: false,
+							dots: false,
+						},
 					},
-				},
-				{
-					breakpoint: 1200,
-					settings: {
-						arrows: false,
-						dots: false,
+					{
+						breakpoint: 1200,
+						settings: {
+							arrows: false,
+							dots: false,
+						},
 					},
-				},
-				{
-					breakpoint: 768,
-					settings: {
-						arrows: false,
-						dots: false,
+					{
+						breakpoint: 768,
+						settings: {
+							arrows: false,
+							dots: false,
+						},
 					},
-				},
-				{
-					breakpoint: 767,
-					settings: {
-						arrows: false,
-						dots: false,
-						slidesToShow: 1.17,
+					{
+						breakpoint: 767,
+						settings: {
+							arrows: false,
+							dots: false,
+							slidesToShow: 1.17,
+						},
 					},
-				},
-			],
-		});
-	}
-
-	const videoSlider = $(".ms-apartments-main__videos--slider");
-	if (videoSlider?.length) {
-		videoSlider.slick({
-			rtl: $('html').attr('dir') === 'rtl',
-			slidesToShow: 2,
-			slidesToScroll: 1,
-			initialSlide: 0,
-
-			dots: false,
-			arrows: false,
-			centerMode: false,
-			focusOnSelect: true,
-			centerPadding: "30px",
-			responsive: [
-				{
-					breakpoint: 1600,
-					settings: {
-						arrows: false,
-						dots: false,
+				],
+			});
+		}
+	
+		const videoSlider = $(".ms-apartments-main__videos--slider");
+		if (videoSlider?.length) {
+			videoSlider.slick({
+				slidesToShow: 2,
+				slidesToScroll: 1,
+				initialSlide: 0,
+	
+				dots: false /* image slide dots */,
+				arrows: false /* image slide arrow */,
+				centerMode: false,
+				focusOnSelect: true,
+				centerPadding: "30px",
+				// prevArrow:
+				//   '<a class="slick-prev"><i class="fas fa-arrow-left" alt="Arrow Icon"></i></a>',
+				// nextArrow:
+				//   '<a class="slick-next"><i class="fas fa-arrow-right" alt="Arrow Icon"></i></a>',
+				responsive: [
+					{
+						breakpoint: 1600,
+						settings: {
+							arrows: false,
+							dots: false,
+						},
 					},
-				},
-				{
-					breakpoint: 1200,
-					settings: {
-						arrows: false,
-						dots: false,
+					{
+						breakpoint: 1200,
+						settings: {
+							arrows: false,
+							dots: false,
+						},
 					},
-				},
-				{
-					breakpoint: 768,
-					settings: {
-						arrows: false,
-						dots: false,
+					{
+						breakpoint: 768,
+						settings: {
+							arrows: false,
+							dots: false,
+						},
 					},
-				},
-				{
-					breakpoint: 767,
-					settings: {
-						arrows: false,
-						dots: false,
-						slidesToShow: 1.17,
+					{
+						breakpoint: 767,
+						settings: {
+							arrows: false,
+							dots: false,
+							slidesToShow: 1.17,
+						},
 					},
-				},
-			],
-		});
-	}
-	/*  14. LightCase jQuery Active  */
-	const msLightcase = $(".ms-lightcase");
-	if (msLightcase?.length) {
-		msLightcase.lightcase({
+				],
+			});
+		}
+	/* --------------------------------------------------------
+		LightCase jQuery Active
+	--------------------------------------------------------- */
+	const lightCaseGallery = $("a[data-rel^=lightcase]");
+	if (lightCaseGallery?.length) {
+		lightCaseGallery.lightcase({
 			transition: "elastic",
 			swipe: true,
 			maxWidth: 1170,
-			maxHeight: 600,
+		});
+
+		const lightCaseControllers = document.querySelectorAll(
+			"a[data-rel^=lightcase]"
+		);
+
+		if (lightCaseControllers?.length) {
+			lightCaseControllers.forEach(lightCaseController => {
+				lightCaseController.addEventListener("click", function () {
+					setTimeout(() => {
+						const lightCaseOverlay =
+							document.querySelectorAll("#lightcase-overlay");
+						if (lightCaseOverlay?.length) {
+							lightCaseOverlay.forEach(lightCaseOverlaySingle => {
+								lightCaseOverlaySingle.style.opacity = 1;
+							});
+						}
+					}, 100);
+				});
+			});
+		}
+	}
+
+	// hide and show password
+	const toggleButtons = document.querySelectorAll(
+		".ms-input__password-toggler"
+	);
+	if (toggleButtons?.length) {
+		toggleButtons?.forEach(toggleButton => {
+			const passwordField = toggleButton.parentNode?.querySelector(
+				".ms-input__password"
+			);
+			const showIcon = toggleButton.querySelector(".ms-show-icon");
+			const hideIcon = toggleButton.querySelector(".ms-hide-icon");
+			toggleButton.addEventListener("click", function () {
+				if (passwordField.type === "password") {
+					passwordField.type = "text";
+					showIcon.style.display = "none";
+					hideIcon.style.display = "block";
+				} else {
+					passwordField.type = "password";
+					showIcon.style.display = "block";
+					hideIcon.style.display = "none";
+				}
+			});
 		});
 	}
 

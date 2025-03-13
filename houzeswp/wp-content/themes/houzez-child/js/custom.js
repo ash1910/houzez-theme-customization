@@ -2029,6 +2029,8 @@
         if($is_bottom == 'bottom') {
             $result = $form.find('.form_messages');
         }
+        let data_type = $form.find('input[name="data_type"]').val();
+        let data_link = $form.find('.form-link').val();
         $result.empty();
 
         $.ajax({
@@ -2045,7 +2047,14 @@
                     
                     $form.find('input[name="name"], input[name="mobile"], input[name="email"]').val('');
                     $form.find('textarea').val('');
-                    if($is_bottom == 'bottom') {
+
+                    if(data_type == 'c'){
+                        window.open(data_link, '_self');
+                    }
+                    else if(data_type == 'w'){
+                        window.open(data_link, '_blank');
+                    }
+                    else if($is_bottom == 'bottom') {
                         $result.empty().append('<div class="alert alert-success alert-dismissible fade show" role="alert">'+response.msg+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
                     } else {
                         $result.empty().append('<p class="success text-success"><i class="fa fa-check"></i> '+ response.msg +'</p>');

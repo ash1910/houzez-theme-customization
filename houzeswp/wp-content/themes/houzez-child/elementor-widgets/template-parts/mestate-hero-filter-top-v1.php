@@ -81,6 +81,13 @@
           $form.find(".ms-max-price-range-hidden").val( ui.values[1] );
 
           $form.find(".ms-input--price-btn").html('Up to ' + formatPrice(ui.values[1]) + ' ' + currency_symb);
+
+          // selected funftionality
+          const priceRangeParent = ui.handle.closest(".ms-input--price");
+
+          if (priceRangeParent) {
+            priceRangeParent.classList.add("ms-input--selected");
+          }
         },
       });
 
@@ -94,6 +101,12 @@
         slider.slider("values", 0, value);
         jQuery(this).val(thousandSeparator(value));
         $form.find(".ms-min-price-range-hidden").val(value);
+
+        // selected funftionality
+        const priceRangeParent = this.closest(".ms-input--price");
+        if (priceRangeParent) {
+          priceRangeParent.classList.add("ms-input--selected");
+        }
       });
 
       // Handle manual input for max price
@@ -107,6 +120,12 @@
         jQuery(this).val(thousandSeparator(value));
         $form.find(".ms-max-price-range-hidden").val(value);
         $form.find(".ms-input--price-btn").html('Up to ' + formatPrice(value) + ' ' + currency_symb);
+
+        // selected funftionality
+        const priceRangeParent = this.closest(".ms-input--price");
+        if (priceRangeParent) {
+          priceRangeParent.classList.add("ms-input--selected");
+        }
       });
 
       // Update initial display values based on URL parameters
@@ -120,7 +139,7 @@
         $form.find(".ms-input--price-btn").html('Up to ' + formatPrice(max_price_selected) + ' ' + currency_symb);
       }
 
-      $form.find('.ms-reset-price-range').on('click', function() {
+      $form.find('.ms-btn__reset__price').on('click', function() {
         // Reset slider values
         slider.slider('values', [min_price, max_price]);
         
@@ -134,63 +153,92 @@
         
         // Reset button text
         $form.find(".ms-input--price-btn").html('Select Price <i class="">' + currency_symb + '</i>');
+        this.closest('.ms-input--price').classList.remove("ms-input--selected");
       });
     }
 
     const filterBtns = function(){
+
       // get all button in form
       const forms = document.querySelectorAll(".ms-hero__form");
       if (forms?.length) {
-        forms?.forEach((form, idx) => {
-          const buttonsInForm = form.querySelectorAll(
-            ".ms-btn__not-submit:not([data-toggle='modal'])"
-          );
-          if (buttonsInForm?.length) {
-            buttonsInForm?.forEach(button => {
-              button.addEventListener("click", function (e) {
-                e.preventDefault();
-                e.stopPropagation();
-                const priceRangeParent = jQuery(this).closest(".ms-input--price");
+        const buttonsInForm = document.querySelectorAll(
+          ".ms-btn__not-submit:not([data-toggle='modal'])"
+        );
+        if (buttonsInForm?.length) {
+          buttonsInForm?.forEach(button => {
+            button.addEventListener("click", function (e) {
+              e.preventDefault();
+              e.stopPropagation();
+              // bed related
+              const bedInputParent = jQuery(this).closest(".ms-input--bed");
+              const bedInputList = jQuery(this).closest(".ms-input__list");
 
-                const isOpen = this.classList.contains("open");
-                const isApply = this.classList.contains("ms-btn--apply");
-                const isInputMin = this.classList.contains("ms-input__content__value--min");
-                const isInputMax = this.classList.contains("ms-input__content__value--max");
+              // price range related
+              const priceRangeParent = jQuery(this).closest(".ms-input--price");
 
-                buttonsInForm?.forEach(button => {
-                  button.classList.remove("open");
-                });
+              const isOpen = this.classList.contains("open");
+              const isReset = this.classList.contains("ms-btn__reset__price");
+              const isApply = this.classList.contains("ms-btn__apply__price");
+              const isDeselectBtn = this.classList.contains("ms-input__deselect");
 
-                if (!isOpen) {
-                  this.classList.add("open");
-                  jQuery(".ms-nice-select-property-type").removeClass("open");
-                  jQuery(".ms-nice-select-property-status").removeClass("open");
-                }
-                // apply price range input
-
-                if (isApply) {
-                  priceRangeParent.find(".open").removeClass("open");
-                }
-
-                if (isInputMin || isInputMax) {
-                  this.classList.add("open");
-                }
+              buttonsInForm?.forEach(button => {
+                button.classList.remove("open");
               });
 
-              document?.body?.addEventListener(
-                "click",
-                function () {
+              if (!isOpen && !isDeselectBtn) {
+                this.classList.add("open");
+                jQuery(".ms-nice-select-filter").removeClass("open");
+              }
+              // apply price range input
+
+              if (isApply) {
+                priceRangeParent.find(".open").removeClass("open");
+              }
+
+              // selected funtionality
+
+              if (bedInputList?.length) {
+                bedInputParent.addClass("ms-input--selected");
+              }
+            });
+
+            document?.body?.addEventListener(
+              "click",
+              function (e) {
+                if (!e.target.closest(".ms-input__content")) {
                   button.classList.remove("open");
-                },
-                false
-              );
-              button?.parentNode?.parentNode?.addEventListener(
-                "click",
-                function () {
+                }
+              },
+              false
+            );
+            const buttonParent = button?.parentNode;
+
+            buttonParent?.parentNode?.addEventListener(
+              "click",
+              function (e) {
+                if (!e.target.closest(".ms-input__content")) {
                   button.classList.remove("open");
-                },
-                false
-              );
+                }
+              },
+              false
+            );
+          });
+        }
+
+        forms?.forEach((form, idx) => {
+          // add class ms-inpu on onchange event
+          const allInputs = form?.querySelectorAll(".ms-input input");
+
+          if (allInputs?.length) {
+            allInputs?.forEach((input, idx) => {
+              input.addEventListener("change", function () {
+                const inputParent = this.parentNode;
+
+                if (inputParent) {
+                  inputParent.classList.add("ms-input--selected");
+                }
+              });
             });
           }
         });
@@ -260,6 +308,79 @@
 
         jQuery(".ms-nice-select-property-type").niceSelect();
         jQuery(".ms-nice-select-property-status").niceSelect();
+        jQuery(".ms-nice-select-property-type, .ms-nice-select-property-status").on("change", function () {
+          // selected funtionality
+          const selectParent = jQuery(this).closest(".ms-input");
+
+          if (selectParent?.length) {
+            selectParent.addClass("ms-input--selected");
+          }
+        });
+        	// deselect selected input
+        const deselectBtns = document.querySelectorAll(".ms-input__deselect");
+        if (deselectBtns?.length) {
+          deselectBtns?.forEach(deselectBtn => {
+            const deselectParent = deselectBtn.parentNode;
+            const selectCommon = deselectParent?.querySelector(".ms-btn");
+
+            const niceSelectCurrent = deselectParent?.querySelector(
+              ".ms-nice-select-filter .current"
+            );
+
+            const inputText = deselectParent?.querySelector(
+              ".ms-hero__search-loaction"
+            );
+
+            let selectCommonDefaultValue = "";
+            let niceSelectCurrentCommonDefaultValue = "";
+            let inputDefaultValue = "";
+
+            if (selectCommon) {
+              selectCommonDefaultValue = selectCommon.innerHTML;
+            }
+            if (niceSelectCurrent) {
+              niceSelectCurrentCommonDefaultValue = niceSelectCurrent.textContent;
+            }
+
+            const bathSelectDefaultValue = deselectParent?.querySelector(".ms-btn");
+
+            deselectBtn.addEventListener("click", function () {
+              const selectedInput = this.closest(".ms-input--selected");
+              const msBtn = selectedInput.querySelector(".ms-btn");
+              const niceSelect = selectedInput.querySelector(".ms-nice-select-filter");
+
+              // Reset bed selection
+              if(selectedInput.classList.contains('ms-input--bed')) {
+                jQuery('.ms-bed-hidden').val('');
+                jQuery('.ms-bath-hidden').val('');
+                jQuery('.ms-bed-btn').removeClass('active');
+                jQuery('.ms-bath-btn').removeClass('active');
+              }
+
+              // Reset price range selection
+              if(selectedInput.classList.contains('ms-input--price')) {
+                jQuery(selectedInput).find('.ms-btn__reset__price').trigger('click');
+              }
+
+              // Reset nice select filter selection
+              if(selectedInput.classList.contains('ms-nice-select-filter-container')) {
+                const niceSelect = jQuery(selectedInput).find('.ms-nice-select-filter');
+                niceSelect.val('').niceSelect('update');
+              }
+
+              if (selectedInput) {
+                selectedInput.classList.remove("ms-input--selected");
+
+                if (selectCommonDefaultValue) {
+                  selectCommon.innerHTML = selectCommonDefaultValue;
+                }
+                if (inputText) {
+                  inputText.value = "";
+                }
+              }
+            });
+          });
+        }
         // Handle bed button clicks
         jQuery('.ms-bed-btn').on('click', function() {
             var bedValue = jQuery(this).data('value');
@@ -279,7 +400,6 @@
             }
             
             updateBedBathButtonText();
-
         });
 
         // Handle bath button clicks
