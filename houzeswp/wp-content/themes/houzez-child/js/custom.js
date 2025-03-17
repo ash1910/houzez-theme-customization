@@ -2017,7 +2017,7 @@
     /*--------------------------------------------------------------------------
      *  Property Agent Contact Form
      * -------------------------------------------------------------------------*/
-    $( '.houzez_agent_property_form').on('click', function(e) {
+    $(document).on('click', '.houzez_agent_property_form', function(e) {
         e.preventDefault();
 
         var $result;
@@ -4488,7 +4488,7 @@ function houzez_listing_lightbox(ajaxurl, processing_text, houzez_rtl, userID) {
 *   Add or remove favorites
 * -------------------------------------------------------------------------*/
 function houzez_init_add_favorite(ajaxurl, userID) {
-    jQuery(".add-favorite-js").on('click', function (e) {
+    jQuery(document).on('click', ".add-favorite-js", function (e) {
         e.preventDefault();
         var curnt = jQuery(this);
         var listID = jQuery(this).attr('data-listid');

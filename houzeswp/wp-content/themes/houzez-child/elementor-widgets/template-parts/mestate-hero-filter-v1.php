@@ -127,7 +127,7 @@ if($adv_baths_list) {
                       <?php
                       $tax_terms = get_terms('property_type', array(
                           'hide_empty' => false,
-                          'parent' => 0,
+                          'parent' => 33,
                       ));
                       foreach($tax_terms as $term): ?>
                         <option value="<?php echo $term->slug; ?>"><?php echo $term->name; ?></option>

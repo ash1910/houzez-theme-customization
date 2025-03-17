@@ -260,9 +260,9 @@
         jQuery('.ms-bed-btn-text').html(displayText);
     }
 
-    function submitFilterForm($form){
+    function submitFilterForm($form, current_page = 1){
         const keyword = $form.find('.houzez-keyword-autocomplete').val();
-        const property_type = $form.find('.ms-nice-select-property-type').val();
+        var property_type = $form.find('.ms-nice-select-property-type').val();
         const min_price = $form.find('.ms-min-price-range-hidden').val();
         const max_price = $form.find('.ms-max-price-range-hidden').val();
         const bedrooms = $form.find('.ms-bed-hidden').val();
@@ -270,17 +270,29 @@
         const property_status = $form.find('.ms-nice-select-property-status').val();
         const page_available = $form.find('.ms-nice-select-property-status option:selected').data('page-available');
         const page_available_type = $form.find('.ms-nice-select-property-type option:selected').data('page-available');
+        var sortby = jQuery('#ajax_sort_properties').val();
+        var ms_page_slug = $form.find('.ms-page-slug').val();
 
-        let url = "<?php echo home_url(); ?>";
+        if( property_type ){
+
+        }
+        else if(ms_page_slug === "new-projects" || ms_page_slug === "commercial"){
+          property_type = ms_page_slug;
+        }
+        
+
+        let url = "";
+        //let url = "<?php //echo home_url(); ?>";
         if(property_status && property_status !== '' && page_available == '1') {
+          url = "<?php echo home_url(); ?>";
           url = url + '/' + property_status + '<?php echo is_half_map_page() ? '-map' : ''; ?>/';
         }
-        else if(property_type && property_type !== '' && page_available_type == '1') {
-          url = url + '/' + property_type + '<?php echo is_half_map_page() ? '-map' : ''; ?>/';
-        }
-        else {
-          url = url + '/search-results<?php echo is_half_map_page() ? '-map' : ''; ?>/';
-        }
+        // else if(property_type && property_type !== '' && page_available_type == '1') {
+        //   url = url + '/' + property_type + '<?php echo is_half_map_page() ? '-map' : ''; ?>/';
+        // }
+        // else {
+        //   url = url + '/search-results<?php echo is_half_map_page() ? '-map' : ''; ?>/';
+        // }
         
         const params = {
             "keyword": keyword || '',
@@ -289,7 +301,10 @@
             "min-price": min_price || '',
             "max-price": max_price || '',
             "bedrooms": bedrooms === 'any' ? '' : (bedrooms || ''),
-            "bathrooms": bathrooms === 'any' ? '' : (bathrooms || '')
+            "bathrooms": bathrooms === 'any' ? '' : (bathrooms || ''),
+            "sortby": sortby || '',
+            "paged": current_page == 1 ? '' : (current_page || ''),
+            "slug": ms_page_slug
         };
 
         // Filter out empty parameters and build the query string
@@ -298,7 +313,104 @@
             .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
             .join('&');
 
-        window.location.href = url + (queryString ? '?' + queryString : '');
+        //window.location.href = url + (queryString ? '?' + queryString : '');
+        pageUrl = url + (queryString ? '?' + queryString : '');
+
+        window.history.pushState({houzezTheme: true}, '', pageUrl);
+        
+        mestate_half_map_listings(current_page, queryString);
+    }
+
+    /*----------------------------------------------------------
+    * Ajax Search
+    *----------------------------------------------------------*/
+    var mestate_half_map_listings = function(current_page, queryString) {
+        var ajaxurl = houzez_vars.admin_url + 'admin-ajax.php';
+        var ajax_container = jQuery('#houzez_ajax_container');
+        var ajax_location_container = jQuery('#ajax_location_container');
+        
+        var ajax_map_wrap = jQuery('.map-wrap');
+
+        jQuery.ajax({
+            type: 'GET',
+            dataType: 'json',
+            url: ajaxurl,
+            data: queryString + "&action=mestate_half_map_listings",
+            beforeSend: function() {
+                jQuery('.houzez-map-loading').show();
+                ajax_location_container.empty();
+                ajax_container.empty().append(''
+                    +'<div id="houzez-map-loading" class="houzez-map-loading">'
+                    +'<div class="mapPlaceholder">'
+                    +'<div class="loader-ripple spinner">'
+                    +'<div class="bounce1"></div>'
+                    +'<div class="bounce2"></div>'
+                    +'<div class="bounce3"></div>'
+                    +'</div>'
+                    +'</div>'
+                    +'</div>'
+                );
+                ajax_map_wrap.append(''
+                    +'<div id="houzez-map-loading" class="houzez-map-loading">'
+                    +'<div class="mapPlaceholder">'
+                    +'<div class="loader-ripple spinner">'
+                    +'<div class="bounce1"></div>'
+                    +'<div class="bounce2"></div>'
+                    +'<div class="bounce3"></div>'
+                    +'</div>'
+                    +'</div>'
+                    +'</div>'
+                );
+            },
+            success: function(data) { 
+    
+                // if ( data.query != '' ) {
+                //     $( 'input[name="search_args"]' ).val( data.query );
+                // }
+                // if ( data.search_uri != '' ) {
+                //     $( 'input[name="search_URI"]' ).val( data.search_uri );
+                // }
+                //$('.map-notfound').remove();
+                jQuery('.search-no-results-found-wrap').remove();
+
+                if(data.getProperties === true) {
+                    if (typeof mestate_Reload_Markers === 'function') {
+                        mestate_Reload_Markers();
+                        mestate_Add_Markers( data.properties );
+                    }
+                    ajax_container.empty().html(data.propHtml);
+                    functionListingItemImageSlider();
+                } else { 
+                    if (typeof mestate_Reload_Markers === 'function') {
+                        mestate_Reload_Markers();
+                    }
+                    ajax_container.empty().html('<div class="search-no-results-found">No results found</div>');
+                }
+                return false;
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                console.log(xhr.status);
+                console.log(xhr.responseText);
+                console.log(thrownError);
+            }
+        });
+        return false;
+    }
+
+    function functionListingItemImageSlider(){
+        // card slider
+        const apartmentSlider = jQuery(".ms-aparments-maincardslider");
+        if (apartmentSlider?.length) {
+          var formSlider = new Swiper(apartmentSlider, {
+              slidesPerView: 1,
+              spaceBetween: 0,
+              pagination: {
+                  el: ".swiper-pagination",
+                  clickable: true,
+              },
+              loop: true,
+          });
+        }
     }
 
     function ms_hero_filter_functionality(){
@@ -315,6 +427,9 @@
           if (selectParent?.length) {
             selectParent.addClass("ms-input--selected");
           }
+
+          const $form = jQuery(this).closest('form');
+          submitFilterForm($form);
         });
         	// deselect selected input
         const deselectBtns = document.querySelectorAll(".ms-input__deselect");
@@ -400,6 +515,9 @@
             }
             
             updateBedBathButtonText();
+
+            const $form = jQuery(this).closest('form');
+            submitFilterForm($form);
         });
 
         // Handle bath button clicks
@@ -422,12 +540,36 @@
             
             updateBedBathButtonText();
 
+            const $form = jQuery(this).closest('form');
+            submitFilterForm($form);
         });
 
         updateBedBathButtonText();
 
-        jQuery('.ms-btn--search').on('click', function() {
+        jQuery('.ms-btn--search, .ms-btn__apply__price').on('click', function() {
             const $form = jQuery(this).closest('form');
+            submitFilterForm($form);
+        });
+        jQuery('.auto-complete').on( 'click', 'li', function (){
+          const $form = jQuery(this).closest('form');
+          submitFilterForm($form);
+        }).bind();
+
+        jQuery('#houzez_ajax_container').on('click', '.houzez_ajax_pagination a', function(e){
+            e.preventDefault();
+            current_page = jQuery(this).data('houzepagi');
+            //$('.hz-halfmap-paged').val(current_page);
+            const $form = jQuery(".ms-apartments-main__filter:not(.ms-header--sticky)").find('form');
+            submitFilterForm($form, current_page);
+            
+            // Smooth scroll to top
+            jQuery('html, body').animate({
+                scrollTop: 0
+            }, 500);
+        }).bind();
+
+        jQuery('#ajax_sort_properties').on('change', function() {
+            const $form = jQuery(".ms-apartments-main__filter:not(.ms-header--sticky)").find('form');
             submitFilterForm($form);
         });
 

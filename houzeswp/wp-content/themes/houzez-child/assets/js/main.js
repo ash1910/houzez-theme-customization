@@ -11,35 +11,7 @@ Mobile Menu Js
 
 	// nice select
 	$(".ms-nice-select:not(.ms-nice-select__country-code)").niceSelect();
-	// nice select for country code
-	if ($(".ms-nice-select__country-code")?.length) {
-		fetch("https://restcountries.com/v3.1/all")
-			.then(response => response.json())
-			.then(data => {
-				let select = $(".ms-nice-select__country-code");
-
-				let countryCodes = new Set(); // To avoid duplicates
-
-				data.forEach(country => {
-					if (country.idd?.root) {
-						let fullCode =
-							country.idd.root +
-							(country.idd.suffixes ? country.idd.suffixes[0] : "");
-						countryCodes.add(fullCode);
-					}
-				});
-
-				// Sort and add unique country codes to the dropdown
-				[...countryCodes].sort().forEach(code => {
-					select.append(`<option value="${code}">${code}</option>`);
-				});
-
-				select.niceSelect(); // Initialize Nice Select
-			})
-			.catch(error => console.error("Error fetching country codes:", error));
-	}
-
-
+	
 	// apartment
 	function useBlogSlider() {
 		const blogSlider = new Swiper(".ms-blog-slider", {

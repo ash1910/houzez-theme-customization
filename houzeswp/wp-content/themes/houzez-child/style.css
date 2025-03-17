@@ -763,8 +763,8 @@ i.menu-icon {
     flex: 1;
     height: 100%;
 }
-.ms-footer__form .search-icon .auto-complete {
-    z-index: 10000;
+.ms-footer__form .search-icon .auto-complete, .ms-apartments-main__filter .auto-complete  {
+    z-index: 999999;
 }
 .ms-footer__form .search-icon:before {
     visibility: hidden;
@@ -966,9 +966,6 @@ i.menu-icon {
     margin-bottom: 12px;
     font-size: var(--ms-fs-h6);
 }
-.ms-header:not(.ms-header--sticky) {
-    z-index: 9999;
-}
 .ms-apartments-main__card--2 .ms-apartments-main__card__content h5 {
     white-space: inherit !important;
     width: calc(100% - 70px) !important;
@@ -982,6 +979,14 @@ i.menu-icon {
 .ms-apartments-main__videos .slick-track {
     margin-left: 0;
 }
+.icon-arrow-right-1:before {
+    content: "\e912" !important;
+}
+.page-item:first-child .page-link {
+    border-top-left-radius: 100%;
+    border-bottom-left-radius: 100%;
+}
+
 
 @media (min-width: 1400px) {
     .ms-apartments-main__price-value {

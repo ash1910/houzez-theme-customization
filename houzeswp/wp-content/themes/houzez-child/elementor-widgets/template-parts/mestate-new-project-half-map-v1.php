@@ -6,7 +6,11 @@ wp_enqueue_style('leaflet');
 wp_enqueue_script('leafletMarkerCluster');
 wp_enqueue_style('leafletMarkerCluster');
 wp_enqueue_style('leafletMarkerClusterDefault');
-wp_enqueue_script('houzez-elementor-osm-scripts');
+//wp_enqueue_script('houzez-elementor-osm-scripts');
+$map_options = array();
+wp_register_script('houzez-osm-properties-mestate',  get_stylesheet_directory_uri().'/js/osm-properties-mestate.js', array('jquery', 'leaflet'), '1.0.0', true);
+wp_localize_script( 'houzez-osm-properties-mestate', 'houzez_map_properties', $map_options );
+wp_enqueue_script( 'houzez-osm-properties-mestate' );
 
 function get_properties_data($post) {
 
@@ -237,8 +241,31 @@ if( $total_records > 1 ) {
             </div>
 
             <div class="col-12 col-md-6">
-                <div id="ms-half-map-v1" class="ms-apartments__map">
-                </div>
+
+                <div id="ms-half-map-v1" class="ms-apartments__map"></div>
+
+
+                <!-- <div id="map-view-wrap" class="half-map-left-wrap">
+                    <div class="map-wrap">
+                        <div class="map-arrows-actions">
+                            <button id="listing-mapzoomin" class="map-btn"><i class="houzez-icon icon-add"></i></button>
+                            <button id="listing-mapzoomout" class="map-btn"><i class="houzez-icon icon-subtract"></i></button>
+                        </div>
+                        <div class="map-next-prev-actions">
+                            <button id="houzez-gmap-prev" class="map-btn"><i class="houzez-icon icon-arrow-left-1 mr-1"></i> <span>Prev</span></button>
+                            <button id="houzez-gmap-next" class="map-btn"><span>Next</span> <i class="houzez-icon icon-arrow-right-1 ml-1"></i></button>
+                        </div>
+                        <div class="map-zoom-actions">
+                            <div id="houzez-gmap-full-osm" class="map-btn">
+                                <i class="houzez-icon icon-expand-3 mr-1"></i> <span>Fullscreen</span>
+                            </div>
+                        </div>          
+                        
+                        <div id="ms-half-map-v1" class="ms-apartments__map"></div>
+
+                    </div>
+                </div> -->
+
             </div>
 
             <!-- apartments content -->
@@ -248,8 +275,8 @@ if( $total_records > 1 ) {
                 <ul class="ms-apartments-main__button-list">
                     <li>
                         <a
-                            href="<?php echo getNormalListPageUrl(); ?>"
-                            class="ms-btn ms-btn--bordered ms-btn--list"
+                            href="javascript:;"
+                            class="ms-btn ms-btn--bordered ms-btn--list goToListPage"
                         >
                             <svg
                                 width="22"
@@ -312,7 +339,7 @@ if( $total_records > 1 ) {
                                 d="M0.0625 13C0.0625 12.4822 0.482233 12.0625 1 12.0625H19C19.5178 12.0625 19.9375 12.4822 19.9375 13C19.9375 13.5178 19.5178 13.9375 19 13.9375H1C0.482233 13.9375 0.0625 13.5178 0.0625 13Z"
                                 fill="#868686" />
                         </svg>
-                        <select id="<?php echo esc_attr($sort_id); ?>" class="ms-nice-select-popular ms-btn ms-btn--bordered ms-btn--popular" title="<?php esc_html_e( 'Popular', 'houzez' ); ?>" data-live-search="false" data-dropdown-align-right="auto">
+                        <select id="ajax_sort_properties" class="ms-nice-select-popular ms-btn ms-btn--bordered ms-btn--popular" title="<?php esc_html_e( 'Popular', 'houzez' ); ?>" data-live-search="false" data-dropdown-align-right="auto">
                             <option value=""><?php esc_html_e( 'Popular', 'houzez' ); ?></option>
                             <option <?php selected($sortby, 'd_date'); ?> value="d_date"><?php esc_html_e('Newest', 'houzez' ); ?></option>
                             <option <?php selected($sortby, 'a_price'); ?> value="a_price"><?php esc_html_e('Lowest Price', 'houzez'); ?></option>
@@ -322,39 +349,40 @@ if( $total_records > 1 ) {
                 </ul>
 
                 <!-- apartments cards -->
-                <div id="houzez_ajax_container" class="ms-apartments-main__card__wrapper ms-apartments-main__card__wrapper--2">
-                <?php
-                    $properties_data = array();
-                    if ( 1 == $paged && !empty($combined_posts) ) :
-                        //echo "<pre>";print_r($combined_posts);exit;
-                        foreach ($combined_posts as $post) {
-                            
-                            setup_postdata($post);
+                <div id="houzez_ajax_container">
+                    <div class="ms-apartments-main__card__wrapper ms-apartments-main__card__wrapper--2">
+                    <?php
+                        $properties_data = array();
+                        if ( 1 == $paged && !empty($combined_posts) ) :
+                            //echo "<pre>";print_r($combined_posts);exit;
+                            foreach ($combined_posts as $post) {
+                                
+                                setup_postdata($post);
+                                get_template_part('elementor-widgets/template-parts/mestate-new-project-listing-item-half-map-v1');
+                                $properties_data[] = get_properties_data($post);
+                            }
+                        elseif ( $search_query->have_posts() ) :
+                            while ( $search_query->have_posts() ) : $search_query->the_post();
+
                             get_template_part('elementor-widgets/template-parts/mestate-new-project-listing-item-half-map-v1');
                             $properties_data[] = get_properties_data($post);
-                        }
-                    elseif ( $search_query->have_posts() ) :
-                        while ( $search_query->have_posts() ) : $search_query->the_post();
-
-                        get_template_part('elementor-widgets/template-parts/mestate-new-project-listing-item-half-map-v1');
-                        $properties_data[] = get_properties_data($post);
-                        endwhile;
-                    else:
-                        
-                        echo '<div class="search-no-results-found-wrap">';
-                            echo '<div class="search-no-results-found">';
-                                esc_html_e('No results found', 'houzez');
+                            endwhile;
+                        else:
+                            
+                            echo '<div class="search-no-results-found-wrap">';
+                                echo '<div class="search-no-results-found">';
+                                    esc_html_e('No results found', 'houzez');
+                                echo '</div>';
                             echo '</div>';
-                        echo '</div>';
-                        
-                    endif;
-                    wp_reset_postdata();
-                    ?> 
+                            
+                        endif;
+                        wp_reset_postdata();
+                        ?> 
+                    </div>
+
+                    <!-- paginations -->
+                    <?php houzez_ajax_pagination( $search_query->max_num_pages ); ?>
                 </div>
-
-                <!-- paginations -->
-                <?php houzez_pagination( $search_query->max_num_pages ); ?>
-
             </div>
 
         </div>
@@ -419,13 +447,42 @@ if( $total_records > 1 ) {
         });
     }
 
+    function functionGoToListPage(){
+        // Handle map page navigation
+        jQuery('.goToListPage').on('click', function() {
+            let currentUrl = new URL(window.location.href);
+            let pathParts = currentUrl.pathname.split('/').filter(part => part !== '');
+            
+            // Get the last part of the path (e.g. 'rent')
+            let lastPart = pathParts[pathParts.length - 1];
+            
+            // Remove "-map" from the last part if it exists
+            pathParts[pathParts.length - 1] = lastPart.replace('-map', '');
+            
+            // Construct new URL with same query parameters
+            let newUrl = '/' + pathParts.join('/') + '?' + currentUrl.searchParams.toString();
+            window.location.href = newUrl;
+        });
+    }
+
     function callBtnFunc(){
         // Handle both call and email popup buttons
-        jQuery('.hz-call-popup-js, .hz-email-popup-js, .hz-whatsapp-popup-js').on('click', function() {
+        jQuery(document).on('click', '.hz-call-popup-js, .hz-email-popup-js, .hz-whatsapp-popup-js', function() {
             var dataType = jQuery(this).data('type') || '';
             var dataLink = jQuery(this).data('link') || '';
             var modalId = jQuery(this).data('model-id');
             var $modal = jQuery('#' + modalId);
+
+            // Check if modal exists and show it
+            if ($modal.length) {
+                $modal.modal('show');
+                let select = $modal.find(".ms-nice-select__country-code");
+                if (!select.hasClass('niceSelectApplied')) {
+                    select.niceSelect();
+                    select.addClass('niceSelectApplied');
+                }
+                //callCountryCodeFunc($modal);
+            }
             
             $modal.find('.form-data-type').val(dataType);
             $modal.find('.form-link').val(dataLink);
@@ -457,7 +514,8 @@ if( $total_records > 1 ) {
                 $modal.find('.accept_text').text('submit');
                 $modal.find('.submit_btn_text').text('Submit');
             }
-        });
+
+        }).bind();
     }
     
 
@@ -465,15 +523,21 @@ if( $total_records > 1 ) {
         jQuery(".ms-nice-select-popular").niceSelect();
         functionPropertyLocationShowMore();
         functionListingItemImageSlider();
-        houzezOpenStreetMapElementor("ms-half-map-v1", <?php echo json_encode($properties_data); ?>, <?php echo json_encode($map_options); ?>);
+        setTimeout(function() {
+            mestate_Add_Markers(<?php echo json_encode($properties_data); ?>);
+        }, 100);
         callBtnFunc();
+        functionGoToListPage();
     <?php } else { ?>
         jQuery(document).ready(function($) {
             jQuery(".ms-nice-select-popular").niceSelect();
             functionPropertyLocationShowMore();
             functionListingItemImageSlider();
-            houzezOpenStreetMapElementor("ms-half-map-v1", <?php echo json_encode($properties_data); ?>, <?php echo json_encode($map_options); ?>);
+            setTimeout(function() {
+                mestate_Add_Markers(<?php echo json_encode($properties_data); ?>);
+            }, 100);
             callBtnFunc();
+            functionGoToListPage();
         });
     <?php } ?>
 </script>

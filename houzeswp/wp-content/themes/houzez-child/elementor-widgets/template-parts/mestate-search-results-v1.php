@@ -160,6 +160,7 @@ if( $total_records > 1 ) {
             <!-- apartments content -->
             <div class="col-12 col-xl-8 mb-2 mb-md-5 mb-xl-0">
                 <!-- locations -->
+                <div id="ajax_location_container">
                 <?php 
                 if( $total_records > 1 ) {
                     $locations_list = apply_filters("houzez_after_search__get_property_type_list", $search_qry);
@@ -169,6 +170,7 @@ if( $total_records > 1 ) {
                     }
                 }
                 ?>
+                </div>
 
                 <!-- button list -->
 
@@ -205,8 +207,8 @@ if( $total_records > 1 ) {
                     </li>
                     <li>
                         <a
-                            href="<?php echo getMapPageUrl(); ?>"
-                            class="ms-btn ms-btn--bordered"
+                            href="javascript:;"
+                            class="ms-btn ms-btn--bordered goToMapPage"
                         >
                             <svg
                                 width="16"
@@ -239,7 +241,7 @@ if( $total_records > 1 ) {
                                 d="M0.0625 13C0.0625 12.4822 0.482233 12.0625 1 12.0625H19C19.5178 12.0625 19.9375 12.4822 19.9375 13C19.9375 13.5178 19.5178 13.9375 19 13.9375H1C0.482233 13.9375 0.0625 13.5178 0.0625 13Z"
                                 fill="#868686" />
                         </svg>
-                        <select id="<?php echo esc_attr($sort_id); ?>" class="ms-nice-select-popular ms-btn ms-btn--bordered ms-btn--popular" title="<?php esc_html_e( 'Popular', 'houzez' ); ?>" data-live-search="false" data-dropdown-align-right="auto">
+                        <select id="ajax_sort_properties" class="ms-nice-select-popular ms-btn ms-btn--bordered ms-btn--popular" title="<?php esc_html_e( 'Popular', 'houzez' ); ?>" data-live-search="false" data-dropdown-align-right="auto">
                             <option value=""><?php esc_html_e( 'Popular', 'houzez' ); ?></option>                            
                             <option <?php selected($sortby, 'd_date'); ?> value="d_date"><?php esc_html_e('Newest', 'houzez' ); ?></option>
                             <option <?php selected($sortby, 'a_price'); ?> value="a_price"><?php esc_html_e('Lowest Price', 'houzez'); ?></option>
@@ -262,37 +264,39 @@ if( $total_records > 1 ) {
                 </ul>
 
                 <!-- apartments cards -->
-                <div class="ms-apartments-main__card__wrapper">
-                <?php
-                    if ( 1 == $paged && !empty($combined_posts) ) :
-                        //echo "<pre>";print_r($combined_posts);exit;
-                        foreach ($combined_posts as $post) {
-                            
-                            setup_postdata($post);
+                <div id="houzez_ajax_container">
+                    <div class="ms-apartments-main__card__wrapper">
+                    <?php
+                        if ( 1 == $paged && !empty($combined_posts) ) :
+                            //echo "<pre>";print_r($combined_posts);exit;
+                            foreach ($combined_posts as $post) {
+                                
+                                setup_postdata($post);
+                                get_template_part('elementor-widgets/template-parts/mestate-listing-item-v1');
+
+                            }
+                        elseif ( $search_query->have_posts() ) :
+                            while ( $search_query->have_posts() ) : $search_query->the_post();
+
                             get_template_part('elementor-widgets/template-parts/mestate-listing-item-v1');
 
-                        }
-                    elseif ( $search_query->have_posts() ) :
-                        while ( $search_query->have_posts() ) : $search_query->the_post();
-
-                        get_template_part('elementor-widgets/template-parts/mestate-listing-item-v1');
-
-                        endwhile;
-                    else:
-                        
-                        echo '<div class="search-no-results-found-wrap">';
-                            echo '<div class="search-no-results-found">';
-                                esc_html_e('No results found', 'houzez');
+                            endwhile;
+                        else:
+                            
+                            echo '<div class="search-no-results-found-wrap">';
+                                echo '<div class="search-no-results-found">';
+                                    esc_html_e('No results found', 'houzez');
+                                echo '</div>';
                             echo '</div>';
-                        echo '</div>';
-                        
-                    endif;
-                    wp_reset_postdata();
-                    ?> 
-                </div>
+                            
+                        endif;
+                        wp_reset_postdata();
+                        ?> 
+                    </div>
 
-                <!-- paginations -->
-                <?php houzez_pagination( $search_query->max_num_pages ); ?>
+                    <!-- paginations -->
+                    <?php houzez_ajax_pagination( $search_query->max_num_pages ); ?>
+                </div>
 
             </div>
 
@@ -361,16 +365,21 @@ if( $total_records > 1 ) {
         }
     }
 
-    function functionListingItemImageSlider(){
-        // card slider
-        var formSlider = new Swiper(".ms-aparments-maincardslider", {
-            slidesPerView: 1,
-            spaceBetween: 0,
-            pagination: {
-                el: ".swiper-pagination",
-                clickable: true,
-            },
-            loop: true,
+    function functionGoToMapPage(){
+        // Handle map page navigation
+        jQuery('.goToMapPage').on('click', function() {
+            let currentUrl = new URL(window.location.href);
+            let pathParts = currentUrl.pathname.split('/').filter(part => part !== '');
+            
+            // Get the last part of the path (e.g. 'rent')
+            let lastPart = pathParts[pathParts.length - 1];
+            
+            // Replace the current page with map version
+            pathParts[pathParts.length - 1] = lastPart + '-map';
+            
+            // Construct new URL with same query parameters
+            let newUrl = '/' + pathParts.join('/') + '?' + currentUrl.searchParams.toString();
+            window.location.href = newUrl;
         });
     }
     function functionVerifiedFirst(){
@@ -392,11 +401,22 @@ if( $total_records > 1 ) {
 
     function callBtnFunc(){
         // Handle both call and email popup buttons
-        jQuery('.hz-call-popup-js, .hz-email-popup-js, .hz-whatsapp-popup-js').on('click', function() {
+        jQuery(document).on('click', '.hz-call-popup-js, .hz-email-popup-js, .hz-whatsapp-popup-js', function() {
             var dataType = jQuery(this).data('type') || '';
             var dataLink = jQuery(this).data('link') || '';
             var modalId = jQuery(this).data('model-id');
             var $modal = jQuery('#' + modalId);
+
+            // Check if modal exists and show it
+            if ($modal.length) {
+                $modal.modal('show');
+                let select = $modal.find(".ms-nice-select__country-code");
+                if (!select.hasClass('niceSelectApplied')) {
+                    select.niceSelect();
+                    select.addClass('niceSelectApplied');
+                }
+                //callCountryCodeFunc($modal);
+            }
             
             $modal.find('.form-data-type').val(dataType);
             $modal.find('.form-link').val(dataLink);
@@ -428,7 +448,38 @@ if( $total_records > 1 ) {
                 $modal.find('.accept_text').text('submit');
                 $modal.find('.submit_btn_text').text('Submit');
             }
-        });
+
+        }).bind();
+    }
+
+    function callCountryCodeFunc($modal){
+        // nice select for country code
+        if ($modal.find(".ms-nice-select__country-code:not(.niceSelectApplied)")?.length) {
+            fetch("https://restcountries.com/v3.1/all")
+                .then(response => response.json())
+                .then(data => {
+                    let select = $modal.find(".ms-nice-select__country-code");
+
+                    let countryCodes = new Set(); // To avoid duplicates
+
+                    data.forEach(country => {
+                        if (country.idd?.root) {
+                            let fullCode =
+                                country.idd.root +
+                                (country.idd.suffixes ? country.idd.suffixes[0] : "");
+                            countryCodes.add(fullCode);
+                        }
+                    });
+
+                    // Sort and add unique country codes to the dropdown
+                    [...countryCodes].sort().forEach(code => {
+                        select.append(`<option value="${code}">${code}</option>`);
+                    });
+
+                    select.niceSelect(); // Initialize Nice Select
+                })
+                .catch(error => console.error("Error fetching country codes:", error));
+        }
     }
     
 
@@ -436,14 +487,14 @@ if( $total_records > 1 ) {
 
         jQuery(".ms-nice-select-popular").niceSelect();
         functionPropertyLocationShowMore();
-        functionListingItemImageSlider();
+        functionGoToMapPage();
         functionVerifiedFirst();
         callBtnFunc();
     <?php } else { ?>
         jQuery(document).ready(function($) {
             jQuery(".ms-nice-select-popular").niceSelect();
             functionPropertyLocationShowMore();
-            functionListingItemImageSlider();
+            functionGoToMapPage();
             functionVerifiedFirst();
             callBtnFunc();
         });

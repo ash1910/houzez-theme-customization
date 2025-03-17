@@ -13,7 +13,23 @@ $current_page = get_post(get_the_ID());
 $page_slug = $current_page->post_name;
 if( empty($_GET["status"]) ){
     if ($page_slug) {
-        $status = array($page_slug);
+        switch ($page_slug) {
+            case 'buy':
+                $status = array('buy');
+                break;
+            case 'buy-map':
+                $status = array('buy');
+                break;
+            case 'rent':
+                $status = array('rent');
+                break;
+            case 'rent-map':
+                $status = array('rent');
+                break;
+            default:
+                $status = array();
+                break;
+        }
     }
 }
 
@@ -34,14 +50,23 @@ $bath_list = array();
 if($adv_baths_list) {
     $bath_list = explode(',', $adv_baths_list);
 }
+
+$property_type_parent_id = 33;
+if(in_array("new-projects", $type) || $page_slug == 'new-projects' || $page_slug == 'new-projects-map'){
+    $property_type_parent_id = 96;
+}
+elseif(in_array("commercial", $type) || $page_slug == 'commercial' || $page_slug == 'commercial-map'){
+    $property_type_parent_id = 19;
+}
 ?>
 
 <form class="ms-hero__form" onsubmit="return false;">
+    <input type="hidden" name="ms-page-slug" value="<?php echo $page_slug; ?>" class="ms-page-slug" readonly >
     <input type="hidden" name="ms-min-price" value="<?php echo $min_price; ?>" class="ms-min-price-range-hidden range-input" readonly >
     <input type="hidden" name="ms-max-price" value="<?php echo $max_price; ?>" class="ms-max-price-range-hidden range-input" readonly >
     <input type="hidden" name="ms-bed" value="<?php echo $bed; ?>" class="ms-bed-hidden" readonly >
     <input type="hidden" name="ms-bath" value="<?php echo $bath; ?>" class="ms-bath-hidden" readonly >
-    <div class="ms-input ms-nice-select-filter-container" <?php if(in_array("new-projects", $type) || $page_slug == 'new-projects') echo 'style="display: none;"'; ?>>
+    <div class="ms-input ms-nice-select-filter-container" <?php if(in_array("new-projects", $type) || $page_slug == 'new-projects' || $page_slug == 'new-projects-map') echo 'style="display: none;"'; ?>>
         <select class="ms-nice-select-filter ms-nice-select-property-status" style="visibility: hidden;">
             <option value="" selected disabled>Select</option>
             <?php
@@ -84,7 +109,7 @@ if($adv_baths_list) {
             <?php
             $tax_terms = get_terms('property_type', array(
                 'hide_empty' => false,
-                'parent' => 0,
+                'parent' => $property_type_parent_id,
             ));
             foreach($tax_terms as $term): 
             $page_path = get_page_by_path($term->slug);
@@ -222,7 +247,7 @@ if($adv_baths_list) {
             </span>
         </button>
     </div>
-    <div>
+    <div style="display: none;">
         <button class="ms-btn ms-btn--primary ms-btn--search">
         <i class="icon-search_black"></i>
         </button>

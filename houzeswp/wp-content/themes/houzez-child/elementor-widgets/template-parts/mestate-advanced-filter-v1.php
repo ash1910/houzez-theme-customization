@@ -464,7 +464,7 @@ if($adv_baths_list) {
                     </div>
                     <?php endif; ?>
 
-                    <div class="ms-input__content__action">
+                    <div class="ms-input__content__action" style="position: sticky; bottom: 0; background: #fff;">
                       <button class="ms-btn ms-btn--transparent advanced-filter-reset">
                         Reset All
                       </button>

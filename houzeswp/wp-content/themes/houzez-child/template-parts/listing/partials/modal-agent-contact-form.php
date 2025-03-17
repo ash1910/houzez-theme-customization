@@ -40,17 +40,17 @@ if( ! empty( $agent_email ) ) {
                         <form class="ms-form__main" method="post" action="#">
 
                             <div class="ms-input__wrapper">
-                                <label class="ms-input__label" for="ms-contact__name">Name</label>
+                                <label class="ms-input__label" for="ms-contact__name-<?php echo esc_attr($post->ID); ?>">Name</label>
                                 <div class="ms-input__wrapper__inner">
                                     <div class="ms-input ms-input--serach">
                                         <input type="text" name="name" value="<?php echo esc_attr($user_name); ?>" placeholder="Enter Your Name" class="ms-hero__search-loaction"
-                                            id="ms-contact__name" />
+                                            id="ms-contact__name-<?php echo esc_attr($post->ID); ?>" />
                                     </div>
                                 </div>
                             </div>
 
                             <div class="ms-input__wrapper phone-field-wrapper" style="display: none;">
-                                <label class="ms-input__label phone-field-label" for="ms-contact__phone">Phone Number</label>
+                                <label class="ms-input__label phone-field-label" for="ms-contact__phone-<?php echo esc_attr($post->ID); ?>">Phone Number</label>
                                 <div class="ms-input__wrapper__inner">
                                     <div class="ms-input ms-input--serach">
                                         <select name="country_code" class="ms-nice-select ms-nice-select__country-code ms-nice-select--phone">
@@ -71,34 +71,34 @@ if( ! empty( $agent_email ) ) {
                                     </div>
                                     <div class="ms-input ms-input--serach">
                                         <input type="text" placeholder="Enter Phone Number" class="ms-hero__search-loaction phone-field"
-                                            id="ms-contact__phone" name="mobile" />
+                                            id="ms-contact__phone-<?php echo esc_attr($post->ID); ?>" name="mobile" />
                                     </div>
                                 </div>
                             </div>
 
                             <div class="ms-input__wrapper email-field-wrapper">
-                                <label class="ms-input__label" for="ms-contact__email">Email Address</label>
+                                <label class="ms-input__label" for="ms-contact__email-<?php echo esc_attr($post->ID); ?>">Email Address</label>
                                 <div class="ms-input__wrapper__inner">
                                     <div class="ms-input ms-input--serach">
                                         <input type="email" name="email" value="<?php echo esc_attr($user_email); ?>" placeholder="Enter Email Address" class="ms-hero__search-loaction"
-                                            id="ms-contact__email" />
+                                            id="ms-contact__email-<?php echo esc_attr($post->ID); ?>" />
                                     </div>
                                 </div>
                             </div>
                             <div class="ms-input__wrapper message-field-wrapper" style="display: none;">
-                                <label class="ms-input__label" for="ms-contact__message">Message</label>
+                                <label class="ms-input__label" for="ms-contact__message-<?php echo esc_attr($post->ID); ?>">Message</label>
                                 <div class="ms-input__wrapper__inner">
                                     <div class="ms-input ms-input--serach">
                                         <textarea type="text" name="message" placeholder="Type your message here..." class="ms-hero__search-loaction"
-                                            id="ms-contact__message" rows="3"><?php echo houzez_option('spl_con_interested', "Hello, I am interested in"); ?> [<?php echo get_the_title(); ?>]
+                                            id="ms-contact__message-<?php echo esc_attr($post->ID); ?>" rows="3"><?php echo houzez_option('spl_con_interested', "Hello, I am interested in"); ?> [<?php echo get_the_title(); ?>]
                                         </textarea>
                                     </div>
                                 </div>
                             </div>
                             <div class="ms-input ms-input--agree">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="privacy_policy" value="" id="msagree" checked="">
-                                    <label class="form-check-label" for="msagree">
+                                    <input class="form-check-input" type="checkbox" name="privacy_policy" id="msagree-<?php echo esc_attr($post->ID); ?>" checked="">
+                                    <label class="form-check-label" for="msagree-<?php echo esc_attr($post->ID); ?>">
                                         <span>
                                             By clicking <span class="accept_text">submit</span> button you accept our <a target="_blank" href="<?php echo esc_url(get_permalink($terms_page_id)); ?>" class="ms-form__forgot-pass">Privacy
                                                 Policy</a>.
