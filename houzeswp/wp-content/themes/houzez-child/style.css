@@ -764,7 +764,7 @@ i.menu-icon {
     height: 100%;
 }
 .ms-footer__form .search-icon .auto-complete, .ms-apartments-main__filter .auto-complete  {
-    z-index: 999999;
+    z-index: 99999;
 }
 .ms-footer__form .search-icon:before {
     visibility: hidden;
@@ -838,9 +838,6 @@ i.menu-icon {
 }
 .ms-apartments-main__heading .ms-btn--bordered.save-search-btn:disabled i {
     color: #1b1b1b;
-}
-.modal-open .modal {
-    z-index: 100000;
 }
 .main-wrap.slideout-panel {
     z-index: inherit;
@@ -982,6 +979,11 @@ i.menu-icon {
 .icon-arrow-right-1:before {
     content: "\e912" !important;
 }
+
+#ms-blog-grid .icon-arrow-right-1:before {
+    content: "\e930" !important;
+}
+
 .page-item:first-child .page-link {
     border-top-left-radius: 100%;
     border-bottom-left-radius: 100%;

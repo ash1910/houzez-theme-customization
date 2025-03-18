@@ -166,7 +166,7 @@ if( !empty($favorite_ids) && in_array($listing_id, $favorite_ids) ) {
             <?php echo $address; ?></a>
         <!-- price -->
         <div class="ms-apartments-main____card__price">
-            <h6><?php echo $price_prefix. houzez_get_property_price($sale_price) . $price_postfix; ?> 
+            <h6><?php echo $price_prefix. houzez_get_property_price($sale_price) . (!empty($price_postfix) ? "/" . $price_postfix : ""); ?> 
                 <?php $property_type = houzez_taxonomy_simple('property_type'); 
                 if(!empty($property_type)) {
                     echo '<span>'.$property_type.'</span>';

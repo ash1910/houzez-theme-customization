@@ -57,6 +57,10 @@ if ( ! function_exists( 'elementor_theme_do_location' ) || ! elementor_theme_do_
                         </div>
                     </div>
                 </div>
+
+                <!-- search Mobile -->
+                <?php echo houzez_property_blog_search();?>
+
             </div>
         </div>
     </div>

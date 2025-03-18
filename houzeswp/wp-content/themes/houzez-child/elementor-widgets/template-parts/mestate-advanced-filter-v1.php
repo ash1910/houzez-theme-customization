@@ -115,7 +115,7 @@ if($adv_baths_list) {
                 </button>
                 <button 
                   id="new-project-tab" 
-                  class="<?php echo (isset($_GET['type']) && in_array('new-projects', $_GET['type']) || $page_slug == 'new-projects') ? 'active' : ''; ?>"
+                  class="<?php echo (isset($_GET['type']) && in_array('new-projects', $_GET['type']) || $page_slug == 'new-projects' || $page_slug == 'new-projects-map') ? 'active' : ''; ?>"
                   data-target="#modalNew_project" 
                   data-toggle="tab" 
                   data-page-available="<?php echo get_page_by_path('new-projects') ? '1' : '0'; ?>"
@@ -124,7 +124,7 @@ if($adv_baths_list) {
                 </button>
                 <button
                   id="commercial-tab"
-                  class="<?php echo (isset($_GET['type']) && in_array('commercial', $_GET['type']) || $page_slug == 'commercial') ? 'active' : ''; ?>"
+                  class="<?php echo (isset($_GET['type']) && in_array('commercial', $_GET['type']) || $page_slug == 'commercial' || $page_slug == 'commercial-map') ? 'active' : ''; ?>"
                   data-target="#modalCommercial"
                   data-toggle="tab"
                   data-page-available="<?php echo get_page_by_path('commercial') ? '1' : '0'; ?>"
@@ -849,6 +849,10 @@ if($adv_baths_list) {
             // Reset area inputs
             $form.find('input[name="ms-min-area"]').val('0');
             $form.find('input[name="ms-max-area"]').val('');
+
+            if (typeof resetHeroFormAllFilters === 'function') {
+              resetHeroFormAllFilters();
+            }
         });
     }
     

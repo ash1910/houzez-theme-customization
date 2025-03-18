@@ -80,7 +80,7 @@ foreach ($types as $type) {
                         <h3><a href="javascript:void(0);"><?php the_title(); ?></a></h3>
                         <div class="ms-apartments-main____card__price">
                             <p>Starting Price</p>
-                            <h6><?php echo $price_prefix. houzez_get_property_price($sale_price) . $price_postfix; ?></h6>
+                            <h6><?php echo $price_prefix. houzez_get_property_price($sale_price) . (!empty($price_postfix) ? "/" . $price_postfix : ""); ?></h6>
                         </div>
 
                         <ul class="ms-apartments-main____card__button-list">
@@ -132,7 +132,7 @@ foreach ($types as $type) {
                                 if( @$hide_fields['price'] != 1 && !empty($sale_price) ) { ?>
                                 <li>
                                     <p>Starting From</p>
-                                    <h6><?php echo $price_prefix. houzez_get_property_price($sale_price) . $price_postfix; ?></h6>
+                                    <h6><?php echo $price_prefix. houzez_get_property_price($sale_price) . (!empty($price_postfix) ? "/" . $price_postfix : ""); ?></h6>
                                 </li>
                                 <?php } ?>
                                 <?php $construction_status = houzez_get_listing_data('completion');
@@ -446,7 +446,7 @@ foreach ($types as $type) {
                             if( @$hide_fields['price'] != 1 && !empty($sale_price) ) { ?>
                             <li>
                                 <p>Price</p>
-                                <h6><small>Start from </small> <span class="ms-apartments-main__price-value"><?php echo $price_prefix. houzez_get_property_price($sale_price) . $price_postfix; ?></span></h6>
+                                <h6><small>Start from </small> <span class="ms-apartments-main__price-value"><?php echo $price_prefix. houzez_get_property_price($sale_price) . (!empty($price_postfix) ? "/" . $price_postfix : ""); ?></span></h6>
                             </li>
                             <?php } ?>
                             <?php 

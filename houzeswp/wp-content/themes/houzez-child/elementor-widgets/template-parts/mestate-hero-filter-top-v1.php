@@ -55,7 +55,8 @@
         }
         return price;
     }
-    function ms_hero_filter_price_range(price_range_slider) {
+    function ms_hero_filter_price_range() {
+      const price_range_slider = jQuery('.ms-price-slider-range');
       let $form = price_range_slider.closest('form');
       var currency_symb = houzez_vars.currency_symbol;
       // Update all currency symbols in the form
@@ -140,7 +141,12 @@
       }
 
       $form.find('.ms-btn__reset__price').on('click', function() {
-        // Reset slider values
+        resetSliderValues();
+        this.closest('.ms-input--price').classList.remove("ms-input--selected");
+      });
+
+      function resetSliderValues() {
+        // Reset slider values 
         slider.slider('values', [min_price, max_price]);
         
         // Reset displayed values
@@ -152,9 +158,14 @@
         $form.find(".ms-max-price-range-hidden").val(max_price);
         
         // Reset button text
+        console.log("Reset button text");
         $form.find(".ms-input--price-btn").html('Select Price <i class="">' + currency_symb + '</i>');
-        this.closest('.ms-input--price').classList.remove("ms-input--selected");
-      });
+      }
+
+      // Return an object with the inner function as a method
+      return {
+        resetSliderValues: resetSliderValues
+      };
     }
 
     const filterBtns = function(){
@@ -278,6 +289,9 @@
         }
         else if(ms_page_slug === "new-projects" || ms_page_slug === "commercial"){
           property_type = ms_page_slug;
+        }
+        else if(ms_page_slug === "new-projects-map" || ms_page_slug === "commercial-map"){
+          property_type = ms_page_slug.replace('-map', '');
         }
         
 
@@ -416,7 +430,7 @@
     function ms_hero_filter_functionality(){
         filterBtns();
 
-        ms_hero_filter_price_range(jQuery('.ms-price-slider-range'));
+        ms_hero_filter_price_range();
 
         jQuery(".ms-nice-select-property-type").niceSelect();
         jQuery(".ms-nice-select-property-status").niceSelect();
@@ -474,7 +488,10 @@
 
               // Reset price range selection
               if(selectedInput.classList.contains('ms-input--price')) {
-                jQuery(selectedInput).find('.ms-btn__reset__price').trigger('click');
+                //jQuery(selectedInput).find('.ms-btn__reset__price').trigger('click');
+                const obj = ms_hero_filter_price_range();
+                obj.resetSliderValues();
+                this.closest('.ms-input--price').classList.remove("ms-input--selected");
               }
 
               // Reset nice select filter selection
@@ -483,7 +500,7 @@
                 niceSelect.val('').niceSelect('update');
               }
 
-              if (selectedInput) {
+              if (selectedInput && !selectedInput.classList.contains('ms-input--price')) {
                 selectedInput.classList.remove("ms-input--selected");
 
                 if (selectCommonDefaultValue) {
@@ -493,9 +510,16 @@
                   inputText.value = "";
                 }
               }
+
+              // Search 
+              const $form = jQuery(this).closest('form');
+              submitFilterForm($form);
+
             });
           });
         }
+
+
         // Handle bed button clicks
         jQuery('.ms-bed-btn').on('click', function() {
             var bedValue = jQuery(this).data('value');
@@ -573,6 +597,34 @@
             submitFilterForm($form);
         });
 
+    }
+
+    function resetHeroFormAllFilters() {
+      
+      $form = jQuery(".ms-hero__form");
+
+      // Reset bed selection
+      $form.find('.ms-bed-hidden').val('');
+      $form.find('.ms-bath-hidden').val('');
+      $form.find('.ms-bed-btn').removeClass('active');
+      $form.find('.ms-bath-btn').removeClass('active');
+      $form.find('.ms-bed-btn-text').html("Select beds/baths");
+
+      // Reset nice select filter selection
+      const niceSelect = $form.find('.ms-nice-select-filter');
+      niceSelect.val('').niceSelect('update');
+
+      // Reset keyword
+      $form.find('input.houzez-keyword-autocomplete').val("");
+
+      // Reset price range selection
+      const obj = ms_hero_filter_price_range();
+      obj.resetSliderValues();
+
+      $form.find(".ms-input--selected").removeClass("ms-input--selected");
+
+      // Search 
+      submitFilterForm($form);
     }
 
 
