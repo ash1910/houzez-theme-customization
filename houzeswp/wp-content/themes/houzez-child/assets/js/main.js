@@ -162,6 +162,10 @@ Mobile Menu Js
 		/*----------------------
             hero slider
         -----------------------*/
+
+		// Check if the document is in RTL mode
+		const isRTL = document.documentElement.getAttribute('dir') === 'rtl';
+
 		const heroSlider = $(".ms-hero__slider");
 		if (heroSlider?.length) {
 			heroSlider.slick({
@@ -175,6 +179,7 @@ Mobile Menu Js
 				asNavFor: ".ms-hero__slider__thumbs",
 				slidesToShow: 1,
 				slidesToScroll: 1,
+				rtl: isRTL,
 	
 				prevArrow:
 					'<a class="slick-prev"><i class="fas fa-arrow-left" alt="Arrow Icon"></i></a>',
@@ -232,7 +237,7 @@ Mobile Menu Js
 				centerMode: false,
 				focusOnSelect: true,
 				centerPadding: "30px",
-	
+				rtl: isRTL,
 				// prevArrow:
 				//   '<a class="slick-prev"><i class="fas fa-arrow-left" alt="Arrow Icon"></i></a>',
 				// nextArrow:
@@ -283,6 +288,7 @@ Mobile Menu Js
 				centerMode: false,
 				focusOnSelect: true,
 				centerPadding: "30px",
+				rtl: isRTL,
 				// prevArrow:
 				//   '<a class="slick-prev"><i class="fas fa-arrow-left" alt="Arrow Icon"></i></a>',
 				// nextArrow:

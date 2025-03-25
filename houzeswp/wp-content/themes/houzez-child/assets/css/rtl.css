@@ -220,6 +220,10 @@ START: Apppartments CSS
 	left: 16px;
 	right: auto;
 }
+.ms-apartments-main__card--4 .ms-apartments-main__card__logo {
+	left: 34px;
+	right: auto;
+}
 .page-item a i {
 	transform: rotate(180deg);
 }
@@ -227,12 +231,15 @@ START: Apppartments CSS
 	margin-right: 0;
 }
 .ms-apartments-main__card--list .ms-apartments-main__card__logo,
-.ms-apartments-main__card--3 .ms-apartments-main__card__logo {
+.ms-apartments-main__card--3:not(.ms-apartments-main__card--4)
+	.ms-apartments-main__card__logo {
 	right: auto;
 	left: 0;
 }
 .ms-apartments-main__card--list .ms-apartments-main__card__logo a,
-.ms-apartments-main__card--3 .ms-apartments-main__card__logo a {
+.ms-apartments-main__card--3:not(.ms-apartments-main__card--4)
+	.ms-apartments-main__card__logo
+	a {
 	padding: 8px 12px 8px 14px;
 	border: 1px solid var(--ms-color-border);
 	border-top: 0;
@@ -252,7 +259,8 @@ START: Apppartments CSS
 	left: auto;
 	right: 34px;
 }
-.ms-apartments-main__card--3 .ms-apartments-main__card__content {
+.ms-apartments-main__card--3:not(.ms-apartments-main__card--4)
+	.ms-apartments-main__card__content {
 	padding-left: 20px;
 	padding-right: 25px;
 	margin-left: 0;
@@ -411,18 +419,22 @@ START: Responsive CSS
 		border-bottom-right-radius: 16px;
 		border-bottom-left-radius: 16px;
 	}
-	.ms-apartments-main__card--3 .ms-apartments-main__card__content {
+	.ms-apartments-main__card--3:not(.ms-apartments-main__card--4)
+		.ms-apartments-main__card__content {
 		padding: 16px;
 
 		padding-top: 28px;
 	}
 	.ms-apartments-main__card--list .ms-apartments-main__card__logo,
-	.ms-apartments-main__card--3 .ms-apartments-main__card__logo {
+	.ms-apartments-main__card--3:not(.ms-apartments-main__card--4)
+		.ms-apartments-main__card__logo {
 		right: auto;
 		left: 14px;
 	}
 	.ms-apartments-main__card--list .ms-apartments-main__card__logo a,
-	.ms-apartments-main__card--3 .ms-apartments-main__card__logo a {
+	.ms-apartments-main__card--3:not(.ms-apartments-main__card--4)
+		.ms-apartments-main__card__logo
+		a {
 		border-radius: 6px;
 
 		padding: 4px 8px;

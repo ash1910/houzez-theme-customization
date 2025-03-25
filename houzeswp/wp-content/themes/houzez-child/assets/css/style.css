@@ -2496,6 +2496,7 @@ START: Apppartments CSS
 	border-top-right-radius: var(--ms-br-24);
 	border-bottom-right-radius: var(--ms-br-24);
 	margin-left: -20px;
+	overflow: hidden;
 	position: relative;
 }
 .ms-apartments-main__card--2 .ms-apartments-main__card__content {
@@ -3903,6 +3904,12 @@ START: New Project CSS
 	left: auto;
 	right: 16px;
 }
+.ms-apartments-main__card--4 .ms-apartments-main__card__logo {
+	top: auto;
+	bottom: 16px;
+	left: auto;
+	right: 34px;
+}
 .ms-apartments-main__card--2 .ms-apartments-main__card__logo {
 	top: 35px;
 }
@@ -3941,8 +3948,11 @@ START: New Project CSS
 	border-right: 0;
 	border-radius: 6px;
 	border: 1px solid var(--ms-color-border);
+	object-fit: cover;
 }
-
+.ms-apartments-main__card--4 .ms-apartments-main__card__logo a {
+	width: 82px;
+}
 .ms-apartments-main__card--list .ms-apartments-main__card__logo img,
 .ms-apartments-main__card--3 .ms-apartments-main__card__logo img {
 	height: 100%;
@@ -4072,6 +4082,12 @@ START: New Project CSS
 /**----------------------------------------
 START: New Project Details CSS
 ----------------------------------------*/
+/* .ms-apartments-main__section {
+	margin-bottom: 40px;
+}
+.ms-apartments-main__section:last-child {
+	margin-bottom: 0;
+} */
 .ms-apartments-main__section {
 	margin-bottom: 40px;
 }

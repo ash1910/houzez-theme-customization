@@ -9,7 +9,7 @@ jQuery( function($) {
 
         if($("#ms-half-map-v1").length > 0 ) {
 
-            console.log("ms-half-map-v1");
+            //console.log("ms-half-map-v1");
 
             var is_mapbox = houzez_vars.is_mapbox;
             var api_mapbox = houzez_vars.api_mapbox;
@@ -89,8 +89,14 @@ jQuery( function($) {
                 });
 
             } else {
-                var tileLayer = L.tileLayer( 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    attribution : '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                // var tileLayer = L.tileLayer( 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                //     attribution : '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                // } );
+
+                var tileLayer = L.tileLayer( 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+                    attribution : '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                    subdomains: 'abcd',
+                    maxZoom: 20
                 } );
             }
 
@@ -267,7 +273,7 @@ jQuery( function($) {
                     osm_markers_cluster = new L.MarkerClusterGroup({ 
                         iconCreateFunction: function (cluster) {
                             var markers1 = cluster.getAllChildMarkers();
-                            var html = '<div class="houzez-osm-cluster">' + markers1.length + '</div>';
+                            var html = '<div class="ms-houzez-osm-cluster">' + markers1.length + '</div>';
                             return L.divIcon({ html: html, className: 'mycluster', iconSize: L.point(47, 47) });
                         },
                         spiderfyOnMaxZoom: true, showCoverageOnHover: true, zoomToBoundsOnClick: true 
@@ -404,7 +410,7 @@ jQuery( function($) {
                 };
                 houzezMap = L.map( 'ms-half-map-v1', mapOptions );
 
-                houzezMap.scrollWheelZoom.disable();
+                //houzezMap.scrollWheelZoom.disable();
 
                 if ( 1 < mapBounds.length ) {
                     houzezMap.fitBounds( mapBounds ); 
@@ -552,7 +558,7 @@ jQuery( function($) {
 
                 houzezMap = L.map( 'ms-half-map-v1', fallbackMapOptions );
                 houzezMap.addLayer( tileLayer );
-                houzezMap.scrollWheelZoom.disable();
+                //houzezMap.scrollWheelZoom.disable();
 
             }
 

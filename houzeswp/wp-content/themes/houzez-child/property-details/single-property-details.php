@@ -4,7 +4,7 @@ global $hide_fields;
 if(houzez_get_map_system() == 'google') {
 	wp_enqueue_script('houzez-overview-listing-map', HOUZEZ_JS_DIR_URI. 'single-property-google-overview-map.js', array('jquery'), '1.0.0', true);
 } else {
-	wp_enqueue_script('houzez-overview-listing-map', HOUZEZ_JS_DIR_URI. 'single-property-osm-overview-map.js', array('jquery'), '1.0.0', true);
+    wp_enqueue_script('houzez-overview-listing-map-detail',  get_stylesheet_directory_uri().'/js/single-property-osm-overview-map-detail.js', array('jquery'), '1.0.0', true);
 }
 
 if(empty($listing_id)) {
@@ -527,7 +527,7 @@ foreach ($types as $type) {
                     </div>
 
                     <div class="ms-apartments-main__map">
-                        <div id="houzez-overview-listing-map" style="height: 350px;"></div>
+                        <div id="houzez-overview-listing-map-detail" style="height: 350px;"></div>
                     </div>
                 </div>
                 <!-- features -->

@@ -150,8 +150,6 @@ if( !empty($favorite_ids) && in_array($listing_id, $favorite_ids) ) {
             ></a>
             <?php } ?>
         </div>
-    </div>
-    <div class="ms-apartments-main__card__content">
         <?php if(!empty($agency_logo)) { ?>
         <div class="ms-apartments-main__card__logo">
             <a href="<?php echo $agent_agency_link ?? '#'; ?>" target="_blank">
@@ -161,6 +159,10 @@ if( !empty($favorite_ids) && in_array($listing_id, $favorite_ids) ) {
             /></a>
         </div>
         <?php } ?>
+
+    </div>
+    <div class="ms-apartments-main__card__content">
+        
         <div class="ms-apartments-main__card__heading">
             <h5>
                 <a href="<?php echo esc_url(get_permalink()); ?>"><?php the_title(); ?></a>
@@ -176,8 +178,11 @@ if( !empty($favorite_ids) && in_array($listing_id, $favorite_ids) ) {
             <h6><?php 
             // Convert to millions if price is larger than a million
             if(is_numeric($sale_price) && $sale_price >= 1000000) {
-                $price_in_millions = number_format($sale_price / 1000000, 2);
-                echo $currency_symbol . $price_in_millions . ' M';
+                $price_in_millions = floor($sale_price / 5000000) * 5;
+                echo $currency_symbol . $price_in_millions . 'M+';
+            } else if(is_numeric($sale_price) && $sale_price >= 1000) {
+                $price_in_thousands = floor($sale_price / 5000) * 5;
+                echo $currency_symbol . $price_in_thousands . 'K+';
             } else {
                 echo $price_prefix . houzez_get_property_price($sale_price);
             }
@@ -185,10 +190,11 @@ if( !empty($favorite_ids) && in_array($listing_id, $favorite_ids) ) {
         </div>
         <!-- details list -->
         <ul class="ms-apartments-main____card__details-list ms-apartments-main____card__details-list--2">
-            <?php $property_type = houzez_taxonomy_simple('property_type'); 
+            <?php 
+            $property_type = get_the_terms( get_the_ID(), 'property_type' );
             if(!empty($property_type)) { ?>
             <li style="white-space: normal; <?php echo !empty($handover) ? 'max-width: 140px;' : 'max-width: 100%;'; ?>"> 
-                <div><i class="icon-building"> </i> <?php echo $property_type; ?></div>
+                <div><i class="icon-building"> </i> <?php echo $property_type[0]->name; ?></div>
             </li>
             <?php } ?>
             <?php if(!empty($handover)) { ?>

@@ -1,8 +1,10 @@
 <?php
 global $post, $ele_thumbnail_size, $image_size;
 
+$settings = get_query_var('settings', []);
 $author_id = get_the_author_meta('ID');
 $prop_handover_val = "";
+$button_text = $settings['button_text'];
 
 if ( houzez_is_developer($author_id ) ) {
     $prop_price = houzez_get_listing_data('property_price');
@@ -73,7 +75,7 @@ $thumbnail_size = !empty($ele_thumbnail_size) ? $ele_thumbnail_size : $image_siz
     <!-- portfolio bottom -->
     <div class="ms-new-projects__bottom">
         <?php echo $houzez_listing_price; ?>
-        <div><a href="#" class="ms-btn ms-btn--small">Inquire Now</a></div>
+        <div><a href="<?php echo esc_url(get_permalink()); ?>" class="ms-btn ms-btn--small"><?php echo $button_text;?></a></div>
     </div>
 </div>
 

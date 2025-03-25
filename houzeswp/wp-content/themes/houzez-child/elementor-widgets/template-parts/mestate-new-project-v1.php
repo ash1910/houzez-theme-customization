@@ -375,14 +375,43 @@ if( $total_records > 1 ) {
 
     function functionListingItemImageSlider(){
         // card slider
-        var formSlider = new Swiper(".ms-aparments-maincardslider", {
+        var formSlider = new Swiper(".ms-aparments-maincardslider", { 
             slidesPerView: 1,
             spaceBetween: 0,
             pagination: {
                 el: ".swiper-pagination",
                 clickable: true,
+                renderBullet: function (index, className) {
+                    var current = this.realIndex; // Get active slide index
+                    var totalSlides = this.slides.length;
+                    let bulletsToShow = [];
+
+                    if (current <= totalSlides - 3) {
+                        // Case 1: If there are at least 2 next slides -> Current, Next 1, Next 2
+                        bulletsToShow = [current, current + 1, current + 2];
+                    } else if (current === totalSlides - 2) {
+                        // Case 2: If there is only 1 next slide -> Prev 1, Current, Next 1
+                        bulletsToShow = [current - 1, current, current + 1];
+                    } else if (current === totalSlides - 1) {
+                        // Case 3: If no next slides -> Prev 2, Prev 1, Current
+                        bulletsToShow = [current - 2, current - 1, current];
+                    } else if (current >= 2) {
+                        // Case 4: If there are at least 2 previous slides -> Prev 2, Prev 1, Current
+                        bulletsToShow = [current - 2, current - 1, current];
+                    } else if (current === 1) {
+                        // Case 5: If there is only 1 previous slide -> Prev 1, Current, Next 1
+                        bulletsToShow = [current - 1, current, current + 1];
+                    }
+
+                    // Render bullets only if they match the allowed range
+                    if (bulletsToShow.includes(index)) {
+                        return `<span class="${className}" data-index="${index}"></span>`;
+                    }
+                    return ""; // Hide other bullets
+                },
             },
-            loop: true,
+
+            // loop: true,
         });
     }
 

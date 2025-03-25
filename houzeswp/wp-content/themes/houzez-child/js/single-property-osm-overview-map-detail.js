@@ -8,7 +8,7 @@ jQuery( function($) {
         var is_mapbox = houzez_vars.is_mapbox;
         var api_mapbox = houzez_vars.api_mapbox;
 
-		if($('#houzez-overview-listing-map-banner').length <= 0) {
+		if($('#houzez-overview-listing-map-detail').length <= 0) {
             return;
         }
 		var houzezMap;
@@ -53,7 +53,7 @@ jQuery( function($) {
             if(is_mapbox == 'mapbox' && api_mapbox != '') {
 
                 var tileLayer = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token='+api_mapbox, {
-                    attribution: 'Â© <a href="https://www.mapbox.com/about/maps/">Mapbox</a> Â© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> <strong><a href="https://www.mapbox.com/map-feedback/" target="_blank">Improve this map</a></strong>',
+                    attribution: '© <a href="https://www.mapbox.com/about/maps/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> <strong><a href="https://www.mapbox.com/map-feedback/" target="_blank">Improve this map</a></strong>',
                     tileSize: 512,
                     maxZoom: 18,
                     zoomOffset: -1,
@@ -79,7 +79,7 @@ jQuery( function($) {
                 tap: false,
             };
 
-            houzezMap = L.map( 'houzez-overview-listing-map-banner', mapOptions );
+            houzezMap = L.map( 'houzez-overview-listing-map-detail', mapOptions );
             //houzezMap.scrollWheelZoom.disable();
             houzezMap.addLayer( tileLayer );
 
@@ -134,7 +134,7 @@ jQuery( function($) {
                 }
             }
 
-            $('button[data-target="#ms-map"]').on('shown.bs.tab', function () {
+            $('a[href="#pills-map"], a[href="#property-address"]').on('shown.bs.tab', function () {
                 houzezMap.invalidateSize();
                 houzezMap.panTo( houzezMap.getCenter() );
             });

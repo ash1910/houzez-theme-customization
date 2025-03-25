@@ -93,6 +93,12 @@ if(1 == $paged) {
         'offset'         => 0
     );
 
+    // Filter by listing_id if present in URL
+    if(isset($_GET['listing_id']) && !empty($_GET['listing_id'])) {
+        $listing_ids = array_map('intval', $_GET['listing_id']);
+        $search_qry['post__in'] = $listing_ids;
+    }
+
     $search_qry = apply_filters( 'houzez20_search_filters', $search_qry );
     $search_qry = apply_filters( 'houzez_sold_status_filter', $search_qry );
     $search_qry = houzez_prop_sort ( $search_qry );
@@ -115,6 +121,12 @@ else{
         'post__not_in'   => $advertise_post_ids,
         'offset'         => $offset
     );
+
+    // Filter by listing_id if present in URL
+    if(isset($_GET['listing_id']) && !empty($_GET['listing_id'])) {
+        $listing_ids = array_map('intval', $_GET['listing_id']);
+        $search_qry['post__in'] = $listing_ids;
+    }
 
     $search_qry = apply_filters( 'houzez20_search_filters', $search_qry );
     $search_qry = apply_filters( 'houzez_sold_status_filter', $search_qry );

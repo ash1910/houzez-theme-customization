@@ -5,24 +5,20 @@
     $section_heading_description = $settings['section_heading_description'];
     $city_list = $settings['city_list'];
     $city_list_rent = $settings['city_list_rent'];
-    $map_options = $settings['map_options'];
-
-    // wp_enqueue_style( 'leaflet', HOUZEZ_JS_DIR_URI . '/vendors/leaflet/leaflet.css', array(), '1.9.3' );
-    // wp_enqueue_script( 'leaflet', HOUZEZ_JS_DIR_URI . '/vendors/leaflet/leaflet.js', array(), '1.9.3', true );
-    // wp_enqueue_style('leafletMarkerCluster', HOUZEZ_JS_DIR_URI . '/vendors/leafletCluster/MarkerCluster.css', array(), '1.4.0', 'all');
-    // wp_enqueue_style('leafletMarkerClusterDefault', HOUZEZ_JS_DIR_URI . '/vendors/leafletCluster/MarkerCluster.Default.css', array(), '1.4.0', 'all');
-    // wp_enqueue_script('leafletMarkerCluster', HOUZEZ_JS_DIR_URI . 'vendors/leafletCluster/leaflet.markercluster.js', array('leaflet'), '1.4.0', false);
-
-    //houzez_enqueue_osm_location_js();
+    $map_options = $map_options_rent = $settings['map_options'];
+    $map_options['property_status'] = 'buy';
+    $map_options_rent['property_status'] = 'rent';
 
     wp_enqueue_script('leaflet');
     wp_enqueue_style('leaflet');
     wp_enqueue_script('leafletMarkerCluster');
     wp_enqueue_style('leafletMarkerCluster');
     wp_enqueue_style('leafletMarkerClusterDefault');
-    wp_enqueue_script('houzez-elementor-osm-scripts');
-
+    //wp_enqueue_script('houzez-elementor-osm-scripts');
+    //wp_enqueue_script('control-fullscreen-mestate',  get_stylesheet_directory_uri().'/js/Control.FullScreen.js', array('jquery', 'leaflet'), '1.0.0', true);
+    wp_enqueue_script('open-street-map-mestate',  get_stylesheet_directory_uri().'/js/open-street-map-mestate.js', array('jquery', 'leaflet'), '1.0.0', true);
 ?>
+
       
       <!-- start: Loaction  -->
       <section class="section--wrapper">
@@ -131,11 +127,11 @@
                             <script type="application/javascript">
                                 <?php if($i == 1): ?>
                                 if (jQuery('#<?php echo $city['city_slug']; ?>').hasClass('active')) {
-                                    houzezOpenStreetMapElementor("<?php echo esc_attr($map_id); ?>", <?php echo json_encode($properties_data); ?>, <?php echo json_encode($map_options); ?>);
+                                  mestateOpenStreetMapElementor("<?php echo esc_attr($map_id); ?>", <?php echo json_encode($properties_data); ?>, <?php echo json_encode($map_options); ?>);
                                 }
                                 <?php else: ?>
                                   jQuery('[data-target="#<?php echo $city['city_slug']; ?>"]').one('shown.bs.tab', function() {
-                                    houzezOpenStreetMapElementor("<?php echo esc_attr($map_id); ?>", <?php echo json_encode($properties_data); ?>, <?php echo json_encode($map_options); ?>);
+                                    mestateOpenStreetMapElementor("<?php echo esc_attr($map_id); ?>", <?php echo json_encode($properties_data); ?>, <?php echo json_encode($map_options); ?>);
                                 });
                                 <?php endif; ?>
                             </script>
@@ -144,11 +140,11 @@
                                 jQuery(document).bind("ready", function () {
                                     <?php if($i == 1): ?>
                                     if (jQuery('#<?php echo $city['city_slug']; ?>').hasClass('active')) {
-                                        houzezOpenStreetMapElementor("<?php echo esc_attr($map_id); ?>", <?php echo json_encode($properties_data); ?>, <?php echo json_encode($map_options); ?>);
+                                      mestateOpenStreetMapElementor("<?php echo esc_attr($map_id); ?>", <?php echo json_encode($properties_data); ?>, <?php echo json_encode($map_options); ?>);
                                     }
                                     <?php else: ?>
                                       jQuery('[data-target="#<?php echo $city['city_slug']; ?>"]').one('shown.bs.tab', function() {
-                                        houzezOpenStreetMapElementor("<?php echo esc_attr($map_id); ?>", <?php echo json_encode($properties_data); ?>, <?php echo json_encode($map_options); ?>);
+                                        mestateOpenStreetMapElementor("<?php echo esc_attr($map_id); ?>", <?php echo json_encode($properties_data); ?>, <?php echo json_encode($map_options); ?>);
                                     });
                                     <?php endif; ?>
                                 });
@@ -223,12 +219,12 @@
                                 <?php if($i == 1): ?>
                                 jQuery('[data-target="#location-rent"]').one('shown.bs.tab', function() {
                                   if (jQuery('#rent-<?php echo $city['city_slug_rent']; ?>').hasClass('active')) {
-                                    houzezOpenStreetMapElementor("<?php echo esc_attr($map_id); ?>", <?php echo json_encode($properties_data); ?>, <?php echo json_encode($map_options); ?>);
+                                    mestateOpenStreetMapElementor("<?php echo esc_attr($map_id); ?>", <?php echo json_encode($properties_data); ?>, <?php echo json_encode($map_options_rent); ?>);
                                   }
                                 });
                                 <?php else: ?>
                                 jQuery('[data-target="#rent-<?php echo $city['city_slug_rent']; ?>"]').one('shown.bs.tab', function() {
-                                    houzezOpenStreetMapElementor("<?php echo esc_attr($map_id); ?>", <?php echo json_encode($properties_data); ?>, <?php echo json_encode($map_options); ?>);
+                                  mestateOpenStreetMapElementor("<?php echo esc_attr($map_id); ?>", <?php echo json_encode($properties_data); ?>, <?php echo json_encode($map_options_rent); ?>);
                                 });
                                 <?php endif; ?>
                             </script>
@@ -238,12 +234,12 @@
                                     <?php if($i == 1): ?>
                                     jQuery('[data-target="#location-rent"]').one('shown.bs.tab', function() {
                                       if (jQuery('#rent-<?php echo $city['city_slug_rent']; ?>').hasClass('active')) {
-                                        houzezOpenStreetMapElementor("<?php echo esc_attr($map_id); ?>", <?php echo json_encode($properties_data); ?>, <?php echo json_encode($map_options); ?>);
+                                        mestateOpenStreetMapElementor("<?php echo esc_attr($map_id); ?>", <?php echo json_encode($properties_data); ?>, <?php echo json_encode($map_options_rent); ?>);
                                       }
                                     });
                                     <?php else: ?>
                                     jQuery('[data-target="#rent-<?php echo $city['city_slug_rent']; ?>"]').one('shown.bs.tab', function() {
-                                        houzezOpenStreetMapElementor("<?php echo esc_attr($map_id); ?>", <?php echo json_encode($properties_data); ?>, <?php echo json_encode($map_options); ?>);
+                                      mestateOpenStreetMapElementor("<?php echo esc_attr($map_id); ?>", <?php echo json_encode($properties_data); ?>, <?php echo json_encode($map_options_rent); ?>);
                                     });
                                     <?php endif; ?>
                                 });
@@ -261,7 +257,6 @@
         </div>
       </section>
       <!-- end:  Loaction  -->
-
 <style>
   .ms-location__tab__contents:has(.ms-location__card) img {
     width: auto;

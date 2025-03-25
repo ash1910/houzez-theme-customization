@@ -199,8 +199,11 @@ if( !empty($favorite_ids) && in_array($listing_id, $favorite_ids) ) {
                     <h6><?php 
                         // Convert to millions if price is larger than a million
                         if(is_numeric($sale_price) && $sale_price >= 1000000) {
-                            $price_in_millions = number_format($sale_price / 1000000, 2);
-                            echo $currency_symbol . $price_in_millions . ' M';
+                            $price_in_millions = floor($sale_price / 5000000) * 5;
+                            echo $currency_symbol . $price_in_millions . 'M+';
+                        } else if(is_numeric($sale_price) && $sale_price >= 1000) {
+                            $price_in_thousands = floor($sale_price / 5000) * 5;
+                            echo $currency_symbol . $price_in_thousands . 'K+';
                         } else {
                             echo $price_prefix . houzez_get_property_price($sale_price);
                         }

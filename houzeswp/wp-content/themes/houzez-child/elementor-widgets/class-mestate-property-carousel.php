@@ -58,12 +58,22 @@ class MEstate_Property_Carousel extends \Elementor\Widget_Base {
             ]
         );
 
+        $this->add_control(
+            'button_text',
+            [
+                'label' => __( 'Button Text', 'houzez' ),
+                'type' => \Elementor\Controls_Manager::TEXT,
+                'default' => 'Inquire Now',
+            ]
+        );
+
         $this->end_controls_section();
     }
 
     protected function render() {
         $settings = $this->get_settings_for_display();
         $section_heading = $settings['section_heading'];
+        set_query_var('settings', $settings);
 
         $search_qry = array(
             'post_type' => 'property',

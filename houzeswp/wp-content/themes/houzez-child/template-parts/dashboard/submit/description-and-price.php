@@ -21,7 +21,7 @@ if(empty($default_multi_currency)) {
 			</div>
 			<?php } ?>
 
-			<?php if( $hide_prop_fields['prop_status'] != 1 ) { ?>
+			<?php if( $hide_prop_fields['prop_status'] != 1 && !houzez_is_developer() ) { ?>
 			<div class="col-md-4 col-sm-12">
 				<?php get_template_part('template-parts/dashboard/submit/form-fields/status'); ?>
 			</div>
