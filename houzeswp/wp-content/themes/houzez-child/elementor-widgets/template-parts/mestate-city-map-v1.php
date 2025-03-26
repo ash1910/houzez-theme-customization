@@ -89,30 +89,43 @@
                           $properties_data = $city['properties_data'];
                           $i++; 
                           $map_id = 'houzez-osm-map-' . $city['city_slug'];
+
+                          // Calculate prices
+                          $prices = array();
+                          foreach($properties_data as $property) {
+                              // Remove 'AED ' and ',' from price string and convert to float
+                              $price = (float) str_replace(['AED ', ','], '', $property['price']);
+                              $prices[] = $price;
+                          }
+                          
+                          $highest_price = !empty($prices) ? 'AED ' . number_format(max($prices)) : '';
+                          $lowest_price = !empty($prices) ? 'AED ' . number_format(min($prices)) : '';
+                          $average_price = !empty($prices) ? 'AED ' . number_format(array_sum($prices) / count($prices)) : '';
+
                           ?>
                         <div id="<?php echo $city['city_slug']; ?>" class="tab-pane fade <?php echo $i == 1 ? 'show active' : ''; ?>">
                           <!-- location card -->
-                          <?php if($city['highest_price'] || $city['average_price'] || $city['lowest_price']): ?>
+                          <?php if($highest_price || $average_price || $lowest_price): ?>
                           <div class="ms-location__card">
                             <h5><?php echo $city_name; ?> Prices</h5>
                             <!-- list -->
                             <ul class="ms-location__card__list">
-                              <?php if($city['highest_price']): ?>
+                              <?php if($highest_price): ?>
                               <li class="ms-location__card__list__item">
                                 <p><span></span> Highest:</p>
-                                <h6><?php echo $city['highest_price']; ?></h6>
+                                <h6><?php echo $highest_price; ?></h6>
                               </li>
                               <?php endif; ?>
-                              <?php if($city['average_price']): ?>
+                              <?php if($average_price): ?>
                               <li class="ms-location__card__list__item">
                                 <p><span></span> Average:</p>
-                                <h6><?php echo $city['average_price']; ?></h6>
+                                <h6><?php echo $average_price; ?></h6>
                               </li>
                               <?php endif; ?>
-                              <?php if($city['lowest_price']): ?>
+                              <?php if($lowest_price): ?>
                               <li class="ms-location__card__list__item">
                                 <p><span></span> Lowest:</p>
-                                <h6><?php echo $city['lowest_price']; ?></h6>
+                                <h6><?php echo $lowest_price; ?></h6>
                               </li>
                               <?php endif; ?>
                             </ul>
@@ -180,30 +193,43 @@
                           $properties_data = $city['properties_data'];
                           $i++;
                           $map_id = 'houzez-osm-map-rent-' . $city['city_slug_rent'];
+
+                          // Calculate prices
+                          $prices = array();
+                          foreach($properties_data as $property) {
+                              // Remove 'AED ', ',' and '/Yearly' from price string and convert to float
+                              $price = (float) str_replace(['AED ', ',', '/Yearly'], '', $property['price']);
+                              $prices[] = $price;
+                          }
+                          
+                          $highest_price = !empty($prices) ? 'AED ' . number_format(max($prices)) . '/Yearly' : '';
+                          $lowest_price = !empty($prices) ? 'AED ' . number_format(min($prices)) . '/Yearly' : '';
+                          $average_price = !empty($prices) ? 'AED ' . number_format(array_sum($prices) / count($prices)) . '/Yearly' : '';
+
                           ?>
                         <div id="rent-<?php echo $city['city_slug_rent']; ?>" class="tab-pane fade <?php echo $i == 1 ? 'show active' : ''; ?>">
                           <!-- location card -->
-                          <?php if($city['highest_price_rent'] || $city['average_price_rent'] || $city['lowest_price_rent']): ?>
+                          <?php if($highest_price || $average_price || $lowest_price): ?>
                           <div class="ms-location__card">
                             <h5><?php echo $city_name; ?> Prices</h5>
                             <!-- list -->
                             <ul class="ms-location__card__list">
-                              <?php if($city['highest_price_rent']): ?>
+                              <?php if($highest_price): ?>
                               <li class="ms-location__card__list__item">
                                 <p><span></span> Highest:</p>
-                                <h6><?php echo $city['highest_price_rent']; ?></h6>
+                                <h6><?php echo $highest_price; ?></h6>
                               </li>
                               <?php endif; ?>
-                              <?php if($city['average_price_rent']): ?>
+                              <?php if($average_price): ?>
                               <li class="ms-location__card__list__item">
                                 <p><span></span> Average:</p>
-                                <h6><?php echo $city['average_price_rent']; ?></h6>
+                                <h6><?php echo $average_price; ?></h6>
                               </li>
                               <?php endif; ?>
-                              <?php if($city['lowest_price_rent']): ?>
+                              <?php if($lowest_price): ?>
                               <li class="ms-location__card__list__item">
                                 <p><span></span> Lowest:</p>
-                                <h6><?php echo $city['lowest_price_rent']; ?></h6>
+                                <h6><?php echo $lowest_price; ?></h6>
                               </li>
                               <?php endif; ?>
                             </ul>
