@@ -275,11 +275,11 @@ Mobile Menu Js
 				],
 			});
 		}
-	
+
 		const videoSlider = $(".ms-apartments-main__videos--slider");
 		if (videoSlider?.length) {
 			videoSlider.slick({
-				slidesToShow: 2,
+				slidesToShow: 1,
 				slidesToScroll: 1,
 				initialSlide: 0,
 	
@@ -320,12 +320,12 @@ Mobile Menu Js
 						settings: {
 							arrows: false,
 							dots: false,
-							slidesToShow: 1.17,
 						},
 					},
 				],
 			});
 		}
+	
 	/* --------------------------------------------------------
 		LightCase jQuery Active
 	--------------------------------------------------------- */
@@ -367,8 +367,8 @@ Mobile Menu Js
 			const passwordField = toggleButton.parentNode?.querySelector(
 				".ms-input__password"
 			);
-			const showIcon = toggleButton.querySelector(".ms-show-icon");
-			const hideIcon = toggleButton.querySelector(".ms-hide-icon");
+			const showIcon = toggleButton.querySelector(".ms-hide-icon");
+			const hideIcon = toggleButton.querySelector(".ms-show-icon");
 			toggleButton.addEventListener("click", function () {
 				if (passwordField.type === "password") {
 					passwordField.type = "text";

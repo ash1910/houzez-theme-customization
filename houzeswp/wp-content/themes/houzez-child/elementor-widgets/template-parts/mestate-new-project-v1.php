@@ -138,7 +138,7 @@ if( $total_records > 1 ) {
 ?>
 
 <!-- start: Apartments section  -->
-<section class="ms-apartments-main">
+<section class="ms-apartments-main section--wrapper">
     <div class="container">
         <div class="row">
 
@@ -327,7 +327,51 @@ if( $total_records > 1 ) {
             );
             function msControlLoaction(isAll) {
                 const allItems = locationList.querySelectorAll("li");
+                const width = window.innerWidth;
+                // parent classs modify
+                locationList?.classList?.remove("show-all-items");
+                if (isAll) {
+                    locationList?.classList?.add("show-all-items");
+                }
                 allItems?.forEach((item, idx) => {
+                    // modify text
+                    let itemLink;
+                    const isNotLessMore =
+                        item?.classList?.contains("ms-apartments-main__location__all") ||
+                        item?.classList?.contains("ms-apartments-main__location__less") ||
+                        item?.querySelector("hr")
+                            ? false
+                            : true;
+
+                    let locationName = item?.textContent?.replace(/[\n\t]+/g, "").trim();
+                    let locationContentArray;
+
+                    let locationContentText;
+                    let locationContentNumb;
+                    let newLocationTextContent;
+                    if (isNotLessMore) {
+                        itemLink = item?.querySelector("a");
+                        if (locationName?.length) {
+                            locationContentArray = locationName?.split("(");
+                            if (locationContentArray?.length) {
+                                locationContentText = locationContentArray[0];
+                                locationContentNumb = locationContentArray[1];
+                                const locationContentTextLength = locationContentText?.length;
+                                const locationContentNumbLength = locationContentNumb?.length;
+                                const sliceUpperLimit = 14 - (locationContentNumbLength - 1);
+                                if (locationName?.length > 19) {
+                                    newLocationTextContent = `${locationContentText?.slice(
+                                        0,
+                                        sliceUpperLimit
+                                    )}.. (${locationContentNumb}`;
+                                } else {
+                                    newLocationTextContent = `${locationContentText}(${locationContentNumb}`;
+                                }
+                                itemLink.textContent = newLocationTextContent;
+                            }
+                        }
+                    }
+
                     item?.classList?.remove("ms-show");
                 });
                 if (isAll) {
@@ -338,8 +382,18 @@ if( $total_records > 1 ) {
                     viewLessBtn?.classList?.add("ms-show");
                 } else {
                     allItems?.forEach((item2, idx2) => {
-                        if (idx2 < 6) {
-                            item2?.classList?.add("ms-show");
+                        if (width >= 1200 || (width >= 530 && width <= 991)) {
+                            if (idx2 < 6) {
+                                item2?.classList?.add("ms-show");
+                            }
+                        } else if (width >= 992 && width <= 1199) {
+                            if (idx2 < 8) {
+                                item2?.classList?.add("ms-show");
+                            }
+                        } else {
+                            if (idx2 < 4) {
+                                item2?.classList?.add("ms-show");
+                            }
                         }
                     });
                     viewAllBtn?.classList?.add("ms-show");
@@ -350,6 +404,9 @@ if( $total_records > 1 ) {
                 msControlLoaction(true);
             });
             viewLessBtn?.addEventListener("click", function () {
+                msControlLoaction(false);
+            });
+            window.addEventListener("resize", () => {
                 msControlLoaction(false);
             });
         }

@@ -1,4 +1,6 @@
 <?php
+$prop_city = array();
+houzez_get_terms_array( 'property_city', $prop_city );
 $prop_area = array();
 houzez_get_terms_array( 'property_area', $prop_area );
 
@@ -59,10 +61,6 @@ if($adv_baths_list) {
     $bath_list = explode(',', $adv_baths_list);
 }
 ?>    
-    
-    
-    
-    
     
     <!-- start: Advanced Filter Modal   -->
     <div
@@ -141,11 +139,12 @@ if($adv_baths_list) {
                   class="ms-filter__modal__tab-content__single tab-pane fade show active"
                   id="modalBuy-"
                 >
-                  <form class="ms-filter__modal__form">
+                  <form class="ms-filter__modal__form" onsubmit="return false;">
                     <?php if(is_array($prop_area) && count($prop_area) > 0): ?>
                     <div class="ms-input__wrapper">
                       <div class="ms-input__wrapper__inner">
                         <input type="hidden" id="prop_areas_data" value='<?php echo json_encode($prop_area); ?>'>
+                        <input type="hidden" id="prop_citys_data" value='<?php echo json_encode($prop_city); ?>'>
                         <div class="ms-input ms-input--serach">
                           <input
                             type="search"
@@ -166,13 +165,27 @@ if($adv_baths_list) {
                         <?php 
                         // Get areas from URL parameters
                         $selected_areas = isset($_GET['areas']) ? $_GET['areas'] : array();
+                        $selected_cities = isset($_GET['city']) ? $_GET['city'] : array();
                         
+                        // If cities exist in URL, add them to the list
+                        if(!empty($selected_cities)) {
+                          foreach($selected_cities as $city_slug) {
+                            if(isset($prop_city[$city_slug])) {
+                              echo '<li>
+                                      <button class="location-item" data-area="'.$city_slug.'" data-type="city">
+                                        '.$prop_city[$city_slug].' <i class="fa-light fa-xmark"></i>
+                                      </button>
+                                    </li>';
+                            }
+                          }
+                        }
+
                         // If areas exist in URL, add them to the list
                         if(!empty($selected_areas)) {
                           foreach($selected_areas as $area_slug) {
                             if(isset($prop_area[$area_slug])) {
                               echo '<li>
-                                      <button class="location-item" data-area="'.$area_slug.'">
+                                      <button class="location-item" data-area="'.$area_slug.'" data-type="area">
                                         '.$prop_area[$area_slug].' <i class="fa-light fa-xmark"></i>
                                       </button>
                                     </li>';
@@ -567,8 +580,17 @@ if($adv_baths_list) {
     function ms_advanced_filter_functionality(){
         ms_advanced_filter_price_range(jQuery('.ms-price-slider-range-advanced-filter'));
 
+        // Prevent form submission on Enter key in search input
+        jQuery('.houzez-keyword-autocomplete-search').on('keypress', function(e) {
+            if (e.which === 13) { // Enter key
+                e.preventDefault();
+                return false;
+            }
+        });
+
         // Get areas data from hidden input
         const areasData = JSON.parse(jQuery('#prop_areas_data').val());
+        const citysData = JSON.parse(jQuery('#prop_citys_data').val());
         
         jQuery('.houzez-keyword-autocomplete-search').on('input', function() {
             const searchTerm = jQuery(this).val().toLowerCase();
@@ -583,22 +605,43 @@ if($adv_baths_list) {
             }
             
             // Filter areas based on search term
-            const matches = Object.entries(areasData).filter(([slug, name]) => 
+            const areaMatches = Object.entries(areasData).filter(([slug, name]) => 
                 name.toLowerCase().includes(searchTerm)
             );
             
-            if (matches.length > 0) {
+            // Filter cities based on search term
+            const cityMatches = Object.entries(citysData).filter(([slug, name]) => 
+                name.toLowerCase().includes(searchTerm)
+            );
+            
+            if (areaMatches.length > 0 || cityMatches.length > 0) {
                 const $ul = jQuery('<ul class="area-autocomplete-list">');
+
+                // Add city matches
+                if (cityMatches.length > 0) {
+                    cityMatches.forEach(([slug, name]) => {
+                        $ul.append(`
+                            <li>
+                                <a href="#" class="area-suggestion" data-slug="${slug}" data-name="${name}" data-type="city">
+                                    ${name}
+                                </a>
+                            </li>
+                        `);
+                    });
+                }
                 
-                matches.forEach(([slug, name]) => {
-                    $ul.append(`
-                        <li>
-                            <a href="#" class="area-suggestion" data-slug="${slug}" data-name="${name}">
-                                ${name}
-                            </a>
-                        </li>
-                    `);
-                });
+                // Add area matches
+                if (areaMatches.length > 0) {
+                    areaMatches.forEach(([slug, name]) => {
+                        $ul.append(`
+                            <li>
+                                <a href="#" class="area-suggestion" data-slug="${slug}" data-name="${name}" data-type="area">
+                                    ${name}
+                                </a>
+                            </li>
+                        `);
+                    });
+                }
                 
                 jQuery($autocomplete).html($ul).show();
             } else {
@@ -611,28 +654,22 @@ if($adv_baths_list) {
             e.preventDefault();
             const name = jQuery(this).data('name');
             const slug = jQuery(this).data('slug');
+            const type = jQuery(this).data('type');
             
             const $input = jQuery(this).closest('.ms-input').find('.houzez-keyword-autocomplete-search');
-            $input.val(name);
-            $input.data('slug', slug);
+            $input.val(name).data('slug', slug).data('type', type);
             
             // Hide the autocomplete container
             jQuery(this).closest('.auto-complete-container').hide();
-        });
-        
-        // Hide autocomplete when clicking outside
-        jQuery(document).on('click', function(e) {
-            if (!jQuery(e.target).closest('.ms-input--serach').length) {
-                jQuery('.auto-complete-container').hide();
-            }
         });
 
         // Handle Add button click
         jQuery('.add-location-btn').on('click', function(e) {
             e.preventDefault();
             const locationInput = jQuery(this).closest('.ms-input__wrapper__inner').find('.houzez-keyword-autocomplete-search');
-            const locationValue = locationInput.val().trim();
-            const locationSlug = locationInput.data('slug'); // Get the stored slug
+            var locationValue = locationInput.val().trim();
+            var locationSlug = locationInput.data('slug');
+            var locationType = locationInput.data('type');
 
             if (locationValue) {
                 // Check if location already exists in list
@@ -640,19 +677,39 @@ if($adv_baths_list) {
                     return jQuery(this).text().trim().replace(/×$/, '') === locationValue;
                 }).length > 0;
                 
-                if (!exists) {
+                // Check if location exists in either areasData or citysData
+                const locationExistsInData = Object.values(areasData).some(name => name === locationValue) || 
+                                          Object.values(citysData).some(name => name === locationValue);
+                
+                if (!exists && locationExistsInData) {
+                    // Determine if location exists in areas or cities data
+                    const existsInAreas = Object.entries(areasData).some(([slug, name]) => name === locationValue);
+                    const existsInCities = Object.entries(citysData).some(([slug, name]) => name === locationValue);
+                    
+                    // Set location slug and type based on where it exists
+                    if (existsInAreas) {
+                        locationSlug = Object.entries(areasData).find(([slug, name]) => name === locationValue)[0];
+                        locationType = 'area';
+                    } else if (existsInCities) {
+                        locationSlug = Object.entries(citysData).find(([slug, name]) => name === locationValue)[0];
+                        locationType = 'city';
+                    }
+
+                    // Hide the autocomplete container
+                    jQuery(this).closest('.ms-input__wrapper__inner').find('.auto-complete-container').hide();
+                    
                     // Add new location to list with data-area attribute
                     const newLocation = `
                         <li>
-                            <button class="location-item" data-area="${locationSlug}">
+                            <button class="location-item" data-area="${locationSlug}" data-type="${locationType}">
                                 ${locationValue} <i class="fa-light fa-xmark"></i>
                             </button>
                         </li>
                     `;
                     jQuery('.ms-input__list--search-container').append(newLocation);
                     
-                    // Clear input field and stored slug
-                    locationInput.val('').removeData('slug');
+                    // Clear input field and stored data
+                    locationInput.val('').removeData('slug').removeData('type');
                 }
             }
         });
@@ -668,12 +725,10 @@ if($adv_baths_list) {
             e.preventDefault();
             const name = jQuery(this).data('name');
             const slug = jQuery(this).data('slug');
+            const type = jQuery(this).data('type');
             const $input = jQuery(this).closest('.ms-input').find('.houzez-keyword-autocomplete-search');
             
-            $input.val(name).data('slug', slug); // Store the slug with the input
-            
-            // Hide the autocomplete container
-            jQuery(this).closest('.auto-complete-container').hide();
+            $input.val(name).data('slug', slug).data('type', type); // Store the slug with the input
             
             // Trigger Add button click
             jQuery('.add-location-btn').click();
@@ -715,8 +770,14 @@ if($adv_baths_list) {
             
             // Get selected locations
             const locations = [];
+            const cities = [];
             $form.find('.ms-input__list--search-container .location-item').each(function() {
-                locations.push(jQuery(this).data('area'));
+                const locationType = jQuery(this).data('type');
+                if (locationType === 'city') {
+                    cities.push(jQuery(this).data('area'));
+                } else {
+                    locations.push(jQuery(this).data('area'));
+                }
             });
 
             // Get active property type based on visible tab
@@ -763,8 +824,11 @@ if($adv_baths_list) {
             };
 
             if (locations.length) {
-                params['areas[]'] = params['areas[]'] || []; // Ensure it's an array
-                params['areas[]'].push(...locations); // Add all locations
+                params['areas[]'] = locations;
+            }
+
+            if (cities.length) {
+                params['city[]'] = cities; // Add cities separately
             }
 
             // Get status based on active tab

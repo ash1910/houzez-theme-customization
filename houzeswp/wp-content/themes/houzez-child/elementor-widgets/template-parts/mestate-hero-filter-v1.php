@@ -8,6 +8,11 @@
   $type_data = $settings['type_data'];
   $image = $settings['image'];
 
+  $prop_city = array();
+  houzez_get_terms_array( 'property_city', $prop_city );
+  $prop_area = array();
+  houzez_get_terms_array( 'property_area', $prop_area );
+
   $background_url = "";
   if($image){
     $background_url = "background: url('".$image['url']."') no-repeat top;";
@@ -79,7 +84,9 @@ if($adv_baths_list) {
               <?php endforeach; ?>
             <?php endif; ?>
             <?php if($type_data): ?>
-              <?php $i = 0; foreach($type_data as $type): $i++;
+              <?php 
+              rsort($type_data); // Sort in descending order
+              $i = 0; foreach($type_data as $type): $i++;
               $tabname = houzez_get_term_by( 'slug', $type, 'property_type' );
               $page_path = get_page_by_path($type);
               $page_available = $page_path ? "1" : "0";
@@ -104,22 +111,21 @@ if($adv_baths_list) {
                   <input type="hidden" name="ms-bed" class="ms-bed-hidden" readonly >
                   <input type="hidden" name="ms-bath" class="ms-bath-hidden" readonly >
 
-                  <div class="ms-input ms-input--serach">
-                  
-                    <input
-                      type="search"
-                      placeholder="Search Location"
-                      name="keyword"
-                      class="ms-hero__search-loaction houzez-keyword-autocomplete"
-                      id="ms-hero__search-loaction"
-                      autofocus
-                      autocomplete="off"
-                    />
-                    <div id="auto_complete_ajax" class="auto-complete" style="top: 100%;"></div>
-
+                  <div class="ms-input ms-input--serach ms-hero__search-location-container">
+                    <select class="ms-hero__search_city_area" multiple="multiple" style="visibility: hidden;">
+                        <?php foreach($prop_city as $city_slug => $city_name): ?>
+                            <option value="<?php echo $city_slug; ?>" data-type="city" <?php if(in_array($city_slug, $selected_cities)) echo 'selected'; ?>><?php echo $city_name; ?></option>
+                        <?php endforeach; ?>
+                        <?php foreach($prop_area as $area_slug => $area_name): ?>
+                            <option value="<?php echo $area_slug; ?>" data-type="area" <?php if(in_array($area_slug, $selected_areas)) echo 'selected'; ?>><?php echo $area_name; ?></option>
+                        <?php endforeach; ?>
+                    </select>
                     <label for="ms-hero__search-loaction"
-                      ><i class="icon-search_black"></i
+                        ><i class="icon-search_black"></i
                     ></label>
+                    <button class="ms-input__deselect  ms-btn__not-submit">
+                        <i class="fa-light fa-xmark"></i>
+                    </button>
                   </div>
                   <div class="ms-input type-tab">
                     <select class="ms-nice-select-property-type" name="property_type" style="visibility: hidden;">
@@ -133,42 +139,80 @@ if($adv_baths_list) {
                         <option value="<?php echo $term->slug; ?>"><?php echo $term->name; ?></option>
                       <?php endforeach; ?>
                     </select>
+                    <button class="ms-input__deselect  ms-btn__not-submit">
+                        <i class="fa-light fa-xmark"></i>
+                    </button>
+                  </div>
+                  <div class="ms-input commercial-type" style="display: none;">
+                    <select class="ms-nice-select-property-type ms-nice-select-property-type__commercial" name="property_type__commercial" style="visibility: hidden;">
+                      <option value="" selected disabled>Property type</option>
+                      <?php
+                      $tax_terms = get_terms('property_type', array(
+                          'hide_empty' => false,
+                          'parent' => 19,
+                      ));
+                      foreach($tax_terms as $term): ?>
+                        <option value="<?php echo $term->slug; ?>"><?php echo $term->name; ?></option>
+                      <?php endforeach; ?>
+                    </select>
+                    <button class="ms-input__deselect  ms-btn__not-submit">
+                        <i class="fa-light fa-xmark"></i>
+                    </button>
                   </div>
                   <div class="ms-input ms-input--price d-none d-md-block">
-                    <button class="ms-btn ms-input--price-btn ms-btn__not-submit">
-                      Select Price <i class=""><?php echo houzez_option('currency_symbol'); ?></i>
-                    </button>
-                    <!--  -->
+                      <button class="ms-btn ms-input--price-btn ms-btn__not-submit">
+                          Select Price <i class=""><?php echo houzez_option('currency_symbol'); ?></i>
+                      </button>
+                      <!--  -->
 
-                    <div class="ms-input__content">
-                      <h6>Price Range</h6>
-                      <div class="price_filter">
-                        <div class="price_slider_amount">
-                          <div class="ms-input__content__value__wrapper">
-                            <span>min</span>
-                            <span
-                              class="ms-input__content__value ms-input__content__value--min"
-                            >
-                            </span>
-                          </div>
-                          <div class="ms-input__content__value__wrapper">
-                            <span>Max</span>
-                            <span
-                              class="ms-input__content__value ms-input__content__value--max"
-                            >
-                            </span>
-                          </div>
-                        </div>
-                        <div class="slider-range ms-slider-range ms-price-slider-range"></div>
-                      </div>
+                      <div class="ms-input__content">
+                          <h6>Price Range</h6>
+                          <div class="price_filter">
+                              <div class="price_slider_amount" style="gap: 10px;padding: 0;">
+                                  <div class="ms-input__content__value__wrapper">
+                                      <span>min</span>
+                                      <div class="ms-input__content__value__wrap">
+                                          <span class="currency-symbol ms-currency-symbol"></span>
+                                          <input
+                                          type="text"
+                                          class="amount ms-input__content__value ms-input__content__value--min"
+                                          value="1"
+                                          pattern="[0-9]*"
+                                          inputmode="numeric"
+                                          onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+                                          oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                          />
+                                      </div>
+                                  </div>
+                                  <div class="ms-input__content__value__wrapper">
+                                      <span>Max</span>
+                                      <div class="ms-input__content__value__wrap">
+                                          <span class="currency-symbol ms-currency-symbol"></span>
+                                          <input
+                                          type="text" 
+                                          class="amount ms-input__content__value ms-input__content__value--max"
+                                          value="1000000"
+                                          pattern="[0-9]*"
+                                          inputmode="numeric"
+                                          onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+                                          oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                          />
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="slider-range ms-slider-range ms-price-slider-range"></div>
+                          </div> 
 
-                      <div class="ms-input__content__action">
-                        <button class="ms-btn ms-btn--transparent ms-btn__not-submit ms-reset-price-range">
-                          Reset All
-                        </button>
-                        <button class="ms-btn ms-btn--primary ms-btn__not-submit ms-btn--apply">Apply</button>
+                          <div class="ms-input__content__action">
+                              <button class="ms-btn ms-btn--transparent ms-btn__not-submit ms-btn__reset__price">
+                                  Reset All
+                              </button>
+                              <button class="ms-btn ms-btn--primary ms-btn__not-submit ms-btn__apply__price">Apply</button>
+                          </div>
                       </div>
-                    </div>
+                      <button class="ms-input__deselect  ms-btn__not-submit">
+                          <i class="fa-light fa-xmark"></i>
+                      </button>
                   </div>
                   <div class="ms-input ms-input--bed d-none d-md-block">
                     <button class="ms-btn ms-btn__not-submit">
@@ -210,6 +254,9 @@ if($adv_baths_list) {
                         </ul>
                       </div>
                     </div>
+                    <button class="ms-input__deselect  ms-btn__not-submit">
+                        <i class="fa-light fa-xmark"></i>
+                    </button>
                   </div>
                   
                   <div>
@@ -265,10 +312,17 @@ if($adv_baths_list) {
         }
         return price;
     }
-    function ms_hero_filter_price_range(price_range_slider) {
+    function ms_hero_filter_price_range() {
+      const price_range_slider = jQuery('.ms-price-slider-range');
       let $form = price_range_slider.closest('form');
       var currency_symb = houzez_vars.currency_symbol;
+      // Update all currency symbols in the form
+      $form.find('.currency-symbol').each(function() {
+        jQuery(this).html(currency_symb);
+      });
       var currency_position = houzez_vars.currency_position;
+      var min_price_selected = "<?php echo @$_GET['min-price']; ?>";
+      var max_price_selected = "<?php echo @$_GET['max-price']; ?>";
       var min_price = <?php echo houzez_option('advanced_search_widget_min_price', 0); ?>;
       var max_price = <?php echo houzez_option('advanced_search_widget_max_price', 2500000); ?>;
       
@@ -278,90 +332,181 @@ if($adv_baths_list) {
         max: max_price,
         values: [min_price, max_price],
         slide: function (event, ui) {
-          $form.find(".ms-input__content__value--min").html(currency_symb + thousandSeparator(ui.values[0]));
-          $form.find(".ms-input__content__value--max").html(currency_symb + thousandSeparator(ui.values[1]));
+          $form.find(".ms-input__content__value--min").val(thousandSeparator(ui.values[0]));
+          $form.find(".ms-input__content__value--max").val(thousandSeparator(ui.values[1]));
 
           $form.find(".ms-min-price-range-hidden").val( ui.values[0] );
           $form.find(".ms-max-price-range-hidden").val( ui.values[1] );
 
           $form.find(".ms-input--price-btn").html('Up to ' + formatPrice(ui.values[1]) + ' ' + currency_symb);
+
+          // selected funftionality
+          const priceRangeParent = ui.handle.closest(".ms-input--price");
+
+          if (priceRangeParent) {
+            priceRangeParent.classList.add("ms-input--selected");
+          }
         },
       });
 
-      $form.find(".ms-input__content__value--min").html(currency_symb + thousandSeparator(min_price));
-      $form.find(".ms-input__content__value--max").html(currency_symb + thousandSeparator(max_price));
-      $form.find(".ms-min-price-range-hidden").val("");
-      $form.find(".ms-max-price-range-hidden").val("");
+      // Handle manual input for min price
+      $form.find(".ms-input__content__value--min").on('change', function() {
+        let value = parseInt(jQuery(this).val().replace(/[^0-9]/g, ''));
+        if (isNaN(value)) value = min_price;
+        if (value > slider.slider("values", 1)) value = slider.slider("values", 1);
+        if (value < min_price) value = min_price;
+        
+        slider.slider("values", 0, value);
+        jQuery(this).val(thousandSeparator(value));
+        $form.find(".ms-min-price-range-hidden").val(value);
 
-      $form.find('.ms-reset-price-range').on('click', function() {
-        // Reset slider values
+        // selected funftionality
+        const priceRangeParent = this.closest(".ms-input--price");
+        if (priceRangeParent) {
+          priceRangeParent.classList.add("ms-input--selected");
+        }
+      });
+
+      // Handle manual input for max price
+      $form.find(".ms-input__content__value--max").on('change', function() {
+        let value = parseInt(jQuery(this).val().replace(/[^0-9]/g, ''));
+        if (isNaN(value)) value = max_price;
+        if (value < slider.slider("values", 0)) value = slider.slider("values", 0);
+        if (value > max_price) value = max_price;
+        
+        slider.slider("values", 1, value);
+        jQuery(this).val(thousandSeparator(value));
+        $form.find(".ms-max-price-range-hidden").val(value);
+        $form.find(".ms-input--price-btn").html('Up to ' + formatPrice(value) + ' ' + currency_symb);
+
+        // selected funftionality
+        const priceRangeParent = this.closest(".ms-input--price");
+        if (priceRangeParent) {
+          priceRangeParent.classList.add("ms-input--selected");
+        }
+      });
+
+      // Update initial display values based on URL parameters
+      $form.find(".ms-input__content__value--min").val(thousandSeparator(min_price_selected != "" ? min_price_selected : min_price));
+      $form.find(".ms-input__content__value--max").val(thousandSeparator(max_price_selected != "" ? max_price_selected : max_price));
+      $form.find(".ms-min-price-range-hidden").val(min_price_selected || "");
+      $form.find(".ms-max-price-range-hidden").val(max_price_selected || "");
+      slider.slider("values", 0, min_price_selected != "" ? min_price_selected : min_price);
+      slider.slider("values", 1, max_price_selected != "" ? max_price_selected : max_price);
+      if(min_price_selected != "" || max_price_selected != "") {
+        $form.find(".ms-input--price-btn").html('Up to ' + formatPrice(max_price_selected) + ' ' + currency_symb);
+      }
+
+      $form.find('.ms-btn__reset__price').on('click', function() {
+        resetSliderValues();
+        this.closest('.ms-input--price').classList.remove("ms-input--selected");
+      });
+
+      function resetSliderValues() {
+        // Reset slider values 
         slider.slider('values', [min_price, max_price]);
         
         // Reset displayed values
-        $form.find(".ms-input__content__value--min").html(currency_symb + thousandSeparator(min_price));
-        $form.find(".ms-input__content__value--max").html(currency_symb + thousandSeparator(max_price));
+        $form.find(".ms-input__content__value--min").val(thousandSeparator(min_price));
+        $form.find(".ms-input__content__value--max").val(thousandSeparator(max_price));
         
         // Reset hidden inputs
         $form.find(".ms-min-price-range-hidden").val(min_price);
         $form.find(".ms-max-price-range-hidden").val(max_price);
         
         // Reset button text
+        console.log("Reset button text");
         $form.find(".ms-input--price-btn").html('Select Price <i class="">' + currency_symb + '</i>');
-      });
+      }
 
-      // $form.find(".ms-btn--apply").on('click', function() {
-      //   console.log('apply');
-      //   jQuery(".ms-input--price-btn").removeClass('open');
-      // });
+      // Return an object with the inner function as a method
+      return {
+        resetSliderValues: resetSliderValues
+      };
     }
 
     const filterBtns = function(){
+
       // get all button in form
       const forms = document.querySelectorAll(".ms-hero__form");
       if (forms?.length) {
-        forms?.forEach((form, idx) => {
-          const buttonsInForm = form.querySelectorAll(
-            ".ms-btn__not-submit:not([data-toggle='modal'])"
-          );
-          if (buttonsInForm?.length) {
-            buttonsInForm?.forEach(button => {
-              button.addEventListener("click", function (e) {
-                e.preventDefault();
-                e.stopPropagation();
-                const priceRangeParent = jQuery(this).closest(".ms-input--price");
+        const buttonsInForm = document.querySelectorAll(
+          ".ms-btn__not-submit:not([data-toggle='modal'])"
+        );
+        if (buttonsInForm?.length) {
+          buttonsInForm?.forEach(button => {
+            button.addEventListener("click", function (e) {
+              e.preventDefault();
+              e.stopPropagation();
+              // bed related
+              const bedInputParent = jQuery(this).closest(".ms-input--bed");
+              const bedInputList = jQuery(this).closest(".ms-input__list");
 
-                const isOpen = this.classList.contains("open");
-                const isApply = this.classList.contains("ms-btn--apply");
+              // price range related
+              const priceRangeParent = jQuery(this).closest(".ms-input--price");
 
-                buttonsInForm?.forEach(button => {
-                  button.classList.remove("open");
-                });
+              const isOpen = this.classList.contains("open");
+              const isReset = this.classList.contains("ms-btn__reset__price");
+              const isApply = this.classList.contains("ms-btn__apply__price");
+              const isDeselectBtn = this.classList.contains("ms-input__deselect");
 
-                if (!isOpen) {
-                  this.classList.add("open");
-                  jQuery(".ms-nice-select-property-type").removeClass("open");
-                }
-                // apply price range input
-
-                if (isApply) {
-                  priceRangeParent.find(".open").removeClass("open");
-                }
+              buttonsInForm?.forEach(button => {
+                button.classList.remove("open");
               });
 
-              document?.body?.addEventListener(
-                "click",
-                function () {
+              if (!isOpen && !isDeselectBtn) {
+                this.classList.add("open");
+                jQuery(".ms-nice-select-filter").removeClass("open");
+              }
+              // apply price range input
+
+              if (isApply) {
+                priceRangeParent.find(".open").removeClass("open");
+              }
+
+              // selected funtionality
+
+              if (bedInputList?.length) {
+                bedInputParent.addClass("ms-input--selected");
+              }
+            });
+
+            document?.body?.addEventListener(
+              "click",
+              function (e) {
+                if (!e.target.closest(".ms-input__content")) {
                   button.classList.remove("open");
-                },
-                false
-              );
-              button?.parentNode?.parentNode?.addEventListener(
-                "click",
-                function () {
+                }
+              },
+              false
+            );
+            const buttonParent = button?.parentNode;
+
+            buttonParent?.parentNode?.addEventListener(
+              "click",
+              function (e) {
+                if (!e.target.closest(".ms-input__content")) {
                   button.classList.remove("open");
-                },
-                false
-              );
+                }
+              },
+              false
+            );
+          });
+        }
+
+        forms?.forEach((form, idx) => {
+          // add class ms-inpu on onchange event
+          const allInputs = form?.querySelectorAll(".ms-input input");
+
+          if (allInputs?.length) {
+            allInputs?.forEach((input, idx) => {
+              input.addEventListener("change", function () {
+                const inputParent = this.parentNode;
+
+                if (inputParent) {
+                  inputParent.classList.add("ms-input--selected");
+                }
+              });
             });
           }
         });
@@ -386,9 +531,100 @@ if($adv_baths_list) {
     function ms_hero_filter_functionality(){
         filterBtns();
 
-        ms_hero_filter_price_range(jQuery('.ms-price-slider-range'));
+        ms_hero_filter_price_range();
+
+        jQuery(".ms-hero__search_city_area").select2({
+          placeholder: 'Search Location',
+          minimumInputLength: 2,
+        });
 
         jQuery(".ms-nice-select-property-type").niceSelect();
+        jQuery(".ms-nice-select-property-status").niceSelect();
+        jQuery(".ms-nice-select-property-type, .ms-nice-select-property-status, .ms-hero__search_city_area").on("change", function () {
+          // selected funtionality
+          const selectParent = jQuery(this).closest(".ms-input");
+
+          if (selectParent?.length) {
+            selectParent.addClass("ms-input--selected");
+          }
+        });
+        	// deselect selected input
+        const deselectBtns = document.querySelectorAll(".ms-input__deselect");
+        if (deselectBtns?.length) {
+          deselectBtns?.forEach(deselectBtn => {
+            const deselectParent = deselectBtn.parentNode;
+            const selectCommon = deselectParent?.querySelector(".ms-btn");
+
+            const niceSelectCurrent = deselectParent?.querySelector(
+              ".ms-nice-select-filter .current"
+            );
+
+            const inputText = deselectParent?.querySelector(
+              ".ms-hero__search-loaction"
+            );
+
+            let selectCommonDefaultValue = "";
+            let niceSelectCurrentCommonDefaultValue = "";
+            let inputDefaultValue = "";
+
+            if (selectCommon) {
+              selectCommonDefaultValue = selectCommon.innerHTML;
+            }
+            if (niceSelectCurrent) {
+              niceSelectCurrentCommonDefaultValue = niceSelectCurrent.textContent;
+            }
+
+            const bathSelectDefaultValue = deselectParent?.querySelector(".ms-btn");
+
+            deselectBtn.addEventListener("click", function () {
+              const selectedInput = this.closest(".ms-input--selected");
+              const msBtn = selectedInput.querySelector(".ms-btn");
+              const niceSelect = selectedInput.querySelector(".ms-nice-select-filter");
+
+              // Reset bed selection
+              if(selectedInput.classList.contains('ms-input--bed')) {
+                jQuery('.ms-bed-hidden').val('');
+                jQuery('.ms-bath-hidden').val('');
+                jQuery('.ms-bed-btn').removeClass('active');
+                jQuery('.ms-bath-btn').removeClass('active');
+              }
+
+              // Reset price range selection
+              if(selectedInput.classList.contains('ms-input--price')) {
+                //jQuery(selectedInput).find('.ms-btn__reset__price').trigger('click');
+                const obj = ms_hero_filter_price_range();
+                obj.resetSliderValues();
+                this.closest('.ms-input--price').classList.remove("ms-input--selected");
+              }
+
+              // Reset select2 select filter selection
+              if(selectedInput.classList.contains('ms-hero__search-location-container')) {
+                const select2Select = jQuery(selectedInput).find('.ms-hero__search_city_area');
+                select2Select.val(null).trigger('change');
+              }
+
+              
+              // Reset nice select filter selection
+              if(selectedInput.classList.contains('ms-nice-select-filter-container')) {
+                const niceSelect = jQuery(selectedInput).find('.ms-nice-select-filter');
+                niceSelect.val('').niceSelect('update');
+              }
+
+              if (selectedInput && !selectedInput.classList.contains('ms-input--price')) {
+                selectedInput.classList.remove("ms-input--selected");
+
+                if (selectCommonDefaultValue) {
+                  selectCommon.innerHTML = selectCommonDefaultValue;
+                }
+                if (inputText) {
+                  inputText.value = "";
+                }
+              }
+
+
+            });
+          });
+        }
 
         // Handle bed button clicks
         jQuery('.ms-bed-btn').on('click', function() {
@@ -433,19 +669,44 @@ if($adv_baths_list) {
         });
 
         jQuery('.ms-hero__tab-controllers [data-toggle="tab"]').on('click', function() {
-            jQuery('.type-tab').show();
-            if (jQuery(this).data('type') == '1') {
-                jQuery('.type-tab').hide();
+            const tab_name = jQuery(this).data('target').replace('#', '');
+            const tab_type = jQuery(this).data('type');
+
+            // Reset both tabs first
+            jQuery('.type-tab').hide();
+            jQuery('.commercial-type').hide();
+
+            // Show appropriate tab based on type and name
+            if (tab_type == '1') {
+                if (tab_name === 'commercial') {
+                    jQuery('.commercial-type').show();
+                }
+            } else {
+                jQuery('.type-tab').show();
             }
         });
 
         jQuery('.ms-btn--search').on('click', function() {
-            const keyword = jQuery('.ms-hero__form .houzez-keyword-autocomplete').val();
-            const property_type = jQuery('.ms-hero__form .ms-nice-select-property-type').val();
+            //const keyword = jQuery('.ms-hero__form .houzez-keyword-autocomplete').val();
+            var property_type = jQuery('.ms-hero__form .ms-nice-select-property-type').val();
             const min_price = jQuery('.ms-hero__form .ms-min-price-range-hidden').val();
             const max_price = jQuery('.ms-hero__form .ms-max-price-range-hidden').val();
             const bedrooms = jQuery('.ms-hero__form .ms-bed-hidden').val();
             const bathrooms = jQuery('.ms-hero__form .ms-bath-hidden').val();
+            var cities = [];
+            var areas = [];
+            
+            // Get all data attributes from selected options
+            jQuery('.ms-hero__form').find('.ms-hero__search_city_area option:selected').each(function() {
+                const locationType = jQuery(this).data('type');
+                const locationValue = jQuery(this).val();
+                if (locationType === 'city') {
+                    cities.push(locationValue);
+                }
+                else if (locationType === 'area') {
+                    areas.push(locationValue);
+                }
+            });
             
             // Add null check for property status
             const activeStatusBtn = jQuery('.ms-hero__filter-tab .ms-property-status-btn.active');
@@ -460,9 +721,13 @@ if($adv_baths_list) {
             else {
               url = url + '/search-results/';
             }
+
+            if(property_status == 'commercial'){
+              property_type = jQuery('.ms-hero__form .ms-nice-select-property-type__commercial').val();
+            }
             
             const params = {
-                "keyword": keyword || '',
+                //"keyword": keyword || '',
                 "type[]": property_type || '',
                 "status[]": property_status || '',
                 "min-price": min_price || '',
@@ -472,15 +737,24 @@ if($adv_baths_list) {
             };
 
             if(tab_type == '1'){
-              params["type[]"] = property_status || '';
+              //params["type[]"] = property_status || '';
               delete params["status[]"];
             }
 
-            // Filter out empty parameters and build the query string
+            if (cities.length) {
+              params['city[]'] = cities; // Add cities separately
+            }
+            if (areas.length) {
+              params['areas[]'] = areas;
+            }
+
             const queryString = Object.entries(params)
-                .filter(([_, value]) => value) // Remove empty values
-                .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
-                .join('&');
+              .flatMap(([key, value]) => 
+                  Array.isArray(value) 
+                      ? value.map(v => `${encodeURIComponent(key)}=${encodeURIComponent(v)}`) // Handle arrays properly
+                      : value ? `${encodeURIComponent(key)}=${encodeURIComponent(value)}` : []
+              )
+              .join('&');
 
             window.location.href = url + (queryString ? '?' + queryString : '');
         });

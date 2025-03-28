@@ -272,7 +272,7 @@
     }
 
     function submitFilterForm($form, current_page = 1){
-        const keyword = $form.find('.houzez-keyword-autocomplete').val();
+        //const keyword = $form.find('.houzez-keyword-autocomplete').val();
         var property_type = $form.find('.ms-nice-select-property-type').val();
         const min_price = $form.find('.ms-min-price-range-hidden').val();
         const max_price = $form.find('.ms-max-price-range-hidden').val();
@@ -283,6 +283,20 @@
         const page_available_type = $form.find('.ms-nice-select-property-type option:selected').data('page-available');
         var sortby = jQuery('#ajax_sort_properties').val();
         var ms_page_slug = $form.find('.ms-page-slug').val();
+        var cities = [];
+        var areas = [];
+        
+        // Get all data attributes from selected options
+        $form.find('.ms-hero__search_city_area option:selected').each(function() {
+            const locationType = jQuery(this).data('type');
+            const locationValue = jQuery(this).val();
+            if (locationType === 'city') {
+                cities.push(locationValue);
+            }
+            else if (locationType === 'area') {
+                areas.push(locationValue);
+            }
+        });
 
         if( property_type ){
 
@@ -309,7 +323,7 @@
         // }
         
         const params = {
-            "keyword": keyword || '',
+            //"keyword": keyword || '',
             "type[]": property_type || '',
             "status[]": property_status || '',
             "min-price": min_price || '',
@@ -321,11 +335,20 @@
             "slug": ms_page_slug
         };
 
-        // Filter out empty parameters and build the query string
+        if (cities.length) {
+          params['city[]'] = cities; // Add cities separately
+        }
+        if (areas.length) {
+          params['areas[]'] = areas;
+        }
+
         const queryString = Object.entries(params)
-            .filter(([_, value]) => value) // Remove empty values
-            .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
-            .join('&');
+          .flatMap(([key, value]) => 
+              Array.isArray(value) 
+                  ? value.map(v => `${encodeURIComponent(key)}=${encodeURIComponent(v)}`) // Handle arrays properly
+                  : value ? `${encodeURIComponent(key)}=${encodeURIComponent(value)}` : []
+          )
+          .join('&');
 
         //window.location.href = url + (queryString ? '?' + queryString : '');
         pageUrl = url + (queryString ? '?' + queryString : '');
@@ -461,9 +484,14 @@
 
         ms_hero_filter_price_range();
 
+        jQuery(".ms-hero__search_city_area").select2({
+          placeholder: 'Search Location',
+          minimumInputLength: 2,
+        });
+
         jQuery(".ms-nice-select-property-type").niceSelect();
         jQuery(".ms-nice-select-property-status").niceSelect();
-        jQuery(".ms-nice-select-property-type, .ms-nice-select-property-status").on("change", function () {
+        jQuery(".ms-nice-select-property-type, .ms-nice-select-property-status, .ms-hero__search_city_area").on("change", function () {
           // selected funtionality
           const selectParent = jQuery(this).closest(".ms-input");
 
@@ -523,6 +551,13 @@
                 this.closest('.ms-input--price').classList.remove("ms-input--selected");
               }
 
+              // Reset select2 select filter selection
+              if(selectedInput.classList.contains('ms-hero__search-location-container')) {
+                const select2Select = jQuery(selectedInput).find('.ms-hero__search_city_area');
+                select2Select.val(null).trigger('change');
+              }
+
+              
               // Reset nice select filter selection
               if(selectedInput.classList.contains('ms-nice-select-filter-container')) {
                 const niceSelect = jQuery(selectedInput).find('.ms-nice-select-filter');

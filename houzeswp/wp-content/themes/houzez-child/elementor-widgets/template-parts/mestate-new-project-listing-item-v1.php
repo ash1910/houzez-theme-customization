@@ -94,14 +94,25 @@ if(!empty($agent_whatsapp)) {
 // Agency Picture
 $agent_info = @$listing_agent_info['agent_info'];
 $agency_logo = '';
+$agent_agency_link = '';
 if( !empty( $agent_info[0] )) {
     if( $agent_agency_id = get_post_meta($agent_info[0]['agent_id'], 'fave_agent_agencies', true) ) {
-
+        //echo "<pre>";print_r($agent_info);exit;
         $thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id( $agent_agency_id ), 'full' );
         if( !empty($thumbnail_src) ) {
             $agency_logo = esc_attr( $thumbnail_src[ 0 ] );
         }
         $agent_agency_link = esc_url(get_permalink($agent_agency_id));
+    }
+    elseif( houzez_is_developer($post->post_author) ){
+        //echo "<pre>";print_r($agent_info);exit;
+        $developer_logo = get_user_meta($post->post_author, 'fave_author_custom_picture', true);
+        if( !empty($developer_logo) ) {
+            $agency_logo = esc_attr( $developer_logo );
+            if( !empty($developer_logo) ) {
+                $agent_agency_link = esc_url($agent_info[0]['link']);
+            }
+        }
     }
 }
 elseif( houzez_is_developer($post->post_author) ){
@@ -199,11 +210,11 @@ if( !empty($favorite_ids) && in_array($listing_id, $favorite_ids) ) {
                     <h6><?php 
                         // Convert to millions if price is larger than a million
                         if(is_numeric($sale_price) && $sale_price >= 1000000) {
-                            $price_in_millions = floor($sale_price / 5000000) * 5;
-                            echo $currency_symbol . $price_in_millions . 'M+';
+                            $price_in_millions = floor($sale_price / 1000000);
+                            echo $currency_symbol . $price_in_millions . 'M';
                         } else if(is_numeric($sale_price) && $sale_price >= 1000) {
-                            $price_in_thousands = floor($sale_price / 5000) * 5;
-                            echo $currency_symbol . $price_in_thousands . 'K+';
+                            $price_in_thousands = floor($sale_price / 1000);
+                            echo $currency_symbol . $price_in_thousands . 'K';
                         } else {
                             echo $price_prefix . houzez_get_property_price($sale_price);
                         }

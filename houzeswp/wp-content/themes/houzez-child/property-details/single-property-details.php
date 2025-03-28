@@ -524,6 +524,14 @@ foreach ($types as $type) {
                 <div class="ms-apartments-main__section">
                     <div class="ms-apartments-main__heading">
                         <h4>Map</h4>
+                        <p>
+                            <svg width="14" height="21" viewBox="0 0 16 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M15.5 7.5C15.5 11.4274 10.625 17 8 17C5.375 17 0.5 11.0385 0.5 7.11111C0.5 3 4.13401 0 8 0C11.866 0 15.5 3 15.5 7.5ZM10.5 7C10.5 8.38071 9.38071 9.5 8 9.5C6.61929 9.5 5.5 8.38071 5.5 7C5.5 5.61929 6.61929 4.5 8 4.5C9.38071 4.5 10.5 5.61929 10.5 7ZM2 19.25C1.58579 19.25 1.25 19.5858 1.25 20C1.25 20.4142 1.58579 20.75 2 20.75H14C14.4142 20.75 14.75 20.4142 14.75 20C14.75 19.5858 14.4142 19.25 14 19.25H2Z"
+                                    fill="#1B1B1B" />
+                            </svg>
+                            <?php echo $map_address = houzez_get_listing_data('property_map_address');?>
+                        </p>
                     </div>
 
                     <div class="ms-apartments-main__map">

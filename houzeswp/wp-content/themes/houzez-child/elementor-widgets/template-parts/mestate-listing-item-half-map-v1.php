@@ -80,6 +80,7 @@ $second_price   = get_post_meta( $listing_id, 'fave_property_sec_price', true );
 $price_postfix  = get_post_meta( $listing_id, 'fave_property_price_postfix', true );
 $price_prefix   = get_post_meta( $listing_id, 'fave_property_price_prefix', true );
 $price_separator = houzez_option('currency_separator');
+$currency_symbol = houzez_get_currency();
 
 $handover = get_post_meta( $listing_id, 'fave_handover', true );
 $completion = get_post_meta( $listing_id, 'fave_completion', true );
@@ -174,7 +175,18 @@ if( !empty($favorite_ids) && in_array($listing_id, $favorite_ids) ) {
             <?php echo $address; ?></a></a>
         <!-- price -->
         <div class="ms-apartments-main____card__price">
-            <h6><?php echo $price_prefix. houzez_get_property_price($sale_price); ?> 
+            <h6><?php 
+                // Convert to millions if price is larger than a million
+                if(is_numeric($sale_price) && $sale_price >= 1000000) {
+                    $price_in_millions = floor($sale_price / 1000000);
+                    echo $currency_symbol . $price_in_millions . 'M+';
+                } else if(is_numeric($sale_price) && $sale_price >= 1000) {
+                    $price_in_thousands = floor($sale_price / 1000);
+                    echo $currency_symbol . $price_in_thousands . 'K+';
+                } else {
+                    echo $price_prefix . houzez_get_property_price($sale_price);
+                }
+                ?>
                 <?php $property_type = houzez_taxonomy_simple('property_type'); 
                 if(!empty($property_type)) {
                     echo '<span>'.$property_type.'</span>';

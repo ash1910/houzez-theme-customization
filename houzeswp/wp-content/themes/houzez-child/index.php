@@ -25,6 +25,9 @@ if ( ! function_exists( 'elementor_theme_do_location' ) || ! elementor_theme_do_
 <section>
     <div class="container-fluid container-fluid--lg">
         <div class="ms-hero__wrapper">
+			<?php if (is_active_sidebar('blog-ads')) : ?>
+				<?php dynamic_sidebar('blog-ads'); ?>
+			<?php else: ?>
             <div class="ms-hero ms-hero--blog" style="background-image: url('<?php echo get_stylesheet_directory_uri(); ?>/assets/img/blog/bnner.png')">
                 <div class="container">
                     <div class="row">
@@ -44,12 +47,10 @@ if ( ! function_exists( 'elementor_theme_do_location' ) || ! elementor_theme_do_
                         </div>
                     </div>
                 </div>
-
 				<!-- search Mobile -->
                 <?php echo houzez_property_blog_search();?>
-
-
             </div>
+			<?php endif; ?>
         </div>
     </div>
 </section>

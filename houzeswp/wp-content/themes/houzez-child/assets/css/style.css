@@ -716,8 +716,6 @@ START: Input Css
 	max-height: 310px;
 	overflow-y: auto;
 	overflow-x: hidden;
-	-ms-overflow-style: none;
-	scrollbar-width: none;
 }
 .ms-input .nice-select .list::-webkit-scrollbar {
 	display: none;
@@ -1546,15 +1544,32 @@ START: Hero Banner CSS
 	display: inline-flex;
 	gap: 8px;
 	align-items: center;
+	justify-content: flex-start;
 }
 
-.ms-input__content__value {
+.ms-input__content__value__wrap {
+	width: auto;
+	display: inline-flex;
+	align-items: center;
+	gap: 2px;
 	padding: 6px 12px;
 	border-radius: 10px;
 	border: 1px solid var(--ms-color-border);
 	background-color: var(--ms-color-common-white);
 	color: var(--ms-color-link);
 	font-size: 12px;
+	flex-grow: 0;
+	flex-shrink: 1;
+}
+.ms-input__content__value,
+input:not([type="checkbox"]).ms-input__content__value {
+	width: 61px;
+	background-color: transparent;
+	color: var(--ms-color-link);
+	font-size: 12px;
+
+	flex-shrink: 1;
+	overflow: hidden;
 }
 .ms-input__content__action {
 	display: flex;
@@ -2126,6 +2141,17 @@ START: Apppartments CSS
 	align-items: center;
 	gap: 20px;
 }
+.ms-apartments-main__section:has(.ms-apartments-main__map)
+	.ms-apartments-main__heading {
+	flex-direction: column;
+	gap: 6px;
+	align-items: flex-start;
+}
+.ms-apartments-main__section:has(.ms-apartments-main__map)
+	.ms-apartments-main__heading
+	p {
+	font-weight: var(--ms-fw-normal);
+}
 .ms-apartments-main__heading h2 {
 	--ms-fw-sbold: 500;
 	--ms-fs-h2: 32px;
@@ -2153,26 +2179,35 @@ START: Apppartments CSS
 }
 .ms-apartments-main__location {
 	display: flex;
+	flex-wrap: wrap;
 	gap: 30px;
 	align-items: center;
-	justify-content: space-between;
-	padding: 20px;
+	padding: 20px 20px 20px 0;
 	justify-content: flex-start;
 	margin-bottom: 20px;
 	border: 1px solid var(--ms-color-border);
 	border-radius: var(--ms-br-16);
-	overflow: auto;
+	text-align: center;
 }
 .ms-apartments-main__location:has(li:nth-child(4)) {
 	gap: 16px;
-	justify-content: space-between;
 }
 .ms-apartments-main__location li {
 	height: 27px;
 	white-space: nowrap;
-
 	display: none;
 }
+.ms-apartments-main__location .ms-apartments-main__location__all {
+	text-align: end;
+}
+.ms-apartments-main__location
+	li.ms-show:nth-child(8n):not(.ms-apartments-main__location__less) {
+	display: none;
+}
+.ms-apartments-main__location li:not(:has(hr)) {
+	flex: 0 1 calc(25% - 24.75px);
+}
+
 .ms-apartments-main__location li.ms-show {
 	display: block;
 }
@@ -4204,9 +4239,10 @@ START: New Project Details CSS
 /* breadcrumb */
 .ms-apartments-main__breadcrumb {
 	margin-bottom: 32px;
+	display: inline-block;
 }
 .ms-apartments-main__breadcrumb ul {
-	display: flex;
+	display: inline-flex;
 	gap: 4px;
 	align-items: center;
 }
@@ -5232,9 +5268,22 @@ START: Blog CSS
 	overflow: hidden;
 	z-index: 1;
 }
-.ms-hero--blog .ms-hero__content {
+.ms-hero__link {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 3;
+}
+.ms-hero--blog .ms-hero__title {
 	position: relative;
 	z-index: 2;
+}
+
+.ms-apartments-main__breadcrumb {
+	position: relative;
+	z-index: 4;
 }
 .ms-apartments-main--blog {
 	margin-top: 40px;

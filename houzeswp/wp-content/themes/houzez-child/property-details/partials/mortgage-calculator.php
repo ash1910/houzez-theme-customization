@@ -46,7 +46,7 @@ if($property_price == 0) {
 
 		</div><!-- mortgage-calculator-chart -->
 
-		<ul class="ms-apartments-main__mortgage-calculator__outputs__list mortgage-calculator-data">
+		<ul class="ms-apartments-main__mortgage-calculator__outputs__list mortgage-calculator-data-nn">
 			<li class="ms-apartments-main__mortgage-calculator__outputs__list__item mortgage-calculator-data-1 stats-data-01">
 				<p><span></span> Down Payment</p>
 				<h6 id="downPaymentResult"></h6>

@@ -212,6 +212,27 @@ START: Cta CSS
 	/**----------------------------------------
 !END: Cta CSS CSS
 ----------------------------------------*/
+
+	/* apartment */
+
+	.ms-apartments-main__location:has(li:nth-child(4)) {
+		gap: 16px 0;
+	}
+	.ms-apartments-main__location
+		li.ms-show:nth-child(8n):not(.ms-apartments-main__location__less) {
+		display: block;
+	}
+	.ms-apartments-main__location
+		li.ms-show:nth-child(10n):not(.ms-apartments-main__location__less) {
+		display: none;
+	}
+	.ms-apartments-main__location li:not(:has(hr)) {
+		flex: 0 1 calc(20% - 0.8px);
+	}
+	.ms-apartments-main__location a {
+		font-size: 16px;
+		font-weight: var(--ms-fw-medium);
+	}
 }
 
 @media only screen and (max-width: 767px) {
@@ -736,9 +757,19 @@ START: apartment CSS
 	.ms-apartments-main__location a {
 		font-size: 14px;
 	}
+	.ms-apartments-main__location li {
+		height: 19px;
+	}
+	.ms-apartments-main__location:has(li:nth-child(4)) {
+		gap: 14px 0;
+	}
+	.ms-apartments-main__location li:not(:has(hr)) {
+		flex: 0 1 calc(25% - 0.75px);
+	}
 	.ms-apartments-main__button-list {
 		margin-bottom: 20px;
 	}
+
 	.ms-apartments-main__button-list li {
 		display: none;
 	}
@@ -2342,10 +2373,42 @@ START: Portfolio CSS
 	.ms-offer__shape {
 		display: none;
 	}
+
+	.ms-apartments-main__location:has(li:nth-child(4)) {
+		gap: 12px 0;
+	}
+	.ms-apartments-main__location li:not(:has(hr)) {
+		flex: 0 1 calc(25% - 0.75px);
+	}
+	.ms-apartments-main__location a {
+		font-size: 16px;
+	}
 }
 
 @media only screen and (max-width: 484px) {
 	.ms-location__tab__contents .ms-location__tab__controllers {
 		justify-content: start;
+	}
+}
+@media only screen and (max-width: 529px) {
+	.ms-apartments-main__location:has(li:nth-child(4)) {
+		gap: 9px 0;
+	}
+	.ms-apartments-main__location .ms-apartments-main__location__all a,
+	.ms-apartments-main__location li a {
+		font-size: 12px;
+	}
+
+	.ms-apartments-main__location li:not(:has(hr)) {
+		flex: 0 1 calc(33.333333333% - 0.66667px);
+	}
+
+	.ms-apartments-main__location
+		li.ms-show:nth-child(8n):not(.ms-apartments-main__location__less) {
+		display: block;
+	}
+	.ms-apartments-main__location
+		li.ms-show:nth-child(6n):not(.ms-apartments-main__location__less) {
+		display: none;
 	}
 }

@@ -1091,8 +1091,8 @@ if ( !function_exists( 'houzez_after_search__get_property_type_list' ) ) {
             }
 
             if($list_inc > 3){
-                $output .= '<li class="ms-apartments-main__location__all"><a href="#"><span>View All Locations</span></a></li>';
-                $output .= '<li class="ms-apartments-main__location__less"><a href="#"><span>View Less</span></a></li>';
+                $output .= '<li class="ms-apartments-main__location__all"><a href="javascript:;"><span>View All Locations</span></a></li>';
+                $output .= '<li class="ms-apartments-main__location__less"><a href="javascript:;"><span>View Less</span></a></li>';
             }
 
             if( $output !== "" )$output = '<ul class="ms-apartments-main__location">'.$output.'</ul>';
@@ -1224,6 +1224,8 @@ function load_houzez_property_js_child() {
     // New Theme MEstate : Assets
     if (!houzez_is_dashboard() ) {
         wp_enqueue_script('houzez_mestate_nice',  get_stylesheet_directory_uri().'/assets/js/nice-select.min.js', array('jquery'), '1.0.0', true);
+        wp_enqueue_script('select2',  get_stylesheet_directory_uri().'/js/select2.min.js', array('jquery'), '1.0.0', true);
+
         wp_enqueue_script('houzez_mestate_meanmenu',  get_stylesheet_directory_uri().'/assets/js/meanmenu.js', array('jquery'), '1.0.0', true);
         wp_enqueue_script('houzez_mestate_swiper',  get_stylesheet_directory_uri().'/assets/js/swiper-bundle.min.js', array('jquery'), '1.0.0', true);
         wp_enqueue_script('houzez_mestate_price_range',  get_stylesheet_directory_uri().'/assets/js/price-range.js', array('jquery'), '1.0.0', true);
@@ -1236,6 +1238,8 @@ function load_houzez_property_js_child() {
         wp_enqueue_style('houzez_mestate_general-sanse', get_stylesheet_directory_uri() . '/assets/css/general-sanse.css', array(), '1.0.0', 'all');
         wp_enqueue_style('houzez_mestate_meanmenu', get_stylesheet_directory_uri() . '/assets/css/meanmenu.css', array(), '1.0.0', 'all');
         wp_enqueue_style('houzez_mestate_nice-select', get_stylesheet_directory_uri() . '/assets/css/nice-select.css', array(), '1.0.0', 'all');
+        wp_enqueue_style('select2',  get_stylesheet_directory_uri().'/css/select2.min.css', array(), '1.0.0', 'all');
+
         wp_enqueue_style('houzez_mestate_swiper-bundle', get_stylesheet_directory_uri() . '/assets/css/swiper-bundle.min.css', array(), '1.0.0', 'all');
         wp_enqueue_style('houzez_mestate_price-range', get_stylesheet_directory_uri() . '/assets/css/price-range.css', array(), '1.0.0', 'all');
         wp_enqueue_style('houzez_mestate_lightcase', get_stylesheet_directory_uri() . '/assets/css/lightcase.min.css', array(), '1.0.0', 'all');
@@ -4305,11 +4309,15 @@ function getNormalListPageUrl() {
 require_once get_stylesheet_directory() . '/class-sidebar-banner-widget.php';
 require_once get_stylesheet_directory() . '/class-sidebar-category-widget.php';
 require_once get_stylesheet_directory() . '/class-sidebar-search-widget.php';
+require_once get_stylesheet_directory() . '/class-blog-ads-widget.php';
+require_once get_stylesheet_directory() . '/class-blog-detail-ads-widget.php';
 
 function register_blog_sidebar_widget() {
     register_widget('Sidebar_Banner_Widget');
     register_widget('MS_Category_Widget');
     register_widget('MS_Search_Widget');
+    register_widget('Blog_Ads_Widget');
+    register_widget('Blog_Detail_Ads_Widget');
 }
 add_action('widgets_init', 'register_blog_sidebar_widget');
 
@@ -4326,6 +4334,32 @@ function register_blog_sidebar() {
     ));
 }
 add_action('widgets_init', 'register_blog_sidebar');
+
+function register_blog_Ads() {
+    register_sidebar(array(
+        'name'          => 'Blog Ads',
+        'id'            => 'blog-ads',
+        'description'   => 'Add widgets here',
+        'before_widget' => '',
+        'after_widget'  => '',
+        'before_title'  => '<h5>',
+        'after_title'   => '</h5>',
+    ));
+}
+add_action('widgets_init', 'register_blog_Ads');
+
+function register_blog_detail_Ads() {
+    register_sidebar(array(
+        'name'          => 'Blog Artical Ads',
+        'id'            => 'blog-detail-ads',
+        'description'   => 'Add widgets here',
+        'before_widget' => '',
+        'after_widget'  => '',
+        'before_title'  => '<h5>',
+        'after_title'   => '</h5>',
+    ));
+}
+add_action('widgets_init', 'register_blog_detail_Ads');
 
 if( !function_exists('houzez_property_blog_search') ) {
     function houzez_property_blog_search() {

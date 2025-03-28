@@ -3,10 +3,17 @@
 $keyword = isset($_GET['keyword']) ? $_GET['keyword'] : '';
 $status = isset($_GET['status']) ? $_GET['status'] : array();
 $type = isset($_GET['type']) ? $_GET['type'] : array();
-$min_price = isset($_GET['min_price']) ? $_GET['min_price'] : '';
-$max_price = isset($_GET['max_price']) ? $_GET['max_price'] : '';
+$min_price = isset($_GET['min-price']) ? $_GET['min-price'] : '';
+$max_price = isset($_GET['max-price']) ? $_GET['max-price'] : '';
 $bed = isset($_GET['bedrooms']) ? $_GET['bedrooms'] : '';
 $bath = isset($_GET['bathrooms']) ? $_GET['bathrooms'] : '';
+$selected_areas = isset($_GET['areas']) ? $_GET['areas'] : array();
+$selected_cities = isset($_GET['city']) ? $_GET['city'] : array();
+
+$prop_city = array();
+houzez_get_terms_array( 'property_city', $prop_city );
+$prop_area = array();
+houzez_get_terms_array( 'property_area', $prop_area );
 
 // Get current page slug from URL
 $current_page = get_post(get_the_ID());
@@ -66,7 +73,7 @@ elseif(in_array("commercial", $type) || $page_slug == 'commercial' || $page_slug
     <input type="hidden" name="ms-max-price" value="<?php echo $max_price; ?>" class="ms-max-price-range-hidden range-input" readonly >
     <input type="hidden" name="ms-bed" value="<?php echo $bed; ?>" class="ms-bed-hidden" readonly >
     <input type="hidden" name="ms-bath" value="<?php echo $bath; ?>" class="ms-bath-hidden" readonly >
-    <div class="ms-input ms-nice-select-filter-container" <?php if(in_array("new-projects", $type) || $page_slug == 'new-projects' || $page_slug == 'new-projects-map') echo 'style="display: none;"'; ?>>
+    <div class="ms-input ms-nice-select-filter-container <?php echo count($status) > 0 ? 'ms-input--selected' : ''; ?>" <?php if(in_array("new-projects", $type) || $page_slug == 'new-projects' || $page_slug == 'new-projects-map') echo 'style="display: none;"'; ?>>
         <select class="ms-nice-select-filter ms-nice-select-property-status" style="visibility: hidden;">
             <option value="" selected disabled>Select</option>
             <?php
@@ -85,17 +92,15 @@ elseif(in_array("commercial", $type) || $page_slug == 'commercial' || $page_slug
             <i class="fa-light fa-xmark"></i>
         </button>
     </div>
-    <div class="ms-input ms-input--serach" style="width: 280px;">
-        <input
-            type="text"
-            placeholder="Search Location"
-            class="ms-hero__search-loaction houzez-keyword-autocomplete"
-            id="ms-hero__search-loaction"
-            autofocus
-            autocomplete="off"
-            value="<?php echo $keyword; ?>"
-        />
-        <div id="auto_complete_ajax" class="auto-complete" style="top: 100%;"></div>
+    <div class="ms-input ms-input--serach ms-hero__search-location-container <?php echo count($selected_cities) > 0 || count($selected_areas) > 0 ? 'ms-input--selected' : ''; ?>">
+        <select class="ms-hero__search_city_area" multiple="multiple" style="visibility: hidden;">
+            <?php foreach($prop_city as $city_slug => $city_name): ?>
+                <option value="<?php echo $city_slug; ?>" data-type="city" <?php if(in_array($city_slug, $selected_cities)) echo 'selected'; ?>><?php echo $city_name; ?></option>
+            <?php endforeach; ?>
+            <?php foreach($prop_area as $area_slug => $area_name): ?>
+                <option value="<?php echo $area_slug; ?>" data-type="area" <?php if(in_array($area_slug, $selected_areas)) echo 'selected'; ?>><?php echo $area_name; ?></option>
+            <?php endforeach; ?>
+        </select>
         <label for="ms-hero__search-loaction"
             ><i class="icon-search_black"></i
         ></label>
@@ -103,7 +108,7 @@ elseif(in_array("commercial", $type) || $page_slug == 'commercial' || $page_slug
             <i class="fa-light fa-xmark"></i>
         </button>
     </div>
-    <div class="ms-input ms-nice-select-filter-container">
+    <div class="ms-input ms-nice-select-filter-container <?php echo count($type) > 0 ? 'ms-input--selected' : ''; ?>">
         <select class="ms-nice-select-filter ms-nice-select-property-type" style="visibility: hidden;">
             <option value="" selected disabled>Property type</option>
             <?php
@@ -124,7 +129,7 @@ elseif(in_array("commercial", $type) || $page_slug == 'commercial' || $page_slug
             <i class="fa-light fa-xmark"></i>
         </button>
     </div>
-    <div class="ms-input ms-input--price d-none d-md-block">
+    <div class="ms-input ms-input--price d-none d-md-block <?php if($min_price || $max_price)echo 'ms-input--selected'; ?>">
         <button class="ms-btn ms-input--price-btn ms-btn__not-submit">
             Select Price <i class=""><?php echo houzez_option('currency_symbol'); ?></i>
         </button>
@@ -135,36 +140,34 @@ elseif(in_array("commercial", $type) || $page_slug == 'commercial' || $page_slug
             <div class="price_filter">
                 <div class="price_slider_amount" style="gap: 10px;padding: 0;">
                     <div class="ms-input__content__value__wrapper">
-                    <span>min</span>
-                    <div class="ms-input ms-input--serach" style="width: auto; gap: 10px; padding: 0 10px; background-color:#f5fcf9; border: 1px solid #00a86b;">
-                        <span class="currency-symbol"></span>
-                        <input
-                        type="text"
-                        class="ms-input__content__value ms-input__content__value--min ms-btn "
-                        value="1"
-                        pattern="[0-9]*"
-                        inputmode="numeric"
-                        onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
-                        oninput="this.value = this.value.replace(/[^0-9]/g, '')"
-                        style="max-width: 140px;"
-                        />
-                    </div>
+                        <span>min</span>
+                        <div class="ms-input__content__value__wrap">
+                            <span class="currency-symbol ms-currency-symbol"></span>
+                            <input
+                            type="text"
+                            class="amount ms-input__content__value ms-input__content__value--min"
+                            value="1"
+                            pattern="[0-9]*"
+                            inputmode="numeric"
+                            onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                            />
+                        </div>
                     </div>
                     <div class="ms-input__content__value__wrapper">
-                    <span>Max</span>
-                    <div class="ms-input ms-input--serach" style="width: auto; gap: 10px; padding: 0 10px; background-color:#f5fcf9; border: 1px solid #00a86b;">
-                        <span class="currency-symbol"></span>
-                        <input
-                        type="text" 
-                        class="ms-input__content__value ms-input__content__value--max ms-btn "
-                        value="1000000"
-                        pattern="[0-9]*"
-                        inputmode="numeric"
-                        onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
-                        oninput="this.value = this.value.replace(/[^0-9]/g, '')"
-                        style="max-width: 140px;"
-                        />
-                    </div>
+                        <span>Max</span>
+                        <div class="ms-input__content__value__wrap">
+                            <span class="currency-symbol ms-currency-symbol"></span>
+                            <input
+                            type="text" 
+                            class="amount ms-input__content__value ms-input__content__value--max"
+                            value="1000000"
+                            pattern="[0-9]*"
+                            inputmode="numeric"
+                            onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                            />
+                        </div>
                     </div>
                 </div>
                 <div class="slider-range ms-slider-range ms-price-slider-range"></div>
@@ -181,7 +184,7 @@ elseif(in_array("commercial", $type) || $page_slug == 'commercial' || $page_slug
             <i class="fa-light fa-xmark"></i>
         </button>
     </div>
-    <div class="ms-input ms-input--bed d-none d-md-block">
+    <div class="ms-input ms-input--bed d-none d-md-block <?php if($bed || $bath)echo 'ms-input--selected'; ?>">
         <button class="ms-btn ms-btn__not-submit">
             <span class="ms-bed-btn-text">Select beds/baths</span>
             <svg

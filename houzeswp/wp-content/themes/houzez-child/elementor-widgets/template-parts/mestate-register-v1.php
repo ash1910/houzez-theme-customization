@@ -73,7 +73,7 @@
                         <span class="ms-input__password-toggler">
                           <!-- Eye Open (Show Password) -->
                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" height="24" width="24"
-                            class="ms-show-icon">
+                            class="ms-hide-icon">
                             <path stroke-linejoin="round" stroke-linecap="round" stroke-width="1.5" stroke="#8B8B8B"
                               d="M12 4C7 4 3 8 1.5 12C3 16 7 20 12 20C17 20 21 16 22.5 12C21 8 17 4 12 4Z"></path>
                             <path stroke-linejoin="round" stroke-linecap="round" stroke-width="1.5" stroke="#8B8B8B"
@@ -82,7 +82,7 @@
                           </svg>
 
                           <!-- Eye Slash (Hide Password) -->
-                          <svg class="ms-hide-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                          <svg class="ms-show-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"
                             xmlns="http://www.w3.org/2000/svg" style="display: none;">
                             <path
                               d="M14.5319 9.46992L9.47188 14.5299C8.82188 13.8799 8.42188 12.9899 8.42188 11.9999C8.42188 10.0199 10.0219 8.41992 12.0019 8.41992C12.9919 8.41992 13.8819 8.81992 14.5319 9.46992Z"
@@ -109,7 +109,7 @@
                         <span class="ms-input__password-toggler">
                           <!-- Eye Open (Show Password) -->
                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" height="24" width="24"
-                            class="ms-show-icon">
+                            class="ms-hide-icon">
                             <path stroke-linejoin="round" stroke-linecap="round" stroke-width="1.5" stroke="#8B8B8B"
                               d="M12 4C7 4 3 8 1.5 12C3 16 7 20 12 20C17 20 21 16 22.5 12C21 8 17 4 12 4Z"></path>
                             <path stroke-linejoin="round" stroke-linecap="round" stroke-width="1.5" stroke="#8B8B8B"
@@ -118,7 +118,7 @@
                           </svg>
 
                           <!-- Eye Slash (Hide Password) -->
-                          <svg class="ms-hide-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                          <svg class="ms-show-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"
                             xmlns="http://www.w3.org/2000/svg" style="display: none;">
                             <path
                               d="M14.5319 9.46992L9.47188 14.5299C8.82188 13.8799 8.42188 12.9899 8.42188 11.9999C8.42188 10.0199 10.0219 8.41992 12.0019 8.41992C12.9919 8.41992 13.8819 8.81992 14.5319 9.46992Z"
