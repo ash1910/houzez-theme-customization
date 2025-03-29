@@ -11,7 +11,22 @@
   $prop_city = array();
   houzez_get_terms_array( 'property_city', $prop_city );
   $prop_area = array();
-  houzez_get_terms_array( 'property_area', $prop_area );
+  
+  // Get property areas with parent city information
+  $area_terms = get_terms('property_area', array(
+      'hide_empty' => false,
+  ));
+  
+  foreach($area_terms as $term) {
+      $term_id = $term->term_id;
+      $term_meta = get_option('_houzez_property_area_' . $term_id);
+      $parent_city = isset($term_meta['parent_city']) ? $term_meta['parent_city'] : '';
+      
+      $prop_area[$term->slug] = array(
+          'name' => $term->name,
+          'parent_city' => $parent_city
+      );
+  }
 
   $background_url = "";
   if($image){
@@ -116,8 +131,11 @@ if($adv_baths_list) {
                         <?php foreach($prop_city as $city_slug => $city_name): ?>
                             <option value="<?php echo $city_slug; ?>" data-type="city" <?php if(in_array($city_slug, $selected_cities)) echo 'selected'; ?>><?php echo $city_name; ?></option>
                         <?php endforeach; ?>
-                        <?php foreach($prop_area as $area_slug => $area_name): ?>
-                            <option value="<?php echo $area_slug; ?>" data-type="area" <?php if(in_array($area_slug, $selected_areas)) echo 'selected'; ?>><?php echo $area_name; ?></option>
+                        <?php foreach($prop_area as $area_slug => $area_data): 
+                            $area_name = is_array($area_data) ? $area_data['name'] : $area_data;
+                            $parent_city = is_array($area_data) ? $area_data['parent_city'] : '';
+                        ?>
+                            <option value="<?php echo $area_slug; ?>" data-type="area" data-city="<?php echo $parent_city; ?>" <?php if(in_array($area_slug, $selected_areas)) echo 'selected'; ?>><?php echo $area_name; ?></option>
                         <?php endforeach; ?>
                     </select>
                     <label for="ms-hero__search-loaction"
@@ -536,6 +554,26 @@ if($adv_baths_list) {
         jQuery(".ms-hero__search_city_area").select2({
           placeholder: 'Search Location',
           minimumInputLength: 2,
+        }).on('change', function(e) {
+            const $select = jQuery(this);
+            const selectedOptions = $select.find('option:selected');
+            
+            // Check each selected option
+            selectedOptions.each(function() {
+                const $option = jQuery(this);
+                const optionType = $option.data('type');
+                const parentCity = $option.data('city');
+                
+                // If this is an area
+                if (optionType === 'area' && parentCity) {
+                    // Find and deselect the parent city if it's selected
+                    const $parentCityOption = $select.find(`option[value="${parentCity}"]`);
+                    if ($parentCityOption.length && $parentCityOption.is(':selected')) {
+                        $parentCityOption.prop('selected', false);
+                        $select.trigger('change');
+                    }
+                }
+            });
         });
 
         jQuery(".ms-nice-select-property-type").niceSelect();
@@ -742,10 +780,10 @@ if($adv_baths_list) {
             }
 
             if (cities.length) {
-              params['city[]'] = cities; // Add cities separately
+              params['cities[]'] = cities; // Add cities separately
             }
             if (areas.length) {
-              params['areas[]'] = areas;
+              params['city_areas[]'] = areas;
             }
 
             const queryString = Object.entries(params)

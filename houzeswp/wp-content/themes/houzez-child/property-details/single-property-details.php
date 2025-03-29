@@ -580,10 +580,14 @@ foreach ($types as $type) {
                 <?php } ?>
                 <!-- videos -->
                 <?php 
-                $video1 = get_post_meta($listing_id, 'fave_video-url-1', true);
-                $video2 = get_post_meta($listing_id, 'fave_video-url-2', true);
-                $video1_thumb = get_post_meta($listing_id, 'fave_video-thumbnail-1', true);
-                $video2_thumb = get_post_meta($listing_id, 'fave_video-thumbnail-2', true);
+                $video1 = get_post_meta($listing_id, 'fave_video_url', true);
+                //$video2 = get_post_meta($listing_id, 'fave_video-url-2', true);
+                //$video1_thumb = get_post_meta($listing_id, 'fave_video-thumbnail-1', true);
+                //$video2_thumb = get_post_meta($listing_id, 'fave_video-thumbnail-2', true);
+
+                // Get featured image
+                $featured_image_id = get_post_thumbnail_id($listing_id);
+                $video1_thumb = wp_get_attachment_image_url($featured_image_id, 'full');
 
                 if(!empty($video1) || !empty($video2)) { ?>
                 <div class="ms-apartments-main__section">

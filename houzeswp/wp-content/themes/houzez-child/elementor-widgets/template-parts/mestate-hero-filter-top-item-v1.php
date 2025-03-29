@@ -7,13 +7,29 @@ $min_price = isset($_GET['min-price']) ? $_GET['min-price'] : '';
 $max_price = isset($_GET['max-price']) ? $_GET['max-price'] : '';
 $bed = isset($_GET['bedrooms']) ? $_GET['bedrooms'] : '';
 $bath = isset($_GET['bathrooms']) ? $_GET['bathrooms'] : '';
-$selected_areas = isset($_GET['areas']) ? $_GET['areas'] : array();
-$selected_cities = isset($_GET['city']) ? $_GET['city'] : array();
+$selected_areas = isset($_GET['city_areas']) ? $_GET['city_areas'] : array();
+$selected_cities = isset($_GET['cities']) ? $_GET['cities'] : array();
 
 $prop_city = array();
 houzez_get_terms_array( 'property_city', $prop_city );
 $prop_area = array();
-houzez_get_terms_array( 'property_area', $prop_area );
+
+// Get property areas with parent city information
+$area_terms = get_terms('property_area', array(
+    'hide_empty' => false,
+));
+
+foreach($area_terms as $term) {
+    $term_id = $term->term_id;
+    $term_meta = get_option('_houzez_property_area_' . $term_id);
+    $parent_city = isset($term_meta['parent_city']) ? $term_meta['parent_city'] : '';
+    
+    $prop_area[$term->slug] = array(
+        'name' => $term->name,
+        'parent_city' => $parent_city
+    );
+}
+
 
 // Get current page slug from URL
 $current_page = get_post(get_the_ID());
@@ -97,8 +113,11 @@ elseif(in_array("commercial", $type) || $page_slug == 'commercial' || $page_slug
             <?php foreach($prop_city as $city_slug => $city_name): ?>
                 <option value="<?php echo $city_slug; ?>" data-type="city" <?php if(in_array($city_slug, $selected_cities)) echo 'selected'; ?>><?php echo $city_name; ?></option>
             <?php endforeach; ?>
-            <?php foreach($prop_area as $area_slug => $area_name): ?>
-                <option value="<?php echo $area_slug; ?>" data-type="area" <?php if(in_array($area_slug, $selected_areas)) echo 'selected'; ?>><?php echo $area_name; ?></option>
+            <?php foreach($prop_area as $area_slug => $area_data): 
+                $area_name = is_array($area_data) ? $area_data['name'] : $area_data;
+                $parent_city = is_array($area_data) ? $area_data['parent_city'] : '';
+            ?>
+                <option value="<?php echo $area_slug; ?>" data-type="area" data-city="<?php echo $parent_city; ?>" <?php if(in_array($area_slug, $selected_areas)) echo 'selected'; ?>><?php echo $area_name; ?></option>
             <?php endforeach; ?>
         </select>
         <label for="ms-hero__search-loaction"

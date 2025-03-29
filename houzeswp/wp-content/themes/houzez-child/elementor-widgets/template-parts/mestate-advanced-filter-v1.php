@@ -164,8 +164,8 @@ if($adv_baths_list) {
                       <ul class="ms-input__list ms-input__list--search ms-input__list--search-container">
                         <?php 
                         // Get areas from URL parameters
-                        $selected_areas = isset($_GET['areas']) ? $_GET['areas'] : array();
-                        $selected_cities = isset($_GET['city']) ? $_GET['city'] : array();
+                        $selected_areas = isset($_GET['city_areas']) ? $_GET['city_areas'] : array();
+                        $selected_cities = isset($_GET['cities']) ? $_GET['cities'] : array();
                         
                         // If cities exist in URL, add them to the list
                         if(!empty($selected_cities)) {
@@ -824,11 +824,11 @@ if($adv_baths_list) {
             };
 
             if (locations.length) {
-                params['areas[]'] = locations;
+                params['city_areas[]'] = locations;
             }
 
             if (cities.length) {
-                params['city[]'] = cities; // Add cities separately
+                params['cities[]'] = cities; // Add cities separately
             }
 
             // Get status based on active tab

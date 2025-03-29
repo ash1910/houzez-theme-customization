@@ -1035,14 +1035,16 @@ if ( !function_exists( 'houzez_get_agent_info_top' ) ) {
 
 
 if ( !function_exists( 'houzez_after_search__get_property_type_list' ) ) {
-    function houzez_after_search__get_property_type_list($search_qry)
+    function houzez_after_search__get_property_type_list($search_qry, $actual_link = "")
     {
-        //echo "<pre>";print_r($search_qry);exit;
+        //echo "<pre>";print_r($actual_link);exit;
         $taxonomy = "type";
         $search_qry_param = "type";
         $output = "";
 
-        $actual_link = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+        if( $actual_link == "" ){
+            $actual_link = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+        }
         $url=parse_url($actual_link);
         if( !empty($url["query"]) ){
             parse_str($url["query"],$parameters);
@@ -1102,7 +1104,7 @@ if ( !function_exists( 'houzez_after_search__get_property_type_list' ) ) {
 
         return $output;
     }
-    add_filter('houzez_after_search__get_property_type_list', 'houzez_after_search__get_property_type_list');
+    add_filter('houzez_after_search__get_property_type_list', 'houzez_after_search__get_property_type_list', 10, 2);
 }
 
 function change_url_parameter($url,$parameterName,$parameterValue) {
@@ -4021,6 +4023,29 @@ if(!function_exists('houzez_search_status_mestate')) {
             );
         }
 
+        if ( (isset($_GET['cities']) && !empty($_GET['cities'])) || (isset($_GET['city_areas']) && !empty($_GET['city_areas'])) ) {
+
+            $_tax_query = Array();
+            $_tax_query['relation'] = 'OR';
+
+            $_tax_query[] = array(
+                'taxonomy' => 'property_area',
+                'field' => 'slug',
+                'terms' => $_GET['city_areas']
+            );
+
+            $_tax_query[] = array(
+                'taxonomy' => 'property_city',
+                'field' => 'slug',
+                'terms' => $_GET['cities']
+            );
+
+            $query_arg[] = $_tax_query;
+
+            //echo "<pre>";print_r($query_arg);exit;
+            
+        }
+
         return $query_arg;
 	}
 
@@ -4575,6 +4600,7 @@ if( !function_exists('mestate_half_map_listings') ) {
         
         $paged = $_GET['paged'] ?? 1;
         $page_slug = $_GET['slug'] ?? "";
+        $actual_link = $_GET['actual_link'] ?? $_SERVER['HTTP_REFERER'];
         
         // Advertise
         $advertise_qry = array(
@@ -4608,6 +4634,7 @@ if( !function_exists('mestate_half_map_listings') ) {
             $search_qry = apply_filters( 'houzez20_search_filters', $search_qry );
             $search_qry = apply_filters( 'houzez_sold_status_filter', $search_qry );
             $search_qry = houzez_prop_sort ( $search_qry );
+
             $search_query = new WP_Query( $search_qry );
         
             // Combine the results
@@ -4650,7 +4677,7 @@ if( !function_exists('mestate_half_map_listings') ) {
 
         $ajax_locations_list = "";
         if( $total_records > 1 ) {
-            $locations_list = apply_filters("houzez_after_search__get_property_type_list", $search_qry);
+            $locations_list = apply_filters("houzez_after_search__get_property_type_list", $search_qry, $actual_link);
 
             if( $locations_list !== "" ){ 
                 $ajax_locations_list = $locations_list;

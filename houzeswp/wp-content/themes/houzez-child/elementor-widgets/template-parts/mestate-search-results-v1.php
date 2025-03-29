@@ -102,6 +102,8 @@ if(1 == $paged) {
     $search_qry = apply_filters( 'houzez20_search_filters', $search_qry );
     $search_qry = apply_filters( 'houzez_sold_status_filter', $search_qry );
     $search_qry = houzez_prop_sort ( $search_qry );
+
+    //echo "<pre>";print_r($search_qry);exit;
     $search_query = new WP_Query( $search_qry );
 
     // Combine the results
@@ -177,7 +179,7 @@ if( $total_records > 1 ) {
                 if( $total_records > 1 ) {
                     $locations_list = apply_filters("houzez_after_search__get_property_type_list", $search_qry);
 
-                    if( $locations_list !== "" ){ 
+                    if( $locations_list !== "" ){
                         echo $locations_list;
                     }
                 }
@@ -433,6 +435,7 @@ if( $total_records > 1 ) {
             });
         }
     }
+    window.functionPropertyLocationShowMore = functionPropertyLocationShowMore;
 
     function functionGoToMapPage(){
         // Handle map page navigation

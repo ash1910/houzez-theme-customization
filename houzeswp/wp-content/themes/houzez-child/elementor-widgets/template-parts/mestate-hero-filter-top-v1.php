@@ -271,6 +271,31 @@
         jQuery('.ms-bed-btn-text').html(displayText);
     }
 
+    function updateFilterCount(params) {
+        let totalParams = 0;
+        
+        // Count active bed/bath filters
+        if (params['bedrooms'] && params['bedrooms'].length > 0) totalParams++;
+        if (params['bathrooms'] && params['bathrooms'].length > 0) totalParams++;
+        
+        // Count price range filters
+        if (params['min-price'] && params['min-price'].length > 0 && params['min-price'] != 0) totalParams++;
+        else if (params['max-price'] && params['max-price'].length > 0 && params['max-price'] != 100000000) totalParams++;
+        
+        // Count property type filter
+        if (params['type[]'] && params['type[]'].length > 0) totalParams++;
+        
+        // Count property status filter
+        if (params['status[]'] && params['status[]'].length > 0) totalParams++;
+        
+        // Count location filters
+        if (params['cities[]'] && params['cities[]'].length > 0) totalParams++;
+        else if (params['city_areas[]'] && params['city_areas[]'].length > 0) totalParams++;
+        //console.log(totalParams);
+        // Update the count display
+        jQuery('.ms-total-filter-item').text(String(totalParams).padStart(2, '0'));
+    }
+
     function submitFilterForm($form, current_page = 1){
         //const keyword = $form.find('.houzez-keyword-autocomplete').val();
         var property_type = $form.find('.ms-nice-select-property-type').val();
@@ -326,8 +351,8 @@
             //"keyword": keyword || '',
             "type[]": property_type || '',
             "status[]": property_status || '',
-            "min-price": min_price || '',
-            "max-price": max_price || '',
+            "min-price": min_price == 0 ? '' : (min_price || ''),
+            "max-price": max_price == 100000000 ? '' : (max_price || ''),
             "bedrooms": bedrooms === 'any' ? '' : (bedrooms || ''),
             "bathrooms": bathrooms === 'any' ? '' : (bathrooms || ''),
             "sortby": sortby || '',
@@ -336,10 +361,10 @@
         };
 
         if (cities.length) {
-          params['city[]'] = cities; // Add cities separately
+          params['cities[]'] = cities; // Add cities separately
         }
         if (areas.length) {
-          params['areas[]'] = areas;
+          params['city_areas[]'] = areas;
         }
 
         const queryString = Object.entries(params)
@@ -354,6 +379,8 @@
         pageUrl = url + (queryString ? '?' + queryString : '');
 
         window.history.pushState({houzezTheme: true}, '', pageUrl);
+
+        updateFilterCount(params);
         
         mestate_half_map_listings(current_page, queryString);
     }
@@ -416,7 +443,9 @@
                         mestate_Add_Markers( data.properties );
                     }
                     ajax_container.empty().html(data.propHtml);
+                    ajax_location_container.empty().html(data.locationHtml);
                     functionListingItemImageSlider();
+                    functionPropertyLocationShowMore();
                 } else { 
                     if (typeof mestate_Reload_Markers === 'function') {
                         mestate_Reload_Markers();
@@ -487,6 +516,26 @@
         jQuery(".ms-hero__search_city_area").select2({
           placeholder: 'Search Location',
           minimumInputLength: 2,
+        }).on('change', function(e) {
+            const $select = jQuery(this);
+            const selectedOptions = $select.find('option:selected');
+            
+            // Check each selected option
+            selectedOptions.each(function() {
+                const $option = jQuery(this);
+                const optionType = $option.data('type');
+                const parentCity = $option.data('city');
+                
+                // If this is an area
+                if (optionType === 'area' && parentCity) {
+                    // Find and deselect the parent city if it's selected
+                    const $parentCityOption = $select.find(`option[value="${parentCity}"]`);
+                    if ($parentCityOption.length && $parentCityOption.is(':selected')) {
+                        $parentCityOption.prop('selected', false);
+                        $select.trigger('change');
+                    }
+                }
+            });
         });
 
         jQuery(".ms-nice-select-property-type").niceSelect();

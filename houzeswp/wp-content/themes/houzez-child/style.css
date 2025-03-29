@@ -1108,6 +1108,13 @@ i.menu-icon {
     max-width: 125px !important;
     white-space: normal !important;
 }
+.ms-apartments-main__card--3 .ms-apartments-main__card__content {
+    width: calc(100% - 243px) !important;
+}
+[dir="rtl"] .ms-apartments-main__card--4 .ms-apartments-main__card__thumbnail__header .ms-apartments-main__card__thumbnail__heart {
+    margin-left: 23px;
+}
+
 
 
 .fullscreen-icon { background-image: url(http://mestate.local/wp-content/themes/houzez-child/img/icon-fullscreen.png); }
