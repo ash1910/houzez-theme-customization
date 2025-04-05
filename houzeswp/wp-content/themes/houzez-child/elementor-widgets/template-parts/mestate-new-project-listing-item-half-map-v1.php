@@ -187,17 +187,24 @@ if( !empty($favorite_ids) && in_array($listing_id, $favorite_ids) ) {
         <div class="ms-apartments-main____card__price" style="justify-content: flex-start;">
             <p>Starting Price</p>
             <h6><?php 
-            // Convert to millions if price is larger than a million
-            if(is_numeric($sale_price) && $sale_price >= 1000000) {
-                $price_in_millions = floor($sale_price / 1000000);
-                echo $currency_symbol . $price_in_millions . 'M';
-            } else if(is_numeric($sale_price) && $sale_price >= 1000) {
-                $price_in_thousands = floor($sale_price / 1000);
-                echo $currency_symbol . $price_in_thousands . 'K';
-            } else {
-                echo $price_prefix . houzez_get_property_price($sale_price);
-            }
-            ?></h6>
+                // Convert to millions if price is larger than a million
+                if(is_numeric($sale_price) && $sale_price >= 1000000) {
+                    $price_in_millions = $sale_price / 1000000;
+                    $formatted_price = number_format($price_in_millions, 1);
+                    // Remove .0 if it exists
+                    $formatted_price = str_replace('.0', '', $formatted_price);
+                    echo $currency_symbol . $formatted_price . 'M';
+                } else if(is_numeric($sale_price) && $sale_price >= 1000) {
+                    $price_in_thousands = $sale_price / 1000;
+                    $formatted_price = number_format($price_in_thousands, 1);
+                    // Remove .0 if it exists
+                    $formatted_price = str_replace('.0', '', $formatted_price);
+                    echo $currency_symbol . $formatted_price . 'K';
+                } else {
+                    echo $price_prefix . houzez_get_property_price($sale_price);
+                }
+                ?>
+            </h6>
         </div>
         <!-- details list -->
         <ul class="ms-apartments-main____card__details-list ms-apartments-main____card__details-list--2">

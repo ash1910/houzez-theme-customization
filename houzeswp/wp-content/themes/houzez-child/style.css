@@ -1108,6 +1108,9 @@ i.menu-icon {
     max-width: 125px !important;
     white-space: normal !important;
 }
+.ms-apartments-main__card--list .ms-apartments-main__card__content {
+    width: calc(100% - 234px);
+}
 .ms-apartments-main__card--3 .ms-apartments-main__card__content {
     width: calc(100% - 243px) !important;
 }
