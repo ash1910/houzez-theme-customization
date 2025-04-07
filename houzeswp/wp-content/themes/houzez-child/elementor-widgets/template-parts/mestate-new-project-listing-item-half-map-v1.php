@@ -178,7 +178,7 @@ if( !empty($favorite_ids) && in_array($listing_id, $favorite_ids) ) {
             <h5>
                 <a href="<?php echo esc_url(get_permalink()); ?>"><?php the_title(); ?></a>
             </h5>
-            <a href="<?php echo esc_url(get_permalink()); ?>">
+            <a class="listing_address" href="<?php echo esc_url(get_permalink()); ?>">
                 <i class="icon-location_grey"></i>
                 <?php echo $address; ?></a
             >

@@ -355,6 +355,19 @@ START: Apppartments CSS
 
 	padding-left: 24px;
 }
+
+.ms-apartments-main__location {
+	padding-right: 0;
+	padding-left: 20px;
+}
+.show-all-items {
+	padding-left: 0;
+}
+.ms-location__map-action__resize,
+.ms-location__map-action__zoom {
+	right: auto;
+	left: 20px;
+}
 /**----------------------------------------
 !END:  Apppartments CSS
 ----------------------------------------*/
@@ -369,6 +382,7 @@ START: CTA CSS
 	right: auto;
 	left: 0;
 }
+
 /**----------------------------------------
 !END:   CTACSS
 ----------------------------------------*/
@@ -393,6 +407,20 @@ START: Responsive CSS
 	}
 }
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
+	.ms-apartments-main__location {
+		padding-left: 36px;
+	}
+	.show-all-items {
+		padding-left: 0;
+	}
+}
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+	.ms-apartments-main__location {
+		padding-left: 28px;
+	}
+	.show-all-items {
+		padding-left: 0;
+	}
 }
 @media only screen and (max-width: 767px) {
 	.ms-header__avater__inner {
@@ -528,8 +556,7 @@ START: Responsive CSS
 		right: auto;
 		left: 2px;
 	}
-}
-@media only screen and (max-width: 767px) {
+
 	.ms-input__deselect {
 		right: auto;
 		left: 10px;
@@ -540,7 +567,51 @@ START: Responsive CSS
 		right: 0;
 		transform: scale(-1);
 	}
+
+	.ms-location__map-action__resize,
+	.ms-location__map-action__zoom {
+		right: auto;
+		left: 8px;
+	}
 }
+
+@media only screen and (min-width: 530px) and (max-width: 767px) {
+	.ms-apartments-main__location {
+		padding-left: 16px;
+		padding-right: 0;
+	}
+	.show-all-items {
+		padding-left: 0;
+	}
+}
+@media only screen and (max-width: 529px) {
+	.ms-apartments-main__location {
+		padding-right: 10px;
+	}
+}
+
 /**----------------------------------------
 !END:  Responsive CSS
 ----------------------------------------*/
+/* Only apply when RTL is active */
+body.lightcase-rtl #lightcase-nav a.lightcase-icon-prev {
+	right: 15px;
+	left: auto;
+	transform: rotate(180deg); /* Flip icon */
+}
+
+body.lightcase-rtl #lightcase-nav a.lightcase-icon-next {
+	left: 15px;
+	right: auto;
+	transform: rotate(180deg); /* Flip icon */
+}
+
+/* Align captions and buttons to the right */
+body.lightcase-rtl #lightcase-caption,
+body.lightcase-rtl #lightcase-info {
+	text-align: right;
+}
+
+body.lightcase-rtl #lightcase-info a {
+	float: left; /* Mirror direction */
+}

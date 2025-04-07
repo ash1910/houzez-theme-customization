@@ -214,7 +214,12 @@ START: Cta CSS
 ----------------------------------------*/
 
 	/* apartment */
-
+	.ms-apartments-main__location {
+		padding-right: 36px;
+	}
+	.show-all-items {
+		padding-right: 0;
+	}
 	.ms-apartments-main__location:has(li:nth-child(4)) {
 		gap: 16px 0;
 	}
@@ -577,10 +582,10 @@ START: Offer CSS
 	/**----------------------------------------
 !END: Offer CSS
 ----------------------------------------*/
+
 	/**----------------------------------------
 START: Location CSS
 ----------------------------------------*/
-
 	.ms-location__card {
 		width: 100%;
 		padding: 16px;
@@ -628,6 +633,27 @@ START: Location CSS
 		display: block;
 	}
 
+	.ms-location__map-action__resize,
+	.ms-location__map-action__zoom {
+		width: 28px;
+		height: 28px;
+		gap: 5px 0;
+		right: 8px;
+	}
+	.ms-location__map-action__resize {
+		top: 213px;
+	}
+	.ms-location__map-action__resize svg {
+		width: 16px;
+		top: 215px;
+	}
+	.ms-location__map-action__zoom {
+		bottom: 8px;
+		height: 44px;
+	}
+	.ms-location__map-action__zoom i {
+		font-size: 16px;
+	}
 	/**----------------------------------------
 !END: Loacation CSS
 ----------------------------------------*/
@@ -2373,7 +2399,12 @@ START: Portfolio CSS
 	.ms-offer__shape {
 		display: none;
 	}
-
+	.ms-apartments-main__location {
+		padding-right: 28px;
+	}
+	.show-all-items {
+		padding-right: 0;
+	}
 	.ms-apartments-main__location:has(li:nth-child(4)) {
 		gap: 12px 0;
 	}
@@ -2384,7 +2415,15 @@ START: Portfolio CSS
 		font-size: 16px;
 	}
 }
-
+@media only screen and (min-width: 530px) and (max-width: 767px) {
+	.ms-apartments-main__location {
+		padding-left: 0;
+		padding-right: 16px;
+	}
+	.show-all-items {
+		padding-right: 0;
+	}
+}
 @media only screen and (max-width: 484px) {
 	.ms-location__tab__contents .ms-location__tab__controllers {
 		justify-content: start;
@@ -2392,23 +2431,46 @@ START: Portfolio CSS
 }
 @media only screen and (max-width: 529px) {
 	.ms-apartments-main__location:has(li:nth-child(4)) {
-		gap: 9px 0;
+		gap: 16px;
+		justify-content: space-between;
+		flex-wrap: nowrap;
+		overflow: auto;
 	}
 	.ms-apartments-main__location .ms-apartments-main__location__all a,
 	.ms-apartments-main__location li a {
-		font-size: 12px;
+		font-size: 14px;
 	}
 
 	.ms-apartments-main__location li:not(:has(hr)) {
-		flex: 0 1 calc(33.333333333% - 0.66667px);
+		flex: 0 1 auto;
 	}
 
+	.ms-apartments-main__location li.ms-apartments-main__location__less,
+	.ms-apartments-main__location li.ms-apartments-main__location__all {
+		display: none;
+	}
 	.ms-apartments-main__location
 		li.ms-show:nth-child(8n):not(.ms-apartments-main__location__less) {
 		display: block;
 	}
-	.ms-apartments-main__location
-		li.ms-show:nth-child(6n):not(.ms-apartments-main__location__less) {
-		display: none;
+	.ms-apartments-main__location li.ms-show:nth-last-child(3) {
+		display: none !important;
+	}
+}
+@media screen and (min-width: 641px) {
+	html:not([data-lc-type="error"]) #lightcase-content {
+		background-color: transparent;
+	}
+}
+@media screen and (min-width: 641px) {
+	html:not([data-lc-type="error"]) #lightcase-content {
+		background-color: transparent;
+		box-shadow: none;
+	}
+}
+@media screen and (max-width: 640px) {
+	html:not([data-lc-type="error"]) #lightcase-content {
+		background-color: transparent;
+		box-shadow: none;
 	}
 }

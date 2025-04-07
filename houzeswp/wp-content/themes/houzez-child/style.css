@@ -963,10 +963,33 @@ i.menu-icon {
     margin-bottom: 12px;
     font-size: var(--ms-fs-h6);
 }
-.ms-apartments-main__card--2 .ms-apartments-main__card__content h5 {
-    white-space: inherit !important;
-    width: calc(100% - 70px) !important;
+.ms-apartments-main__card--4 .ms-apartments-main__card__content h5{
+    width: 100% !important;
 }
+.ms-apartments-main__card--2 .ms-apartments-main__card__content h5, .ms-apartments-main__card--4 .ms-apartments-main__card__content h5 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    width: 100% !important;
+}
+.ms-apartments-main__card--2 .ms-apartments-main__card__content h5 a, .ms-apartments-main__card--4 .ms-apartments-main__card__content h5 a {
+    display: block;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.ms-apartments-main__card__content > a.listing_address, .ms-apartments-main__card__content > .ms-apartments-main__card__heading > a.listing_address {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    display: block;
+}
+.ms-apartments-main__card__content a.listing_address > i.icon-location_grey {
+    vertical-align: text-top;
+}
+
 .ms-apartments.section--wrapper {
     border-radius: 16px;
 }
@@ -1027,10 +1050,10 @@ i.menu-icon {
     padding-top: 10px !important;
     height: 43px !important;
 }
-.select2-container--default.select2-container--focus textarea.select2-search__field{
-    line-height: 30px;
+.select2-container--default.select2-container--focus .select2-selection__rendered:not(:empty) + .select2-search--inline .select2-search__field {
+    /* line-height: 30px; */
     width: 100% !important;
-    height: auto !important;
+    /* height: auto !important; */
     padding-top: 0 !important;
 }
 .select2-container--default textarea.select2-search__field, .select2-container--default textarea.select2-search__field::placeholder {
@@ -1116,6 +1139,16 @@ i.menu-icon {
 }
 [dir="rtl"] .ms-apartments-main__card--4 .ms-apartments-main__card__thumbnail__header .ms-apartments-main__card__thumbnail__heart {
     margin-left: 23px;
+}
+
+.ms-apartments-main__card--2 .ms-apartments-main__card__logo {
+    top: auto !important;
+    bottom: 8px !important;
+    left: auto !important;
+    right: 11px !important;
+}
+.ms-apartments-main__card--2 .ms-apartments-main__card__logo a {
+    width: 82px !important;
 }
 
 

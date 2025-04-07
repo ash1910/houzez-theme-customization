@@ -69,6 +69,13 @@
       var min_price = <?php echo houzez_option('advanced_search_widget_min_price', 0); ?>;
       var max_price = <?php echo houzez_option('advanced_search_widget_max_price', 2500000); ?>;
       
+      // Find min and max prices from listings
+      $listing_price_min_max = jQuery('.listing_price_min_max');
+      if($listing_price_min_max.length > 0){
+        min_price = parseInt($listing_price_min_max.data('min_price')) > 0 ? parseInt($listing_price_min_max.data('min_price') ) : min_price;
+        max_price = parseInt($listing_price_min_max.data('max_price')) > 0 ? parseInt($listing_price_min_max.data('max_price')) : max_price;
+      }
+      
       var slider = price_range_slider.slider({
         range: true,
         min: min_price,

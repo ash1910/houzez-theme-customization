@@ -185,6 +185,39 @@ if(1 == $paged) {
     $search_qry = houzez_prop_sort ( $search_qry );
     $search_query = new WP_Query( $search_qry );
 
+    // Create a separate query for price calculation that ignores pagination
+    $price_query_args = $search_qry;
+    $price_query_args['posts_per_page'] = -1; // Get all posts
+    $price_query_args['fields'] = 'ids'; // Only get post IDs for better performance
+    unset($price_query_args['offset']); // Remove offset
+    unset($price_query_args['post__not_in']); // Remove post__not_in to include all posts
+    $price_calculation_query = new WP_Query($price_query_args);
+
+    // Initialize min and max price variables
+    $min_price = PHP_FLOAT_MAX;
+    $max_price = 0;
+
+    // Loop through all post IDs to find min and max prices
+    if ($price_calculation_query->have_posts()) {
+        foreach ($price_calculation_query->posts as $post_id) {
+            $property_price = get_post_meta($post_id, 'fave_property_price', true);
+            
+            // Convert price to numeric value, removing any formatting
+            $price_numeric = preg_replace('/[^0-9.]/', '', $property_price);
+            $price_numeric = floatval($price_numeric);
+            
+            if ($price_numeric > 0) {
+                $min_price = min($min_price, $price_numeric);
+                $max_price = max($max_price, $price_numeric);
+            }
+        }
+    }
+
+    // If no valid prices were found, reset min_price
+    if ($min_price === PHP_FLOAT_MAX) {
+        $min_price = 0;
+    }
+
     // Combine the results
     $combined_posts = array_merge($advertise_query->posts, $search_query->posts);
 
@@ -213,6 +246,39 @@ else{
     $search_qry = apply_filters( 'houzez_sold_status_filter', $search_qry );
     $search_qry = houzez_prop_sort ( $search_qry );
     $search_query = new WP_Query( $search_qry );
+
+    // Create a separate query for price calculation that ignores pagination
+    $price_query_args = $search_qry;
+    $price_query_args['posts_per_page'] = -1; // Get all posts
+    $price_query_args['fields'] = 'ids'; // Only get post IDs for better performance
+    unset($price_query_args['offset']); // Remove offset
+    unset($price_query_args['post__not_in']); // Remove post__not_in to include all posts
+    $price_calculation_query = new WP_Query($price_query_args);
+
+    // Initialize min and max price variables
+    $min_price = PHP_FLOAT_MAX;
+    $max_price = 0;
+
+    // Loop through all post IDs to find min and max prices
+    if ($price_calculation_query->have_posts()) {
+        foreach ($price_calculation_query->posts as $post_id) {
+            $property_price = get_post_meta($post_id, 'fave_property_price', true);
+            
+            // Convert price to numeric value, removing any formatting
+            $price_numeric = preg_replace('/[^0-9.]/', '', $property_price);
+            $price_numeric = floatval($price_numeric);
+            
+            if ($price_numeric > 0) {
+                $min_price = min($min_price, $price_numeric);
+                $max_price = max($max_price, $price_numeric);
+            }
+        }
+    }
+
+    // If no valid prices were found, reset min_price
+    if ($min_price === PHP_FLOAT_MAX) {
+        $min_price = 0;
+    }
 }
 
 //echo "<pre>";print_r($search_query);exit;
@@ -336,7 +402,7 @@ if( $total_records > 1 ) {
 
                 <!-- apartments cards -->
                 <div id="houzez_ajax_container">
-                    <div class="ms-apartments-main__card__wrapper ms-apartments-main__card__wrapper--2">
+                    <div class="ms-apartments-main__card__wrapper ms-apartments-main__card__wrapper--2 listing_price_min_max" data-min_price="<?php echo $min_price;?>" data-max_price="<?php echo $max_price;?>">
                     <?php
                         $properties_data = array();
                         if ( 1 == $paged && !empty($combined_posts) ) :

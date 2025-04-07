@@ -335,6 +335,8 @@ Mobile Menu Js
 			transition: "elastic",
 			swipe: true,
 			maxWidth: 1170,
+			speedIn: 50,
+			speedOut: 50,
 		});
 
 		const lightCaseControllers = document.querySelectorAll(

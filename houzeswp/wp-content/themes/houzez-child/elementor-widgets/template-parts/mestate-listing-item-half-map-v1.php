@@ -156,8 +156,7 @@ if( !empty($favorite_ids) && in_array($listing_id, $favorite_ids) ) {
             <span>Listed <?php printf( esc_html__( '%s ago', 'houzez' ), human_time_diff( get_the_time( 'U' ), current_time( 'timestamp' ) ) ); ?></span>
         </div>
         <?php } ?>
-    </div>
-    <div class="ms-apartments-main__card__content">
+
         <?php if(!empty($agency_logo)) { ?>
         <div class="ms-apartments-main__card__logo">
             <a href="<?php echo $agent_agency_link ?? '#'; ?>">
@@ -167,10 +166,12 @@ if( !empty($favorite_ids) && in_array($listing_id, $favorite_ids) ) {
             /></a>
         </div>
         <?php } ?>
+    </div>
+    <div class="ms-apartments-main__card__content">
         <h5>
             <a href="<?php echo esc_url(get_permalink()); ?>"><?php the_title(); ?></a>
         </h5>
-        <a href="<?php echo esc_url(get_permalink()); ?>">
+        <a class="listing_address" href="<?php echo esc_url(get_permalink()); ?>">
             <i class="icon-location_grey"></i>
             <?php echo $address; ?></a></a>
         <!-- price -->
@@ -182,13 +183,13 @@ if( !empty($favorite_ids) && in_array($listing_id, $favorite_ids) ) {
                     $formatted_price = number_format($price_in_millions, 1);
                     // Remove .0 if it exists
                     $formatted_price = str_replace('.0', '', $formatted_price);
-                    echo $currency_symbol . $formatted_price . 'M+';
+                    echo $currency_symbol . $formatted_price . 'M';
                 } else if(is_numeric($sale_price) && $sale_price >= 1000) {
                     $price_in_thousands = $sale_price / 1000;
                     $formatted_price = number_format($price_in_thousands, 1);
                     // Remove .0 if it exists
                     $formatted_price = str_replace('.0', '', $formatted_price);
-                    echo $currency_symbol . $formatted_price . 'K+';
+                    echo $currency_symbol . $formatted_price . 'K';
                 } else {
                     echo $price_prefix . houzez_get_property_price($sale_price);
                 }

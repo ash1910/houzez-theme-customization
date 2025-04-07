@@ -530,6 +530,13 @@ if($adv_baths_list) {
       var max_price_selected = "<?php echo @$_GET['max-price']; ?>";
       var min_price = <?php echo houzez_option('advanced_search_widget_min_price', 0); ?>;
       var max_price = <?php echo houzez_option('advanced_search_widget_max_price', 2500000); ?>;
+
+      // Find min and max prices from listings
+      $listing_price_min_max = jQuery('.listing_price_min_max');
+      if($listing_price_min_max.length > 0){
+        min_price = parseInt($listing_price_min_max.data('min_price')) > 0 ? parseInt($listing_price_min_max.data('min_price') ) : min_price;
+        max_price = parseInt($listing_price_min_max.data('max_price')) > 0 ? parseInt($listing_price_min_max.data('max_price')) : max_price;
+      }
       
       var slider = price_range_slider.slider({
         range: true,
@@ -901,8 +908,15 @@ if($adv_baths_list) {
             
             // Reset price range slider
             const price_range_slider = $form.find('.ms-price-slider-range-advanced-filter');
-            const min_price = <?php echo houzez_option('advanced_search_widget_min_price', 0); ?>;
-            const max_price = <?php echo houzez_option('advanced_search_widget_max_price', 2500000); ?>;
+            var min_price = <?php echo houzez_option('advanced_search_widget_min_price', 0); ?>;
+            var max_price = <?php echo houzez_option('advanced_search_widget_max_price', 2500000); ?>;
+
+            // Find min and max prices from listings
+            $listing_price_min_max = jQuery('.listing_price_min_max');
+            if($listing_price_min_max.length > 0){
+              min_price = parseInt($listing_price_min_max.data('min_price')) > 0 ? parseInt($listing_price_min_max.data('min_price') ) : min_price;
+              max_price = parseInt($listing_price_min_max.data('max_price')) > 0 ? parseInt($listing_price_min_max.data('max_price')) : max_price;
+            }
             
             price_range_slider.slider('values', [min_price, max_price]);
             $form.find(".ms-input__content__value--min").val(thousandSeparator(min_price));

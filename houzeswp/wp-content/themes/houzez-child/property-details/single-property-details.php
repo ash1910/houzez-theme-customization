@@ -581,10 +581,27 @@ foreach ($types as $type) {
                 <!-- videos -->
                 <?php 
                 $video1 = get_post_meta($listing_id, 'fave_video_url', true);
-                //$video2 = get_post_meta($listing_id, 'fave_video-url-2', true);
-                //$video1_thumb = get_post_meta($listing_id, 'fave_video-thumbnail-1', true);
-                //$video2_thumb = get_post_meta($listing_id, 'fave_video-thumbnail-2', true);
-
+                // Convert YouTube URLs to embed format
+                if (!empty($video1)) {
+                    $video_id = '';
+                    // Handle youtu.be short URLs
+                    if (strpos($video1, 'youtu.be/') !== false) {
+                        $video_id = substr($video1, strrpos($video1, '/') + 1);
+                    }
+                    // Handle youtube.com/watch URLs
+                    else if (strpos($video1, 'youtube.com/watch') !== false) {
+                        parse_str(parse_url($video1, PHP_URL_QUERY), $params);
+                        $video_id = isset($params['v']) ? $params['v'] : '';
+                    }
+                    // Handle youtube.com/embed URLs (already in correct format)
+                    else if (strpos($video1, 'youtube.com/embed') !== false) {
+                        $video_id = substr($video1, strrpos($video1, '/') + 1);
+                    }
+                    
+                    if (!empty($video_id)) {
+                        $video1 = 'https://www.youtube.com/embed/' . $video_id;
+                    }
+                }
                 // Get featured image
                 $featured_image_id = get_post_thumbnail_id($listing_id);
                 $video1_thumb = wp_get_attachment_image_url($featured_image_id, 'full');
@@ -601,15 +618,6 @@ foreach ($types as $type) {
                             <a class="ms-lightcase" href="<?php echo $video1; ?>"
                                 data-rel="lightcase:myCollection">
                                 <img src="<?php echo $video1_thumb; ?>" alt="" />
-                                <span class="ms-apartments-main__videos__play-btn"><i class="icon-icn_playstore"></i></span>
-                            </a>
-                        </div>
-                        <?php } ?>
-                        <?php if(!empty($video2) && !empty($video2_thumb)) { ?>
-                        <div class="ms-apartments-main__videos__single">
-                            <a class="ms-lightcase" href="<?php echo $video2; ?>"
-                                data-rel="lightcase:myCollection">
-                                <img src="<?php echo $video2_thumb; ?>" alt="" />
                                 <span class="ms-apartments-main__videos__play-btn"><i class="icon-icn_playstore"></i></span>
                             </a>
                         </div>

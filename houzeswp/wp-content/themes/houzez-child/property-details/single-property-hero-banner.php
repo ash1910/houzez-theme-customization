@@ -92,7 +92,9 @@ $property_gallery_popup_type = houzez_get_popup_gallery_type();
                                 ?>
                                 <div>
                                     <div class="image-slide-item">
-                                        <img src="<?php echo esc_url( $thumb[0] ); ?>" alt="<?php echo esc_attr( $prop_image_meta['alt'] ); ?>" title="<?php echo esc_attr( $prop_image_meta['title'] ); ?>" />
+                                        <a href="<?php echo esc_url( $thumb[0] ); ?>" data-rel="lightcase:myCollection2"> 
+                                            <img src="<?php echo esc_url( $thumb[0] ); ?>" alt="<?php echo esc_attr( $prop_image_meta['alt'] ); ?>" title="<?php echo esc_attr( $prop_image_meta['title'] ); ?>">
+                                        </a>
                                     </div>
                                 </div>
                                 <?php } }?>
