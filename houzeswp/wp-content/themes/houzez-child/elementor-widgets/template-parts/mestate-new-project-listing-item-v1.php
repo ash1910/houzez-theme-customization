@@ -11,64 +11,9 @@ if( houzez_is_fullwidth_2cols_custom_width() ) {
 
 $images = houzez_get_property_gallery_v1($image_size);
 
-$address_composer = houzez_option('listing_address_composer');
-$enabled_data = isset($address_composer['enabled']) ? $address_composer['enabled'] : 0;
-$temp_array = array();
-
-if ($enabled_data) {
-	unset($enabled_data['placebo']);
-	foreach ($enabled_data as $key=>$value) {
-
-		
-		if( $key == 'address' ) {
-			$map_address = houzez_get_listing_data('property_map_address');
-
-			if( $map_address != '' ) {
-				$temp_array[] = $map_address;
-			}
-
-		} else if( $key == 'streat-address' ) {
-			$property_address = houzez_get_listing_data('property_address');
-
-			if( $property_address != '' ) {
-				$temp_array[] = $property_address;
-			}
-
-		} else if( $key == 'country' ) {
-			$country = houzez_taxonomy_simple('property_country');
-
-			if( $country != '' ) {
-				$temp_array[] = $country;
-			}
-
-		} else if( $key == 'state' ) {
-			$state = houzez_taxonomy_simple('property_state');
-
-			if( $state != '' ) {
-				$temp_array[] = $state;
-			}
-
-		} else if( $key == 'city' ) {
-			$city = houzez_taxonomy_simple('property_city');
-
-			if( $city != '' ) {
-				$temp_array[] = $city;
-			}
-
-		} else if( $key == 'area' ) {
-			$area = houzez_taxonomy_simple('property_area');
-
-			if( $area != '' ) {
-				$temp_array[] = $area;
-			}
-
-		}
-		
-
-	}
-
-	$address = join( ", ", $temp_array );
-}
+$address = houzez_get_listing_data('property_map_address');
+$country = houzez_taxonomy_simple('property_country');
+$address = str_replace(", $country", "", $address);
 
 if(empty($listing_id)) {
     $listing_id = get_the_ID();
@@ -181,7 +126,7 @@ if( !empty($favorite_ids) && in_array($listing_id, $favorite_ids) ) {
             <h5>
                 <a href="<?php echo esc_url(get_permalink()); ?>"><?php the_title(); ?></a>
             </h5>
-            <a href="<?php echo esc_url(get_permalink()); ?>">
+            <a class="listing_address" href="<?php echo esc_url(get_permalink()); ?>">
                 <i class="icon-location_grey"></i>
                 <?php echo $address; ?></a
             >

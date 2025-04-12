@@ -1,5 +1,5 @@
 <?php
-global $current_user, $houzez_local, $hide_prop_fields, $required_fields, $is_multi_steps;
+global $current_user, $houzez_local, $hide_prop_fields, $required_fields, $is_multi_steps, $property_data;
 $is_multi_currency = houzez_option('multi_currency');
 $default_multi_currency = get_the_author_meta( 'fave_author_currency' , $current_user->ID );
 if(empty($default_multi_currency)) {
@@ -15,15 +15,185 @@ if(empty($default_multi_currency)) {
 		<?php get_template_part('template-parts/dashboard/submit/form-fields/description'); ?>
 
 		<div class="row">
-			<?php if( $hide_prop_fields['prop_type'] != 1 ) { ?>
-			<div class="col-md-4 col-sm-12">
-				<?php get_template_part('template-parts/dashboard/submit/form-fields/type'); ?>
+			<?php if ( houzez_is_developer() ) { ?>
+			<div class="col-md-4 col-sm-12" style="display: none;">
+				<div class="form-group">
+					<label for="prop_status">
+						<?php echo houzez_option('cl_prop_status', 'Property Status').houzez_required_field('prop_status'); ?>
+					</label>
+					<select name="prop_status[]" data-size="5" <?php houzez_required_field_2('prop_status'); ?> id="prop_status" class="selectpicker form-control bs-select-hidden" title="<?php echo houzez_option('cl_select', 'Select'); ?>" data-selected-text-format="count > 2" data-none-results-text="<?php echo houzez_option('cl_no_results_matched', 'No results matched');?> {0}" data-live-search="true"  data-actions-box="true" <?php houzez_multiselect(houzez_option('ams_status', 0)); ?> data-select-all-text="<?php echo houzez_option('cl_select_all', 'Select All'); ?>" data-deselect-all-text="<?php echo houzez_option('cl_deselect_all', 'Deselect All'); ?>" data-count-selected-text="{0} <?php echo houzez_option('cl_prop_statuses', 'Statuses'); ?>">
+						<option value="">Select</option>	
+						<?php $property_status_terms = get_terms (
+							array(
+								"property_status"
+							),
+							array(
+								'orderby' => 'name',
+								'order' => 'ASC',
+								'hide_empty' => false,
+								'parent' => 0
+							)
+						);
+						if(!empty($property_status_terms)) {
+							foreach($property_status_terms as $status) {
+								if($status->name != 'New Projects') continue;
+								echo '<option value="' . esc_attr($status->term_id) . '" selected="selected">' . esc_html($status->name) . '</option>';
+							}
+						}
+						?>
+					</select><!-- selectpicker -->
+				</div><!-- form-group -->
 			</div>
-			<?php } ?>
-
-			<?php if( $hide_prop_fields['prop_status'] != 1 && !houzez_is_developer() ) { ?>
 			<div class="col-md-4 col-sm-12">
-				<?php get_template_part('template-parts/dashboard/submit/form-fields/status'); ?>
+				<div class="form-group">
+					<label for="prop_type">
+						<?php echo houzez_option('cl_prop_type', 'Property Type').houzez_required_field('prop_type'); ?>		
+					</label>
+					<select name="prop_type[]" data-size="5" <?php houzez_required_field_2('prop_type'); ?> id="prop_type" class="selectpicker form-control bs-select-hidden" title="<?php echo houzez_option('cl_select', 'Select'); ?>" data-selected-text-format="count > 2" data-live-search-normalize="true" data-live-search="true" data-actions-box="true" <?php houzez_multiselect(houzez_option('ams_type', 0)); ?> data-select-all-text="<?php echo houzez_option('cl_select_all', 'Select All'); ?>" data-deselect-all-text="<?php echo houzez_option('cl_deselect_all', 'Deselect All'); ?>" data-none-results-text="<?php echo houzez_option('cl_no_results_matched', 'No results matched');?> {0}" data-count-selected-text="{0} <?php echo houzez_option('cl_prop_types', 'Types'); ?>">
+						<option value="">Select</option>	
+						<?php 
+						$taxonomy_terms_ids= array();
+						$taxonomy_terms = get_the_terms( $property_data->ID, "property_type" );
+				
+						if ( $taxonomy_terms && ! is_wp_error( $taxonomy_terms ) ) {
+							foreach( $taxonomy_terms as $term ) {
+								$taxonomy_terms_ids[] = intval( $term->term_id );
+							}
+						}
+						
+						$property_status_terms = get_terms (
+							array(
+								"property_type"
+							),
+							array(
+								'orderby' => 'name',
+								'order' => 'ASC',
+								'hide_empty' => false,
+								'parent' => 96
+							)
+						);
+
+						if(!empty($property_status_terms)) {
+							foreach($property_status_terms as $status) {
+								$selected = "";
+								if ( in_array( $status->term_id, $taxonomy_terms_ids ) ) {
+									$selected = 'selected="selected"';
+								}
+								echo '<option value="' . esc_attr($status->term_id) . '" '.$selected.' >' . esc_html($status->name) . '</option>';
+							}
+						}
+						?>
+					</select><!-- selectpicker -->
+				</div><!-- form-group -->
+			</div>
+
+			<?php } else{ ?>
+			<div class="col-md-4 col-sm-12">
+				<div class="form-group">
+					<label for="prop_status">
+						<?php echo houzez_option('cl_prop_status', 'Property Status').houzez_required_field('prop_status'); ?>
+					</label>
+					<select name="prop_status[]" data-size="5" <?php houzez_required_field_2('prop_status'); ?> id="prop_status" class="selectpicker form-control bs-select-hidden" title="<?php echo houzez_option('cl_select', 'Select'); ?>" data-selected-text-format="count > 2" data-none-results-text="<?php echo houzez_option('cl_no_results_matched', 'No results matched');?> {0}" data-live-search="true"  data-actions-box="true" <?php houzez_multiselect(houzez_option('ams_status', 0)); ?> data-select-all-text="<?php echo houzez_option('cl_select_all', 'Select All'); ?>" data-deselect-all-text="<?php echo houzez_option('cl_deselect_all', 'Deselect All'); ?>" data-count-selected-text="{0} <?php echo houzez_option('cl_prop_statuses', 'Statuses'); ?>">
+						<option value="">Select</option>	
+						<?php 
+						$taxonomy_terms_ids= array();
+						$taxonomy_terms = get_the_terms( $property_data->ID, "property_status" );
+				
+						if ( $taxonomy_terms && ! is_wp_error( $taxonomy_terms ) ) {
+							foreach( $taxonomy_terms as $term ) {
+								$taxonomy_terms_ids[] = intval( $term->term_id );
+							}
+						}
+						
+						$property_status_terms = get_terms (
+							array(
+								"property_status"
+							),
+							array(
+								'orderby' => 'name',
+								'order' => 'ASC',
+								'hide_empty' => false,
+								'parent' => 0
+							)
+						);
+
+						if(!empty($property_status_terms)) {
+							foreach($property_status_terms as $status) {
+								if($status->name == 'New Projects') continue;
+								$selected = "";
+								if ( in_array( $status->term_id, $taxonomy_terms_ids ) ) {
+									$selected = 'selected="selected"';
+								}
+								echo '<option value="' . esc_attr($status->term_id) . '" '.$selected.' >' . esc_html($status->name) . '</option>';
+							}
+						}
+						?>
+					</select><!-- selectpicker -->
+				</div><!-- form-group -->
+			</div>
+			<div class="col-md-4 col-sm-12">
+				<div class="form-group prop_type_container">
+					<label for="prop_type">
+						<?php echo houzez_option('cl_prop_type', 'Property Type').houzez_required_field('prop_type'); ?>		
+					</label>
+					<select name="prop_type[]" data-size="5" <?php houzez_required_field_2('prop_type'); ?> id="prop_type" class="selectpicker form-control bs-select-hidden" title="<?php echo houzez_option('cl_select', 'Select'); ?>" data-selected-text-format="count > 2" data-live-search-normalize="true" data-live-search="true" data-actions-box="true" <?php houzez_multiselect(houzez_option('ams_type', 0)); ?> data-select-all-text="<?php echo houzez_option('cl_select_all', 'Select All'); ?>" data-deselect-all-text="<?php echo houzez_option('cl_deselect_all', 'Deselect All'); ?>" data-none-results-text="<?php echo houzez_option('cl_no_results_matched', 'No results matched');?> {0}" data-count-selected-text="{0} <?php echo houzez_option('cl_prop_types', 'Types'); ?>">
+						<option value="">Select</option>	
+						<?php 
+						$taxonomy_terms_ids= array();
+						$taxonomy_terms = get_the_terms( $property_data->ID, "property_type" );
+				
+						if ( $taxonomy_terms && ! is_wp_error( $taxonomy_terms ) ) {
+							foreach( $taxonomy_terms as $term ) {
+								$taxonomy_terms_ids[] = intval( $term->term_id );
+							}
+						}
+						
+						$property_status_terms = get_terms (
+							array(
+								"property_type"
+							),
+							array(
+								'orderby' => 'name',
+								'order' => 'ASC',
+								'hide_empty' => false,
+								'parent' => 33 // residential
+							)
+						);
+
+						if(!empty($property_status_terms)) {
+							foreach($property_status_terms as $status) {
+								$selected = "";
+								if ( in_array( $status->term_id, $taxonomy_terms_ids ) ) {
+									$selected = 'selected="selected"';
+								}
+								echo '<option data-type="residential" value="' . esc_attr($status->term_id) . '" '.$selected.' >' . esc_html($status->name) . '</option>';
+							}
+						}
+
+						$property_status_terms = get_terms (
+							array(
+								"property_type"
+							),
+							array(
+								'orderby' => 'name',
+								'order' => 'ASC',
+								'hide_empty' => false,
+								'parent' => 19 // commercial
+							)
+						);
+
+						if(!empty($property_status_terms)) {
+							foreach($property_status_terms as $status) {
+								$selected = "";
+								if ( in_array( $status->term_id, $taxonomy_terms_ids ) ) {
+									$selected = 'selected="selected"';
+								}
+								echo '<option data-type="commercial" value="' . esc_attr($status->term_id) . '" '.$selected.' >' . esc_html($status->name) . '</option>';
+							}
+						}
+						?>
+					</select><!-- selectpicker -->
+				</div><!-- form-group -->
 			</div>
 			<?php } ?>
 
@@ -189,4 +359,68 @@ if(empty($default_multi_currency)) {
 		</div><!-- row -->
 	</div><!-- dashboard-content-block -->
 </div><!-- dashboard-content-block-wrap -->
+
+<script>
+jQuery(document).ready(function($) {
+    // Function to handle property type visibility
+    function handlePropertyTypeVisibility() {
+        var selectedStatus = $('#prop_status').val();
+        var propTypeSelect = $('.prop_type_container #prop_type');
+        var dropdownMenu = propTypeSelect.parent().find('.dropdown-menu.inner');
+        
+        propTypeSelect.find('option').each(function() {
+            var optionValue = $(this).val();
+            var dropdownItem = dropdownMenu.find('a#bs-select-1-' + optionValue).parent('li');
+            
+            if(selectedStatus && (selectedStatus.includes('109') || selectedStatus.includes('110'))) {
+                if($(this).data('type') === 'commercial') {
+                    $(this).prop('disabled', false);
+                    dropdownItem.removeClass('disabled');
+                    dropdownItem.find('a').removeClass('disabled').attr('aria-disabled', 'false');
+                } else {
+                    $(this).prop('disabled', true);
+                    dropdownItem.addClass('disabled');
+                    dropdownItem.find('a').addClass('disabled').attr('aria-disabled', 'true');
+                }
+            } else {
+                if($(this).data('type') === 'residential') {
+                    $(this).prop('disabled', false);
+                    dropdownItem.removeClass('disabled');
+                    dropdownItem.find('a').removeClass('disabled').attr('aria-disabled', 'false');
+                } else {
+                    $(this).prop('disabled', true);
+                    dropdownItem.addClass('disabled');
+                    dropdownItem.find('a').addClass('disabled').attr('aria-disabled', 'true');
+                }
+            }
+        });
+        
+        // Deselect options that are now disabled
+        var selectedOptions = propTypeSelect.val() || [];
+        var newSelectedOptions = selectedOptions.filter(function(value) {
+            return !propTypeSelect.find('option[value="' + value + '"]').prop('disabled');
+        });
+        
+        propTypeSelect.val(newSelectedOptions);
+        propTypeSelect.selectpicker('refresh');
+    }
+
+    // Initial check with a delay to ensure selectpicker is initialized
+    setTimeout(function() {
+        handlePropertyTypeVisibility();
+    }, 500);
+
+    // Listen for status changes
+    $('#prop_status').on('changed.bs.select', function() {
+        setTimeout(function() {
+            handlePropertyTypeVisibility();
+        }, 100);
+    });
+});
+</script>
+<style>
+.prop_type_container .bootstrap-select .dropdown-menu li.disabled {
+    display: none;
+}
+</style>
 

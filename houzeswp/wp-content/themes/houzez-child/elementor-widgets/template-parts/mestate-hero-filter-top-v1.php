@@ -330,15 +330,15 @@
             }
         });
 
-        if( property_type ){
+        // if( property_type ){
 
-        }
-        else if(ms_page_slug === "new-projects" || ms_page_slug === "commercial"){
-          property_type = ms_page_slug;
-        }
-        else if(ms_page_slug === "new-projects-map" || ms_page_slug === "commercial-map"){
-          property_type = ms_page_slug.replace('-map', '');
-        }
+        // }
+        // else if(ms_page_slug === "new-projects" || ms_page_slug === "commercial"){
+        //   property_type = ms_page_slug;
+        // }
+        // else if(ms_page_slug === "new-projects-map" || ms_page_slug === "commercial-map"){
+        //   property_type = ms_page_slug.replace('-map', '');
+        // }
         
 
         let url = "";
@@ -364,7 +364,7 @@
             "bathrooms": bathrooms === 'any' ? '' : (bathrooms || ''),
             "sortby": sortby || '',
             "paged": current_page == 1 ? '' : (current_page || ''),
-            "slug": ms_page_slug
+            //"slug": ms_page_slug
         };
 
         if (cities.length) {
@@ -543,11 +543,79 @@
                     }
                 }
             });
+
+            updateSelect2CustomView($select);
+        });
+
+        function updateSelect2CustomView($select) {
+            const $container = $select.next('.select2-container'); // Select2 wrapper
+            const $ul = $container.find('.select2-selection__rendered');
+            const $lis = $ul.find('.select2-selection__choice');
+
+            // Reset
+            $lis.show();
+            $ul.find('.select2-more-indicator').remove();
+
+            const total = $lis.length;
+            if (total > 1) {
+                // Hide all except the first
+                $lis.slice(1).hide();
+
+                // Add "+X More" span (clickable)
+                const moreCount = total - 1;
+                const $more = jQuery(`
+                    <li class="select2-more-indicator">  
+                      <span class="select2-selection__choice__display">+${moreCount} More</span>
+                    </li>
+                `);
+
+                // Toggle hidden items on click
+                $more.on('click', function (e) {
+                    $ul.addClass('expanded');
+                    $lis.show();
+                    $more.remove(); // Remove the "+X More" label
+                });
+
+                $ul.append($more);
+            }
+        }
+
+        jQuery(".ms-hero__search_city_area").each(function () {
+          updateSelect2CustomView(jQuery(this));
+        });
+
+        jQuery(document).on('mousedown', function (e) {
+          jQuery('.select2-container').each(function () {
+            const $container = jQuery(this);
+            if (!$container.is(e.target) && $container.has(e.target).length === 0) {
+                const $ul = $container.find('.select2-selection__rendered');
+                $ul.removeClass('expanded');
+                const $select = $container.prev('select');
+                updateSelect2CustomView($select);
+            }
+          });
         });
 
         jQuery(".ms-nice-select-property-type").niceSelect();
         jQuery(".ms-nice-select-property-status").niceSelect();
-        jQuery(".ms-nice-select-property-type, .ms-nice-select-property-status, .ms-hero__search_city_area").on("change", function () {
+        jQuery(".ms-nice-select-property-status").on("change", function () {
+          // selected funtionality
+          const selectParent = jQuery(this).closest(".ms-input");
+
+          if (selectParent?.length) {
+            selectParent.addClass("ms-input--selected");
+          }
+
+          let statusValues = [];
+          if (jQuery(this).val()) {
+            statusValues = Array.isArray(jQuery(this).val()) ? jQuery(this).val() : [jQuery(this).val()];
+          }
+          filterPropertyStatus(statusValues);
+
+          const $form = jQuery(this).closest('form');
+          submitFilterForm($form);
+        });
+        jQuery(".ms-nice-select-property-type, .ms-hero__search_city_area").on("change", function () {
           // selected funtionality
           const selectParent = jQuery(this).closest(".ms-input");
 
@@ -717,6 +785,14 @@
             submitFilterForm($form);
         });
 
+        // const urlParams = new URLSearchParams(window.location.search);
+        // const statusValues = urlParams.getAll('status[]');
+        
+        // if (statusValues.includes('commercial-buy')) {
+        //     console.log("Initial load - Filtering for commercial only");
+        //     filterPropertyTypes(true);
+        // }
+
     }
 
     function resetHeroFormAllFilters() {
@@ -747,6 +823,61 @@
       submitFilterForm($form);
     }
 
+    // Override the original pushState to trigger location list update
+    const filterPushState = window.history.pushState;
+    window.history.pushState = function(state, title, url) {
+        filterPushState.apply(this, arguments);
+        if(state && state.houzezTheme) {
+            // Parse the URL to get query parameters
+            const urlParams = new URLSearchParams(url.split('?')[1]);
+            const statusValues = urlParams.getAll('status[]');
+            
+            //console.log("Status values:", statusValues);
+
+            //filterPropertyStatus(statusValues);
+        }
+    };
+
+    function filterPropertyStatus(statusValues) {
+      if (statusValues.includes('commercial-buy') || statusValues.includes('commercial-rent')) {
+          console.log("Filtering for commercial only");
+          filterPropertyTypes('commercial');
+      }
+      else if (statusValues.includes('new-projects')) {
+          console.log("Filtering for new-projects only");
+          filterPropertyTypes('new-projects');
+      } else {
+          console.log("Showing all residential property types");
+          filterPropertyTypes('residential');
+      }
+    }
+
+    function filterPropertyTypes(propertyType) {
+        // Get all property type selects
+        jQuery('.ms-nice-select-property-type').each(function() {
+            const propertyTypeSelect = jQuery(this);
+            
+            // Handle options in the original select
+            propertyTypeSelect.find('option').each(function() {
+                const option = jQuery(this);
+                const parentType = option.data('parent-type');
+
+                // Enable options that match the property type, disable others
+                option.prop('disabled', parentType !== propertyType);
+            });
+
+            // Reset selection if current selection is not of the correct type
+            const selectedOption = propertyTypeSelect.find('option:selected');
+            if (selectedOption.length && selectedOption.data('parent-type') !== propertyType) {
+                propertyTypeSelect.val('');
+                propertyTypeSelect.closest(".ms-input--selected").removeClass("ms-input--selected");
+            }
+
+            // Update nice select
+            propertyTypeSelect.niceSelect('destroy');
+            propertyTypeSelect.niceSelect();
+        });
+    }
 
     <?php if ( \Elementor\Plugin::$instance->editor->is_edit_mode() ) { ?>
       ms_hero_filter_functionality();

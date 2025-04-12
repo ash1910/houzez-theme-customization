@@ -1081,7 +1081,7 @@ i.menu-icon {
     width: 100%;
     border-radius: 16px;
     padding: 5px 16px;
-    margin-top: 16px;
+    margin-top: 35px;
     background-color: #f5f5f5;
     max-height: 310px !important;
     overflow-y: auto !important;
@@ -1150,6 +1150,27 @@ i.menu-icon {
 .ms-apartments-main__card--2 .ms-apartments-main__card__logo a {
     width: 82px !important;
 }
+.select2-container--default .select2-selection--multiple .select2-more-indicator {
+    background-color: #e4e4e4;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    box-sizing: border-box;
+    display: inline-block;
+    margin-left: 5px;
+    margin-top: 5px;
+    padding: 0;
+    padding-left: 5px;
+    position: relative;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: bottom;
+    white-space: nowrap;
+    cursor: pointer;
+}
+.ms-nice-select-filter-container .nice-select .option.disabled {
+    display: none;
+}
 
 
 
@@ -1166,6 +1187,16 @@ i.menu-icon {
 @media (min-width: 1400px) {
     .ms-apartments-main__price-value {
         font-size: 16px;
+    }
+}
+
+@media (min-width: 768px) {
+    .ms-filter__modal__filte__controllers{
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+    .ms-filter__modal__filte__controllers button {
+        padding: 5px 10px !important;
     }
 }
 

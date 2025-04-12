@@ -50,6 +50,10 @@ $bath_list = array();
 if($adv_baths_list) {
     $bath_list = explode(',', $adv_baths_list);
 }
+
+$get_min_max_price = get_min_max_price();
+$min_price = !empty($get_min_max_price[0]) ? $get_min_max_price[0] : houzez_option('advanced_search_widget_min_price', 0);
+$max_price = !empty($get_min_max_price[1]) ? $get_min_max_price[1] : houzez_option('advanced_search_widget_max_price', 2500000);
 ?>
 
 
@@ -87,214 +91,227 @@ if($adv_baths_list) {
             class="ms-hero__tab-controllers__inner ms-tab-controllers--transparent nav nav-tab ms-nav-tab"
             role="tablist"
           >
-            <?php if($status_data): ?>
-              <?php $i = 0; foreach($status_data as $status): $i++;
-              $tabname = houzez_get_term_by( 'slug', $status, 'property_status' );
-              $page_path = get_page_by_path($status);
-              $page_available = $page_path ? "1" : "0";
-              ?>
-                <button class="ms-property-status-btn <?php echo $i == 1 ? 'active' : ''; ?>" data-target="#<?php echo $status; ?>" data-page-available="<?php echo $page_available; ?>" data-toggle="tab" data-type="0">
-                  <?php echo $tabname->name; ?>
-                </button>
-              <?php endforeach; ?>
-            <?php endif; ?>
-            <?php if($type_data): ?>
-              <?php 
-              rsort($type_data); // Sort in descending order
-              $i = 0; foreach($type_data as $type): $i++;
-              $tabname = houzez_get_term_by( 'slug', $type, 'property_type' );
-              $page_path = get_page_by_path($type);
-              $page_available = $page_path ? "1" : "0";
-              ?>
-                <button class="ms-property-status-btn" data-target="#<?php echo $type; ?>" data-page-available="<?php echo $page_available; ?>" data-toggle="tab" data-type="1">
-                  <?php echo $tabname->name; ?>
-                </button>
-              <?php endforeach; ?>
-            <?php endif; ?>
+            <button class="ms-property-status-btn active" data-target="#buy" data-page-available="1" data-toggle="tab" data-type="0">
+              Buy
+            </button>
+            <button class="ms-property-status-btn" data-target="#rent" data-page-available="1" data-toggle="tab" data-type="0">
+              Rent
+            </button>
+            <button class="ms-property-status-btn" data-target="#new-projects" data-page-available="1" data-toggle="tab" data-type="0">
+              New projects
+            </button>
+            <button class="ms-property-status-btn" data-target="#commercial" data-page-available="0" data-toggle="tab" data-type="0">
+              Commercial
+            </button>
           </div>
         </div>
         <!-- tab content-->
 
         <div class="tab-content ms-hero__filter-tab__content">
           <!-- content 1 -->
-          <?php if($status_data || $type_data): ?>
-              <div class="ms-hero__tab-content tab-pane fade show active" id="">
-              
-                <form class="ms-hero__form" onsubmit="return false;">
-                  <input type="hidden" name="ms-min-price" class="ms-min-price-range-hidden range-input" readonly >
-                  <input type="hidden" name="ms-max-price" class="ms-max-price-range-hidden range-input" readonly >
-                  <input type="hidden" name="ms-bed" class="ms-bed-hidden" readonly >
-                  <input type="hidden" name="ms-bath" class="ms-bath-hidden" readonly >
+          <div class="ms-hero__tab-content tab-pane fade show active" id="">
+          
+            <form class="ms-hero__form" onsubmit="return false;">
+              <input type="hidden" name="ms-min-price" class="ms-min-price-range-hidden range-input" readonly >
+              <input type="hidden" name="ms-max-price" class="ms-max-price-range-hidden range-input" readonly >
+              <input type="hidden" name="ms-bed" class="ms-bed-hidden" readonly >
+              <input type="hidden" name="ms-bath" class="ms-bath-hidden" readonly >
 
-                  <div class="ms-input ms-input--serach ms-hero__search-location-container">
-                    <select class="ms-hero__search_city_area" multiple="multiple" style="visibility: hidden;">
-                        <?php foreach($prop_city as $city_slug => $city_name): ?>
-                            <option value="<?php echo $city_slug; ?>" data-type="city" <?php if(in_array($city_slug, $selected_cities)) echo 'selected'; ?>><?php echo $city_name; ?></option>
-                        <?php endforeach; ?>
-                        <?php foreach($prop_area as $area_slug => $area_data): 
-                            $area_name = is_array($area_data) ? $area_data['name'] : $area_data;
-                            $parent_city = is_array($area_data) ? $area_data['parent_city'] : '';
-                        ?>
-                            <option value="<?php echo $area_slug; ?>" data-type="area" data-city="<?php echo $parent_city; ?>" <?php if(in_array($area_slug, $selected_areas)) echo 'selected'; ?>><?php echo $area_name; ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                    <label for="ms-hero__search-loaction"
-                        ><i class="icon-search_black"></i
-                    ></label>
-                    <button class="ms-input__deselect  ms-btn__not-submit">
-                        <i class="fa-light fa-xmark"></i>
-                    </button>
-                  </div>
-                  <div class="ms-input type-tab">
-                    <select class="ms-nice-select-property-type" name="property_type" style="visibility: hidden;">
-                      <option value="" selected disabled>Property type</option>
-                      <?php
-                      $tax_terms = get_terms('property_type', array(
-                          'hide_empty' => false,
-                          'parent' => 33,
-                      ));
-                      foreach($tax_terms as $term): ?>
-                        <option value="<?php echo $term->slug; ?>"><?php echo $term->name; ?></option>
-                      <?php endforeach; ?>
-                    </select>
-                    <button class="ms-input__deselect  ms-btn__not-submit">
-                        <i class="fa-light fa-xmark"></i>
-                    </button>
-                  </div>
-                  <div class="ms-input commercial-type" style="display: none;">
-                    <select class="ms-nice-select-property-type ms-nice-select-property-type__commercial" name="property_type__commercial" style="visibility: hidden;">
-                      <option value="" selected disabled>Property type</option>
-                      <?php
-                      $tax_terms = get_terms('property_type', array(
-                          'hide_empty' => false,
-                          'parent' => 19,
-                      ));
-                      foreach($tax_terms as $term): ?>
-                        <option value="<?php echo $term->slug; ?>"><?php echo $term->name; ?></option>
-                      <?php endforeach; ?>
-                    </select>
-                    <button class="ms-input__deselect  ms-btn__not-submit">
-                        <i class="fa-light fa-xmark"></i>
-                    </button>
-                  </div>
-                  <div class="ms-input ms-input--price d-none d-md-block">
-                      <button class="ms-btn ms-input--price-btn ms-btn__not-submit">
-                          Select Price <i class=""><?php echo houzez_option('currency_symbol'); ?></i>
-                      </button>
-                      <!--  -->
+              <div class="ms-input ms-nice-select-filter-container d-none commercial-status">
+                <select class="ms-nice-select-filter ms-nice-select-commercial-status" name="commercial_status" style="visibility: hidden;">
+                  <option value="" selected disabled>Property status</option>
+                  <option value="commercial-buy">Commercial Buy</option>
+                  <option value="commercial-rent">Commercial Rent</option>
+                </select>
+                <button class="ms-input__deselect  ms-btn__not-submit">
+                    <i class="fa-light fa-xmark"></i>
+                </button>
+              </div>
+              <div class="ms-input ms-input--serach ms-hero__search-location-container">
+                <select class="ms-hero__search_city_area" multiple="multiple" style="visibility: hidden;">
+                    <?php foreach($prop_city as $city_slug => $city_name): ?>
+                        <option value="<?php echo $city_slug; ?>" data-type="city" <?php if(in_array($city_slug, $selected_cities)) echo 'selected'; ?>><?php echo $city_name; ?></option>
+                    <?php endforeach; ?>
+                    <?php foreach($prop_area as $area_slug => $area_data): 
+                        $area_name = is_array($area_data) ? $area_data['name'] : $area_data;
+                        $parent_city = is_array($area_data) ? $area_data['parent_city'] : '';
+                    ?>
+                        <option value="<?php echo $area_slug; ?>" data-type="area" data-city="<?php echo $parent_city; ?>" <?php if(in_array($area_slug, $selected_areas)) echo 'selected'; ?>><?php echo $area_name; ?></option>
+                    <?php endforeach; ?>
+                </select>
+                <label for="ms-hero__search-loaction"
+                    ><i class="icon-search_black"></i
+                ></label>
+                <button class="ms-input__deselect  ms-btn__not-submit">
+                    <i class="fa-light fa-xmark"></i>
+                </button>
+              </div>
+              <div class="ms-input ms-nice-select-filter-container type-tab">
+                <select class="ms-nice-select-filter ms-nice-select-property-type" name="property_type" style="visibility: hidden;">
+                  <option value="" selected disabled>Property type</option>
+                  <?php
+                  $tax_terms = get_terms('property_type', array(
+                      'hide_empty' => false,
+                      'parent' => 33,
+                  ));
+                  foreach($tax_terms as $term): ?>
+                    <option value="<?php echo $term->slug; ?>"><?php echo $term->name; ?></option>
+                  <?php endforeach; ?>
+                </select>
+                <button class="ms-input__deselect  ms-btn__not-submit">
+                    <i class="fa-light fa-xmark"></i>
+                </button>
+              </div>
+              <div class="ms-input ms-nice-select-filter-container commercial-type" style="display: none;">
+                <select class="ms-nice-select-filter ms-nice-select-property-type ms-nice-select-property-type__commercial" name="property_type__commercial" style="visibility: hidden;">
+                  <option value="" selected disabled>Property type</option>
+                  <?php
+                  $tax_terms = get_terms('property_type', array(
+                      'hide_empty' => false,
+                      'parent' => 19,
+                  ));
+                  foreach($tax_terms as $term): ?>
+                    <option value="<?php echo $term->slug; ?>"><?php echo $term->name; ?></option>
+                  <?php endforeach; ?>
+                </select>
+                <button class="ms-input__deselect  ms-btn__not-submit">
+                    <i class="fa-light fa-xmark"></i>
+                </button>
+              </div>
+              <div class="ms-input ms-nice-select-filter-container new-projects-type" style="display: none;">
+                <select class="ms-nice-select-filter ms-nice-select-property-type ms-nice-select-property-type__new-projects" name="property_type__new-projects" style="visibility: hidden;">
+                  <option value="" selected disabled>Property type</option>
+                  <?php
+                  $tax_terms = get_terms('property_type', array(
+                      'hide_empty' => false,
+                      'parent' => 96,
+                  ));
+                  foreach($tax_terms as $term): ?>
+                    <option value="<?php echo $term->slug; ?>"><?php echo $term->name; ?></option>
+                  <?php endforeach; ?>
+                </select>
+                <button class="ms-input__deselect  ms-btn__not-submit">
+                    <i class="fa-light fa-xmark"></i>
+                </button>
+              </div>
+              <div class="ms-input ms-input--price d-none d-md-block">
+                  <button class="ms-btn ms-input--price-btn ms-btn__not-submit">
+                      Select Price <i class=""><?php echo houzez_option('currency_symbol'); ?></i>
+                  </button>
+                  <!--  -->
 
-                      <div class="ms-input__content">
-                          <h6>Price Range</h6>
-                          <div class="price_filter">
-                              <div class="price_slider_amount" style="gap: 10px;padding: 0;">
-                                  <div class="ms-input__content__value__wrapper">
-                                      <span>min</span>
-                                      <div class="ms-input__content__value__wrap">
-                                          <span class="currency-symbol ms-currency-symbol"></span>
-                                          <input
-                                          type="text"
-                                          class="amount ms-input__content__value ms-input__content__value--min"
-                                          value="1"
-                                          pattern="[0-9]*"
-                                          inputmode="numeric"
-                                          onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
-                                          oninput="this.value = this.value.replace(/[^0-9]/g, '')"
-                                          />
-                                      </div>
-                                  </div>
-                                  <div class="ms-input__content__value__wrapper">
-                                      <span>Max</span>
-                                      <div class="ms-input__content__value__wrap">
-                                          <span class="currency-symbol ms-currency-symbol"></span>
-                                          <input
-                                          type="text" 
-                                          class="amount ms-input__content__value ms-input__content__value--max"
-                                          value="1000000"
-                                          pattern="[0-9]*"
-                                          inputmode="numeric"
-                                          onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
-                                          oninput="this.value = this.value.replace(/[^0-9]/g, '')"
-                                          />
-                                      </div>
+                  <div class="ms-input__content">
+                      <h6>Price Range</h6>
+                      <div class="price_filter">
+                          <div class="price_slider_amount" style="gap: 10px;padding: 0;">
+                              <div class="ms-input__content__value__wrapper">
+                                  <span>min</span>
+                                  <div class="ms-input__content__value__wrap">
+                                      <span class="currency-symbol ms-currency-symbol"></span>
+                                      <input
+                                      type="text"
+                                      class="amount ms-input__content__value ms-input__content__value--min"
+                                      value="1"
+                                      pattern="[0-9]*"
+                                      inputmode="numeric"
+                                      onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+                                      oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                      />
                                   </div>
                               </div>
-                              <div class="slider-range ms-slider-range ms-price-slider-range"></div>
-                          </div> 
-
-                          <div class="ms-input__content__action">
-                              <button class="ms-btn ms-btn--transparent ms-btn__not-submit ms-btn__reset__price">
-                                  Reset All
-                              </button>
-                              <button class="ms-btn ms-btn--primary ms-btn__not-submit ms-btn__apply__price">Apply</button>
+                              <div class="ms-input__content__value__wrapper">
+                                  <span>Max</span>
+                                  <div class="ms-input__content__value__wrap">
+                                      <span class="currency-symbol ms-currency-symbol"></span>
+                                      <input
+                                      type="text" 
+                                      class="amount ms-input__content__value ms-input__content__value--max"
+                                      value="1000000"
+                                      pattern="[0-9]*"
+                                      inputmode="numeric"
+                                      onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+                                      oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                      />
+                                  </div>
+                              </div>
                           </div>
-                      </div>
-                      <button class="ms-input__deselect  ms-btn__not-submit">
-                          <i class="fa-light fa-xmark"></i>
-                      </button>
-                  </div>
-                  <div class="ms-input ms-input--bed d-none d-md-block">
-                    <button class="ms-btn ms-btn__not-submit">
-                      <span class="ms-bed-btn-text">Select beds/baths</span>
-                      <svg
-                        width="12"
-                        height="7"
-                        viewBox="0 0 12 7"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          fill-rule="evenodd"
-                          clip-rule="evenodd"
-                          d="M10.959 0.744078C11.2845 1.06951 11.2845 1.59715 10.959 1.92259L6.37571 6.50592C6.05028 6.83136 5.52264 6.83136 5.1972 6.50592L0.61387 1.92259C0.288432 1.59715 0.288432 1.06951 0.61387 0.744078C0.939306 0.418641 1.46694 0.418641 1.79238 0.744078L5.78646 4.73816L9.78054 0.744078C10.106 0.418641 10.6336 0.418641 10.959 0.744078Z"
-                          fill="#1B1B1B"
-                        />
-                      </svg>
-                    </button>
-                    <!--  -->
+                          <div class="slider-range ms-slider-range ms-price-slider-range"></div>
+                      </div> 
 
-                    <div class="ms-input__content ms-input__content--bed">
-                      <div class="ms-input__content__beds mb-3">
-                        <h6>Beds</h6>
-                        <ul class="ms-input__list">
-                          <li><button class="ms-bed-btn ms-btn__not-submit" data-value="any">Any</button></li>
-                          <?php foreach($bed_list as $value): ?>
-                          <li><button class="ms-bed-btn ms-btn__not-submit <?php if ($value == 'Studio') echo 'w-auto'; ?>" data-value="<?php echo $value; ?>"><?php echo $value; ?></button></li>
-                          <?php endforeach; ?>
-                        </ul>
+                      <div class="ms-input__content__action">
+                          <button class="ms-btn ms-btn--transparent ms-btn__not-submit ms-btn__reset__price">
+                              Reset All
+                          </button>
+                          <button class="ms-btn ms-btn--primary ms-btn__not-submit ms-btn__apply__price">Apply</button>
                       </div>
-                      <div class="ms-input__content__beds">
-                        <h6>Baths</h6>
-                        <ul class="ms-input__list">
-                          <li><button class="ms-bath-btn ms-btn__not-submit" data-value="any">Any</button></li>
-                          <?php foreach($bath_list as $value): ?>
-                          <li><button class="ms-bath-btn ms-btn__not-submit" data-value="<?php echo $value; ?>"><?php echo $value; ?></button></li>
-                          <?php endforeach; ?>
-                        </ul>
-                      </div>
-                    </div>
-                    <button class="ms-input__deselect  ms-btn__not-submit">
-                        <i class="fa-light fa-xmark"></i>
-                    </button>
                   </div>
-                  
-                  <div>
-                    <button
-                      class="ms-btn ms-btn__not-submit"
-                      data-toggle="modal"
-                      data-target="#msFilterModal"
-                    >
-                      <i class="fa-regular fa-bars-filter"></i>
-                      <span> Filter</span>
-                    </button>
-                  </div>
-                  <div>
-                    <button class="ms-btn ms-btn--primary ms-btn--search">
-                      <i class="icon-search_black"></i>
-                    </button>
-                  </div>
-                </form>
+                  <button class="ms-input__deselect  ms-btn__not-submit">
+                      <i class="fa-light fa-xmark"></i>
+                  </button>
               </div>
-          <?php endif; ?>
+
+              <div class="ms-input ms-input--bed d-none d-md-block">
+                <button class="ms-btn ms-btn__not-submit">
+                  <span class="ms-bed-btn-text">Select beds/baths</span>
+                  <svg
+                    width="12"
+                    height="7"
+                    viewBox="0 0 12 7"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M10.959 0.744078C11.2845 1.06951 11.2845 1.59715 10.959 1.92259L6.37571 6.50592C6.05028 6.83136 5.52264 6.83136 5.1972 6.50592L0.61387 1.92259C0.288432 1.59715 0.288432 1.06951 0.61387 0.744078C0.939306 0.418641 1.46694 0.418641 1.79238 0.744078L5.78646 4.73816L9.78054 0.744078C10.106 0.418641 10.6336 0.418641 10.959 0.744078Z"
+                      fill="#1B1B1B"
+                    />
+                  </svg>
+                </button>
+                <!--  -->
+
+                <div class="ms-input__content ms-input__content--bed">
+                  <div class="ms-input__content__beds mb-3">
+                    <h6>Beds</h6>
+                    <ul class="ms-input__list">
+                      <li><button class="ms-bed-btn ms-btn__not-submit" data-value="any">Any</button></li>
+                      <?php foreach($bed_list as $value): ?>
+                      <li><button class="ms-bed-btn ms-btn__not-submit <?php if ($value == 'Studio') echo 'w-auto'; ?>" data-value="<?php echo $value; ?>"><?php echo $value; ?></button></li>
+                      <?php endforeach; ?>
+                    </ul>
+                  </div>
+                  <div class="ms-input__content__beds">
+                    <h6>Baths</h6>
+                    <ul class="ms-input__list">
+                      <li><button class="ms-bath-btn ms-btn__not-submit" data-value="any">Any</button></li>
+                      <?php foreach($bath_list as $value): ?>
+                      <li><button class="ms-bath-btn ms-btn__not-submit" data-value="<?php echo $value; ?>"><?php echo $value; ?></button></li>
+                      <?php endforeach; ?>
+                    </ul>
+                  </div>
+                </div>
+                <button class="ms-input__deselect  ms-btn__not-submit">
+                    <i class="fa-light fa-xmark"></i>
+                </button>
+              </div>
+              
+              <div>
+                <button
+                  class="ms-btn ms-btn__not-submit"
+                  data-toggle="modal"
+                  data-target="#msFilterModal"
+                >
+                  <i class="fa-regular fa-bars-filter"></i>
+                  <span> Filter</span>
+                </button>
+              </div>
+              <div>
+                <button class="ms-btn ms-btn--primary ms-btn--search">
+                  <i class="icon-search_black"></i>
+                </button>
+              </div>
+            </form>
+          </div>
 
         </div>
       </div>
@@ -341,8 +358,8 @@ if($adv_baths_list) {
       var currency_position = houzez_vars.currency_position;
       var min_price_selected = "<?php echo @$_GET['min-price']; ?>";
       var max_price_selected = "<?php echo @$_GET['max-price']; ?>";
-      var min_price = <?php echo houzez_option('advanced_search_widget_min_price', 0); ?>;
-      var max_price = <?php echo houzez_option('advanced_search_widget_max_price', 2500000); ?>;
+      var min_price = <?php echo $min_price; ?>; 
+      var max_price = <?php echo $max_price; ?>;
       
       var slider = price_range_slider.slider({
         range: true,
@@ -574,11 +591,59 @@ if($adv_baths_list) {
                     }
                 }
             });
+
+            updateSelect2CustomView();
+        });
+
+        function updateSelect2CustomView() {
+            const $ul = jQuery('.select2-selection__rendered');
+            const $lis = $ul.find('.select2-selection__choice');
+
+            // Reset
+            $lis.show();
+            $ul.find('.select2-more-indicator').remove();
+
+            const total = $lis.length;
+            if (total > 1) {
+                // Hide all except the first
+                $lis.slice(1).hide();
+
+                // Add "+X More" span (clickable)
+                const moreCount = total - 1;
+                const $more = jQuery(`
+                    <li class="select2-more-indicator">  
+                      <span class="select2-selection__choice__display">+${moreCount} More</span>
+                    </li>
+                `);
+
+                // Toggle hidden items on click
+                $more.on('click', function (e) {
+                    $ul.addClass('expanded');
+                    $lis.show();
+                    $more.remove(); // Remove the "+X More" label
+                });
+
+                $ul.append($more);
+            }
+        }
+
+        jQuery(document).on('mousedown', function (e) {
+            const $target = jQuery(e.target);
+            const $container = jQuery('.select2-container'); // Full select2 wrapper
+            const $selection = jQuery('.select2-selection__rendered');
+
+            // If clicked outside the entire Select2 widget (including dropdown)
+            if (!$container.is(e.target) && $container.has(e.target).length === 0) {
+                $selection.removeClass('expanded');
+                updateSelect2CustomView();
+            }
         });
 
         jQuery(".ms-nice-select-property-type").niceSelect();
         jQuery(".ms-nice-select-property-status").niceSelect();
-        jQuery(".ms-nice-select-property-type, .ms-nice-select-property-status, .ms-hero__search_city_area").on("change", function () {
+        jQuery(".ms-nice-select-commercial-status").niceSelect();
+        
+        jQuery(".ms-nice-select-property-type, .ms-nice-select-property-status, .ms-nice-select-commercial-status, .ms-hero__search_city_area").on("change", function () {
           // selected funtionality
           const selectParent = jQuery(this).closest(".ms-input");
 
@@ -713,6 +778,9 @@ if($adv_baths_list) {
             // Reset both tabs first
             jQuery('.type-tab').hide();
             jQuery('.commercial-type').hide();
+            jQuery('.new-projects-type').hide();
+            jQuery('.ms-input--bed').removeClass("d-md-block");
+            jQuery('.commercial-status').removeClass("d-md-block");
 
             // Show appropriate tab based on type and name
             if (tab_type == '1') {
@@ -720,7 +788,18 @@ if($adv_baths_list) {
                     jQuery('.commercial-type').show();
                 }
             } else {
-                jQuery('.type-tab').show();
+                if (tab_name === 'commercial') {
+                  jQuery('.commercial-type').show();
+                  jQuery('.commercial-status').addClass("d-md-block");
+                }
+                else if (tab_name === 'new-projects') {
+                  jQuery('.new-projects-type').show();
+                  jQuery('.ms-input--bed').addClass("d-md-block");
+                }
+                else{
+                  jQuery('.type-tab').show();
+                  jQuery('.ms-input--bed').addClass("d-md-block");
+                }
             }
         });
 
@@ -748,7 +827,7 @@ if($adv_baths_list) {
             
             // Add null check for property status
             const activeStatusBtn = jQuery('.ms-hero__filter-tab .ms-property-status-btn.active');
-            const property_status = activeStatusBtn.length ? activeStatusBtn.data('target').replace('#', '') : '';
+            var property_status = activeStatusBtn.length ? activeStatusBtn.data('target').replace('#', '') : '';
             const page_available = activeStatusBtn.data('page-available');
             const tab_type = activeStatusBtn.data('type');
             
@@ -756,12 +835,20 @@ if($adv_baths_list) {
             if(property_status && property_status !== '' && page_available == '1') {
               url = url + '/' + property_status;
             }
+            else if(property_status && property_status == 'commercial') {
+              property_status = jQuery('.ms-hero__form .ms-nice-select-commercial-status').val();
+              property_status = property_status ? property_status : 'commercial-buy';
+              url = url + '/' + property_status;
+            }
             else {
               url = url + '/search-results/';
             }
 
-            if(property_status == 'commercial'){
+            if(property_status == 'commercial' || property_status == 'commercial-buy' || property_status == 'commercial-rent'){
               property_type = jQuery('.ms-hero__form .ms-nice-select-property-type__commercial').val();
+            }
+            if(property_status == 'new-projects'){
+              property_type = jQuery('.ms-hero__form .ms-nice-select-property-type__new-projects').val();
             }
             
             const params = {

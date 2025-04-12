@@ -4053,11 +4053,11 @@ if(!function_exists('houzez_search_status_mestate')) {
 }
 
 function is_half_map_page() {
-    return in_array(get_post_field('post_name', get_post()), array('new-projects-map', 'buy-map', 'rent-map', 'commercial-map', 'search-results-map'));
+    return in_array(get_post_field('post_name', get_post()), array('new-projects-map', 'buy-map', 'rent-map', 'commercial-map','commercial-buy-map','commercial-rent-map', 'search-results-map'));
 }
 
 function is_normal_listing_page() {
-    return in_array(get_post_field('post_name', get_post()), array('new-projects', 'buy', 'rent', 'commercial', 'search-results'));
+    return in_array(get_post_field('post_name', get_post()), array('new-projects', 'buy', 'rent', 'commercial', 'commercial-buy', 'commercial-rent', 'search-results'));
 }
 
 // Function to convert YouTube URL to embed format
@@ -4823,42 +4823,30 @@ if( !function_exists('properties_data_for_map') ) {
     }
 }
 if( !function_exists('get_min_max_price') ) {
-    function get_min_max_price($search_qry){
-        // Create a separate query for price calculation that ignores pagination
-        $price_query_args = $search_qry;
-        $price_query_args['posts_per_page'] = -1; // Get all posts
-        $price_query_args['fields'] = 'ids'; // Only get post IDs for better performance
-        unset($price_query_args['offset']); // Remove offset
-        unset($price_query_args['post__not_in']); // Remove post__not_in to include all posts
-        $price_calculation_query = new WP_Query($price_query_args);
-    
-        // Initialize min and max price variables
-        $min_price = PHP_FLOAT_MAX;
-        $max_price = 0;
-    
-        // Loop through all post IDs to find min and max prices
-        if ($price_calculation_query->have_posts()) {
-            foreach ($price_calculation_query->posts as $post_id) {
-                $property_price = get_post_meta($post_id, 'fave_property_price', true);
-                
-                // Convert price to numeric value, removing any formatting
-                $price_numeric = preg_replace('/[^0-9.]/', '', $property_price);
-                $price_numeric = floatval($price_numeric);
-                
-                if ($price_numeric > 0) {
-                    $min_price = min($min_price, $price_numeric);
-                    $max_price = max($max_price, $price_numeric);
-                }
-            }
-        }
-    
-        // If no valid prices were found, reset min_price
-        if ($min_price === PHP_FLOAT_MAX) {
-            $min_price = 0;
-        }
+    function get_min_max_price(){
+        global $wpdb;
 
-        return array($min_price, $max_price);
+        $meta_key = 'fave_property_price';
+        $post_type = 'property';
+        
+        // Convert values to numbers if they are stored as strings with commas
+        $results = $wpdb->get_row("
+            SELECT 
+                MIN(CAST(REPLACE(pm.meta_value, ',', '') AS UNSIGNED)) as min_price,
+                MAX(CAST(REPLACE(pm.meta_value, ',', '') AS UNSIGNED)) as max_price
+            FROM {$wpdb->prefix}postmeta pm
+            INNER JOIN {$wpdb->prefix}posts p ON p.ID = pm.post_id
+            WHERE pm.meta_key = '{$meta_key}'
+            AND p.post_type = '{$post_type}'
+            AND p.post_status = 'publish'
+        ");
+        
+        //echo 'Min Price: ' . $results->min_price . '<br>';
+        //echo 'Max Price: ' . $results->max_price;
+
+        return array($results->min_price, $results->max_price);
     }
 }
+
 
 ?>

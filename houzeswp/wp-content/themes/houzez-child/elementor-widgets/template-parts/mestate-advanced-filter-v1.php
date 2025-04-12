@@ -113,7 +113,7 @@ if($adv_baths_list) {
                 </button>
                 <button 
                   id="new-project-tab" 
-                  class="<?php echo (isset($_GET['type']) && in_array('new-projects', $_GET['type']) || $page_slug == 'new-projects' || $page_slug == 'new-projects-map') ? 'active' : ''; ?>"
+                  class="<?php echo (isset($_GET['status']) && in_array('new-projects', $_GET['status']) || $page_slug == 'new-projects' || $page_slug == 'new-projects-map') ? 'active' : ''; ?>"
                   data-target="#modalNew_project" 
                   data-toggle="tab" 
                   data-page-available="<?php echo get_page_by_path('new-projects') ? '1' : '0'; ?>"
@@ -121,13 +121,22 @@ if($adv_baths_list) {
                   New Project
                 </button>
                 <button
-                  id="commercial-tab"
-                  class="<?php echo (isset($_GET['type']) && in_array('commercial', $_GET['type']) || $page_slug == 'commercial' || $page_slug == 'commercial-map') ? 'active' : ''; ?>"
+                  id="commercial-buy-tab"
+                  class="<?php echo (isset($_GET['status']) && in_array('commercial-buy', $_GET['status']) || $page_slug == 'commercial-buy' || $page_slug == 'commercial-buy-map') ? 'active' : ''; ?>"
                   data-target="#modalCommercial"
                   data-toggle="tab"
-                  data-page-available="<?php echo get_page_by_path('commercial') ? '1' : '0'; ?>"
+                  data-page-available="<?php echo get_page_by_path('commercial-buy') ? '1' : '0'; ?>"
                 >
-                  Commercial
+                  Commercial Buy
+                </button>
+                <button
+                  id="commercial-rent-tab"
+                  class="<?php echo (isset($_GET['status']) && in_array('commercial-rent', $_GET['status']) || $page_slug == 'commercial-rent' || $page_slug == 'commercial-rent-map') ? 'active' : ''; ?>"
+                  data-target="#modalCommercial"
+                  data-toggle="tab"
+                  data-page-available="<?php echo get_page_by_path('commercial-rent') ? '1' : '0'; ?>"
+                >
+                  Commercial Rent
                 </button>
               </div>
 
@@ -510,6 +519,61 @@ if($adv_baths_list) {
             return n;
         }
     }
+
+    // Function to update location list based on URL parameters
+    function updateLocationList() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const selectedAreas = urlParams.getAll('city_areas[]');
+        const selectedCities = urlParams.getAll('cities[]');
+        const $locationList = jQuery('.ms-input__list--search-container');
+        
+        // Clear existing list
+        $locationList.empty();
+        
+        // Get areas and cities data
+        const areasData = JSON.parse(jQuery('#prop_areas_data').val());
+        const citiesData = JSON.parse(jQuery('#prop_citys_data').val());
+        
+        // Add cities to list
+        if(selectedCities.length > 0) {
+            selectedCities.forEach(citySlug => {
+                if(citiesData[citySlug]) {
+                    $locationList.append(`
+                        <li>
+                            <button class="location-item" data-area="${citySlug}" data-type="city">
+                                ${citiesData[citySlug]} <i class="fa-light fa-xmark"></i>
+                            </button>
+                        </li>
+                    `);
+                }
+            });
+        }
+        
+        // Add areas to list
+        if(selectedAreas.length > 0) {
+            selectedAreas.forEach(areaSlug => {
+                if(areasData[areaSlug]) {
+                    $locationList.append(`
+                        <li>
+                            <button class="location-item" data-area="${areaSlug}" data-type="area">
+                                ${areasData[areaSlug]} <i class="fa-light fa-xmark"></i>
+                            </button>
+                        </li>
+                    `);
+                }
+            });
+        }
+    }
+
+    // Override the original pushState to trigger location list update
+    const originalPushState = window.history.pushState;
+    window.history.pushState = function(state, title, url) {
+        originalPushState.apply(this, arguments);
+        if(state && state.houzezTheme) {
+            updateLocationList();
+        }
+    };
+
     function formatPrice(price) {
         if (price >= 1000000) {
             return (price / 1000000).toFixed(1) + 'M';
@@ -756,6 +820,7 @@ if($adv_baths_list) {
             jQuery('.rent-tab').hide();
             jQuery('.new-project-tab').hide();
             jQuery('.commercial-tab').hide();
+            jQuery('.commercial-tab').hide();
 
             if (jQuery(this).attr('id') === 'buy-tab') {
                 jQuery('.buy-tab').show();
@@ -766,7 +831,10 @@ if($adv_baths_list) {
             if (jQuery(this).attr('id') === 'new-project-tab') {
                 jQuery('.new-project-tab').show();
             }
-            if (jQuery(this).attr('id') === 'commercial-tab') {
+            if (jQuery(this).attr('id') === 'commercial-buy-tab') {
+                jQuery('.commercial-tab').show();
+            }
+            if (jQuery(this).attr('id') === 'commercial-rent-tab') {
                 jQuery('.commercial-tab').show();
             }
         });
@@ -789,7 +857,9 @@ if($adv_baths_list) {
 
             // Get active property type based on visible tab
             let property_type = '';
-            if (jQuery('#commercial-tab').hasClass('active')) {
+            if (jQuery('#commercial-buy-tab').hasClass('active')) {
+                property_type = $form.find('#property-type-list-commercial .filter-item.active').data('value');
+            }else if (jQuery('#commercial-rent-tab').hasClass('active')) {
                 property_type = $form.find('#property-type-list-commercial .filter-item.active').data('value');
             }else if (jQuery('#new-project-tab').hasClass('active')) {
                 property_type = $form.find('#property-type-list-new-projects .filter-item.active').data('value');
@@ -851,7 +921,7 @@ if($adv_baths_list) {
                     params.payment_plan = payment_plan || '';
                     break;
                 case 'new-project-tab':
-                    type = 'new-projects';
+                    status = 'new-projects';
                     // params['type[]'] = ['new-projects'];
                     // if (property_type) {
                     //     params['type[]'].push(property_type);
@@ -860,12 +930,11 @@ if($adv_baths_list) {
                     params.completion = completion || '';
                     params['furnish-status'] = '';
                     break;
-                case 'commercial-tab':
-                    type = 'commercial';
-                    // params['type[]'] = ['commercial'];
-                    // if (property_type) {
-                    //     params['type[]'].push(property_type);
-                    // }
+                case 'commercial-buy-tab':
+                    status = 'commercial-buy';
+                    break;
+                case 'commercial-rent-tab':
+                    status = 'commercial-rent';
                     break;
             }
 
@@ -954,7 +1023,10 @@ if($adv_baths_list) {
           case 'new-project-tab':
             $('.new-project-tab').show();
             break;
-          case 'commercial-tab':
+          case 'commercial-buy-tab':
+            $('.commercial-tab').show();
+            break;
+          case 'commercial-rent-tab':
             $('.commercial-tab').show();
             break;
         }

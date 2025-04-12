@@ -49,6 +49,24 @@ if( empty($_GET["status"]) ){
             case 'rent-map':
                 $status = array('rent');
                 break;
+            case 'commercial-buy':
+                $status = array('commercial-buy');
+                break;
+            case 'commercial-buy-map':
+                $status = array('commercial-buy');
+                break;
+            case 'commercial-rent':
+                $status = array('commercial-rent');
+                break;
+            case 'commercial-rent-map':
+                $status = array('commercial-rent');
+                break;
+            case 'new-projects':
+                $status = array('new-projects');
+                break;
+            case 'new-projects-map':
+                $status = array('new-projects');
+                break;
             default:
                 $status = array();
                 break;
@@ -75,10 +93,13 @@ if($adv_baths_list) {
 }
 
 $property_type_parent_id = 33;
-if(in_array("new-projects", $type) || $page_slug == 'new-projects' || $page_slug == 'new-projects-map'){
+if(in_array("new-projects", $status) || $page_slug == 'new-projects' || $page_slug == 'new-projects-map'){
     $property_type_parent_id = 96;
 }
-elseif(in_array("commercial", $type) || $page_slug == 'commercial' || $page_slug == 'commercial-map'){
+elseif(in_array("commercial-buy", $status) || $page_slug == 'commercial-buy' || $page_slug == 'commercial-buy-map'){
+    $property_type_parent_id = 19;
+}
+elseif(in_array("commercial-rent", $status) || $page_slug == 'commercial-rent' || $page_slug == 'commercial-rent-map'){
     $property_type_parent_id = 19;
 }
 ?>
@@ -89,7 +110,7 @@ elseif(in_array("commercial", $type) || $page_slug == 'commercial' || $page_slug
     <input type="hidden" name="ms-max-price" value="<?php echo $max_price; ?>" class="ms-max-price-range-hidden range-input" readonly >
     <input type="hidden" name="ms-bed" value="<?php echo $bed; ?>" class="ms-bed-hidden" readonly >
     <input type="hidden" name="ms-bath" value="<?php echo $bath; ?>" class="ms-bath-hidden" readonly >
-    <div class="ms-input ms-nice-select-filter-container <?php echo count($status) > 0 ? 'ms-input--selected' : ''; ?>" <?php if(in_array("new-projects", $type) || $page_slug == 'new-projects' || $page_slug == 'new-projects-map') echo 'style="display: none;"'; ?>>
+    <div class="ms-input ms-nice-select-filter-container <?php echo count($status) > 0 ? 'ms-input--selected' : ''; ?>" >
         <select class="ms-nice-select-filter ms-nice-select-property-status" style="visibility: hidden;">
             <option value="" selected disabled>Select</option>
             <?php
@@ -131,17 +152,48 @@ elseif(in_array("commercial", $type) || $page_slug == 'commercial' || $page_slug
         <select class="ms-nice-select-filter ms-nice-select-property-type" style="visibility: hidden;">
             <option value="" selected disabled>Property type</option>
             <?php
+            $type_disabled = "disabled";
+            if($property_type_parent_id == 33)$type_disabled = "";
+
             $tax_terms = get_terms('property_type', array(
                 'hide_empty' => false,
-                'parent' => $property_type_parent_id,
+                'parent' => 33,
             ));
             foreach($tax_terms as $term): 
             $page_path = get_page_by_path($term->slug);
-            $page_available = $page_path ? "1" : "0";
             $selected = in_array($term->slug, $type) ? 'selected' : '';
-            $active = in_array($term->slug, $status) ? 'selected' : ''; // here page slug is in status array
             ?>
-                <option data-page-available="<?php echo $page_available; ?>" value="<?php echo $term->slug; ?>" <?php echo $selected; ?> <?php echo $active; ?>><?php echo $term->name; ?></option>
+            <option data-parent-type="residential" value="<?php echo $term->slug; ?>" <?php echo $selected; ?> <?php echo $type_disabled; ?> ><?php echo $term->name; ?></option>
+            <?php endforeach; ?>
+            
+            <?php
+            $type_disabled = "disabled";
+            if($property_type_parent_id == 96)$type_disabled = "";
+
+            $tax_terms = get_terms('property_type', array(
+                'hide_empty' => false,
+                'parent' => 96,
+            ));
+            foreach($tax_terms as $term): 
+            $page_path = get_page_by_path($term->slug);
+            $selected = in_array($term->slug, $type) ? 'selected' : '';
+            ?>
+            <option data-parent-type="new-projects" value="<?php echo $term->slug; ?>" <?php echo $selected; ?> <?php echo $type_disabled; ?> ><?php echo $term->name; ?></option>
+            <?php endforeach; ?>
+
+            <?php
+            $type_disabled = "disabled";
+            if($property_type_parent_id == 19)$type_disabled = "";
+
+            $tax_terms = get_terms('property_type', array(
+                'hide_empty' => false,
+                'parent' => 19,
+            ));
+            foreach($tax_terms as $term): 
+            $page_path = get_page_by_path($term->slug);
+            $selected = in_array($term->slug, $type) ? 'selected' : '';
+            ?>
+            <option data-parent-type="commercial" value="<?php echo $term->slug; ?>" <?php echo $selected; ?> <?php echo $type_disabled; ?> ><?php echo $term->name; ?></option>
             <?php endforeach; ?>
         </select>
         <button class="ms-input__deselect  ms-btn__not-submit">

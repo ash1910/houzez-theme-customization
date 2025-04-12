@@ -69,8 +69,27 @@ class MEstate_Hero_Filter extends \Elementor\Widget_Base {
             ]
         );
 
-        $prop_status = array();
-        houzez_get_terms_array( 'property_status', $prop_status );
+        $custom_status_order = [
+            'buy',
+            'rent',
+            'new-projects',
+            'commercial-buy',
+            'commercial-rent'
+        ];
+
+        $all_statuses = [];
+        houzez_get_terms_array( 'property_status', $all_statuses );
+        
+        // Reorder according to $custom_status_order
+        $prop_status = [];
+        foreach ( $custom_status_order as $slug ) {
+            foreach ( $all_statuses as $key => $label ) {
+                if ( $key === $slug ) {
+                    $prop_status[$key] = $label;
+                    break;
+                }
+            }
+        }
 
         $this->add_control(
             'status_data',
