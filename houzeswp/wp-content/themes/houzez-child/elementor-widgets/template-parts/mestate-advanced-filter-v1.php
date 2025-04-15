@@ -565,12 +565,122 @@ if($adv_baths_list) {
         }
     }
 
+    function updateActiveTabBasedOnStatus() {
+      // Get status from new URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const statusParam = urlParams.getAll('status[]');
+      
+      // Set active tab based on status parameter
+      if (statusParam.length > 0) {
+          const status = statusParam[0];
+          let tabId = '';
+          
+          switch(status) {
+              case 'buy':
+                  tabId = 'buy-tab';
+                  break;
+              case 'rent':
+                  tabId = 'rent-tab';
+                  break;
+              case 'new-projects':
+                  tabId = 'new-project-tab';
+                  break;
+              case 'commercial-buy':
+                  tabId = 'commercial-buy-tab';
+                  break;
+              case 'commercial-rent':
+                  tabId = 'commercial-rent-tab';
+                  break;
+          }
+          
+          if (tabId) {
+              jQuery('.ms-filter__modal__filte__controllers button').removeClass('active');
+              jQuery('#' + tabId).addClass('active');
+              
+              // Show/hide appropriate sections
+              jQuery('.buy-tab, .rent-tab, .new-project-tab, .commercial-tab').hide();
+              switch(tabId) {
+                  case 'buy-tab':
+                      jQuery('.buy-tab').show();
+                      break;
+                  case 'rent-tab':
+                      jQuery('.rent-tab').show();
+                      break;
+                  case 'new-project-tab':
+                      jQuery('.new-project-tab').show();
+                      break;
+                  case 'commercial-buy-tab':
+                  case 'commercial-rent-tab':
+                      jQuery('.commercial-tab').show();
+                      break;
+              }
+          }
+      }
+    }
+
+    function updateFilterItems(){
+      // Get status from new URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const typeParam = urlParams.getAll('type[]');
+      const bedroomsParam = urlParams.get('bedrooms');
+      const bathroomsParam = urlParams.get('bathrooms');
+
+      // Select property type based on type[] parameter
+      if (typeParam.length > 0) {
+          const selectedType = typeParam[0]; // Assuming you want the first type
+          jQuery('#property-type-list-residential .filter-item, #property-type-list-commercial .filter-item, #property-type-list-new-projects .filter-item').removeClass('active');
+          jQuery(`#property-type-list-residential .filter-item[data-value="${selectedType}"], #property-type-list-commercial .filter-item[data-value="${selectedType}"], #property-type-list-new-projects .filter-item[data-value="${selectedType}"]`).addClass('active');
+      }
+      else{
+        jQuery('#property-type-list-residential .filter-item, #property-type-list-commercial .filter-item, #property-type-list-new-projects .filter-item').removeClass('active');
+      }
+
+      // Update bedrooms
+      if (bedroomsParam) {
+          jQuery('#beds-list .filter-item').removeClass('active');
+          jQuery(`#beds-list .filter-item[data-value="${bedroomsParam}"]`).addClass('active');
+      }
+      else{
+        jQuery('#beds-list .filter-item').removeClass('active');
+      }
+
+      // Update bathrooms
+      if (bathroomsParam) {
+          jQuery('#baths-list .filter-item').removeClass('active');
+          jQuery(`#baths-list .filter-item[data-value="${bathroomsParam}"]`).addClass('active');
+      }
+      else{
+        jQuery('#baths-list .filter-item').removeClass('active');
+      }
+
+      // Update min-price and max-price
+      const min_price_selected = urlParams.get('min-price');
+      const max_price_selected = urlParams.get('max-price');
+
+      var min_price = window.min_price;
+      var max_price = window.max_price;
+
+      jQuery(".ms-input__content__value--min").val(thousandSeparator(min_price_selected && min_price_selected != "" ? min_price_selected : min_price));
+      jQuery(".ms-input__content__value--max").val(thousandSeparator(max_price_selected && max_price_selected != "" ? max_price_selected : max_price));
+      jQuery(".ms-min-price-range-hidden").val(min_price_selected || "");
+      jQuery(".ms-max-price-range-hidden").val(max_price_selected || "");
+      slider.slider("values", 0, min_price_selected && min_price_selected != "" ? min_price_selected : min_price);
+      slider.slider("values", 1, max_price_selected && max_price_selected != "" ? max_price_selected : max_price);
+
+    }
+
+
     // Override the original pushState to trigger location list update
     const originalPushState = window.history.pushState;
     window.history.pushState = function(state, title, url) {
         originalPushState.apply(this, arguments);
         if(state && state.houzezTheme) {
             updateLocationList();
+            
+            updateActiveTabBasedOnStatus();
+
+            updateFilterItems();
+
         }
     };
 
@@ -582,6 +692,8 @@ if($adv_baths_list) {
         }
         return price;
     }
+    var slider; // Declare slider in a higher scope
+
     function ms_advanced_filter_price_range(price_range_slider) {
       let $form = price_range_slider.closest('form');
       var currency_symb = houzez_vars.currency_symbol;
@@ -592,17 +704,10 @@ if($adv_baths_list) {
       var currency_position = houzez_vars.currency_position;
       var min_price_selected = "<?php echo @$_GET['min-price']; ?>";
       var max_price_selected = "<?php echo @$_GET['max-price']; ?>";
-      var min_price = <?php echo houzez_option('advanced_search_widget_min_price', 0); ?>;
-      var max_price = <?php echo houzez_option('advanced_search_widget_max_price', 2500000); ?>;
-
-      // Find min and max prices from listings
-      $listing_price_min_max = jQuery('.listing_price_min_max');
-      if($listing_price_min_max.length > 0){
-        min_price = parseInt($listing_price_min_max.data('min_price')) > 0 ? parseInt($listing_price_min_max.data('min_price') ) : min_price;
-        max_price = parseInt($listing_price_min_max.data('max_price')) > 0 ? parseInt($listing_price_min_max.data('max_price')) : max_price;
-      }
+      var min_price = window.min_price;
+      var max_price = window.max_price;
       
-      var slider = price_range_slider.slider({
+      slider = price_range_slider.slider({
         range: true,
         min: min_price,
         max: max_price,
@@ -977,15 +1082,8 @@ if($adv_baths_list) {
             
             // Reset price range slider
             const price_range_slider = $form.find('.ms-price-slider-range-advanced-filter');
-            var min_price = <?php echo houzez_option('advanced_search_widget_min_price', 0); ?>;
-            var max_price = <?php echo houzez_option('advanced_search_widget_max_price', 2500000); ?>;
-
-            // Find min and max prices from listings
-            $listing_price_min_max = jQuery('.listing_price_min_max');
-            if($listing_price_min_max.length > 0){
-              min_price = parseInt($listing_price_min_max.data('min_price')) > 0 ? parseInt($listing_price_min_max.data('min_price') ) : min_price;
-              max_price = parseInt($listing_price_min_max.data('max_price')) > 0 ? parseInt($listing_price_min_max.data('max_price')) : max_price;
-            }
+            var min_price = window.min_price;
+            var max_price = window.max_price;
             
             price_range_slider.slider('values', [min_price, max_price]);
             $form.find(".ms-input__content__value--min").val(thousandSeparator(min_price));
@@ -1008,7 +1106,7 @@ if($adv_baths_list) {
     <?php } else { ?> 
     jQuery(document).ready(function($) {
       ms_advanced_filter_functionality();
-      
+
       // Show/hide sections based on active tab on page load
       const activeTab = $('.ms-filter__modal__filte__controllers button.active').attr('id');
       if (activeTab) {

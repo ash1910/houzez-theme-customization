@@ -36,41 +36,7 @@ $current_page = get_post(get_the_ID());
 $page_slug = $current_page->post_name;
 if( empty($_GET["status"]) ){
     if ($page_slug) {
-        switch ($page_slug) {
-            case 'buy':
-                $status = array('buy');
-                break;
-            case 'buy-map':
-                $status = array('buy');
-                break;
-            case 'rent':
-                $status = array('rent');
-                break;
-            case 'rent-map':
-                $status = array('rent');
-                break;
-            case 'commercial-buy':
-                $status = array('commercial-buy');
-                break;
-            case 'commercial-buy-map':
-                $status = array('commercial-buy');
-                break;
-            case 'commercial-rent':
-                $status = array('commercial-rent');
-                break;
-            case 'commercial-rent-map':
-                $status = array('commercial-rent');
-                break;
-            case 'new-projects':
-                $status = array('new-projects');
-                break;
-            case 'new-projects-map':
-                $status = array('new-projects');
-                break;
-            default:
-                $status = array();
-                break;
-        }
+        $status = getStatusFromCurrentPageSlug($page_slug);
     }
 }
 

@@ -51,9 +51,9 @@ if($adv_baths_list) {
     $bath_list = explode(',', $adv_baths_list);
 }
 
-$get_min_max_price = get_min_max_price();
-$min_price = !empty($get_min_max_price[0]) ? $get_min_max_price[0] : houzez_option('advanced_search_widget_min_price', 0);
-$max_price = !empty($get_min_max_price[1]) ? $get_min_max_price[1] : houzez_option('advanced_search_widget_max_price', 2500000);
+$max_price = get_max_price();
+$min_price = 0;
+$max_price = !empty($max_price) ? $max_price : houzez_option('advanced_search_widget_max_price', 2500000);
 ?>
 
 

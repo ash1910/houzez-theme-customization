@@ -1035,7 +1035,7 @@ if ( !function_exists( 'houzez_get_agent_info_top' ) ) {
 
 
 if ( !function_exists( 'houzez_after_search__get_property_type_list' ) ) {
-    function houzez_after_search__get_property_type_list($search_qry, $actual_link = "")
+    function houzez_after_search__get_property_type_list($search_qry, $actual_link = "", $property_type_parent_id = "")
     {
         //echo "<pre>";print_r($actual_link);exit;
         $taxonomy = "type";
@@ -1066,7 +1066,15 @@ if ( !function_exists( 'houzez_after_search__get_property_type_list' ) ) {
             }
         }
 
-        $terms = get_terms("property_$taxonomy");
+        
+        if($taxonomy == 'type'){
+            $terms = get_terms('property_type', array(
+                'parent' => $property_type_parent_id,
+            ));
+        }
+        else{
+            $terms = get_terms("property_$taxonomy");
+        }
         //echo "<pre>";print_r($terms);exit;
         if ( !empty( $terms ) && !is_wp_error( $terms ) ){
             $list_inc = 0;
@@ -1104,7 +1112,7 @@ if ( !function_exists( 'houzez_after_search__get_property_type_list' ) ) {
 
         return $output;
     }
-    add_filter('houzez_after_search__get_property_type_list', 'houzez_after_search__get_property_type_list', 10, 2);
+    add_filter('houzez_after_search__get_property_type_list', 'houzez_after_search__get_property_type_list', 10, 3);
 }
 
 function change_url_parameter($url,$parameterName,$parameterValue) {
@@ -4601,6 +4609,17 @@ if( !function_exists('mestate_half_map_listings') ) {
         $paged = $_GET['paged'] ?? 1;
         $page_slug = $_GET['slug'] ?? "";
         $actual_link = $_GET['actual_link'] ?? $_SERVER['HTTP_REFERER'];
+
+        $property_type_parent_id = 33;
+        if($page_slug == 'new-projects' || $page_slug == 'new-projects-map'){
+            $property_type_parent_id = 96;
+        }
+        elseif($page_slug == 'commercial-buy' || $page_slug == 'commercial-buy-map'){
+            $property_type_parent_id = 19;
+        }
+        elseif($page_slug == 'commercial-rent' || $page_slug == 'commercial-rent-map'){
+            $property_type_parent_id = 19;
+        }
         
         // Advertise
         $advertise_qry = array(
@@ -4677,7 +4696,7 @@ if( !function_exists('mestate_half_map_listings') ) {
 
         $ajax_locations_list = "";
         if( $total_records > 1 ) {
-            $locations_list = apply_filters("houzez_after_search__get_property_type_list", $search_qry, $actual_link);
+            $locations_list = apply_filters("houzez_after_search__get_property_type_list", $search_qry, $actual_link, $property_type_parent_id);
 
             if( $locations_list !== "" ){ 
                 $ajax_locations_list = $locations_list;
@@ -4845,6 +4864,72 @@ if( !function_exists('get_min_max_price') ) {
         //echo 'Max Price: ' . $results->max_price;
 
         return array($results->min_price, $results->max_price);
+    }
+}
+
+if( !function_exists('get_max_price') ) {
+    function get_max_price(){
+        global $wpdb;
+
+        $meta_key = 'fave_property_price';
+        $post_type = 'property';
+        
+        // Convert values to numbers if they are stored as strings with commas
+        $results = $wpdb->get_row("
+            SELECT 
+                MAX(CAST(REPLACE(pm.meta_value, ',', '') AS UNSIGNED)) as max_price
+            FROM {$wpdb->prefix}postmeta pm
+            INNER JOIN {$wpdb->prefix}posts p ON p.ID = pm.post_id
+            WHERE pm.meta_key = '{$meta_key}'
+            AND p.post_type = '{$post_type}'
+            AND p.post_status = 'publish'
+        ");
+        
+        //echo 'Max Price: ' . $results->max_price;
+
+        return $results->max_price;
+    }
+}
+
+if( !function_exists('getStatusFromCurrentPageSlug') ) {
+    function getStatusFromCurrentPageSlug($page_slug){
+        switch ($page_slug) {
+            case 'buy':
+                $status = array('buy');
+                break;
+            case 'buy-map':
+                $status = array('buy');
+                break;
+            case 'rent':
+                $status = array('rent');
+                break;
+            case 'rent-map':
+                $status = array('rent');
+                break;
+            case 'commercial-buy':
+                $status = array('commercial-buy');
+                break;
+            case 'commercial-buy-map':
+                $status = array('commercial-buy');
+                break;
+            case 'commercial-rent':
+                $status = array('commercial-rent');
+                break;
+            case 'commercial-rent-map':
+                $status = array('commercial-rent');
+                break;
+            case 'new-projects':
+                $status = array('new-projects');
+                break;
+            case 'new-projects-map':
+                $status = array('new-projects');
+                break;
+            default:
+                $status = array();
+                break;
+        }
+
+        return $status;
     }
 }
 

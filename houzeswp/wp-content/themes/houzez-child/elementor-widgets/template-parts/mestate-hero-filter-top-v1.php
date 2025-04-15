@@ -6,6 +6,10 @@
   if(empty($default_currency)) {
       $default_currency = 'USD';
   }
+
+  $max_price = get_max_price();
+  $min_price = 0;
+  $max_price = !empty($max_price) ? $max_price : houzez_option('advanced_search_widget_max_price', 2500000);
 ?>
 
 
@@ -66,15 +70,10 @@
       var currency_position = houzez_vars.currency_position;
       var min_price_selected = "<?php echo @$_GET['min-price']; ?>";
       var max_price_selected = "<?php echo @$_GET['max-price']; ?>";
-      var min_price = <?php echo houzez_option('advanced_search_widget_min_price', 0); ?>;
-      var max_price = <?php echo houzez_option('advanced_search_widget_max_price', 2500000); ?>;
-      
-      // Find min and max prices from listings
-      $listing_price_min_max = jQuery('.listing_price_min_max');
-      if($listing_price_min_max.length > 0){
-        min_price = parseInt($listing_price_min_max.data('min_price')) > 0 ? parseInt($listing_price_min_max.data('min_price') ) : min_price;
-        max_price = parseInt($listing_price_min_max.data('max_price')) > 0 ? parseInt($listing_price_min_max.data('max_price')) : max_price;
-      }
+      var min_price = <?php echo $min_price; ?>; 
+      var max_price = <?php echo $max_price; ?>;
+      window.min_price = min_price;
+      window.max_price = max_price;
       
       var slider = price_range_slider.slider({
         range: true,
@@ -374,7 +373,7 @@
           params['city_areas[]'] = areas;
         }
 
-        const queryString = Object.entries(params)
+        var queryString = Object.entries(params)
           .flatMap(([key, value]) => 
               Array.isArray(value) 
                   ? value.map(v => `${encodeURIComponent(key)}=${encodeURIComponent(v)}`) // Handle arrays properly
@@ -388,14 +387,22 @@
         window.history.pushState({houzezTheme: true}, '', pageUrl);
 
         updateFilterCount(params);
+
+        const slug = property_status + '<?php echo is_half_map_page() ? '-map' : ''?>';
         
-        mestate_half_map_listings(current_page, queryString);
+        mestate_half_map_listings(current_page, queryString, slug);
     }
+
+    // Add this code after your existing pushState override
+    window.addEventListener('popstate', function(event) {
+      // Reload the page when navigating back or forward
+      window.location.reload();
+    });
 
     /*----------------------------------------------------------
     * Ajax Search
     *----------------------------------------------------------*/
-    var mestate_half_map_listings = function(current_page, queryString) {
+    var mestate_half_map_listings = function(current_page, queryString, slug) {
         var ajaxurl = houzez_vars.admin_url + 'admin-ajax.php';
         var ajax_container = jQuery('#houzez_ajax_container');
         var ajax_location_container = jQuery('#ajax_location_container');
@@ -406,7 +413,7 @@
             type: 'GET',
             dataType: 'json',
             url: ajaxurl,
-            data: queryString + "&action=mestate_half_map_listings",
+            data: queryString + "&slug="+slug+"&action=mestate_half_map_listings",
             beforeSend: function() {
                 jQuery('.houzez-map-loading').show();
                 ajax_location_container.empty();
